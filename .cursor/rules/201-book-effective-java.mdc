@@ -1,5 +1,5 @@
 ---
-description: Extension to java rules from the book Effective Java
+description: Extension to java rules from the book "Effective Java"
 globs: .java
 alwaysApply: true
 ---
