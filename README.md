@@ -6,12 +6,12 @@ A collection of Cursor rules for Java space.
 
 ## Rules
 
-- [Java](.cursor/rules/01-java.mdc)
-- [Effective Java](.cursor/rules/02-effective-java.mdc)
-- [Concurrency](.cursor/rules/03-concurrency.mdc)
-- [Functional Programming](.cursor/rules/04-functional-programming.mdc)
-- [Data oriented programming](.cursor/rules/05-data-oriented-programming.mdc)
-- [Spring boot](.cursor/rules/06-spring-boot.mdc)
+- [Java](.cursor/rules/100-java-general.mdc)
+- [Concurrency](.cursor/rules/101-java-concurrency.mdc)
+- [Functional Programming](.cursor/rules/102-java-functional-programming.mdc)
+- [Data oriented programming](.cursor/rules/103-java-data-oriented-programming.mdc)
+- [Effective Java](.cursor/rules/201-book-effective-java.mdc)
+- [Pragmatic Unit Testing](.cursor/rules/202-book-pragmatic-unit-testing.mdc)
 
 ## References
 
