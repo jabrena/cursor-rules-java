@@ -3,13 +3,207 @@ description: Extension to java rules for Functional programming
 globs: .java
 alwaysApply: true
 ---
+# Java Functional Programming Guidelines
 
-# functional_programming_guidelines:
+## 1. Immutable Objects
 
-  - Try to use immutable objects
-  - Try to not mutate the state of the objects
-  - Try to use pure functions
-  - Try to use functional interfaces
-  - Try to use lambda expressions
-  - Try to use streams
-  - Try to use functional programming paradigms
+- Use `final` classes and fields
+- Initialize all fields in constructor
+- Don't provide setters
+- Return defensive copies of mutable fields
+
+Example:
+```java
+public final class Person {
+    private final String name;
+    private final int age;
+    private final List<String> hobbies;
+
+    public Person(String name, int age, List<String> hobbies) {
+        this.name = name;
+        this.age = age;
+        this.hobbies = List.copyOf(hobbies); // Immutable copy
+    }
+
+    public List<String> getHobbies() {
+        return List.copyOf(hobbies); // Defensive copy
+    }
+}
+```
+
+## 2. State Immutability
+
+- Return new objects instead of modifying existing ones
+- Use collectors for transformations
+- Leverage immutable collections
+
+Example:
+```java
+public class PriceCalculator {
+    public static List<Double> applyDiscount(List<Double> prices, double discount) {
+        return prices.stream()
+            .map(price -> price * (1 - discount))
+            .collect(Collectors.toUnmodifiableList());
+    }
+}
+```
+
+## 3. Pure Functions
+
+- Functions should depend only on their input parameters
+- No side effects
+- Same input always produces same output
+- No external state modification
+
+Example:
+```java
+public class MathOperations {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    // Pure function - depends only on input
+    public static List<Integer> doubleNumbers(List<Integer> numbers) {
+        return numbers.stream()
+            .map(n -> n * 2)
+            .collect(Collectors.toList());
+    }
+}
+```
+
+## 4. Functional Interfaces
+
+- Use built-in functional interfaces when possible
+- Create custom functional interfaces for specific needs
+- Keep interfaces focused and single-purpose
+
+Example:
+```java
+// Built-in functional interfaces
+Function<String, Integer> stringToLength = String::length;
+Predicate<Integer> isEven = n -> n % 2 == 0;
+Consumer<String> printer = System.out::println;
+Supplier<LocalDateTime> now = LocalDateTime::now;
+
+// Custom functional interface
+@FunctionalInterface
+public interface Validator<T> {
+    boolean validate(T value);
+}
+```
+
+## 5. Lambda Expressions
+
+- Use method references when possible
+- Keep lambdas short and readable
+- Extract complex lambda logic to methods
+
+Example:
+```java
+public class LambdaExamples {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        
+        // Method reference
+        names.forEach(System.out::println);
+        
+        // Simple lambda
+        names.stream()
+            .filter(name -> name.length() > 4)
+            .collect(Collectors.toList());
+            
+        // Complex logic extracted to method
+        names.stream()
+            .filter(LambdaExamples::isValidName)
+            .collect(Collectors.toList());
+    }
+    
+    private static boolean isValidName(String name) {
+        return name.length() > 4 && Character.isUpperCase(name.charAt(0));
+    }
+}
+```
+
+## 6. Streams
+
+- Use streams for collection processing
+- Chain operations for complex transformations
+- Consider parallel streams for large datasets
+- Use appropriate terminal operations
+
+Example:
+```java
+public class StreamExamples {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Basic stream operations
+        List<Integer> evenSquares = numbers.stream()
+            .filter(n -> n % 2 == 0)
+            .map(n -> n * n)
+            .collect(Collectors.toList());
+
+        // Advanced stream operations
+        Map<Boolean, List<Integer>> partitioned = numbers.stream()
+            .collect(Collectors.partitioningBy(n -> n > 5));
+
+        // Parallel stream for performance
+        double average = numbers.parallelStream()
+            .mapToDouble(Integer::doubleValue)
+            .average()
+            .orElse(0.0);
+    }
+}
+```
+
+## 7. Functional Programming Paradigms
+
+- Compose functions for complex operations
+- Use Optional to handle null values
+- Implement recursion when appropriate
+- Use higher-order functions
+
+Example:
+```java
+public class FunctionalParadigms {
+    // Function composition
+    Function<Integer, String> intToString = Object::toString;
+    Function<String, Integer> stringLength = String::length;
+    Function<Integer, Integer> composed = stringLength.compose(intToString);
+
+    // Optional usage
+    public static Optional<Double> divideNumbers(Double a, Double b) {
+        return Optional.ofNullable(b)
+            .filter(divisor -> divisor != 0)
+            .map(divisor -> a / divisor);
+    }
+
+    // Recursion with streams
+    public static long factorial(int n) {
+        return n <= 1 ? 1 : 
+            IntStream.rangeClosed(2, n)
+                .mapToLong(Long::valueOf)
+                .reduce(1, (a, b) -> a * b);
+    }
+
+    // Higher-order function
+    public static <T, R> Function<T, R> memoize(Function<T, R> function) {
+        Map<T, R> cache = new ConcurrentHashMap<>();
+        return input -> cache.computeIfAbsent(input, function);
+    }
+}
+```
+
+## Best Practices
+
+1. Favor immutability over mutability
+2. Use pure functions whenever possible
+3. Leverage the Stream API for collection operations
+4. Use appropriate functional interfaces
+5. Keep lambda expressions simple and readable
+6. Consider performance implications of parallel streams
+7. Use Optional instead of null references
+8. Compose functions for complex operations
+9. Write unit tests for functional code
+10. Document complex functional transformations
+

@@ -3,15 +3,294 @@ description: Extension to java rules for Concurrency objects
 globs: .java
 alwaysApply: true
 ---
+# Java Concurrency Guidelines
 
-# concurrency_guidelines:
+## 1. Thread Safety Fundamentals
 
-  -  Use thread-safe data structures
-  -  Use thread-safe collections
-  -  Use thread-safe classes
-  -  Use thread-safe methods
-  -  Use thread-safe objects
-  -  Use thread-safe variables
-  -  Use thread-safe methods
-  -  Use thread-safe objects
-  -  Use thread-safe variables
+### Thread-Safe Data Structures
+
+- Use `java.util.concurrent` collections instead of synchronized collections
+- Prefer immutable objects whenever possible
+- Use thread-local variables when thread confinement is needed
+- Use atomic classes for single-variable atomic operations
+
+```java
+// Preferred concurrent collections
+Map<String, String> concurrentMap = new ConcurrentHashMap<>();
+Queue<Task> taskQueue = new ConcurrentLinkedQueue<>();
+BlockingQueue<Event> eventQueue = new LinkedBlockingQueue<>();
+
+// Atomic variables
+AtomicInteger counter = new AtomicInteger(0);
+AtomicReference<State> state = new AtomicReference<>(initialState);
+
+// Thread-local storage
+private static final ThreadLocal<UserContext> userContext = 
+    ThreadLocal.withInitial(() -> new UserContext());
+```
+
+### Synchronization Mechanisms
+
+- Consider using `ReentrantLock` for more flexible locking
+- Use `ReadWriteLock` when read operations are more frequent
+- Prefer `java.util.concurrent` utilities over `wait()/notify()`
+
+```java
+// Using ReentrantLock
+private final ReentrantLock lock = new ReentrantLock();
+private final Condition notFull = lock.newCondition();
+
+public void addItem(Item item) {
+    lock.lock();
+    try {
+        while (isFull()) {
+            notFull.await();
+        }
+        // Add item
+    } finally {
+        lock.unlock();
+    }
+}
+
+// Using ReadWriteLock
+private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+private final Lock readLock = rwLock.readLock();
+private final Lock writeLock = rwLock.writeLock();
+```
+
+## 2. Thread Pool Management
+
+### Executor Service Best Practices
+
+- Use appropriate thread pool implementations for different use cases
+- Configure thread pools with proper sizing
+- Implement proper shutdown procedures
+- Handle rejected executions appropriately
+- Monitor thread pool health
+
+```java
+// Fixed thread pool with named threads
+ExecutorService executorService = Executors.newFixedThreadPool(
+    Runtime.getRuntime().availableProcessors(),
+    new ThreadFactoryBuilder()
+        .setNameFormat("worker-thread-%d")
+        .build()
+);
+
+// Scheduled thread pool for periodic tasks
+ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(
+    1,
+    new ThreadFactoryBuilder()
+        .setNameFormat("scheduler-thread-%d")
+        .build()
+);
+
+// Custom thread pool configuration
+ThreadPoolExecutor customPool = new ThreadPoolExecutor(
+    corePoolSize,
+    maximumPoolSize,
+    keepAliveTime,
+    TimeUnit.SECONDS,
+    new LinkedBlockingQueue<>(queueCapacity),
+    new CallerRunsPolicy()
+);
+```
+
+## 3. Concurrent Design Patterns
+
+### Producer-Consumer Pattern
+
+```java
+public class ProducerConsumerExample {
+    private final BlockingQueue<Task> queue;
+    
+    public void produce(Task task) {
+        queue.put(task);  // Blocks if queue is full
+    }
+    
+    public Task consume() {
+        return queue.take();  // Blocks if queue is empty
+    }
+}
+```
+
+### Publish-Subscribe Pattern
+
+```java
+public class EventBus {
+    private final ConcurrentMap<String, Set<EventListener>> listeners = 
+        new ConcurrentHashMap<>();
+        
+    public void subscribe(String topic, EventListener listener) {
+        listeners.computeIfAbsent(topic, 
+            k -> ConcurrentHashMap.newKeySet()).add(listener);
+    }
+    
+    public void publish(String topic, Event event) {
+        Set<EventListener> topicListeners = listeners.get(topic);
+        if (topicListeners != null) {
+            topicListeners.forEach(listener -> 
+                CompletableFuture.runAsync(() -> 
+                    listener.onEvent(event)));
+        }
+    }
+}
+```
+
+## 4. Asynchronous Programming
+
+### CompletableFuture Usage
+
+```java
+public class AsyncService {
+    public CompletableFuture<Result> processAsync(Request request) {
+        return CompletableFuture
+            .supplyAsync(() -> validateRequest(request))
+            .thenApplyAsync(this::processRequest)
+            .thenApply(this::formatResult)
+            .exceptionally(this::handleError);
+    }
+    
+    public CompletableFuture<List<Result>> processAllAsync(
+            List<Request> requests) {
+        List<CompletableFuture<Result>> futures = requests.stream()
+            .map(this::processAsync)
+            .collect(Collectors.toList());
+            
+        return CompletableFuture.allOf(
+            futures.toArray(new CompletableFuture[0]))
+            .thenApply(v -> futures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList()));
+    }
+}
+```
+
+## 5. Thread Safety Guidelines
+
+### Immutability
+
+- Make fields final whenever possible
+- Ensure proper publication of shared objects
+- Use defensive copying when needed
+- Consider using builder pattern for complex immutable objects
+
+```java
+public final class ImmutableValue {
+    private final int value;
+    private final List<String> items;
+    
+    public ImmutableValue(int value, List<String> items) {
+        this.value = value;
+        this.items = List.copyOf(items); // Defensive copy
+    }
+    
+    public List<String> getItems() {
+        return List.copyOf(items); // Return defensive copy
+    }
+}
+```
+
+### Safe Publication
+
+```java
+public class SafePublication {
+    private static final Map<String, Data> cache = 
+        new ConcurrentHashMap<>();
+        
+    public static Data getData(String key) {
+        return cache.computeIfAbsent(key, k -> 
+            new Data(k)); // Thread-safe initialization
+    }
+}
+```
+
+## 6. Performance Considerations
+
+### Lock Contention
+
+- Use lock striping when appropriate
+- Consider using optimistic locking for read-heavy scenarios
+- Monitor and measure lock contention
+- Use lock-free algorithms when possible
+
+```java
+public class StripedMap<K, V> {
+    private static final int STRIPE_COUNT = 16;
+    private final List<Lock> stripes = 
+        new ArrayList<>(STRIPE_COUNT);
+    private final Map<K, V>[] buckets;
+    
+    private Lock getLockForKey(K key) {
+        return stripes.get(
+            Math.abs(key.hashCode() % STRIPE_COUNT));
+    }
+}
+```
+
+### Memory Consistency
+
+- Understand and use the Java Memory Model
+- Use volatile for visibility guarantees
+- Be aware of happens-before relationships
+- Use appropriate memory barriers
+
+```java
+public class MemoryConsistencyExample {
+    private volatile boolean flag = false;
+    private int data = 0;
+    
+    public void writer() {
+        data = 42;
+        flag = true; // Memory barrier
+    }
+    
+    public int reader() {
+        while (!flag) { } // Spin until flag is true
+        return data; // Will see updated value
+    }
+}
+```
+
+## 7. Testing and Debugging
+
+### Concurrent Testing
+
+- Use stress testing for concurrent code
+- Implement proper test timeouts
+- Use thread dumps for debugging
+- Consider using concurrent testing frameworks
+
+```java
+@Test
+public void testConcurrentAccess() throws InterruptedException {
+    int threadCount = 10;
+    CountDownLatch startLatch = new CountDownLatch(1);
+    CountDownLatch endLatch = new CountDownLatch(threadCount);
+    
+    for (int i = 0; i < threadCount; i++) {
+        new Thread(() -> {
+            try {
+                startLatch.await();
+                // Perform concurrent operations
+            } finally {
+                endLatch.countDown();
+            }
+        }).start();
+    }
+    
+    startLatch.countDown(); // Start all threads
+    endLatch.await(10, TimeUnit.SECONDS); // Wait for completion
+}
+```
+
+## 8. Best Practices
+
+- Document thread safety guarantees
+- Use appropriate logging for concurrent operations
+- Implement proper error handling
+- Monitor and measure concurrent performance
+- Regular review of concurrent code
+- Keep concurrent code modular and testable
+- Follow fail-fast principles
+- Implement proper cleanup procedures

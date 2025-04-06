@@ -1,0 +1,194 @@
+---
+description: SQL development guidelines
+globs: 
+alwaysApply: true
+---
+ # SQL Development Guidelines
+
+## Naming Conventions
+naming_conventions:
+  general:
+    - "Use snake_case for all database objects"
+    - "Use plural for table names (e.g., users, orders)"
+    - "Use singular for column names (e.g., user_id, order_date)"
+    - "Prefix foreign keys with referenced table name (e.g., user_id)"
+    - "Use verb_noun format for stored procedures (e.g., get_user, update_order)"
+  
+  prefixes:
+    views: "v_"
+    triggers: "trg_"
+    indexes: "idx_"
+    constraints: 
+      primary_key: "pk_"
+      foreign_key: "fk_"
+      unique: "uq_"
+      check: "ck_"
+
+## Table Design
+
+table_design:
+  best_practices:
+    - "Always include a primary key"
+    - "Use appropriate data types for columns"
+    - "Normalize to at least 3NF unless there's a good reason not to"
+    - "Include created_at and updated_at timestamp columns"
+    - "Use foreign key constraints to maintain referential integrity"
+    - "Consider soft deletes using deleted_at timestamp"
+    - "Add appropriate indexes for frequently queried columns"
+  
+  common_columns:
+    - "id: BIGINT AUTO_INCREMENT PRIMARY KEY"
+    - "created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    - "updated_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    - "deleted_at: TIMESTAMP NULL"
+
+## Query Writing
+query_guidelines:
+  formatting:
+    - "Use uppercase for SQL keywords"
+    - "One clause per line"
+    - "Indent subqueries and CTEs"
+    - "Align column lists vertically"
+    - "Use meaningful table aliases"
+  
+  performance:
+    - "Avoid SELECT *"
+    - "Use EXISTS instead of IN for better performance"
+    - "Use appropriate indexes"
+    - "Avoid correlated subqueries when possible"
+    - "Use EXPLAIN to analyze query performance"
+    - "Consider query execution plan"
+    - "Use batch operations for bulk updates/inserts"
+
+  example_query: |
+    SELECT 
+        u.id,
+        u.first_name,
+        u.last_name,
+        o.order_date
+    FROM users u
+    LEFT JOIN orders o
+        ON u.id = o.user_id
+    WHERE u.deleted_at IS NULL
+        AND o.status = 'COMPLETED'
+    ORDER BY o.order_date DESC;
+
+## Indexing Strategy
+
+indexing:
+  principles:
+    - "Index foreign key columns"
+    - "Index frequently queried columns"
+    - "Consider composite indexes for multi-column queries"
+    - "Avoid over-indexing (impacts write performance)"
+    - "Monitor index usage"
+    - "Remove unused indexes"
+  
+  types:
+    - "B-tree (default)"
+    - "Hash"
+    - "Full-text"
+    - "Spatial"
+
+## Security
+
+security_guidelines:
+  - "Use prepared statements to prevent SQL injection"
+  - "Implement proper access control"
+  - "Encrypt sensitive data"
+  - "Audit sensitive data access"
+  - "Regular security reviews"
+  - "Backup strategy"
+  - "Use appropriate user permissions"
+
+## Performance Optimization
+
+performance_tips:
+  - "Use appropriate data types"
+  - "Normalize database design"
+  - "Index strategically"
+  - "Optimize queries"
+  - "Use connection pooling"
+  - "Implement caching where appropriate"
+  - "Regular maintenance (VACUUM, ANALYZE)"
+  - "Monitor query performance"
+
+## Transactions
+
+transaction_guidelines:
+  - "Keep transactions as short as possible"
+  - "Use appropriate isolation levels"
+  - "Handle deadlocks appropriately"
+  - "Implement proper error handling"
+  - "Consider using savepoints for complex transactions"
+
+## Migration Practices
+
+migration_best_practices:
+  - "Version control all database changes"
+  - "Use migration tools (Flyway, Liquibase)"
+  - "Make migrations reversible when possible"
+  - "Test migrations in non-production environment"
+  - "Include rollback scripts"
+  - "Document breaking changes"
+
+## Code Examples
+
+### Table Creation
+
+```sql
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    status ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED') DEFAULT 'ACTIVE',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
+    PRIMARY KEY (id),
+    UNIQUE INDEX idx_users_email (email),
+    INDEX idx_users_status (status)
+);
+```
+
+### Stored Procedure
+
+```sql
+DELIMITER //
+CREATE PROCEDURE get_active_users(IN status_param VARCHAR(20))
+BEGIN
+    SELECT 
+        id,
+        email,
+        first_name,
+        last_name
+    FROM users
+    WHERE status = status_param
+        AND deleted_at IS NULL;
+END //
+DELIMITER ;
+```
+
+## Testing
+
+testing_guidelines:
+  - "Test with representative data volumes"
+  - "Include edge cases in test data"
+  - "Test performance under load"
+  - "Verify data integrity constraints"
+  - "Test stored procedures and functions"
+  - "Validate migration scripts"
+  - "Test rollback procedures"
+
+## Monitoring
+
+monitoring_practices:
+  - "Monitor query performance"
+  - "Track slow queries"
+  - "Monitor disk usage"
+  - "Track connection pool usage"
+  - "Monitor cache hit rates"
+  - "Set up alerts for critical issues"
+  - "Regular performance reviews"
+

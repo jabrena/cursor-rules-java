@@ -1,18 +1,330 @@
 ---
-description: Extension to java rules when develop features for Modern Java
+description: Extension to java rules to apply data oriented programming
 globs: .java
 alwaysApply: true
 ---
+# Data Oriented Programming Pillars for Java
 
-# Data oriented programming pillars:
+## 1. Separate Code from Data
 
-  -  Separate code from data
-  -  Represent data with generic data structures
-  -  Data should be immutable
-  -  Use pure functions to manipulate data
-  -  Keep data flat and denormalized
-  -  Keep data generic until it needs to be specific
-  -  Data integrity is maintained through validation functions
-  -  Data access should be flexible and generic
-  -  Data transformation should be explicit and traceable
-  -  Data flow should be unidirectional
+- Use records for data structures
+- Keep behavior in separate utility classes
+- Avoid mixing state and behavior in the same class
+- Use static methods for operations on data
+- Design data structures to be self-contained
+- Make data classes focused on representing state only
+
+```java
+// Bad: Mixing code and data
+class User {
+    private String name;
+    private int age;
+    
+    public void validateAge() {
+        if (age < 0) throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+
+// Good: Separate data structure and behavior
+record UserData(String name, int age) {}
+
+class UserValidator {
+    public static void validateAge(UserData user) {
+        if (user.age() < 0) throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+```
+
+## 2. Data Should Be Immutable
+
+- Use records whenever possible
+- Make fields final
+- Avoid setters
+- Return defensive copies of collections
+- Use immutable collections (List.of(), Set.of(), etc.)
+- Create new instances instead of modifying existing ones
+
+```java
+// Bad: Mutable data
+class MutableConfig {
+    private String host;
+    private int port;
+    
+    public void setHost(String host) { this.host = host; }
+    public void setPort(int port) { this.port = port; }
+}
+
+// Good: Immutable data using record
+record ServerConfig(String host, int port) {}
+```
+
+## 3. Use Pure Functions to Manipulate Data
+
+- Functions should depend only on their input parameters
+- Avoid side effects
+- Make functions stateless
+- Return new instances instead of modifying inputs
+- Use static methods for data transformations
+- Keep functions focused on a single responsibility
+
+```java
+// Bad: Impure function with side effects
+class PriceCalculator {
+    private double taxRate;
+    
+    public double calculateTotal(double price) {
+        return price * (1 + taxRate); // Depends on instance state
+    }
+}
+
+// Good: Pure function
+class PriceOperations {
+    public static double calculateTotal(double price, double taxRate) {
+        return price * (1 + taxRate); // Only depends on inputs
+    }
+    
+    public static List<Double> applyDiscount(List<Double> prices, double discount) {
+        return prices.stream()
+            .map(price -> price * (1 - discount))
+            .collect(Collectors.toUnmodifiableList());
+    }
+}
+```
+
+## 4. Keep Data Flat and Denormalized
+
+- Avoid deep nesting of data structures
+- Use references (IDs) instead of nested objects
+- Store data in flat collections or maps
+- Keep relationships explicit through identifiers
+- Design for easy querying and manipulation
+- Consider performance implications of data structure
+
+```java
+// Bad: Deeply nested structure
+class Department {
+    private List<Employee> employees;
+    class Employee {
+        private List<Project> projects;
+        class Project {
+            private List<Task> tasks;
+        }
+    }
+}
+
+// Good: Flat structure with references
+record TaskData(String id, String name, String assigneeId) {}
+record ProjectData(String id, String name, List<String> taskIds) {}
+record EmployeeData(String id, String name, List<String> projectIds) {}
+record DepartmentData(String id, String name, List<String> employeeIds) {}
+
+// Store in flat maps
+Map<String, TaskData> tasks;
+Map<String, ProjectData> projects;
+Map<String, EmployeeData> employees;
+Map<String, DepartmentData> departments;
+```
+
+## 5. Keep Data Generic Until Specific
+
+- Start with generic data structures
+- Use Map<String, Object> for flexible data
+- Convert to specific types only when needed
+- Implement type-safe converters
+- Validate data during conversion
+- Document expected data structure
+
+```java
+// Bad: Too specific too early
+record UserProfile(
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+    LocalDate birthDate
+) {}
+
+// Good: Generic until needed
+record GenericUser(Map<String, Object> attributes) {}
+
+// Convert to specific type only when needed
+class UserConverter {
+    public static UserProfile toUserProfile(GenericUser user) {
+        return new UserProfile(
+            (String) user.attributes().get("email"),
+            (String) user.attributes().get("password"),
+            (String) user.attributes().get("firstName"),
+            (String) user.attributes().get("lastName"),
+            (LocalDate) user.attributes().get("birthDate")
+        );
+    }
+}
+```
+
+## 6. Data Integrity through Validation Functions
+
+- Implement validation as pure functions
+- Return validation results instead of throwing exceptions
+- Compose multiple validations
+- Use Optional for validation results
+- Keep validation rules separate from data
+- Make validation rules reusable
+
+```java
+// Define validation rules as pure functions
+class Validators {
+    public static Optional<String> validateEmail(String email) {
+        return !email.contains("@") 
+            ? Optional.of("Invalid email format")
+            : Optional.empty();
+    }
+    
+    public static Optional<String> validateAge(int age) {
+        return age < 0 || age > 150
+            ? Optional.of("Age must be between 0 and 150")
+            : Optional.empty();
+    }
+}
+
+// Compose validations
+record UserValidation(UserData user) {
+    public List<String> validate() {
+        List<String> errors = new ArrayList<>();
+        Validators.validateEmail(user.email()).ifPresent(errors::add);
+        Validators.validateAge(user.age()).ifPresent(errors::add);
+        return errors;
+    }
+}
+```
+
+## 7. Flexible and Generic Data Access
+
+- Design generic interfaces for data access
+- Use type parameters for flexibility
+- Implement thread-safe storage
+- Support filtering and querying
+- Make storage implementation replaceable
+- Consider caching strategies
+
+```java
+// Generic data access interface
+interface DataStore<T> {
+    Optional<T> find(String id);
+    List<T> findAll(Predicate<T> filter);
+    void store(String id, T data);
+}
+
+// Implementation using generic data structures
+class InMemoryDataStore<T> implements DataStore<T> {
+    private final Map<String, T> storage = new ConcurrentHashMap<>();
+    
+    @Override
+    public Optional<T> find(String id) {
+        return Optional.ofNullable(storage.get(id));
+    }
+    
+    @Override
+    public List<T> findAll(Predicate<T> filter) {
+        return storage.values().stream()
+            .filter(filter)
+            .collect(Collectors.toUnmodifiableList());
+    }
+    
+    @Override
+    public void store(String id, T data) {
+        storage.put(id, data);
+    }
+}
+```
+
+## 8. Explicit and Traceable Data Transformation
+
+- Make transformations visible and traceable
+- Use pure functions for transformations
+- Chain transformations explicitly
+- Log transformation steps
+- Handle errors gracefully
+- Document transformation flow
+
+```java
+// Define transformations as pure functions
+class UserTransformations {
+    public static UserDTO toDTO(UserData user) {
+        return new UserDTO(
+            user.id(),
+            user.name(),
+            user.email()
+        );
+    }
+    
+    public static UserData fromDTO(UserDTO dto) {
+        return new UserData(
+            dto.id(),
+            dto.name(),
+            dto.email()
+        );
+    }
+}
+
+// Chain transformations with clear tracing
+class UserProcessor {
+    public static UserViewModel process(UserData user) {
+        return Stream.of(user)
+            .map(UserTransformations::toDTO)
+            .map(UserEnricher::addMetadata)
+            .map(UserValidator::validate)
+            .map(UserViewModelMapper::toViewModel)
+            .peek(vm -> log.info("Transformed user: {}", vm))
+            .findFirst()
+            .orElseThrow();
+    }
+}
+```
+
+## 9. Unidirectional Data Flow
+
+- Define clear stages for data processing
+- Make data flow explicit and visible
+- Handle errors at each stage
+- Validate data between stages
+- Make stages composable
+- Keep stages independent and testable
+
+```java
+// Define clear data flow stages
+interface DataFlowStage<IN, OUT> {
+    OUT process(IN input);
+}
+
+// Implement stages
+class ValidationStage implements DataFlowStage<UserData, ValidatedUser> {
+    @Override
+    public ValidatedUser process(UserData input) {
+        List<String> errors = new UserValidation(input).validate();
+        return new ValidatedUser(input, errors.isEmpty(), errors);
+    }
+}
+
+class EnrichmentStage implements DataFlowStage<ValidatedUser, EnrichedUser> {
+    @Override
+    public EnrichedUser process(ValidatedUser input) {
+        if (!input.isValid()) {
+            throw new IllegalStateException("Cannot enrich invalid user");
+        }
+        return new EnrichedUser(input.user(), fetchAdditionalData(input.user()));
+    }
+}
+
+// Compose flow
+class UserDataFlow {
+    private final List<DataFlowStage<?, ?>> stages;
+    
+    public UserViewModel process(UserData input) {
+        Object result = input;
+        for (DataFlowStage stage : stages) {
+            result = stage.process(result);
+        }
+        return (UserViewModel) result;
+    }
+}
+```
