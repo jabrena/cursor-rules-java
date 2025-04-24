@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: Extension to java rules for Functional programming
+globs: .java 
 alwaysApply: false
 ---
 # Java Functional Programming Guidelines

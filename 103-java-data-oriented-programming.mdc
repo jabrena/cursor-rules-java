@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: Extension to java rules to apply data oriented programming
+globs: .java
 alwaysApply: false
 ---
 # Data Oriented Programming Pillars for Java

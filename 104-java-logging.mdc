@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: Extension to java rules to apply logging guidelines in Java applications
+globs: .java
 alwaysApply: false
 ---
 # Java Logging Guidelines
