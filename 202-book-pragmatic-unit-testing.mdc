@@ -1,7 +1,7 @@
 ---
-description: Extension to java rules from the book "Pragmatic Unit Testing: Summary"
-globs: .java
-alwaysApply: true
+description: 
+globs: 
+alwaysApply: false
 ---
 # Pragmatic Unit Testing: Summary
 

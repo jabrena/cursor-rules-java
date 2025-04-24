@@ -1,4 +1,4 @@
-# Java Cursor AI rules
+# Cursor AI rules for Java
 
 A collection of Cursor rules for Java space.
 
@@ -10,8 +10,11 @@ A collection of Cursor rules for Java space.
 - [Concurrency](.cursor/rules/101-java-concurrency.mdc)
 - [Functional Programming](.cursor/rules/102-java-functional-programming.mdc)
 - [Data oriented programming](.cursor/rules/103-java-data-oriented-programming.mdc)
+- [Logging](./104-java-logging.mdc)
+- [Modern Java](./105-java-modern-features.mdc)
 - [Effective Java](.cursor/rules/201-book-effective-java.mdc)
 - [Pragmatic Unit Testing](.cursor/rules/202-book-pragmatic-unit-testing.mdc)
+- [SQL](./500-sql.mdc)
 
 ## References
 

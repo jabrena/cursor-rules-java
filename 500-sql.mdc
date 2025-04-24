@@ -1,7 +1,7 @@
 ---
-description: SQL development guidelines
+description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
  # SQL Development Guidelines
 

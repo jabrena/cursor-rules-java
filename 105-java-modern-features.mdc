@@ -1,7 +1,7 @@
 ---
-description: Extension to java rules to apply modern features released in java8+
-globs: .java
-alwaysApply: true
+description: 
+globs: 
+alwaysApply: false
 ---
 # Java 8+ Modern Development Guidelines
 

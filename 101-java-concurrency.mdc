@@ -1,7 +1,7 @@
 ---
-description: Extension to java rules for Concurrency objects
-globs: .java
-alwaysApply: true
+description: 
+globs: 
+alwaysApply: false
 ---
 # Java Concurrency Guidelines
 

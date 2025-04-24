@@ -1,7 +1,7 @@
 ---
-description: Quarkus development guidelines
-globs: .java
-alwaysApply: true
+description: 
+globs: 
+alwaysApply: false
 ---
 # Quarkus
 
