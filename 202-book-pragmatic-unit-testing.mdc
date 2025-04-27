@@ -1,6 +1,6 @@
 ---
 description: Extension to java rules from the book "Pragmatic Unit Testing: Summary"
-globs: .java
+globs: *Test.java
 alwaysApply: false
 ---
 # Pragmatic Unit Testing: Summary
