@@ -1,0 +1,902 @@
+---
+description: Java rules to apply data oriented programming style
+globs: **/*.java
+alwaysApply: false
+---
+# Java Data-Oriented Programming
+
+## Table of contents
+
+- Rule 1: Separate Code from Data
+- Rule 2: Data Should Be Immutable
+- Rule 3: Use Pure Functions to Manipulate Data
+- Rule 4: Keep Data Flat and Denormalized
+- Rule 5: Keep Data Generic Until Specific
+- Rule 6: Data Integrity through Validation Functions
+- Rule 7: Flexible and Generic Data Access
+- Rule 8: Explicit and Traceable Data Transformation
+
+## Rule 1: Separate Code from Data
+
+Title: Decouple Behavior (Code) from Data Structures
+Description:
+- Use records or simple POJOs primarily for holding data.
+- Place behavior (methods that operate on data) in separate utility classes or services.
+- Avoid mixing state (fields) and complex behavior (methods with logic) within the same class intended as a data carrier.
+- Prefer static methods in utility classes for operations on data objects.
+- Design data structures to be self-contained and focused solely on representing state.
+
+**Good example:**
+
+```java
+// Data structure (record)
+record UserData(String name, int age) {}
+
+// Behavior in a separate utility class
+class UserActions {
+    public static void validateAge(UserData user) {
+        if (user.age() < 0) {
+            throw new IllegalArgumentException("Age cannot be negative: " + user.age());
+        }
+        System.out.println("Age for " + user.name() + " is valid.");
+    }
+
+    public static UserData activateUser(UserData user) {
+        // Example transformation logic
+        System.out.println("Activating user: " + user.name());
+        return new UserData(user.name().toUpperCase(), user.age()); // Returns new data
+    }
+}
+
+class SeparateCodeDataExample {
+    public static void main(String args) {
+        UserData user1 = new UserData("Alice", 30);
+        UserActions.validateAge(user1);
+        UserData activatedUser1 = UserActions.activateUser(user1);
+        System.out.println("Activated user: " + activatedUser1);
+
+        try {
+            UserData user2 = new UserData("Bob", -5);
+            UserActions.validateAge(user2); // This will throw
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Mixing code and data in one class
+class User {
+    private String name;
+    private int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Behavior mixed with data
+    public void validateAge() {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative: " + age);
+        }
+        System.out.println("Age for " + name + " is valid.");
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+
+    public static void main(String args) {
+        User user1 = new User("Alice", 30);
+        user1.validateAge();
+        // Problem: User object itself has methods, not just data.
+        // If User was a record, it couldn't have such instance methods beyond generated ones.
+    }
+}
+```
+
+## Rule 2: Data Should Be Immutable
+
+Title: Ensure Data Immutability
+Description:
+- Use records (which are inherently immutable) whenever possible for data carriers.
+- Declare all fields as `final`.
+- Do not provide setter methods for fields.
+- When returning collections or other mutable types from getters, return defensive copies or unmodifiable views (e.g., `List.copyOf()`, `Collections.unmodifiableList()`).
+- For transformations, always create and return new instances with the modified data rather than altering existing instances.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.ArrayList;
+
+// Immutable data using record
+record ServerConfig(String host, int port, List<String> features) {
+    // Canonical constructor is implicitly final for fields
+    // Records provide public accessors (host(), port(), features())
+    // equals(), hashCode(), toString() are auto-generated
+
+    // For mutable collections in constructor, ensure immutability
+    public ServerConfig(String host, int port, List<String> features) {
+        this.host = host;
+        this.port = port;
+        this.features = List.copyOf(features); // Create an immutable copy
+    }
+
+    // Getter for list returns the immutable copy
+    @Override
+    public List<String> features() {
+        return this.features; // Already an immutable list from List.copyOf
+    }
+}
+
+class ImmutabilityExample {
+    public static void main(String args) {
+        List<String> initialFeatures = new ArrayList<>();
+        initialFeatures.add("FeatureA");
+
+        ServerConfig config1 = new ServerConfig("localhost", 8080, initialFeatures);
+        System.out.println("Config1: " + config1);
+
+        initialFeatures.add("FeatureB"); // Modify original list
+        System.out.println("Config1 after modifying original list: " + config1); // config1.features is unaffected
+
+        try {
+            config1.features().add("FeatureC"); // Should throw UnsupportedOperationException
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Attempt to modify config1.features(): " + e.getMessage());
+        }
+
+        // Transformation creates a new instance
+        ServerConfig config2 = new ServerConfig(config1.host(), 9090, config1.features());
+        System.out.println("Config2 (new port): " + config2);
+        System.out.println("Config1 is unchanged: " + config1);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.List;
+import java.util.ArrayList;
+
+// Mutable data class
+class MutableConfig {
+    private String host;
+    private int port;
+    private List<String> features; // Mutable list
+
+    public MutableConfig(String host, int port, List<String> features) {
+        this.host = host;
+        this.port = port;
+        this.features = new ArrayList<>(features); // Stores a mutable copy
+    }
+
+    public void setHost(String host) { this.host = host; }
+    public void setPort(int port) { this.port = port; }
+    public void addFeature(String feature) { this.features.add(feature); } // Modifies internal state
+
+    public List<String> getFeatures() {
+        return this.features; // Returns a reference to the internal mutable list
+    }
+
+    @Override
+    public String toString() {
+        return "MutableConfig{host='" + host + "', port=" + port + ", features=" + features + "}";
+    }
+    
+    public static void main(String args) {
+        List<String> initialFeatures = new ArrayList<>();
+        initialFeatures.add("InitialFeature");
+        MutableConfig mConfig = new MutableConfig("server1", 80, initialFeatures);
+        System.out.println("mConfig: " + mConfig);
+
+        mConfig.setPort(8080); // State is mutated
+        mConfig.addFeature("NewFeature"); // State is mutated
+        System.out.println("mConfig mutated: " + mConfig);
+        
+        List<String> gotFeatures = mConfig.getFeatures();
+        gotFeatures.add("AnotherFeatureAddedExternally"); // External modification of internal state!
+        System.out.println("mConfig after external list modification: " + mConfig);
+    }
+}
+```
+
+## Rule 3: Use Pure Functions to Manipulate Data
+
+Title: Employ Pure Functions for Data Transformations
+Description:
+- Functions that manipulate data should depend solely on their input parameters, not on any instance or external state.
+- They must not cause any side effects (e.g., modifying input objects, global variables, I/O operations).
+- Pure functions are inherently stateless: given the same input, they always produce the same output.
+- Transformations should return new data instances rather than modifying the input data directly.
+- Prefer static methods for such pure data transformation functions.
+- Keep each function focused on a single, well-defined transformation.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+
+// Data (can be a record)
+record ItemPrice(String itemId, double price) {}
+
+// Pure functions for operations
+class PriceOperations {
+    // Calculates total price based only on inputs
+    public static double calculateTotalWithTax(double price, double taxRate) {
+        if (price < 0 || taxRate < 0) {
+            throw new IllegalArgumentException("Price and tax rate must be non-negative.");
+        }
+        return price * (1 + taxRate);
+    }
+
+    // Applies a discount and returns a new list of items with updated prices
+    public static List<ItemPrice> applyDiscountToItems(List<ItemPrice> items, double discountPercentage) {
+        if (discountPercentage < 0 || discountPercentage > 1) {
+            throw new IllegalArgumentException("Discount must be between 0 and 1.");
+        }
+        return items.stream()
+            .map(item -> new ItemPrice(item.itemId(), item.price() * (1 - discountPercentage)))
+            .collect(Collectors.toUnmodifiableList()); // Returns a new, immutable list
+    }
+}
+
+class PureFunctionExample {
+    public static void main(String args) {
+        double itemPrice = 100.0;
+        double tax = 0.07;
+        double total = PriceOperations.calculateTotalWithTax(itemPrice, tax);
+        System.out.println("Total for price " + itemPrice + " with tax " + tax + ": " + total);
+
+        List<ItemPrice> catalogue = List.of(
+            new ItemPrice("A001", 50.0),
+            new ItemPrice("B002", 120.0)
+        );
+        List<ItemPrice> discountedCatalogue = PriceOperations.applyDiscountToItems(catalogue, 0.10); // 10% discount
+        System.out.println("Original catalogue: " + catalogue);
+        System.out.println("Discounted catalogue: " + discountedCatalogue);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.List;
+import java.util.ArrayList;
+
+// Impure function with side effects and dependency on instance state
+class PriceCalculator {
+    private double taxRate; // Instance state
+    private List<Double> prices; // Modifies this list
+
+    public PriceCalculator(double taxRate, List<Double> initialPrices) {
+        this.taxRate = taxRate;
+        this.prices = new ArrayList<>(initialPrices); // Stores mutable state
+    }
+
+    // Depends on instance state (taxRate)
+    public double calculateTotalForItem(double price) {
+        return price * (1 + this.taxRate);
+    }
+
+    // Modifies instance state (this.prices) - a side effect
+    public void applyDiscountToAllItems(double discount) {
+        for (int i = 0; i < this.prices.size(); i++) {
+            this.prices.set(i, this.prices.get(i) * (1 - discount));
+        }
+    }
+
+    public List<Double> getPrices() {
+        return this.prices;
+    }
+
+    public static void main(String args) {
+        PriceCalculator calc = new PriceCalculator(0.05, List.of(10.0, 20.0));
+        System.out.println("Total for 10.0: " + calc.calculateTotalForItem(10.0)); // Depends on calc.taxRate
+        
+        System.out.println("Prices before discount: " + calc.getPrices());
+        calc.applyDiscountToAllItems(0.1);
+        System.out.println("Prices after discount (mutated): " + calc.getPrices()); // Original list inside calc is modified
+    }
+}
+```
+
+## Rule 4: Keep Data Flat and Denormalized (When Appropriate)
+
+Title: Prefer Flatter Data Structures with References
+Description:
+- Avoid excessively deep nesting of data objects, which can make data harder to access and manage.
+- When representing relationships, consider using references (like IDs) instead of directly embedding complex objects within other objects, especially for many-to-many or one-to-many relationships.
+- Store related but distinct entities in separate flat collections or maps, linked by these IDs.
+- This approach can simplify querying, updating, and serializing data.
+- However, balance this with the need for data co-location for performance in specific access patterns. Denormalization is a trade-off.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+// Flat structures with references (IDs)
+record TaskData(String id, String name, String description, String assigneeId) {}
+record ProjectData(String id, String name, List<String> taskIds) {}
+record EmployeeData(String id, String name, String departmentId, List<String> projectIds) {}
+record DepartmentData(String id, String name, List<String> employeeIds) {}
+
+class FlatDataStore {
+    private final Map<String, TaskData> tasks = new HashMap<>();
+    private final Map<String, ProjectData> projects = new HashMap<>();
+    private final Map<String, EmployeeData> employees = new HashMap<>();
+    private final Map<String, DepartmentData> departments = new HashMap<>();
+
+    // Methods to add and retrieve data (simplified)
+    public void addTask(TaskData task) { tasks.put(task.id(), task); }
+    public TaskData getTask(String id) { return tasks.get(id); }
+    // ... similar methods for projects, employees, departments
+
+    public List<TaskData> getTasksForProject(String projectId) {
+        ProjectData project = projects.get(projectId);
+        if (project == null) return List.of();
+        return project.taskIds().stream()
+            .map(tasks::get)
+            .collect(Collectors.toList());
+    }
+    public static void main(String args) {
+        FlatDataStore store = new FlatDataStore();
+        store.addTask(new TaskData("T1", "Design UI", "...", "E1"));
+        // ... add more data
+        // Accessing data involves looking up by ID and potentially joining.
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.List;
+import java.util.ArrayList;
+
+// Deeply nested structure
+class Department {
+    private String departmentName;
+    private List<Employee> employees;
+    public Department(String name) { this.departmentName = name; this.employees = new ArrayList<>(); }
+    public void addEmployee(Employee e) { this.employees.add(e); }
+    public List<Employee> getEmployees() { return employees; }
+}
+
+class Employee {
+    private String employeeName;
+    private List<Project> projects;
+    public Employee(String name) { this.employeeName = name; this.projects = new ArrayList<>(); }
+    public void addProject(Project p) { this.projects.add(p); }
+    public List<Project> getProjects() { return projects; }
+}
+
+class Project {
+    private String projectName;
+    private List<Task> tasks;
+    public Project(String name) { this.projectName = name; this.tasks = new ArrayList<>(); }
+    public void addTask(Task t) { this.tasks.add(t); }
+    public List<Task> getTasks() { return tasks; }
+}
+
+class Task {
+    private String taskName;
+    public Task(String name) { this.taskName = name; }
+    public String getTaskName() { return taskName; }
+}
+
+class DeeplyNestedExample {
+    public static void main(String args) {
+        Department dept = new Department("Engineering");
+        Employee emp = new Employee("Alice");
+        Project proj = new Project("New Platform");
+        Task task1 = new Task("Define API");
+        
+        proj.addTask(task1);
+        emp.addProject(proj);
+        dept.addEmployee(emp);
+        // Accessing task1 requires: dept.getEmployees().get(0).getProjects().get(0).getTasks().get(0)
+        // Updates are complex. Serialization can be very large.
+        System.out.println(dept.getEmployees().get(0).getProjects().get(0).getTasks().get(0).getTaskName());
+    }
+}
+```
+
+## Rule 5: Keep Data Generic Until Specific
+
+Title: Start with Generic Data Structures, Convert to Specific Types When Needed
+Description:
+- For highly dynamic or externally defined data, start with generic data structures like `Map<String, Object>` or JSON-like trees.
+- This allows flexibility in handling varied or evolving data schemas.
+- Convert to specific, strongly-typed objects (like records) only when the data needs to be processed in a type-safe manner or when specific business logic applies.
+- Implement robust, type-safe converter functions or classes to perform this transformation.
+- Validate data during the conversion process to ensure it conforms to the expected specific type.
+- Clearly document the expected structure of the generic data.
+
+**Good example:**
+
+```java
+import java.util.Map;
+import java.util.HashMap;
+import java.time.LocalDate;
+
+// Specific target type (record)
+record UserProfile(
+    String email,
+    String firstName,
+    String lastName,
+    LocalDate birthDate
+) {}
+
+// Generic data carrier (could be a simple Map or a wrapper record)
+record GenericData(Map<String, Object> attributes) {}
+
+// Converter class
+class UserProfileConverter {
+    public static UserProfile toUserProfile(GenericData genericData) {
+        Map<String, Object> attrs = genericData.attributes();
+        
+        // Basic validation and type casting (could be more robust)
+        String email = (String) attrs.get("email");
+        String firstName = (String) attrs.get("firstName");
+        String lastName = (String) attrs.get("lastName");
+        LocalDate birthDate = null;
+        Object bd = attrs.get("birthDate");
+        if (bd instanceof String) {
+            birthDate = LocalDate.parse((String) bd);
+        } else if (bd instanceof LocalDate) {
+            birthDate = (LocalDate) bd;
+        } else if (bd != null) {
+            throw new IllegalArgumentException("Invalid birthDate format");
+        }
+
+        if (email == null || firstName == null || lastName == null || birthDate == null) {
+            throw new IllegalArgumentException("Missing required user profile fields");
+        }
+        
+        return new UserProfile(email, firstName, lastName, birthDate);
+    }
+
+    public static GenericData fromUserProfile(UserProfile userProfile) {
+        Map<String, Object> attrs = new HashMap<>();
+        attrs.put("email", userProfile.email());
+        attrs.put("firstName", userProfile.firstName());
+        attrs.put("lastName", userProfile.lastName());
+        attrs.put("birthDate", userProfile.birthDate().toString());
+        return new GenericData(attrs);
+    }
+}
+
+class GenericDataExample {
+    public static void main(String args) {
+        Map<String, Object> rawData = new HashMap<>();
+        rawData.put("email", "alice@example.com");
+        rawData.put("firstName", "Alice");
+        rawData.put("lastName", "Wonder");
+        rawData.put("birthDate", "1990-07-15");
+        rawData.put("extraField", "someValue"); // Generic data can have extra fields
+
+        GenericData genericUser = new GenericData(rawData);
+        System.out.println("Generic user data: " + genericUser.attributes());
+
+        try {
+            UserProfile specificProfile = UserProfileConverter.toUserProfile(genericUser);
+            System.out.println("Converted to specific UserProfile: " + specificProfile);
+            
+            GenericData backToGeneric = UserProfileConverter.fromUserProfile(specificProfile);
+            System.out.println("Converted back to generic: " + backToGeneric.attributes());
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Conversion error: " + e.getMessage());
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.time.LocalDate;
+
+// Too specific too early, making it rigid if data source changes slightly
+record UserProfileRigid(
+    String email,
+    String password, // If password isn't always present or needed for all uses
+    String firstName,
+    String lastName,
+    LocalDate birthDate
+    // What if new optional fields are added by the source? This class needs constant updates.
+) {
+    // This class is fine if the data is *always* in this exact shape and used this way,
+    // but not flexible for varying inputs.
+}
+
+class RigidDataExample {
+    public static void main(String args) {
+        // If data comes from an external source that might omit 'password' or add new fields,
+        // directly deserializing into UserProfileRigid might fail or ignore data.
+        // UserProfileRigid profile = new UserProfileRigid(...);
+        System.out.println("This example illustrates inflexibility if source data structure is volatile.");
+    }
+}
+```
+
+## Rule 6: Data Integrity through Validation Functions
+
+Title: Ensure Data Integrity with Pure Validation Functions
+Description:
+- Implement data validation logic as pure functions that take data as input and return validation results (e.g., a list of errors, or an object indicating success/failure).
+- These functions should not throw exceptions for validation failures as a primary flow control; instead, they should return information about the validation outcome.
+- Multiple validation rules can be composed or chained together.
+- Consider using `Optional` or a custom result type to represent validation messages for individual rules.
+- Keep validation logic separate from the data structures themselves.
+- Make validation rules reusable across different parts of the application.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+record UserRecord(String id, String email, int age) {}
+
+// Validation functions as static methods in a utility class
+class UserValidators {
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^\w.-+@\w.-+\.a-zA-Z{2,}$");
+
+    public static Optional<String> validateEmailFormat(String email) {
+        if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
+            return Optional.of("Invalid email format for: " + email);
+        }
+        return Optional.empty(); // No error
+    }
+
+    public static Optional<String> validateAgeRange(int age) {
+        if (age < 0 || age > 150) {
+            return Optional.of("Age must be between 0 and 150, but was: " + age);
+        }
+        return Optional.empty(); // No error
+    }
+    
+    // Composite validation for a UserRecord
+    public static List<String> validateUser(UserRecord user) {
+        return Stream.of(
+                validateEmailFormat(user.email()),
+                validateAgeRange(user.age())
+            )
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
+    }
+}
+
+class ValidationFunctionExample {
+    public static void main(String args) {
+        UserRecord user1 = new UserRecord("u1", "alice@example.com", 30);
+        List<String> errors1 = UserValidators.validateUser(user1);
+        if (errors1.isEmpty()) {
+            System.out.println("User 1 is valid: " + user1);
+        } else {
+            System.out.println("User 1 validation errors: " + errors1);
+        }
+
+        UserRecord user2 = new UserRecord("u2", "bob.com", -5);
+        List<String> errors2 = UserValidators.validateUser(user2);
+        if (errors2.isEmpty()) {
+            System.out.println("User 2 is valid: " + user2);
+        } else {
+            System.out.println("User 2 validation errors: " + errors2);
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Validation logic mixed into data object, or throwing exceptions for normal flow
+record UserWithEmbeddedValidation(String email, int age) {
+    public UserWithEmbeddedValidation {
+        // Validation in constructor - can be problematic
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Invalid email in constructor");
+        }
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative in constructor");
+        }
+    }
+
+    // Or validation method that throws exceptions
+    public void validate() {
+        if (email == null || !email.contains("@")) {
+            throw new IllegalStateException("User email is invalid");
+        }
+        if (age < 0) {
+            throw new IllegalStateException("User age is invalid");
+        }
+        System.out.println("User is valid by throwing method.");
+    }
+    public static void main(String args) {
+        try {
+            UserWithEmbeddedValidation user = new UserWithEmbeddedValidation("test", -1);
+            user.validate();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.err.println("Validation failed: " + e.getMessage());
+            // Using exceptions for validation flow control is generally an anti-pattern.
+        }
+    }
+}
+```
+
+## Rule 7: Flexible and Generic Data Access
+
+Title: Design Flexible and Generic Data Access Layers
+Description:
+- Define generic interfaces for data access operations (CRUD - Create, Read, Update, Delete).
+- Use type parameters (`<T>`) in these interfaces to allow them to work with various data types.
+- Implementations of these interfaces can then provide data storage and retrieval using different mechanisms (e.g., in-memory maps, databases, file systems) while the calling code remains decoupled.
+- Ensure data storage implementations are thread-safe if they will be accessed concurrently.
+- Support common querying needs like filtering or finding by ID.
+- Design in a way that allows the underlying storage implementation to be easily swapped or replaced.
+- Consider caching strategies at this layer for performance improvement.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+// Generic data access interface
+interface DataStore<ID, T> { // Added ID type parameter
+    Optional<T> findById(ID id);
+    List<T> findAll();
+    List<T> findByPredicate(Predicate<T> filter);
+    void save(ID id, T data);
+    void deleteById(ID id);
+    // Potentially add update methods, etc.
+}
+
+// Example record to store
+record Product(String id, String name, double price) {}
+
+// In-memory implementation using generic data structures
+class InMemoryDataStore<ID, T> implements DataStore<ID, T> {
+    private final Map<ID, T> storage = new ConcurrentHashMap<>(); // Thread-safe for concurrent access
+
+    @Override
+    public Optional<T> findById(ID id) {
+        return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
+    public List<T> findAll() {
+        return List.copyOf(storage.values()); // Return immutable copy
+    }
+
+    @Override
+    public List<T> findByPredicate(Predicate<T> filter) {
+        return storage.values().stream()
+            .filter(filter)
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public void save(ID id, T data) {
+        storage.put(id, data);
+        System.out.println("Saved: " + data);
+    }
+
+    @Override
+    public void deleteById(ID id) {
+        storage.remove(id);
+        System.out.println("Deleted item with id: " + id);
+    }
+}
+
+class DataAccessExample {
+    public static void main(String args) {
+        DataStore<String, Product> productStore = new InMemoryDataStore<>();
+
+        Product laptop = new Product("P101", "Laptop Pro", 1200.00);
+        Product mouse = new Product("P102", "Wireless Mouse", 25.00);
+
+        productStore.save(laptop.id(), laptop);
+        productStore.save(mouse.id(), mouse);
+
+        System.out.println("Find P101: " + productStore.findById("P101"));
+        System.out.println("All products: " + productStore.findAll());
+        System.out.println("Expensive products: " + 
+            productStore.findByPredicate(p -> p.price() > 100.0));
+            
+        productStore.deleteById("P102");
+        System.out.println("All products after delete: " + productStore.findAll());
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+// Non-generic, tightly coupled data access for a specific type
+class SpecificProductDao {
+    // Not thread-safe if used concurrently from multiple threads
+    private final Map<String, Product> productTable = new HashMap<>();
+
+    public Product getProductById(String id) {
+        return productTable.get(id); // Returns null if not found, no Optional
+    }
+
+    public void addProduct(Product product) {
+        // If Product had no ID field, keying would be arbitrary
+        productTable.put(product.id(), product);
+    }
+    // No generic way to handle other types. 
+    // If we need a User DAO, we write a whole new class similar to this.
+    // Difficult to swap storage implementation.
+}
+
+class BadDataAccessExample {
+    public static void main(String args) {
+        // (Using Product record from Good Example)
+        SpecificProductDao dao = new SpecificProductDao();
+        dao.addProduct(new Product("P001", "Old Monitor", 150.0));
+        System.out.println("Product P001: " + dao.getProductById("P001"));
+        // Problems: not generic, not easily testable with mocks if directly instantiated,
+        // not thread-safe by default, harder to maintain for many data types.
+    }
+}
+```
+
+## Rule 8: Explicit and Traceable Data Transformation
+
+Title: Ensure Data Transformations are Explicit and Traceable
+Description:
+- Make all data transformation steps visible and easy to follow.
+- Use sequences of pure functions for complex transformations, making each step clear.
+- Avoid hidden or implicit transformations within objects or complex method calls.
+- Consider logging input, output, and intermediate steps of significant transformations, especially during debugging or for auditing.
+- Handle potential errors or exceptional cases gracefully within the transformation pipeline.
+- Document the overall flow and purpose of complex data transformations.
+
+**Good example:**
+
+```java
+import java.util.Map;
+import java.util.function.Function;
+
+// Source data record
+record RawOrder(String orderId, String customerId, double amount, String currency, Map<String, String> items) {}
+
+// Target DTOs
+record ProcessedOrderHeader(String orderId, String customerId, double normalizedAmount) {}
+record OrderItem(String itemId, int quantity) {} // Assuming items map needs parsing
+
+class OrderProcessingService {
+
+    // Transformation Step 1: Normalize currency (pure function)
+    private static Function<RawOrder, RawOrder> normalizeCurrency(String targetCurrency, Map<String, Double> rates) {
+        return rawOrder -> {
+            if (rawOrder.currency().equals(targetCurrency)) {
+                return rawOrder;
+            }
+            double rate = rates.getOrDefault(rawOrder.currency(), 1.0); // Default to 1.0 if rate not found
+            double newAmount = rawOrder.amount() * rate;
+            System.out.println("Trace Normalizing currency for order " + rawOrder.orderId() + ": " + rawOrder.amount() + " " + rawOrder.currency() + " -> " + newAmount + " " + targetCurrency);
+            return new RawOrder(rawOrder.orderId(), rawOrder.customerId(), newAmount, targetCurrency, rawOrder.items());
+        };
+    }
+
+    // Transformation Step 2: Extract header (pure function)
+    private static Function<RawOrder, ProcessedOrderHeader> extractHeader() {
+        return rawOrder -> {
+            System.out.println("Trace Extracting header for order " + rawOrder.orderId());
+            return new ProcessedOrderHeader(rawOrder.orderId(), rawOrder.customerId(), rawOrder.amount());
+        };
+    }
+    
+    // Overall transformation pipeline
+    public static ProcessedOrderHeader processOrder(RawOrder rawOrder, String targetCurrency, Map<String, Double> exchangeRates) {
+        System.out.println("Trace Starting processing for order: " + rawOrder.orderId());
+        
+        ProcessedOrderHeader header = normalizeCurrency(targetCurrency, exchangeRates)
+            .andThen(extractHeader()) // Chaining transformations
+            .apply(rawOrder);
+            
+        System.out.println("Trace Finished processing. Header: " + header);
+        return header;
+        // Further steps could parse items, validate, etc.
+    }
+}
+
+class TransformationTraceExample {
+    public static void main(String args) {
+        RawOrder order1 = new RawOrder("ORD123", "CUST001", 100.0, "USD", Map.of("itemA", "2"));
+        RawOrder order2 = new RawOrder("ORD456", "CUST002", 85.0, "EUR", Map.of("itemB", "1"));
+
+        Map<String, Double> ratesToUSD = Map.of("EUR", 1.08, "USD", 1.0);
+
+        ProcessedOrderHeader processed1 = OrderProcessingService.processOrder(order1, "USD", ratesToUSD);
+        System.out.println("Processed Order 1: " + processed1);
+
+        ProcessedOrderHeader processed2 = OrderProcessingService.processOrder(order2, "USD", ratesToUSD);
+        System.out.println("Processed Order 2: " + processed2);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.Map;
+
+// Complex object that mutates itself and has hidden transformations
+class MutableOrder {
+    public String orderId;
+    public double amount;
+    public String currency;
+    // ... other fields
+
+    public MutableOrder(String orderId, double amount, String currency) {
+        this.orderId = orderId;
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    // Hidden transformation, mutates state, depends on external static rates
+    public void convertToCurrency(String targetCurrency) {
+        // Imagine static ExchangeRateProvider.getRate(this.currency, targetCurrency)
+        // This is a side effect, modifies the object in place, hard to trace.
+        if (!this.currency.equals(targetCurrency)) {
+            System.out.println("Converting order " + orderId + " to " + targetCurrency + " (details hidden)");
+            // this.amount = this.amount * ExchangeRateProvider.getRate(this.currency, targetCurrency);
+            // this.currency = targetCurrency;
+            // Forcing an example without actual external call
+            if (this.currency.equals("EUR") && targetCurrency.equals("USD")) {
+                 this.amount = this.amount * 1.08;
+                 this.currency = targetCurrency;
+            }
+        }
+    }
+    @Override public String toString() { return "MutableOrder{id='"+orderId+"', amount="+amount+", currency='"+currency+"'}";}
+}
+
+class HiddenTransformationExample {
+    public static void main(String args) {
+        MutableOrder order = new MutableOrder("ORD789", 50.0, "EUR");
+        System.out.println("Original order: " + order);
+        
+        // Call a method that internally and perhaps opaquely transforms the order
+        order.convertToCurrency("USD"); 
+        System.out.println("Transformed order: " + order); 
+        // It's not clear from the call site what exactly changed or how.
+        // If multiple such methods are called, the state becomes hard to reason about.
+    }
+}
+```
+
+---
+*(Optional Section: Add other relevant top-level sections if they apply globally across rules, such as "Key Concepts", "General Principles", "Anti-Patterns to Avoid", etc.)*

@@ -1,0 +1,452 @@
+---
+description: Java REST API Design Principles
+globs: 
+alwaysApply: false
+---
+# Java REST API Design Principles
+
+## Table of contents
+
+- Rule 1: Use HTTP Methods Correctly
+- Rule 2: Design Clear and Consistent Resource URIs
+- Rule 3: Use HTTP Status Codes Appropriately
+- Rule 4: Implement Effective Request and Response Payloads (DTOs)
+- Rule 5: Version Your APIs
+- Rule 6: Handle Errors Gracefully
+- Rule 7: Secure Your APIs
+- Rule 8: Document Your APIs
+
+## Rule 1: Use HTTP Methods Correctly
+
+Title: Employ HTTP Methods Semantically
+Description: Use HTTP methods according to their defined semantics to ensure predictability and compliance with web standards. `GET` for retrieval, `POST` for creation, `PUT` for update/replace, `PATCH` for partial update, and `DELETE` for removal.
+
+**Good example:**
+
+```java
+// Using Spring MVC annotations for illustration
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}") // GET for retrieving a user
+    public ResponseEntity<UserDTO> getUser(@PathVariable String id) {
+        // ... logic to fetch user ...
+        return ResponseEntity.ok(new UserDTO());
+    }
+
+    @PostMapping // POST for creating a new user
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        // ... logic to create user ...
+        UserDTO newUser = new UserDTO(); // Assume it gets an ID after creation
+        return ResponseEntity.created(URI.create("/users/" + newUser.getId())).body(newUser);
+    }
+
+    @PutMapping("/{id}") // PUT for replacing/updating a user
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        // ... logic to update user ...
+        return ResponseEntity.ok(new UserDTO());
+    }
+
+    @DeleteMapping("/{id}") // DELETE for removing a user
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        // ... logic to delete user ...
+        return ResponseEntity.noContent().build();
+    }
+    
+    @PatchMapping("/{id}") // PATCH for partial updates
+    public ResponseEntity<UserDTO> partiallyUpdateUser(@PathVariable String id, @RequestBody Map<String, Object> updates) {
+        // ... logic to partially update user ...
+        return ResponseEntity.ok(new UserDTO());
+    }
+}
+// Dummy DTO classes
+class UserDTO { private String id; public String getId() { return id; } /* ... other fields, getters, setters ... */ }
+class UserCreateDTO { /* ... fields ... */ }
+class UserUpdateDTO { /* ... fields ... */ }
+```
+
+**Bad Example:**
+
+```java
+@RestController
+@RequestMapping("/api")
+public class BadUserController {
+
+    // Bad: Using GET to perform a state change (e.g., delete)
+    @GetMapping("/deleteUser")
+    public ResponseEntity<String> deleteUserViaGet(@RequestParam String id) {
+        System.out.println("Deleting user: " + id + " (Bad: GET used for delete)");
+        // ... delete logic ...
+        return ResponseEntity.ok("User deleted (but GET was used!)");
+    }
+
+    // Bad: Using POST for all operations, including retrieval
+    @PostMapping("/getUser")
+    public ResponseEntity<UserDTO> getUserViaPost(@RequestBody String idPayload) {
+        System.out.println("Fetching user: " + idPayload + " (Bad: POST used for GET)");
+        // ... fetch logic ...
+        return ResponseEntity.ok(new UserDTO());
+    }
+}
+```
+
+## Rule 2: Design Clear and Consistent Resource URIs
+
+Title: Use Nouns for Resources and Maintain URI Consistency
+Description: Design URIs that are intuitive and clearly represent resources. Use nouns (e.g., `/users`, `/orders`) instead of verbs. Keep URIs consistent in style (e.g., lowercase, hyphenated or camelCase for path segments).
+
+**Good example:**
+
+```
+GET /users                           // Get all users
+GET /users/{userId}                  // Get a specific user
+GET /users/{userId}/orders           // Get all orders for a specific user
+GET /users/{userId}/orders/{orderId} // Get a specific order for a user
+POST /users                          // Create a new user
+```
+
+**Bad Example:**
+
+```
+GET /getAllUsers
+GET /fetchUserById?id={userId}
+POST /createNewUser
+GET /userOrders?userId={userId}  // Mixing query params and path styles inconsistently
+POST /processUserOrderCreation   // URI contains verbs and is overly complex
+```
+
+## Rule 3: Use HTTP Status Codes Appropriately
+
+Title: Return Meaningful HTTP Status Codes
+Description: Utilize standard HTTP status codes to accurately reflect the outcome of API requests. This helps clients understand the result without needing to parse the response body for basic success/failure information.
+- `200 OK`: General success.
+- `201 Created`: Resource successfully created (often with a `Location` header pointing to the new resource).
+- `204 No Content`: Success, but no content to return (e.g., after a successful `DELETE`).
+- `400 Bad Request`: Client error (e.g., invalid syntax, missing parameters).
+- `401 Unauthorized`: Authentication is required and has failed or has not yet been provided.
+- `403 Forbidden`: Authenticated client does not have permission to access the resource.
+- `404 Not Found`: Resource not found.
+- `500 Internal Server Error`: A generic error message for unexpected server-side errors.
+
+**Good example:**
+
+```java
+// (Inside a Spring @RestController method)
+if (resourceNotFound) {
+    return ResponseEntity.notFound().build(); // 404
+}
+if (!userHasPermission) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied"); // 403
+}
+if (validationFailed) {
+    return ResponseEntity.badRequest().body("Invalid input data"); // 400
+}
+// For creation:
+// return ResponseEntity.created(newResourceUri).body(newResource); // 201
+// For successful deletion:
+// return ResponseEntity.noContent().build(); // 204
+```
+
+**Bad Example:**
+
+```java
+// Bad: Returning 200 OK for all situations, even errors.
+public ResponseEntity<String> processSomething(String input) {
+    try {
+        if (input == null) {
+            // Client should receive a 400 Bad Request, not 200 with an error message in body.
+            return ResponseEntity.ok("{"error":"Input cannot be null"}"); 
+        }
+        // ... process ...
+        return ResponseEntity.ok("{"data":"Success!"}");
+    } catch (Exception e) {
+        // Client should receive a 500 Internal Server Error, not 200.
+        return ResponseEntity.ok("{"error":"Something went wrong on the server"}");
+    }
+}
+```
+
+## Rule 4: Implement Effective Request and Response Payloads (DTOs)
+
+Title: Use Data Transfer Objects (DTOs) for Payloads and Keep Them Lean
+Description: Use dedicated DTO classes for request and response bodies instead of exposing internal domain/entity objects directly. This decouples your API contract from your internal data model. Keep DTOs focused on the data needed for the specific API operation. Use consistent naming conventions (e.g., JSON with camelCase keys).
+
+**Good example:**
+
+```java
+// Domain Entity (internal)
+class User {
+    private Long id;
+    private String username;
+    private String passwordHash; // Internal field, should not be in API responses
+    private String email;
+    private java.time.LocalDateTime createdAt;
+    // getters, setters
+}
+
+// DTO for API responses (exposes only necessary fields)
+class UserResponseDTO {
+    private Long id;
+    private String username;
+    private String email;
+    // getters, setters
+}
+
+// DTO for creating a user
+class UserCreateRequestDTO {
+    private String username;
+    private String password; // Received in request, then hashed internally
+    private String email;
+    // getters, setters
+}
+
+// In controller:
+// public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) { ... }
+// public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO createDto) { ... }
+```
+
+**Bad Example:**
+
+```java
+// Bad: Exposing internal User entity directly in API, including sensitive fields like passwordHash.
+@RestController
+public class AnotherUserController {
+    @GetMapping("/rawusers/{id}")
+    public ResponseEntity<User> getRawUser(@PathVariable String id) {
+        // Assume User class has passwordHash and other internal fields
+        User internalUser = findUserById(id); // Method that returns the internal User entity
+        return ResponseEntity.ok(internalUser); // Exposes passwordHash, createdAt, etc.
+    }
+    private User findUserById(String id) { return new User(); /* ... */}
+}
+```
+
+## Rule 5: Version Your APIs
+
+Title: Implement a Clear API Versioning Strategy
+Description: Introduce API versioning from the beginning to manage changes and evolution without breaking existing clients. Common strategies include URI versioning (e.g., `/v1/users`), custom request header versioning (e.g., `X-API-Version: 1`), or media type versioning (e.g., `Accept: application/vnd.example.v1+json`). Choose a strategy and apply it consistently.
+
+**Good example (URI Versioning):**
+
+```java
+@RestController
+@RequestMapping("/api/v1/products") // Version in URI
+public class ProductControllerV1 {
+    // ... v1 endpoints ...
+}
+
+@RestController
+@RequestMapping("/api/v2/products") // New version in URI
+public class ProductControllerV2 {
+    // ... v2 endpoints with potential breaking changes or new features ...
+}
+```
+
+**Bad Example (No Versioning):**
+
+```java
+@RestController
+@RequestMapping("/products") // No version information
+public class UnversionedProductController {
+    // If a breaking change is made here (e.g., field removed from response),
+    // all existing clients might break.
+    @GetMapping("/{id}")
+    public ProductDTO getProduct(@PathVariable String id) {
+        // ... logic ...
+        return new ProductDTO();
+    }
+}
+class ProductDTO {}
+```
+
+## Rule 6: Handle Errors Gracefully
+
+Title: Provide Clear and Consistent Error Responses
+Description: When an error occurs, return a standardized, machine-readable error response format (e.g., JSON). Include a unique error code or type, a human-readable message, and optionally, details about specific fields that caused validation errors. Do not expose sensitive internal details like stack traces in production error responses.
+
+**Good example (Error DTO and @ControllerAdvice for Spring):**
+
+```java
+// Error Response DTO
+class ErrorResponse {
+    private String errorCode;
+    private String message;
+    private List<String> details; // Optional: for field-specific validation errors
+    // Constructor, getters
+    public ErrorResponse(String errorCode, String message) { this.errorCode = errorCode; this.message = message; }
+    public ErrorResponse(String errorCode, String message, List<String> details) { /* ... */ }
+}
+
+@ControllerAdvice
+class GlobalExceptionHandler {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleResourceNotFound(ResourceNotFoundException ex) {
+        return new ErrorResponse("RESOURCE_NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class) // Example for bean validation errors
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                                .collect(Collectors.toList());
+        return new ErrorResponse("VALIDATION_ERROR", "Input validation failed", errors);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleGenericError(Exception ex) {
+        // Log the full exception internally
+        // logger.error("Unhandled exception:", ex);
+        return new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred.");
+    }
+}
+// Custom exception
+class ResourceNotFoundException extends RuntimeException { public ResourceNotFoundException(String msg){ super(msg);}}
+```
+
+**Bad Example:**
+
+```java
+@RestController
+public class BadErrorHandlingController {
+    @GetMapping("/items/{id}")
+    public ResponseEntity<String> getItem(@PathVariable String id) {
+        if (id.equals("unknown")) {
+            // Bad: Returning plain text error, or HTML, or inconsistent format.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not found!"); 
+        }
+        try {
+            // ... some logic that might throw an exception ...
+            if(id.equals("fail")) throw new NullPointerException("Simulated internal error");
+            return ResponseEntity.ok("Item data");
+        } catch (Exception e) {
+            // Bad: Exposing stack trace to the client in production.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
+    }
+}
+```
+
+## Rule 7: Secure Your APIs
+
+Title: Implement Robust Security Measures
+Description: Protect your APIs from common threats. Use HTTPS for all communication. Implement proper authentication (e.g., OAuth 2.0, JWT) and authorization (e.g., role-based access control). Validate all input data to prevent injection attacks (SQLi, XSS). Apply rate limiting and throttling to prevent abuse.
+
+**Good example (Conceptual - actual implementation involves security frameworks like Spring Security):**
+
+```java
+// In a Spring Security configuration:
+/*
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable() // Consider CSRF protection needs
+            .authorizeRequests()
+                .antMatchers("/public/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN") // Role-based authorization
+                .anyRequest().authenticated()       // All other requests need authentication
+            .and()
+            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt); // Example: JWT authentication
+            // .httpBasic(); // Or basic auth for simplicity in some cases
+    }
+    // ... user details service, password encoder, etc. ...
+}
+*/
+
+// In a controller method:
+// @PreAuthorize("hasAuthority('SCOPE_read:users')") // Example: OAuth2 scope-based authorization
+// @GetMapping("/users/{id}")
+// public UserDTO getUser(@PathVariable String id) { ... }
+```
+
+**Bad Example:**
+
+```java
+@RestController
+public class InsecureController {
+    // Bad: No authentication or authorization for sensitive operations.
+    @PostMapping("/admin/deleteAllData")
+    public String deleteAllData() {
+        System.out.println("All data deleted! (INSECURE - NO AUTH)");
+        return "All data wiped.";
+    }
+
+    // Bad: Trusting user input directly in a query (conceptual SQLi vulnerability).
+    @GetMapping("/products")
+    public List<ProductDTO> searchProducts(@RequestParam String category) {
+        // String query = "SELECT * FROM products WHERE category = '" + category + "'"; // SQL Injection risk!
+        // Use PreparedStatement or an ORM to prevent SQLi.
+        System.out.println("Searching for category (raw input): " + category);
+        return List.of();
+    }
+}
+```
+
+## Rule 8: Document Your APIs
+
+Title: Provide Clear and Comprehensive API Documentation
+Description: Maintain up-to-date documentation for your API. Tools like Swagger/OpenAPI can be used to generate interactive documentation from code annotations. Documentation should cover resource URIs, HTTP methods, request/response formats (including DTO schemas), expected status codes, authentication methods, and error responses.
+
+**Good example (Using Springdoc OpenAPI / Swagger annotations):**
+
+```java
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+// Assume other necessary imports like Spring MVC, DTOs etc.
+
+@RestController
+@RequestMapping("/api/v1/widgets")
+@Tag(name = "Widget API", description = "APIs for managing widgets")
+public class WidgetController {
+
+    @Operation(summary = "Get a widget by its ID",
+               description = "Returns a single widget based on the provided ID.",
+               responses = {
+                   @ApiResponse(responseCode = "200", description = "Successfully retrieved widget",
+                                content = @Content(mediaType = "application/json", schema = @Schema(implementation = WidgetDTO.class))),
+                   @ApiResponse(responseCode = "404", description = "Widget not found",
+                                content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+               })
+    @GetMapping("/{widgetId}")
+    public ResponseEntity<WidgetDTO> getWidgetById(
+            @Parameter(description = "ID of the widget to retrieve", required = true) 
+            @PathVariable String widgetId) {
+        // ... logic ...
+        // return ResponseEntity.ok(new WidgetDTO(widgetId, "Sample Widget"));
+        // For example, if not found:
+        if ("unknown".equals(widgetId)) { 
+            throw new ResourceNotFoundException("Widget with ID " + widgetId + " not found.");
+        }
+        return ResponseEntity.ok(new WidgetDTO()); // Placeholder
+    }
+}
+class WidgetDTO { /* fields, getters, setters */ }
+// ErrorResponse and ResourceNotFoundException as defined in Rule 6
+```
+
+**Bad Example (No Documentation or Incomplete):**
+
+```java
+// No API documentation tool usage, comments are sparse or missing.
+@RestController
+@RequestMapping("/legacy/things")
+public class LegacyThingController {
+    // What does this do? What are parameters? What are responses?
+    @GetMapping("/{id}")
+    public Object getAThing(@PathVariable String id, @RequestParam(required = false) String type) {
+        // ... complex logic ...
+        return new Object(); // Unclear what this object structure is.
+    }
+}
+// Clients have to guess or read source code to understand how to use the API.
+```

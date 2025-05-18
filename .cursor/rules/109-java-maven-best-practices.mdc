@@ -1,0 +1,408 @@
+---
+description: Maven Best Practices
+globs: pom.xml
+alwaysApply: false
+---
+# Maven Best Practices
+
+## Table of contents
+
+- Rule 1: Effective Dependency Management
+- Rule 2: Standard Directory Layout
+- Rule 3: Plugin Management and Configuration
+- Rule 4: Use Build Profiles for Environment-Specific Configurations
+- Rule 5: Keep POMs Readable and Maintainable
+- Rule 6: Manage Repositories Explicitly
+
+## Rule 1: Effective Dependency Management
+
+Title: Manage Dependencies Effectively using `dependencyManagement` and BOMs
+Description: Use the `<dependencyManagement>` section in parent POMs or import Bill of Materials (BOMs) to centralize and control dependency versions. This helps avoid version conflicts and ensures consistency across multi-module projects. Avoid hardcoding versions directly in `<dependencies>` when managed elsewhere.
+
+**Good example:**
+
+```xml
+<!-- Parent POM -->
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>my-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <spring.version>5.3.23</spring.version>
+    <junit.version>5.9.0</junit.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- Import a BOM -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-dependencies</artifactId>
+          <version>2.7.5</version>
+          <type>pom</type>
+          <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
+
+<!-- Child POM -->
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.example</groupId>
+    <artifactId>my-parent</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>my-module</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <!-- Version is inherited from parent's dependencyManagement -->
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <!-- Version and scope inherited -->
+    </dependency>
+  </dependencies>
+</project>
+```
+
+**Bad Example:**
+
+```xml
+<!-- Child POM hardcoding versions -->
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>my-other-module</artifactId>
+  <version>1.0.0</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.3.20</version> <!-- Hardcoded, may differ from parent's intention -->
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.8.1</version> <!-- Different version, potential conflict -->
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+```
+
+## Rule 2: Standard Directory Layout
+
+Title: Adhere to the Standard Directory Layout
+Description: Follow Maven's convention for directory structure (`src/main/java`, `src/main/resources`, `src/test/java`, `src/test/resources`, etc.). This makes projects easier to understand and build, as Maven relies on these defaults.
+
+**Good example:**
+
+```
+my-app/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/
+    │   │   └── com/example/myapp/App.java
+    │   └── resources/
+    │       └── application.properties
+    └── test/
+        ├── java/
+        │   └── com/example/myapp/AppTest.java
+        └── resources/
+            └── test-data.xml
+```
+
+**Bad Example:**
+
+```
+my-app/
+├── pom.xml
+├── sources/  <!-- Non-standard -->
+│   └── com/example/myapp/App.java
+├── res/      <!-- Non-standard -->
+│   └── config.properties
+└── tests/    <!-- Non-standard -->
+    └── com/example/myapp/AppTest.java
+<!-- This would require explicit configuration in pom.xml to specify source/resource directories -->
+```
+
+## Rule 3: Plugin Management and Configuration
+
+Title: Manage Plugin Versions and Configurations Centrally
+Description: Use `<pluginManagement>` in a parent POM to define plugin versions and common configurations. Child POMs can then use the plugins without specifying versions, ensuring consistency. Override configurations in child POMs only when necessary.
+
+**Good example:**
+
+```xml
+<!-- Parent POM -->
+<project>
+  <!-- ... -->
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.10.1</version>
+          <configuration>
+            <source>17</source>
+            <target>17</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
+
+<!-- Child POM -->
+<project>
+  <!-- ... -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <!-- Version and basic configuration inherited -->
+      </plugin>
+    </plugins>
+  </build>
+</project>
+```
+
+**Bad Example:**
+
+```xml
+<!-- Child POM -->
+<project>
+  <!-- ... -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version> <!-- Different version, potentially older/incompatible -->
+        <configuration>
+          <source>11</source>   <!-- Different configuration -->
+          <target>11</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+```
+
+## Rule 4: Use Build Profiles for Environment-Specific Configurations
+
+Title: Employ Build Profiles for Environment-Specific Settings
+Description: Use Maven profiles to customize build settings for different environments (e.g., dev, test, prod) or other conditional scenarios. This can include different dependencies, plugin configurations, or properties. Activate profiles via command line, OS, JDK, or file presence.
+
+**Good example:**
+
+```xml
+<project>
+  <!-- ... -->
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <database.url>jdbc:h2:mem:devdb</database.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <database.url>jdbc:postgresql://prodserver/mydb</database.url>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals><goal>run</goal></goals>
+                <configuration>
+                  <target>
+                    <!-- Minify JS/CSS for prod -->
+                    <echo>Simulating minification for prod</echo>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+<!-- Activation: mvn clean install -P prod -->
+```
+
+**Bad Example:**
+
+```xml
+<!-- Commented out sections for different environments -->
+<project>
+  <!-- ... -->
+  <properties>
+    <!-- <database.url>jdbc:h2:mem:devdb</database.url> -->
+    <database.url>jdbc:postgresql://prodserver/mydb</database.url> <!-- Manually switch by commenting/uncommenting -->
+  </properties>
+</project>
+```
+
+## Rule 5: Keep POMs Readable and Maintainable
+
+Title: Structure POMs Logically for Readability
+Description: Organize your `pom.xml` sections in a consistent order (e.g., project coordinates, parent, properties, dependencyManagement, dependencies, build, profiles, repositories). Use properties for recurring versions or values. Add comments for complex configurations.
+
+**Good example:**
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project Coordinates -->
+    <groupId>com.example</groupId>
+    <artifactId>my-app</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>My Application</name>
+    <description>A sample application.</description>
+
+    <!-- Parent (if any) -->
+    <!-- ... -->
+
+    <!-- Properties -->
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <some.library.version>2.5.1</some.library.version>
+    </properties>
+
+    <!-- Dependency Management -->
+    <dependencyManagement>
+        <!-- ... -->
+    </dependencyManagement>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>org.some.library</groupId>
+            <artifactId>some-library-core</artifactId>
+            <version>${some.library.version}</version>
+        </dependency>
+        <!-- ... -->
+    </dependencies>
+
+    <!-- Build Configuration -->
+    <build>
+        <!-- ... -->
+    </build>
+
+    <!-- Profiles (if any) -->
+    <!-- ... -->
+
+    <!-- Repositories and Plugin Repositories (if needed) -->
+    <!-- ... -->
+</project>
+```
+
+**Bad Example:**
+
+```xml
+<!-- Haphazard order, missing properties for versions -->
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>org.some.library</groupId>
+      <artifactId>some-library-core</artifactId>
+      <version>2.5.1</version> <!-- Version hardcoded, repeated elsewhere -->
+    </dependency>
+  </dependencies>
+  <modelVersion>4.0.0</modelVersion>
+  <build>
+    <!-- ... -->
+  </build>
+  <groupId>com.example</groupId>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <artifactId>my-app</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+</project>
+```
+
+## Rule 6: Manage Repositories Explicitly
+
+Title: Declare Custom Repositories Explicitly and Minimize Their Use
+Description: Prefer dependencies from Maven Central. If custom repositories are necessary, declare them in the `<repositories>` section and `<pluginRepositories>` for plugins. It's often better to manage these in a company-wide Nexus/Artifactory instance configured in `settings.xml` rather than per-project POMs. Avoid relying on transitive repositories.
+
+**Good example:**
+
+```xml
+<project>
+  <!-- ... -->
+  <repositories>
+    <repository>
+      <id>my-internal-repo</id>
+      <url>https://nexus.example.com/repository/maven-releases/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>my-internal-plugins</id>
+      <url>https://nexus.example.com/repository/maven-plugins/</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
+<!-- Better: Configure these in settings.xml and use a repository manager -->
+```
+
+**Bad Example:**
+
+```xml
+<!-- No explicit repository for a non-central artifact, relying on developer's local settings or transitive ones -->
+<project>
+  <!-- ... -->
+  <dependencies>
+    <dependency>
+      <groupId>com.internal.stuff</groupId>
+      <artifactId>internal-lib</artifactId>
+      <version>1.0</version>
+      <!-- If this is not in Maven Central, the build will fail unless
+           the repository is configured in settings.xml or a parent POM.
+           Relying on implicit configurations makes builds less portable. -->
+    </dependency>
+  </dependencies>
+</project>
+```

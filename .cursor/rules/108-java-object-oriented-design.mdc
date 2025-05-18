@@ -1,0 +1,799 @@
+---
+description: Java Object-Oriented Design Guidelines
+globs: **/*.java
+alwaysApply: false
+---
+# Java Object-Oriented Design Guidelines
+
+This document provides guidelines for designing and refactoring objects in Java projects, promoting maintainable, flexible, and understandable code.
+
+## Table of contents
+
+- Rule 1: Adhere to Core Design Principles (SOLID, DRY, YAGNI)
+- Rule 2: Follow Best Practices for Class and Interface Design
+- Rule 3: Master Encapsulation, Inheritance, and Polymorphism
+- Rule 4: Identify and Refactor Object-Oriented Design Code Smells
+
+## Rule 1: Adhere to Core Design Principles (SOLID, DRY, YAGNI)
+
+Title: Apply Fundamental Software Design Principles
+Description: Core principles like SOLID, DRY, and YAGNI are foundational to good object-oriented design, leading to more robust, maintainable, and understandable systems.
+
+### Sub-Rule 1.1: Single Responsibility Principle (SRP)
+Title: A class should have one, and only one, reason to change.
+Description: This means a class should only have one job or primary responsibility. If a class handles multiple responsibilities, changes to one responsibility might inadvertently affect others.
+
+**Good example:**
+```java
+// Good: Separate responsibilities
+class UserData {
+    private String name;
+    private String email;
+    // constructor, getters
+    public UserData(String name, String email) { this.name = name; this.email = email; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+}
+
+class UserPersistence {
+    public void saveUser(UserData user) {
+        System.out.println("Saving user " + user.getName() + " to database.");
+        // Database saving logic
+    }
+}
+
+class UserEmailer {
+    public void sendWelcomeEmail(UserData user) {
+        System.out.println("Sending welcome email to " + user.getEmail());
+        // Email sending logic
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: User class with multiple responsibilities
+class User {
+    private String name;
+    private String email;
+
+    public User(String name, String email) { this.name = name; this.email = email; }
+
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+
+    public void saveToDatabase() {
+        System.out.println("Saving user " + name + " to database.");
+        // Database logic mixed in
+    }
+
+    public void sendWelcomeEmail() {
+        System.out.println("Sending welcome email to " + email);
+        // Email logic mixed in
+    }
+    // If email sending changes, or DB logic changes, this class needs to change.
+}
+```
+
+### Sub-Rule 1.2: Open/Closed Principle (OCP)
+Title: Software entities should be open for extension but closed for modification.
+Description: You should be able to add new functionality without changing existing, tested code. This is often achieved using interfaces, abstract classes, and polymorphism.
+
+**Good example:**
+```java
+interface Shape {
+    double calculateArea();
+}
+
+class Rectangle implements Shape {
+    private double width, height;
+    public Rectangle(double w, double h) { width=w; height=h; }
+    @Override public double calculateArea() { return width * height; }
+}
+
+class Circle implements Shape {
+    private double radius;
+    public Circle(double r) { radius=r; }
+    @Override public double calculateArea() { return Math.PI * radius * radius; }
+}
+
+// New shapes (e.g., Triangle) can be added by implementing Shape
+// without modifying existing Shape, Rectangle, Circle, or AreaCalculator.
+class AreaCalculator {
+    public double getTotalArea(List<Shape> shapes) {
+        return shapes.stream().mapToDouble(Shape::calculateArea).sum();
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: AreaCalculator needs modification for new shapes
+class AreaCalculatorBad {
+    public double calculateRectangleArea(Rectangle rect) { return rect.width * rect.height; }
+    public double calculateCircleArea(Circle circ) { return Math.PI * circ.radius * circ.radius; }
+    // If a Triangle class is added, this class must be modified to add calculateTriangleArea().
+}
+class Rectangle { public double width, height; /* ... */ }
+class Circle { public double radius; /* ... */ }
+```
+
+### Sub-Rule 1.3: Liskov Substitution Principle (LSP)
+Title: Subtypes must be substitutable for their base types.
+Description: Objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program or causing unexpected behavior.
+
+**Good example:**
+```java
+interface Bird {
+    void move();
+}
+
+class FlyingBird implements Bird {
+    public void fly() { System.out.println("Flying high!"); }
+    @Override public void move() { fly(); }
+}
+
+class Sparrow extends FlyingBird { /* Can fly */ }
+
+class Ostrich implements Bird { // Ostrich is a Bird but doesn't fly in the typical sense
+    public void runFast() { System.out.println("Running fast on the ground!"); }
+    @Override public void move() { runFast(); }
+}
+
+public class BirdLSPExample {
+    public static void makeBirdMove(Bird bird) {
+        bird.move(); // Works correctly for Sparrow (flies) and Ostrich (runs)
+    }
+    public static void main(String args) {
+        makeBirdMove(new Sparrow());
+        makeBirdMove(new Ostrich());
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Violating LSP
+class Bird {
+    public void fly() { System.out.println("Bird is flying."); }
+}
+
+class Penguin extends Bird {
+    @Override
+    public void fly() {
+        // Penguins can't fly, so this method might do nothing or throw an exception.
+        // This violates LSP because a Penguin can't simply replace a generic Bird where fly() is expected.
+        throw new UnsupportedOperationException("Penguins can't fly.");
+    }
+    public void swim() { System.out.println("Penguin is swimming."); }
+}
+
+public class BirdLSPViolation {
+    public static void letTheBirdFly(Bird bird) {
+        bird.fly(); // This will crash if bird is a Penguin
+    }
+    public static void main(String args) {
+        try {
+            letTheBirdFly(new Penguin());
+        } catch (UnsupportedOperationException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+}
+```
+
+### Sub-Rule 1.4: Interface Segregation Principle (ISP)
+Title: Clients should not be forced to depend on interfaces they do not use.
+Description: It's better to have many small, specific interfaces (role interfaces) than one large, general-purpose interface. This prevents classes from having to implement methods they don't need.
+
+**Good example:**
+```java
+// Good: Segregated interfaces
+interface Worker {
+    void work();
+}
+
+interface Eater {
+    void eat();
+}
+
+class HumanWorker implements Worker, Eater {
+    @Override public void work() { System.out.println("Human working."); }
+    @Override public void eat() { System.out.println("Human eating."); }
+}
+
+class RobotWorker implements Worker {
+    @Override public void work() { System.out.println("Robot working efficiently."); }
+    // RobotWorker does not need to implement eat()
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Fat interface
+interface IWorkerAndEater {
+    void work();
+    void eat(); // All implementers must provide eat(), even if they don't eat.
+}
+
+class Human implements IWorkerAndEater {
+    @Override public void work() { /* ... */ }
+    @Override public void eat() { /* ... */ }
+}
+
+class Robot implements IWorkerAndEater {
+    @Override public void work() { System.out.println("Robot working."); }
+    @Override public void eat() { 
+        // Robots don't eat. This method is forced and likely empty or throws exception.
+        throw new UnsupportedOperationException("Robots don't eat."); 
+    }
+}
+```
+
+### Sub-Rule 1.5: Dependency Inversion Principle (DIP)
+Title: High-level modules should not depend on low-level modules. Both should depend on abstractions.
+Description: Abstractions (e.g., interfaces) should not depend on details. Details (concrete implementations) should depend on abstractions. This promotes loose coupling.
+
+**Good example:**
+```java
+// Abstraction
+interface MessageSender {
+    void sendMessage(String message);
+}
+
+// Low-level module (detail)
+class EmailSender implements MessageSender {
+    @Override public void sendMessage(String message) { System.out.println("Email sent: " + message); }
+}
+
+// Low-level module (detail)
+class SMSSender implements MessageSender {
+    @Override public void sendMessage(String message) { System.out.println("SMS sent: " + message); }
+}
+
+// High-level module
+class NotificationService {
+    private final MessageSender sender; // Depends on abstraction
+
+    public NotificationService(MessageSender sender) { // Dependency injected
+        this.sender = sender;
+    }
+
+    public void notify(String message) {
+        sender.sendMessage(message);
+    }
+}
+
+public class DIPExample {
+    public static void main(String args) {
+        NotificationService emailNotifier = new NotificationService(new EmailSender());
+        emailNotifier.notify("Hello via Email!");
+        
+        NotificationService smsNotifier = new NotificationService(new SMSSender());
+        smsNotifier.notify("Hello via SMS!");
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: High-level module depends directly on low-level module
+class EmailerBad {
+    public void sendEmail(String message) { System.out.println("Email sent: " + message); }
+}
+
+class NotificationServiceBad {
+    private EmailerBad emailer; // Direct dependency on concrete EmailerBad
+
+    public NotificationServiceBad() {
+        this.emailer = new EmailerBad(); // Instantiates concrete class
+    }
+
+    public void sendNotification(String message) {
+        emailer.sendEmail(message); // Tightly coupled
+    }
+    // If we want to use SMSSender, NotificationServiceBad needs to be changed.
+}
+```
+
+### Sub-Rule 1.6: DRY (Don't Repeat Yourself)
+Title: Avoid duplication of code.
+Description: Every piece of knowledge or logic must have a single, unambiguous, authoritative representation within a system. Use methods, classes, inheritance, or composition to centralize and reuse code.
+
+**Good example:**
+```java
+class CalculationUtils {
+    // Centralized validation logic
+    public static void validatePositive(double value, String name) {
+        if (value <= 0) {
+            throw new IllegalArgumentException(name + " must be positive.");
+        }
+    }
+}
+
+class RectangleArea {
+    public double calculate(double width, double height) {
+        CalculationUtils.validatePositive(width, "Width");
+        CalculationUtils.validatePositive(height, "Height");
+        return width * height;
+    }
+}
+
+class CircleVolume {
+    public double calculate(double radius, double height) {
+        CalculationUtils.validatePositive(radius, "Radius");
+        CalculationUtils.validatePositive(height, "Height");
+        return Math.PI * radius * radius * height;
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Duplicated validation logic
+class RectangleAreaBad {
+    public double calculate(double width, double height) {
+        if (width <= 0) throw new IllegalArgumentException("Width must be positive."); // Duplicated
+        if (height <= 0) throw new IllegalArgumentException("Height must be positive."); // Duplicated
+        return width * height;
+    }
+}
+
+class CircleVolumeBad {
+    public double calculate(double radius, double height) {
+        if (radius <= 0) throw new IllegalArgumentException("Radius must be positive."); // Duplicated
+        if (height <= 0) throw new IllegalArgumentException("Height must be positive."); // Duplicated
+        return Math.PI * radius * radius * height;
+    }
+}
+```
+
+### Sub-Rule 1.7: YAGNI (You Ain't Gonna Need It)
+Title: Implement features only when you actually need them.
+Description: Avoid implementing functionality based on speculation that it might be needed in the future. This helps prevent over-engineering and keeps the codebase simpler and more focused on current requirements.
+
+**Good example:**
+```java
+// Good: Simple class meeting current needs
+class ReportGenerator {
+    public String generateSimpleReport(List<String> data) {
+        System.out.println("Generating simple report.");
+        return "Report: " + String.join(", ", data);
+    }
+    // If PDF export is needed later, it can be added then.
+    // No need to implement generatePdfReport, generateExcelReport etc. upfront.
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Over-engineered with features not currently needed
+class ReportGeneratorOverkill {
+    public String generateHtmlReport(List<String> data) { /* ... */ return "html";}
+    public byte generatePdfReport(List<String> data) { 
+        System.out.println("Generating PDF report (not actually used yet).");
+        return new byte0; 
+    }
+    public byte generateExcelReport(List<String> data) { 
+        System.out.println("Generating Excel report (not actually used yet).");
+        return new byte0;
+    }
+    // Current requirement is only for HTML, but PDF and Excel are added "just in case".
+}
+```
+
+## Rule 2: Follow Best Practices for Class and Interface Design
+
+Title: Design Well-Structured and Maintainable Classes and Interfaces
+Description: Good class and interface design is crucial for building flexible and understandable OOD systems.
+- **Favor Composition over Inheritance:** Where possible, use composition (has-a relationship) to reuse code and build complex objects by assembling smaller, focused objects. Inheritance (is-a relationship) can lead to tight coupling and fragile class hierarchies if overused or misused.
+- **Program to an Interface, Not an Implementation:** Depend on abstractions (interfaces or abstract classes) rather than concrete implementations. This promotes loose coupling and allows different implementations to be swapped easily.
+- **Keep Classes Small and Focused:** Similar to SRP, ensure classes are not trying to do too much. Smaller classes are easier to understand, test, and maintain.
+- **Design for Immutability:** Immutable objects (whose state cannot change after creation) are simpler to reason about, inherently thread-safe, and can be freely shared without risk of unintended modification.
+- **Clear Naming:** Use clear, descriptive, and unambiguous names for classes, interfaces, methods, and variables that accurately reveal their purpose and intent.
+
+**Good example:**
+(Illustrating composition and programming to an interface)
+```java
+// Interface (Abstraction)
+interface Engine {
+    void start();
+    void stop();
+}
+
+// Concrete Implementations
+class PetrolEngine implements Engine {
+    @Override public void start() { System.out.println("Petrol engine started."); }
+    @Override public void stop() { System.out.println("Petrol engine stopped."); }
+}
+
+class ElectricEngine implements Engine {
+    @Override public void start() { System.out.println("Electric engine silently started."); }
+    @Override public void stop() { System.out.println("Electric engine silently stopped."); }
+}
+
+// Class using Composition and Programming to an Interface
+class Car {
+    private final Engine engine; // Depends on Engine interface (abstraction)
+    private final String modelName;
+
+    // Engine is injected (composition)
+    public Car(String modelName, Engine engine) {
+        this.modelName = modelName;
+        this.engine = engine;
+    }
+
+    public void startCar() {
+        System.out.print(modelName + ": ");
+        engine.start();
+    }
+
+    public void stopCar() {
+        System.out.print(modelName + ": ");
+        engine.stop();
+    }
+    
+    public String getModelName(){ return modelName; }
+}
+
+public class ClassDesignExample {
+    public static void main(String args) {
+        Car petrolCar = new Car("SedanX", new PetrolEngine());
+        Car electricCar = new Car("EVMax", new ElectricEngine());
+
+        petrolCar.startCar();
+        electricCar.startCar();
+        petrolCar.stopCar();
+        electricCar.stopCar();
+    }
+}
+```
+
+**Bad Example:**
+(Illustrating tight coupling through concrete implementation and potentially problematic inheritance)
+```java
+// Bad: Tight coupling, not programming to an interface
+class BadCar {
+    private final BadPetrolEngine engine; // Direct dependency on concrete BadPetrolEngine
+    public BadCar() {
+        this.engine = new BadPetrolEngine(); // Instantiates concrete class
+    }
+    public void start() { engine.startPetrol(); }
+    // If we want an electric car, this class needs significant changes or a new similar class.
+}
+class BadPetrolEngine { public void startPetrol() { System.out.println("Bad petrol engine starts."); } }
+
+// Bad: Potentially misusing inheritance (Vehicle IS-A PetrolEngine? Not really)
+/*
+abstract class Vehicle {
+    // ... common vehicle properties ...
+}
+class CarExtendsPetrolEngine extends BadPetrolEngine { // Car IS-A PetrolEngine? Incorrect modeling.
+    public void drive() { System.out.println("Driving car that IS-A PetrolEngine."); }
+}
+*/
+```
+
+## Rule 3: Master Encapsulation, Inheritance, and Polymorphism
+
+Title: Effectively Utilize Core Object-Oriented Concepts
+Description: Encapsulation, Inheritance, and Polymorphism are the three pillars of object-oriented programming.
+
+### Sub-Rule 3.1: Encapsulation
+Title: Protect Internal State and Implementation Details
+Description:
+- Hide the internal state (fields) and implementation details of an object from the outside world.
+- Expose a well-defined public interface (methods) for interacting with the object.
+- Use access modifiers (`private`, `protected`, `default/package-private`, `public`) effectively to control visibility and protect invariants.
+
+**Good example:**
+```java
+class BankAccount {
+    private double balance; // Encapsulated: internal state is private
+    private final String accountNumber;
+
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        if (initialBalance < 0) throw new IllegalArgumentException("Initial balance cannot be negative.");
+        this.balance = initialBalance;
+    }
+
+    // Public interface to interact with the balance
+    public void deposit(double amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Deposit amount must be positive.");
+        this.balance += amount;
+        System.out.println("Deposited: " + amount + ", New Balance: " + this.balance);
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        if (amount > this.balance) throw new IllegalArgumentException("Insufficient funds.");
+        this.balance -= amount;
+        System.out.println("Withdrew: " + amount + ", New Balance: " + this.balance);
+    }
+
+    public double getBalance() { // Controlled access to balance
+        return this.balance;
+    }
+    public String getAccountNumber() { return this.accountNumber; }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Poor encapsulation, exposing internal state
+class UnsafeBankAccount {
+    public double balance; // Public field: internal state exposed and can be freely modified
+    public String accountNumber;
+
+    public UnsafeBankAccount(String accNum, double initial) { this.accountNumber = accNum; this.balance = initial; }
+    // No methods to control how balance is changed, invariants can be broken.
+}
+public class BadEncapsulationExample {
+    public static void main(String args) {
+        UnsafeBankAccount account = new UnsafeBankAccount("123", 100.0);
+        account.balance = -500.0; // Direct modification, potentially breaking business rules
+        System.out.println("Unsafe balance: " + account.balance);
+    }
+}
+```
+
+### Sub-Rule 3.2: Inheritance
+Title: Model "is-a" Relationships and Ensure LSP
+Description:
+- Use inheritance to model true "is-a" relationships, where a subclass is a more specific type of its superclass.
+- Ensure that the Liskov Substitution Principle (LSP) is followed: subclasses must be substitutable for their base types without altering the correctness of the program.
+- Be cautious of deep or wide inheritance hierarchies, as they can become complex, hard to maintain, and may indicate a need for composition or different abstractions.
+
+**Good example:**
+(See LSP good example under Rule 1.3, or consider this Animal example)
+```java
+abstract class Animal {
+    private String name;
+    public Animal(String name) { this.name = name; }
+    public String getName() { return name; }
+    public abstract void makeSound(); // Abstract method for polymorphism
+}
+
+class Dog extends Animal { // Dog IS-A Animal
+    public Dog(String name) { super(name); }
+    @Override public void makeSound() { System.out.println(getName() + " says: Woof!"); }
+    public void fetch() { System.out.println(getName() + " is fetching."); }
+}
+
+class Cat extends Animal { // Cat IS-A Animal
+    public Cat(String name) { super(name); }
+    @Override public void makeSound() { System.out.println(getName() + " says: Meow!"); }
+    public void purr() { System.out.println(getName() + " is purring."); }
+}
+
+public class InheritanceExample {
+    public static void main(String args) {
+        Animal myDog = new Dog("Buddy");
+        Animal myCat = new Cat("Whiskers");
+        myDog.makeSound();
+        myCat.makeSound();
+        // ((Dog)myDog).fetch(); // Can cast if sure of type to access specific methods
+    }
+}
+```
+
+**Bad Example:**
+(See LSP bad example under Rule 1.3, or a fragile base class example)
+```java
+// Bad: Fragile base class or incorrect "is-a" relationship
+class Window {
+    public void open() { System.out.println("Window opened."); }
+    public void close() { System.out.println("Window closed."); }
+}
+
+// class CarDoor extends Window { /* A CarDoor IS-A Window? Not really. It has a window, but isn't one itself.
+// This leads to inheriting methods that might not make sense (e.g. a CarDoor might have a window that opens/closes,
+// but the door itself doesn't open/close in the same way a house window does).
+// This is better modeled with composition: CarDoor HAS-A WindowComponent. */
+// }
+
+class BetterCarDoor {
+    private WindowComponent window = new WindowComponent();
+    public void openDoor() { System.out.println("Car door opened."); }
+    public void closeDoor() { System.out.println("Car door closed."); }
+    public void openWindow() { window.open(); }
+    public void closeWindow() { window.close(); }
+    static class WindowComponent { /* Similar to Window */ 
+        public void open() {System.out.println("Car window rolling down.");}
+        public void close() {System.out.println("Car window rolling up.");}
+    }
+}
+```
+
+### Sub-Rule 3.3: Polymorphism
+Title: Enable Objects to Respond to the Same Message Differently
+Description:
+- Polymorphism allows objects of different classes (that share a common superclass or interface) to respond to the same message (method call) in their own specific ways.
+- It is primarily leveraged through inheritance (method overriding) and interfaces (implementing interface methods).
+- Polymorphism simplifies client code, as it can interact with different types of objects through a common interface without needing to know their concrete types.
+
+**Good example:**
+```java
+interface Drawable {
+    void draw();
+}
+
+class CircleShape implements Drawable {
+    @Override public void draw() { System.out.println("Drawing a Circle: O"); }
+}
+
+class SquareShape implements Drawable {
+    @Override public void draw() { System.out.println("Drawing a Square: "); }
+}
+
+class TriangleShape implements Drawable {
+    @Override public void draw() { System.out.println("Drawing a Triangle: /\\"); }
+}
+
+public class PolymorphismExample {
+    public static void drawShapes(List<Drawable> shapes) {
+        for (Drawable shape : shapes) {
+            shape.draw(); // Polymorphic call: actual method executed depends on shape's concrete type
+        }
+    }
+    public static void main(String args) {
+        List<Drawable> myShapes = List.of(
+            new CircleShape(), 
+            new SquareShape(), 
+            new TriangleShape()
+        );
+        drawShapes(myShapes);
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Lacking polymorphism, using type checking and casting
+class ShapeDrawer {
+    public void drawSpecificShape(Object shape) {
+        if (shape instanceof CircleShapeBad) {
+            ((CircleShapeBad) shape).drawCircle();
+        } else if (shape instanceof SquareShapeBad) {
+            ((SquareShapeBad) shape).drawSquare();
+        } else if (shape instanceof TriangleShapeBad) {
+            ((TriangleShapeBad) shape).drawTriangle();
+        } else {
+            System.out.println("Unknown shape type.");
+        }
+        // This is not polymorphic. Adding new shapes requires modifying this method.
+    }
+}
+
+class CircleShapeBad { public void drawCircle() { System.out.println("Drawing Circle (Bad)."); } }
+class SquareShapeBad { public void drawSquare() { System.out.println("Drawing Square (Bad)."); } }
+class TriangleShapeBad { public void drawTriangle() { System.out.println("Drawing Triangle (Bad)."); } }
+```
+
+## Rule 4: Identify and Refactor Object-Oriented Design Code Smells
+
+Title: Recognize and Address Common OOD Code Smells
+Description: Code smells are symptoms of potential underlying problems in the design. Recognizing and refactoring them can significantly improve code quality.
+
+### Sub-Rule 4.1: Large Class / God Class
+Title: A class that knows or does too much.
+Description: Such classes violate SRP and are hard to understand, maintain, and test. Consider breaking them down into smaller, more focused classes.
+**Good example:** (Separated responsibilities - see SRP Good Example)
+**Bad Example:** (A single class doing parsing, validation, persistence, notification - see SRP Bad Example)
+
+### Sub-Rule 4.2: Feature Envy
+Title: A method that seems more interested in a class other than the one it actually is in.
+Description: This often means the method is using data from another class more than its own. Consider moving the method to the class it's "envious" of, or introduce a new class to mediate.
+
+**Good example:**
+```java
+class Customer {
+    private String name;
+    private Address address;
+    public Customer(String name, Address address) { this.name = name; this.address = address; }
+    public String getFullAddressDetails() { // Method operates on its own Address object
+        return address.getStreet() + ", " + address.getCity() + ", " + address.getZipCode();
+    }
+}
+class Address {
+    private String street, city, zipCode;
+    public Address(String s, String c, String z) { street=s; city=c; zipCode=z; }
+    public String getStreet() { return street; }
+    public String getCity() { return city; }
+    public String getZipCode() { return zipCode; }
+}
+```
+
+**Bad Example:**
+```java
+class Order {
+    private double amount;
+    private Customer customer; // Has a Customer
+    public Order(double amount, Customer customer) { this.amount = amount; this.customer = customer; }
+
+    // Bad: This method is more interested in Customer's Address than Order itself
+    public String getCustomerShippingLabel() {
+        Address addr = customer.getAddress(); // Assuming Customer has getAddress()
+        return customer.getName() + "\n" + addr.getStreet() + 
+               "\n" + addr.getCity() + ", " + addr.getZipCode();
+        // Better: Move this logic to Customer class as getShippingLabel() or similar.
+    }
+}
+// Assume Customer and Address classes from previous example
+```
+
+### Sub-Rule 4.3: Inappropriate Intimacy
+Title: Classes that spend too much time delving into each other's private parts.
+Description: This indicates tight coupling and poor encapsulation. Classes should interact through well-defined public interfaces, not by accessing internal implementation details of others.
+**Good example:** (Classes interact via public methods - see Encapsulation Good Example)
+**Bad Example:**
+```java
+class ServiceA {
+    public int internalCounter = 0; // Public field, bad
+    public void doSomething() { internalCounter++; }
+}
+class ServiceB {
+    public void manipulateServiceA(ServiceA serviceA) {
+        // Bad: Directly accessing and modifying internal state of ServiceA
+        serviceA.internalCounter = 100; 
+        System.out.println("ServiceA counter directly set to: " + serviceA.internalCounter);
+        // Better: ServiceA should have a method like resetCounter(int value) if this is valid behavior.
+    }
+}
+```
+
+### Sub-Rule 4.4: Refused Bequest
+Title: A subclass uses only some of the methods and properties inherited from its parents, or overrides them to do nothing or throw exceptions.
+Description: This might indicate a violation of LSP or an incorrect inheritance hierarchy. The subclass might not truly be a substitutable type of the superclass.
+**Good example:** (Subclass meaningfully uses/extends inherited features - see Inheritance Good Example or LSP Good Example for Ostrich)
+**Bad Example:** (See LSP Bad Example with Penguin not being able to fly)
+
+### Sub-Rule 4.5: Shotgun Surgery
+Title: When a single conceptual change requires modifications in many different classes.
+Description: This often indicates that a single responsibility has been spread too thinly across multiple classes, leading to high coupling and difficulty in making changes.
+**Good example:** (A change in tax calculation logic only requires modification in a `TaxCalculator` class, not in `Order`, `Product`, `Invoice` classes that use it.)
+**Bad Example:** (If changing a discount rule requires updates in `ProductPage`, `ShoppingCart`, `CheckoutService`, and `OrderConfirmationEmail` classes, it's shotgun surgery.)
+
+### Sub-Rule 4.6: Data Clumps
+Title: Bunches of data items that regularly appear together in multiple places (e.g., parameters in multiple methods, fields in several classes).
+Description: These data clumps often represent a missing concept that should be encapsulated into its own object or record.
+
+**Good example:**
+```java
+// Good: Encapsulating related data into a Range object
+record DateRange(LocalDate start, LocalDate end) {
+    public DateRange {
+        if (start.isAfter(end)) throw new IllegalArgumentException("Start date must be before end date.");
+    }
+}
+
+class EventScheduler {
+    public void scheduleEvent(String eventName, DateRange range) {
+        System.out.println("Scheduling " + eventName + " from " + range.start() + " to " + range.end());
+    }
+    public boolean isDateInRange(LocalDate date, DateRange range) {
+        return !date.isBefore(range.start()) && !date.isAfter(range.end());
+    }
+}
+```
+
+**Bad Example:**
+```java
+// Bad: Data clump (startDay, startMonth, startYear, endDay, endMonth, endYear) passed around
+class EventSchedulerBad {
+    public void scheduleEvent(String eventName, 
+                              int startDay, int startMonth, int startYear, 
+                              int endDay, int endMonth, int endYear) {
+        // ... logic using these separate date parts ...
+        System.out.println("Scheduling event with many date parameters.");
+    }
+    public boolean checkOverlap(int sDay1, int sMon1, int sYr1, int eDay1, int eMon1, int eYr1,
+                              int sDay2, int sMon2, int sYr2, int eDay2, int eMon2, int eYr2) {
+        // ... complex logic with many parameters ...
+        return false;
+    }
+    // This pattern of passing around many related date parts is a data clump.
+}
+```
+

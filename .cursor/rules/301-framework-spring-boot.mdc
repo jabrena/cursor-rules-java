@@ -1,6 +1,6 @@
 ---
 description: Spring Boot development guidelines
-globs: .java
+globs: **/*.java
 alwaysApply: false
 ---
 # Spring Boot Development Guidelines

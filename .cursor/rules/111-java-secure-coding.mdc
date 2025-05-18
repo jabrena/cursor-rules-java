@@ -1,0 +1,209 @@
+---
+description: Java Secure coding guidelines
+globs: **/*.java
+alwaysApply: false
+---
+# Java Secure Coding Guidelines
+
+## Table of contents
+
+- Rule 1: Input Validation
+- Rule 2: Protect Against Injection Attacks
+- Rule 3: Minimize Attack Surface
+- Rule 4: Use Strong Cryptography
+- Rule 5: Handle Exceptions Securely
+
+## Rule 1: Input Validation
+
+Title: Validate All Untrusted Inputs
+Description: Always validate and sanitize data received from untrusted sources (users, network, files, etc.) before processing. This helps prevent various attacks like injection, path traversal, and buffer overflows. Validation should check for type, length, format, and range.
+
+**Good example:**
+
+```java
+public void processUserData(String username, String ageString) {
+    if (username == null || !username.matches("^[a-zA-Z0-9_]{3,16}$")) {
+        throw new IllegalArgumentException("Invalid username format.");
+    }
+
+    int age;
+    try {
+        age = Integer.parseInt(ageString);
+        if (age < 0 || age > 120) {
+            throw new IllegalArgumentException("Age out of valid range.");
+        }
+    } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Invalid age format.");
+    }
+
+    // Proceed with validated username and age
+    System.out.println("Processing user: " + username + ", age: " + age);
+}
+```
+
+**Bad Example:**
+
+```java
+public void processUserData(String username, String ageString) {
+    // Directly using input without validation
+    int age = Integer.parseInt(ageString); // Potential NumberFormatException if ageString is not a number
+                                         // No checks for malicious username strings
+
+    System.out.println("Processing user: " + username + ", age: " + age);
+    // This could lead to issues if username is e.g. a script or ageString is not an integer
+}
+```
+
+## Rule 2: Protect Against Injection Attacks
+
+Title: Use Parameterized Queries or Prepared Statements for Database Access
+Description: To prevent SQL Injection, always use parameterized queries (PreparedStatements in JDBC) or an ORM that handles this automatically. Never concatenate user input directly into SQL queries. Similar principles apply to other types of injection (OS command, LDAP, XPath, etc.).
+
+**Good example:**
+
+```java
+// Using PreparedStatement to prevent SQL Injection
+String customerId = request.getParameter("customerId");
+String query = "SELECT * FROM orders WHERE customer_id = ?";
+try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+     PreparedStatement pstmt = con.prepareStatement(query)) {
+
+    pstmt.setString(1, customerId);
+    ResultSet rs = pstmt.executeQuery();
+    // Process results
+} catch (SQLException e) {
+    // Handle exception
+}
+```
+
+**Bad Example:**
+
+```java
+// Vulnerable to SQL Injection
+String customerId = request.getParameter("customerId");
+String query = "SELECT * FROM orders WHERE customer_id = '" + customerId + "'"; // User input directly in query
+try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+     Statement stmt = con.createStatement()) {
+
+    ResultSet rs = stmt.executeQuery(query);
+    // Process results
+} catch (SQLException e) {
+    // Handle exception
+}
+```
+
+## Rule 3: Minimize Attack Surface
+
+Title: Adhere to the Principle of Least Privilege and Minimize Exposure
+Description: Grant only necessary permissions to code and users. Avoid running processes with excessive privileges. Expose only essential functionality and network ports. Regularly review and remove unused features, libraries, and accounts.
+
+**Good example:**
+
+```java
+// A dedicated, less privileged user for a specific task
+// File operations restricted to a specific directory
+
+// In a web application, ensure sensitive endpoints are protected by strong authentication and authorization.
+// For example, an admin panel should only be accessible to admin users.
+
+// Don't run your application server as root.
+```
+
+**Bad Example:**
+
+```java
+// Running a web application with root/administrator privileges.
+// Making all methods in a class public by default, even helper methods.
+// Using a database account with DBA privileges for simple read operations.
+// Leaving debug endpoints or development tools enabled in production.
+```
+
+## Rule 4: Use Strong Cryptography
+
+Title: Employ Current and Robust Cryptographic Algorithms
+Description: Use well-vetted, industry-standard cryptographic libraries and algorithms for hashing, encryption, and digital signatures. Avoid deprecated or weak algorithms (e.g., MD5, SHA1 for hashing passwords, DES). Keep cryptographic keys secure and manage them properly.
+
+**Good example:**
+
+```java
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.SecureRandom;
+import org.mindrot.jbcrypt.BCrypt; // Example for password hashing
+
+public class CryptoUtils {
+    public static SecretKey generateAESKey() throws Exception {
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256, new SecureRandom()); // Use AES-256
+        return keyGen.generateKey();
+    }
+
+    public static String hashPassword(String plainTextPassword) {
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
+
+    public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainTextPassword, hashedPassword);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.security.MessageDigest;
+
+// Using outdated hashing algorithm like MD5 for passwords
+public class WeakCrypto {
+    public static byte[] hashPasswordMD5(String password) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        return md.digest();
+    }
+    // Storing passwords using MD5 is insecure due to vulnerabilities like collision attacks.
+}
+```
+
+## Rule 5: Handle Exceptions Securely
+
+Title: Avoid Exposing Sensitive Information in Error Messages
+Description: Catch exceptions appropriately, but do not reveal sensitive system details or stack traces to users in production. Log detailed error informationサーバーサイド (server-side) for debugging, but provide generic error messages to the client.
+
+**Good example:**
+
+```java
+public void sensitiveOperation() {
+    try {
+        // Perform some operation that might throw an exception
+        // e.g., database access, file operation
+        performAction();
+    } catch (SpecificException e) {
+        // Log detailed error for developers
+        LOGGER.error("Error during sensitive operation for user X: " + e.getMessage(), e);
+        // Provide a generic error message to the user
+        throw new UserFacingException("An unexpected error occurred. Please try again later.");
+    } catch (Exception e) {
+        LOGGER.error("Unexpected critical error: " + e.getMessage(), e);
+        throw new UserFacingException("A critical error occurred. Please contact support.");
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public void sensitiveOperation(HttpServletResponse response) throws IOException {
+    try {
+        // Perform some operation
+        performAction();
+    } catch (SQLException e) {
+        // Exposing stack trace or detailed SQL error to the client is a security risk
+        response.getWriter().println("Database Error: " + e.toString()); // Leaks sensitive info
+        e.printStackTrace(response.getWriter()); // Even worse
+    }
+}
+```
+
+---
+*(Repeat the "Rule X" structure for as many rules as needed)* 

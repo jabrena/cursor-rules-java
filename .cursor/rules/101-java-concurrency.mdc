@@ -1,0 +1,1255 @@
+---
+description: Java rules for Concurrency objects
+globs: **/*.java
+alwaysApply: false
+---
+# Java Concurrency
+
+## Table of contents
+
+- Rule 1: Thread Safety Fundamentals
+- Rule 2: Thread Pool Management
+- Rule 3: Concurrent Design Patterns
+- Rule 4: Asynchronous Programming with CompletableFuture
+- Rule 5: Thread Safety Guidelines (Immutability & Safe Publication)
+- Rule 6: Performance Considerations in Concurrency
+- Rule 7: Testing and Debugging Concurrent Code
+- Rule 8: Embrace Virtual Threads for Enhanced Scalability
+- Rule 9: Simplify Concurrent Code with Structured Concurrency
+- Rule 10: Manage Thread-Shared Data with Scoped Values
+
+## Rule 1: Thread Safety Fundamentals
+
+Title: Understand and Apply Core Thread Safety Concepts
+Description: Ensure data integrity and correct behavior in multi-threaded environments by using thread-safe data structures and appropriate synchronization mechanisms.
+- Prefer `java.util.concurrent` collections over older synchronized wrappers.
+- Utilize immutable objects to eliminate risks of concurrent modification.
+- Employ thread-local variables for state confined to a single thread.
+- Use atomic classes (`java.util.concurrent.atomic`) for lock-free operations on single variables.
+- Choose flexible locking with `ReentrantLock` or `ReadWriteLock` for more complex scenarios.
+- Favor `java.util.concurrent` utilities over manual `wait()/notify()`.
+
+**Good example:**
+
+```java
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+// Dummy classes for context
+class Task {}
+class Event {}
+class State {
+    public State(String initialState) {} // Constructor for initial state
+} 
+class UserContext {}
+class Item {}
+
+class ThreadSafetyExamples {
+    // Preferred concurrent collections
+    Map<String, String> concurrentMap = new ConcurrentHashMap<>();
+    Queue<Task> taskQueue = new ConcurrentLinkedQueue<>();
+    BlockingQueue<Event> eventQueue = new LinkedBlockingQueue<>();
+
+    // Atomic variables
+    AtomicInteger counter = new AtomicInteger(0);
+    AtomicReference<State> stateRef = new AtomicReference<>(new State("initial"));
+
+    // Thread-local storage
+    private static final ThreadLocal<UserContext> userContext =
+        ThreadLocal.withInitial(UserContext::new);
+
+    // Using ReentrantLock
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition(); // Example condition
+    private int itemCount = 0; // Example shared resource
+    private final int MAX_ITEMS = 10; // Example capacity
+
+    private boolean isFull() {
+        return itemCount >= MAX_ITEMS;
+    }
+     private boolean isEmpty() { // Example helper
+        return itemCount <= 0;
+    }
+
+
+    public void addItem(Item item) throws InterruptedException { // Added throws for await
+        lock.lock();
+        try {
+            while (isFull()) {
+                System.out.println("Queue is full, waiting to add item...");
+                notFull.await(); // Wait if queue is full
+            }
+            // Add item logic here
+            itemCount++;
+            System.out.println("Item added. Count: " + itemCount);
+            // Potentially signal other conditions (e.g., notEmpty.signalAll())
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    // Using ReadWriteLock
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    private final Lock readLock = rwLock.readLock();
+    private final Lock writeLock = rwLock.writeLock();
+    private String sharedData = "Initial Data";
+
+    public String readData() {
+        readLock.lock();
+        try {
+            return sharedData;
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    public void writeData(String data) {
+        writeLock.lock();
+        try {
+            sharedData = data;
+            System.out.println("Data written: " + data);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., using Collections.synchronizedMap without careful iteration synchronization,
+// or incorrect use of wait/notify.
+```
+
+## Rule 2: Thread Pool Management
+
+Title: Manage Thread Pools Effectively with ExecutorService
+Description:
+Utilize `ExecutorService` for robust thread management.
+- Choose appropriate thread pool implementations (`FixedThreadPool`, `CachedThreadPool`, `ScheduledThreadPool`, custom `ThreadPoolExecutor`) based on workload.
+- Configure thread pools with appropriate sizing (core, maximum, keep-alive times, queue capacity).
+- Implement graceful shutdown procedures (`shutdown()`, `shutdownNow()`, `awaitTermination()`).
+- Define and handle rejected execution policies (`RejectedExecutionHandler`).
+- Monitor thread pool health and performance.
+
+**Good example:**
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+// Example ThreadFactoryBuilder (simplified, real one might be from Guava or similar)
+class ThreadFactoryBuilder {
+    private String nameFormat;
+    private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+    public ThreadFactoryBuilder setNameFormat(String nameFormat) {
+        this.nameFormat = nameFormat;
+        return this;
+    }
+    public ThreadFactory build() {
+        return (r) -> new Thread(r, String.format(nameFormat, threadNumber.getAndIncrement()));
+    }
+}
+
+class ThreadPoolManagementExample {
+    public static void main(String args) throws InterruptedException {
+        // Fixed thread pool with named threads
+        ExecutorService fixedExecutor = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors(),
+            new ThreadFactoryBuilder()
+                .setNameFormat("worker-thread-%d")
+                .build()
+        );
+        fixedExecutor.submit(() -> System.out.println("Task running in fixed pool: " + Thread.currentThread().getName()));
+
+        // Scheduled thread pool for periodic tasks
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(
+            1,
+            new ThreadFactoryBuilder()
+                .setNameFormat("scheduler-thread-%d")
+                .build()
+        );
+        scheduler.scheduleAtFixedRate(() -> System.out.println("Scheduled task running: " + Thread.currentThread().getName()), 0, 5, TimeUnit.SECONDS);
+
+        // Custom thread pool configuration
+        int corePoolSize = 2;
+        int maximumPoolSize = 4;
+        long keepAliveTime = 60L;
+        int queueCapacity = 100;
+        ThreadPoolExecutor customPool = new ThreadPoolExecutor(
+            corePoolSize,
+            maximumPoolSize,
+            keepAliveTime,
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(queueCapacity),
+            new ThreadFactoryBuilder().setNameFormat("custom-pool-thread-%d").build(),
+            new ThreadPoolExecutor.CallerRunsPolicy() // Example rejection policy
+        );
+        customPool.submit(() -> System.out.println("Task running in custom pool: " + Thread.currentThread().getName()));
+
+        // Shutdown procedures
+        shutdownExecutorService(fixedExecutor, "FixedExecutor");
+        shutdownExecutorService(customPool, "CustomPool");
+        // Scheduler needs a slightly different shutdown if tasks should not be interrupted
+        try {
+            if (!scheduler.awaitTermination(10, TimeUnit.SECONDS)) {
+                scheduler.shutdownNow();
+                if (!scheduler.awaitTermination(5, TimeUnit.SECONDS))
+                    System.err.println("Scheduler did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            scheduler.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("All pools shut down.");
+    }
+
+    public static void shutdownExecutorService(ExecutorService executor, String name) {
+        executor.shutdown(); // Disable new tasks from being submitted
+        try {
+            // Wait a while for existing tasks to terminate
+            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                executor.shutdownNow(); // Cancel currently executing tasks
+                // Wait a while for tasks to respond to being cancelled
+                if (!executor.awaitTermination(60, TimeUnit.SECONDS))
+                    System.err.println("Pool " + name + " did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            executor.shutdownNow();
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., using Executors.newSingleThreadExecutor() without considering its unbounded queue,
+// or not shutting down executors.
+```
+
+## Rule 3: Concurrent Design Patterns
+
+Title: Implement Common Concurrent Design Patterns
+Description:
+Leverage established patterns to structure concurrent applications effectively.
+- **Producer-Consumer**: Decouple task submission (producer) from task execution (consumer) using a shared buffer, typically a `BlockingQueue`.
+- **Publish-Subscribe**: Allow multiple subscribers to react to events published on specific topics, often using a central event bus or dispatcher.
+
+**Good example:**
+
+```java
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
+
+// Dummy classes for context
+class Task {
+    private final String data;
+    public Task(String data) { this.data = data; }
+    @Override public String toString() { return "Task" + data + ""; }
+}
+class Event {
+    private final String content;
+    public Event(String content) { this.content = content; }
+    @Override public String toString() { return "Event" + content + ""; }
+}
+interface EventListener {
+    void onEvent(Event event);
+}
+
+class ProducerConsumerExample {
+    private final BlockingQueue<Task> queue = new LinkedBlockingQueue<>(10); // Bounded queue
+
+    public void produce(Task task) throws InterruptedException {
+        System.out.println("Producing: " + task);
+        queue.put(task);  // Blocks if queue is full
+    }
+
+    public Task consume() throws InterruptedException {
+        Task task = queue.take();  // Blocks if queue is empty
+        System.out.println("Consuming: " + task);
+        return task;
+    }
+
+    public static void main(String args) {
+        ProducerConsumerExample pc = new ProducerConsumerExample();
+        Thread producerThread = new Thread(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.produce(new Task("Data-" + i));
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        Thread consumerThread = new Thread(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.consume();
+                    Thread.sleep(200);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+        producerThread.start();
+        consumerThread.start();
+    }
+}
+
+class EventBus {
+    private final ConcurrentMap<String, Set<EventListener>> listeners =
+        new ConcurrentHashMap<>();
+
+    public void subscribe(String topic, EventListener listener) {
+        listeners.computeIfAbsent(topic,
+            k -> ConcurrentHashMap.newKeySet()).add(listener);
+        System.out.println("Listener subscribed to topic: " + topic);
+    }
+
+    public void publish(String topic, Event event) {
+        Set<EventListener> topicListeners = listeners.get(topic);
+        if (topicListeners != null) {
+            System.out.println("Publishing event to topic " + topic + ": " + event);
+            topicListeners.forEach(listener ->
+                CompletableFuture.runAsync(() -> { // Execute listener asynchronously
+                    System.out.println("Listener " + listener + " processing event: " + event + " on thread " + Thread.currentThread().getName());
+                    listener.onEvent(event);
+                }));
+        } else {
+            System.out.println("No listeners for topic: " + topic);
+        }
+    }
+    public static void main(String args) {
+        EventBus eventBus = new EventBus();
+        EventListener listener1 = event -> System.out.println("Listener 1 received: " + event);
+        EventListener listener2 = event -> System.out.println("Listener 2 received: " + event);
+
+        eventBus.subscribe("news", listener1);
+        eventBus.subscribe("news", listener2);
+        eventBus.subscribe("sports", listener1);
+
+        eventBus.publish("news", new Event("Breaking News!"));
+        eventBus.publish("sports", new Event("Goal Scored!"));
+        eventBus.publish("weather", new Event("Sunny day")); // No listener
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., a producer-consumer with a non-thread-safe collection and race conditions.
+```
+
+## Rule 4: Asynchronous Programming with CompletableFuture
+
+Title: Utilize CompletableFuture for Asynchronous Operations
+Description:
+Employ `CompletableFuture` to compose and manage asynchronous computations in a non-blocking way.
+- Chain dependent asynchronous tasks using methods like `thenApplyAsync()`, `thenComposeAsync()`, `thenAcceptAsync()`.
+- Combine results from multiple `CompletableFuture` instances using `allOf()` or `anyOf()`.
+- Handle exceptions gracefully using `exceptionally()` or `handle()`.
+- Specify `Executor` instances for different stages if fine-grained thread control is needed.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
+
+
+// Dummy classes for context
+class Request {
+    final String data;
+    public Request(String data) { this.data = data; }
+    @Override public String toString() { return "Request" + data + ""; }
+}
+class ValidatedRequest {
+    final String data;
+    public ValidatedRequest(String data) { this.data = data; }
+     @Override public String toString() { return "ValidatedRequest" + data + ""; }
+}
+class ProcessedRequest {
+    final String data;
+    public ProcessedRequest(String data) { this.data = data; }
+     @Override public String toString() { return "ProcessedRequest" + data + ""; }
+}
+class Result {
+    final String data;
+    public Result(String data) { this.data = data; }
+    @Override public String toString() { return "Result" + data + ""; }
+}
+
+
+class AsyncService {
+    private final ExecutorService customExecutor = Executors.newFixedThreadPool(4);
+
+    // Simulate validation
+    private ValidatedRequest validateRequest(Request request) {
+        System.out.println("Validating " + request + " on " + Thread.currentThread().getName());
+        try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        if (request.data.equals("invalid")) throw new IllegalArgumentException("Invalid request data: " + request.data);
+        return new ValidatedRequest("validated-" + request.data);
+    }
+
+    // Simulate processing
+    private ProcessedRequest processRequest(ValidatedRequest validatedRequest) {
+        System.out.println("Processing " + validatedRequest + " on " + Thread.currentThread().getName());
+        try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        return new ProcessedRequest("processed-" + validatedRequest.data);
+    }
+
+    // Simulate formatting
+    private Result formatResult(ProcessedRequest processedRequest) {
+        System.out.println("Formatting " + processedRequest + " on " + Thread.currentThread().getName());
+        try { Thread.sleep(50); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        return new Result("formatted-" + processedRequest.data);
+    }
+
+    // Simulate error handling
+    private Result handleError(Throwable throwable) {
+        System.err.println("Error occurred: " + throwable.getMessage() + " on " + Thread.currentThread().getName());
+        return new Result("error-" + throwable.getClass().getSimpleName());
+    }
+
+    public CompletableFuture<Result> processSingleAsync(Request request) {
+        return CompletableFuture
+            .supplyAsync(() -> validateRequest(request), customExecutor) // Use a specific executor
+            .thenApplyAsync(this::processRequest, customExecutor)       // And for subsequent stages
+            .thenApply(this::formatResult) // Can run in previous stage's thread or ForkJoinPool.commonPool() if not specified
+            .exceptionally(this::handleError);
+    }
+
+    public CompletableFuture<List<Result>> processAllAsync(List<Request> requests) {
+        List<CompletableFuture<Result>> futures = requests.stream()
+            .map(this::processSingleAsync)
+            .collect(Collectors.toList());
+
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture0))
+            .thenApply(v -> futures.stream()
+                .map(CompletableFuture::join) // .join() can throw unchecked exceptions
+                .collect(Collectors.toList()))
+            .exceptionally(ex -> {
+                System.err.println("Error processing batch: " + ex.getMessage());
+                return List.of(new Result("batch-error"));
+            });
+    }
+    
+    public void shutdown() {
+        customExecutor.shutdown();
+        try {
+            if (!customExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                customExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            customExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("AsyncService custom executor shut down.");
+    }
+
+    public static void main(String args) {
+        AsyncService service = new AsyncService();
+        Request validRequest = new Request("data1");
+        Request invalidRequest = new Request("invalid");
+
+        service.processSingleAsync(validRequest)
+               .thenAccept(result -> System.out.println("Single valid result: " + result))
+               .join(); // Wait for completion for demo
+
+        service.processSingleAsync(invalidRequest)
+               .thenAccept(result -> System.out.println("Single invalid result: " + result))
+               .join(); // Wait for completion for demo
+
+        List<Request> batch = List.of(new Request("batch1"), new Request("batch2"), new Request("invalid_batch"));
+        service.processAllAsync(batch)
+               .thenAccept(results -> System.out.println("Batch results: " + results))
+               .join(); // Wait for completion for demo
+        
+        service.shutdown();
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., blocking inside a CompletableFuture stage that runs on the common ForkJoinPool,
+// or forgetting to handle exceptions.
+```
+
+## Rule 5: Thread Safety Guidelines (Immutability & Safe Publication)
+
+Title: Ensure Thread Safety through Immutability and Safe Publication
+Description:
+Minimize concurrency risks by designing classes to be immutable and ensuring shared objects are safely published.
+- **Immutability**:
+    - Make fields `final` whenever possible.
+    - Ensure all fields are initialized during construction.
+    - Do not provide setters for mutable state.
+    - Use defensive copying for mutable components (like `List` or `Date`) passed into constructors or returned from getters, or use unmodifiable collections.
+    - Consider using the builder pattern for complex immutable objects.
+- **Safe Publication**:
+    - Ensure that shared objects are correctly published to other threads (e.g., by initializing them in static initializers, storing them in `volatile` fields, or using proper synchronization).
+    - `java.util.concurrent` collections and atomics handle safe publication internally for their state.
+
+**Good example:**
+
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList; // For mutable list example
+import java.util.Collections; // For unmodifiable list
+import java.util.concurrent.ConcurrentHashMap;
+
+// Dummy class
+class Data {
+    String id;
+    public Data(String id) { this.id = id; }
+    @Override public String toString() { return "Data"+id+""; }
+}
+
+// Immutability Example
+public final class ImmutableValue { // Class is final
+    private final int value;         // Field is final
+    private final List<String> items;  // Field is final
+
+    public ImmutableValue(int value, List<String> items) {
+        this.value = value;
+        // Defensive copy to ensure the internal list cannot be modified externally
+        // and to ensure the list itself is immutable if List.copyOf is used.
+        this.items = List.copyOf(items); // Creates an unmodifiable list
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public List<String> getItems() {
+        // List.copyOf already returned an unmodifiable list, so no need to copy again.
+        // If 'items' were a mutable list internally, you'd return a new copy or unmodifiable view:
+        // return Collections.unmodifiableList(new ArrayList<>(items));
+        return items;
+    }
+
+    public static void main(String args) {
+        List<String> initialItems = new ArrayList<>();
+        initialItems.add("one");
+        initialItems.add("two");
+        
+        ImmutableValue iv = new ImmutableValue(100, initialItems);
+        System.out.println("Value: " + iv.getValue());
+        System.out.println("Items: " + iv.getItems());
+        
+        initialItems.add("three"); // Modify original list
+        System.out.println("Original list modified. ImmutableValue items: " + iv.getItems()); // iv.items remains unchanged
+        
+        try {
+            iv.getItems().add("four"); // This will throw UnsupportedOperationException
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Attempted to modify items from ImmutableValue: " + e.getMessage());
+        }
+    }
+}
+
+// Safe Publication Example
+class SafePublicationExample {
+    // Using ConcurrentHashMap ensures that both the map reference and its contents
+    // are safely published. computeIfAbsent is an atomic operation.
+    private static final Map<String, Data> cache = new ConcurrentHashMap<>();
+
+    public static Data getData(String key) {
+        // computeIfAbsent ensures that the Data object is created and published safely
+        // even if multiple threads call this method concurrently for the same key.
+        return cache.computeIfAbsent(key, k -> {
+            System.out.println("Creating Data for key: " + k);
+            return new Data(k); // The Data object is constructed and then put into the map
+        });
+    }
+
+    public static void main(String args) throws InterruptedException {
+        Runnable task = () -> {
+            Data d1 = SafePublicationExample.getData("A");
+            System.out.println(Thread.currentThread().getName() + " got " + d1);
+            Data d2 = SafePublicationExample.getData("B");
+            System.out.println(Thread.currentThread().getName() + " got " + d2);
+            Data d3 = SafePublicationExample.getData("A"); // Should retrieve from cache
+            System.out.println(Thread.currentThread().getName() + " got " + d3 + " (from cache)");
+        };
+
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+        
+        System.out.println("Cache content: " + cache);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., a "supposedly" immutable object that returns references to internal mutable arrays/collections,
+// or unsafe publication of a shared object reference.
+```
+
+## Rule 6: Performance Considerations in Concurrency
+
+Title: Optimize Concurrent Code for Performance
+Description:
+Be mindful of performance implications in concurrent applications.
+- **Lock Contention**: Reduce contention by narrowing lock scopes, using finer-grained locks (lock striping), or exploring optimistic locking or lock-free data structures.
+- **Memory Consistency**: Understand the Java Memory Model (JMM). Use `volatile` for visibility of single variables across threads. Be aware of happens-before relationships established by synchronization.
+- **Context Switching**: Excessive threads can lead to high context-switching overhead. Size thread pools appropriately.
+- **False Sharing**: Be aware of false sharing when mutable fields accessed by different threads reside on the same cache line (less common to manually address but good to know).
+
+**Good example:**
+
+```java
+import java.util.ArrayList;
+import java.util.HashMap; // For a simple non-thread-safe map
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+// Lock Striping Example (Conceptual)
+class StripedMap<K, V> {
+    private static final int STRIPE_COUNT = 16; // Number of stripes (locks)
+    private final List<Lock> stripes;
+    private final List<Map<K, V>> buckets;
+
+    @SuppressWarnings("unchecked")
+    public StripedMap() {
+        stripes = new ArrayList<>(STRIPE_COUNT);
+        buckets = new ArrayList<>(STRIPE_COUNT);
+        for (int i = 0; i < STRIPE_COUNT; i++) {
+            stripes.add(new ReentrantLock());
+            buckets.add(new HashMap<>()); // Each bucket is a standard HashMap
+        }
+    }
+
+    private int getStripeIndex(K key) {
+        return Math.abs(key.hashCode() % STRIPE_COUNT);
+    }
+
+    public V get(K key) {
+        int index = getStripeIndex(key);
+        Lock lock = stripes.get(index);
+        lock.lock();
+        try {
+            return buckets.get(index).get(key);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public V put(K key, V value) {
+        int index = getStripeIndex(key);
+        Lock lock = stripes.get(index);
+        lock.lock();
+        try {
+            return buckets.get(index).put(key, value);
+        } finally {
+            lock.unlock();
+        }
+    }
+    // Other methods like remove, size etc. would also need to use striping.
+    // size() would be more complex, requiring locking all stripes or summing sizes carefully.
+}
+
+// Memory Consistency with volatile
+class MemoryConsistencyExample {
+    private volatile boolean flag = false; // volatile ensures visibility
+    private int data = 0; // non-volatile data
+
+    public void writer() {
+        System.out.println(Thread.currentThread().getName() + " writing data...");
+        data = 42; // Write to non-volatile
+        flag = true; // Write to volatile, establishes happens-before
+        System.out.println(Thread.currentThread().getName() + " finished writing.");
+    }
+
+    public void reader() {
+        System.out.println(Thread.currentThread().getName() + " waiting for flag...");
+        while (!flag) {
+            // Spin or Thread.yield() or park etc.
+            // Busy-waiting is generally bad, this is for demonstration of volatile.
+        }
+        // Because flag is volatile and was written after data,
+        // the JMM guarantees that the reader thread will see data = 42.
+        System.out.println(Thread.currentThread().getName() + " read data: " + data);
+    }
+
+    public static void main(String args) throws InterruptedException {
+        MemoryConsistencyExample ex = new MemoryConsistencyExample();
+        Thread writerThread = new Thread(ex::writer, "WriterThread");
+        Thread readerThread = new Thread(ex::reader, "ReaderThread");
+
+        readerThread.start(); // Start reader first
+        Thread.sleep(100); // Give reader a chance to spin
+        writerThread.start();
+
+        writerThread.join();
+        readerThread.join();
+        System.out.println("Main: Both threads finished.");
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., holding a lock for too long, or a reader thread not seeing updates due to missing volatile/synchronization.
+```
+
+## Rule 7: Testing and Debugging Concurrent Code
+
+Title: Effectively Test and Debug Concurrent Applications
+Description:
+Testing and debugging concurrent code is challenging due to non-determinism.
+- **Unit Tests**: Test thread-safe classes in isolation, focusing on state transitions and invariants.
+- **Integration Tests**: Test interactions between concurrent components.
+- **Stress Tests**: Run tests with high load and many threads over extended periods to reveal race conditions or deadlocks.
+- **Use Concurrency Testing Tools**: Libraries like `awaitility` can help test asynchronous systems. Consider JCStress for rigorous JMM testing.
+- **Thread Dumps**: Analyze thread dumps to identify deadlocks or contention issues.
+- **Logging**: Implement detailed logging with thread IDs and timestamps.
+- **Debugging**: Use debugger features осторожно, as they can alter timing and mask issues. Step through critical sections carefully.
+
+**Good example:**
+
+```java
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+// Using Awaitility (conceptual, add dependency if using)
+// import static org.awaitility.Awaitility.await;
+
+// Example of testing a concurrent counter
+class ConcurrentCounter {
+    private final AtomicInteger count = new AtomicInteger(0);
+
+    public void increment() {
+        count.incrementAndGet();
+    }
+
+    public int get() {
+        return count.get();
+    }
+}
+
+class ConcurrentCodeTestingExample {
+    public static void main(String args) throws InterruptedException {
+        testConcurrentCounter();
+        // Example using awaitility (if it were available)
+        // testAsyncServiceWithAwaitility(); 
+    }
+
+    public static void testConcurrentCounter() throws InterruptedException {
+        final int numberOfThreads = 10;
+        final int incrementsPerThread = 1000;
+        final ConcurrentCounter counter = new ConcurrentCounter();
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+        CountDownLatch latch = new CountDownLatch(numberOfThreads); // To wait for all threads to finish
+
+        System.out.println("Starting concurrent counter test...");
+        for (int i = 0; i < numberOfThreads; i++) {
+            executor.submit(() -> {
+                try {
+                    for (int j = 0; j < incrementsPerThread; j++) {
+                        counter.increment();
+                    }
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await(10, TimeUnit.SECONDS); // Wait for all tasks to complete
+        executor.shutdown();
+        if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+            executor.shutdownNow();
+        }
+        
+        int expectedCount = numberOfThreads * incrementsPerThread;
+        int actualCount = counter.get();
+        System.out.println("Expected count: " + expectedCount);
+        System.out.println("Actual count:   " + actualCount);
+        if (expectedCount == actualCount) {
+            System.out.println("ConcurrentCounter Test: PASSED");
+        } else {
+            System.err.println("ConcurrentCounter Test: FAILED");
+        }
+    }
+
+    // Conceptual Awaitility example (requires Awaitility library)
+    /*
+    static class MyAsyncService {
+        private volatile boolean ready = false;
+        public void prepare() {
+            Executors.newSingleThreadScheduledExecutor().schedule(() -> ready = true, 1, TimeUnit.SECONDS);
+        }
+        public boolean isReady() { return ready; }
+    }
+
+    public static void testAsyncServiceWithAwaitility() {
+        MyAsyncService service = new MyAsyncService();
+        service.prepare();
+        
+        System.out.println("Waiting for MyAsyncService to be ready (with Awaitility concept)...");
+        // await().atMost(5, TimeUnit.SECONDS).until(service::isReady);
+        // System.out.println("MyAsyncService is ready!");
+        // This is just a placeholder to show where such a tool would be used.
+        // Without Awaitility, you might use Thread.sleep or more complex latches.
+        // For real usage, add `org.awaitility:awaitility` dependency.
+        try {
+             Thread.sleep(2000); // Simulate waiting
+             if(service.isReady()){
+                 System.out.println("MyAsyncService is ready! (simulated check)");
+             } else {
+                 System.out.println("MyAsyncService not ready after simulated wait.");
+             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    */
+}
+```
+
+**Bad Example:**
+
+```java
+// Bad example to be added
+// e.g., tests that are flaky due to race conditions, or not testing edge cases in concurrent interactions.
+```
+
+## Rule 8: Embrace Virtual Threads for Enhanced Scalability
+
+Title: Embrace Virtual Threads for Enhanced Scalability (JEP 444)
+Description: Utilize virtual threads to dramatically increase the scalability of concurrent applications by efficiently managing a large number of I/O-bound or blocking tasks with minimal resource overhead compared to traditional platform threads.
+- Understand that virtual threads are cheap and numerous, designed for short-lived, blocking operations.
+- Prefer `Executors.newVirtualThreadPerTaskExecutor()` for most use cases involving virtual threads, as it creates a new virtual thread for each task.
+- Avoid pooling virtual threads; it is generally unnecessary and can be counterproductive.
+- Be mindful of "pinning" virtual threads when using `synchronized` blocks excessively or calling native methods that may hold onto the carrier platform thread. Prefer `java.util.concurrent.locks.ReentrantLock` over `synchronized` in performance-critical sections within virtual threads if pinning becomes an issue.
+- Virtual threads are ideal for I/O-bound tasks (e.g., network requests, file system operations) where threads spend much of their time waiting.
+
+**Good example:**
+
+```java
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
+import java.time.Duration;
+
+class VirtualThreadExample {
+    public static void main(String[] args) {
+        // Create an executor that starts a new virtual thread for each task
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            IntStream.range(0, 10_000).forEach(i -> {
+                executor.submit(() -> {
+                    Thread.sleep(Duration.ofSeconds(1)); // Simulate I/O-bound work
+                    System.out.println("Task " + i + " completed by: " + Thread.currentThread());
+                    return i;
+                });
+            });
+        } // Executor is AutoCloseable and will wait for submitted tasks to complete
+        System.out.println("All tasks submitted.");
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+import java.time.Duration;
+
+class VirtualThreadMisuseExample {
+    public static void main(String[] args) {
+        // Anti-pattern: Pooling virtual threads like platform threads
+        // While this technically "works", it misses the point of virtual threads being cheap.
+        // The overhead of a pool is usually not justified.
+        ThreadPoolExecutor virtualThreadPool = new ThreadPoolExecutor(
+            100, 100, // Fixed size pool
+            0L, TimeUnit.MILLISECONDS,
+            new java.util.concurrent.LinkedBlockingQueue<>(),
+            Thread.ofVirtual().factory()
+        );
+
+        try {
+            IntStream.range(0, 200).forEach(i -> {
+                virtualThreadPool.submit(() -> {
+                    try {
+                        Thread.sleep(Duration.ofMillis(100));
+                        System.out.println("Pooled VT Task " + i + " by: " + Thread.currentThread());
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                });
+            });
+        } finally {
+            virtualThreadPool.shutdown();
+            try {
+                if (!virtualThreadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                    virtualThreadPool.shutdownNow();
+                }
+            } catch (InterruptedException ie) {
+                virtualThreadPool.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println("Pooled virtual thread tasks submitted.");
+    }
+}
+```
+
+## Rule 9: Simplify Concurrent Code with Structured Concurrency
+
+Title: Simplify Concurrent Code and Improve Reliability with Structured Concurrency (JEP 462/453)
+Description: Adopt structured concurrency to treat multiple related tasks running in different threads as a single unit of work. This simplifies error handling, cancellation, and resource management, leading to more robust and maintainable concurrent code.
+- Use `StructuredTaskScope` to manage the lifecycle of a group of concurrent tasks.
+- When a task forks subtasks within a `StructuredTaskScope`, the parent task implicitly waits for all subtasks to complete before it can complete.
+- Leverage policies like `StructuredTaskScope.ShutdownOnFailure` to automatically cancel sibling tasks if one task fails, ensuring fail-fast behavior.
+- Use `StructuredTaskScope.ShutdownOnSuccess` when you need the result of the first successfully completed task, cancelling others.
+- Structured concurrency improves code clarity by defining clear boundaries for concurrent operations.
+
+**Good example:**
+
+```java
+import java.util.concurrent.StructuredTaskScope;
+import java.util.concurrent.Future;
+import java.time.Duration;
+import java.util.concurrent.Executors; // Added for main
+
+class StructuredConcurrencyExample {
+
+    String fetchUserData(long userId) throws InterruptedException {
+        System.out.println("Fetching user data for: " + userId + " on " + Thread.currentThread());
+        Thread.sleep(Duration.ofMillis(100)); // Simulate network call
+        if (userId == 2) throw new IllegalArgumentException("User ID 2 is invalid");
+        return "User Data for " + userId;
+    }
+
+    String fetchOrderInfo(long userId) throws InterruptedException {
+        System.out.println("Fetching order info for: " + userId + " on " + Thread.currentThread());
+        Thread.sleep(Duration.ofMillis(150)); // Simulate network call
+        return "Order Info for " + userId;
+    }
+
+    String handleUserRequest(long userId) throws Exception {
+        // Create a scope that shuts down on the first failure
+        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+            Future<String> userDataFuture = scope.fork(() -> fetchUserData(userId));
+            Future<String> orderInfoFuture = scope.fork(() -> fetchOrderInfo(userId));
+
+            // Wait for both tasks to complete or for the scope to shut down (e.g., on failure)
+            scope.join();
+            scope.throwIfFailed(); // Throws an exception if any subtask failed
+
+            // If successful, get results
+            String userData = userDataFuture.resultNow(); // resultNow() is safe after successful join()
+            String orderInfo = orderInfoFuture.resultNow();
+
+            return "{"user": \"" + userData + "\", "orders": \"" + orderInfo + "\"}";
+        }
+        // Scope ensures that if handleUserRequest completes (normally or abruptly),
+        // both fetchUserData and fetchOrderInfo are complete or cancelled.
+    }
+
+    public static void main(String[] args) {
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) { // Ensure executor is defined
+            executor.submit(() -> {
+                try {
+                    System.out.println(new StructuredConcurrencyExample().handleUserRequest(1));
+                } catch (Exception e) {
+                    System.err.println("Error handling user 1: " + e.getMessage());
+                }
+            });
+            executor.submit(() -> {
+                 try {
+                    System.out.println(new StructuredConcurrencyExample().handleUserRequest(2)); // This will fail
+                } catch (Exception e) {
+                    // Check for cause if ExecutionException wraps it, common in structured concurrency failures
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    System.err.println("Error handling user 2: " + cause.getMessage());
+                }
+            });
+        }
+        System.out.println("Main thread finished submitting tasks.");
+    }
+}
+```
+
+**Bad Example:** (Illustrating unstructured concurrency complexities)
+
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.time.Duration;
+
+class UnstructuredConcurrencyExample {
+
+    String fetchUserData(long userId) throws InterruptedException {
+        // (Same as above)
+        System.out.println("Fetching user data for: " + userId + " on " + Thread.currentThread());
+        Thread.sleep(Duration.ofMillis(100));
+        if (userId == 2) throw new IllegalArgumentException("User ID 2 is invalid");
+        return "User Data for " + userId;
+    }
+
+    String fetchOrderInfo(long userId) throws InterruptedException {
+        // (Same as above)
+        System.out.println("Fetching order info for: " + userId + " on " + Thread.currentThread());
+        Thread.sleep(Duration.ofMillis(150));
+        return "Order Info for " + userId;
+    }
+
+    String handleUserRequestUnstructured(long userId, ExecutorService executor) {
+        Future<String> userDataFuture = null;
+        Future<String> orderInfoFuture = null;
+        String userData = null;
+        String orderInfo = null;
+
+        try {
+            userDataFuture = executor.submit(() -> fetchUserData(userId));
+            orderInfoFuture = executor.submit(() -> fetchOrderInfo(userId));
+
+            // Manually manage getting results and potential errors
+            userData = userDataFuture.get(2, TimeUnit.SECONDS);
+            orderInfo = orderInfoFuture.get(2, TimeUnit.SECONDS);
+
+            return "{"user": \"" + userData + "\", "orders": \"" + orderInfo + "\"}";
+
+        } catch (ExecutionException e) {
+            System.err.println("Execution exception: " + e.getCause().getMessage());
+            // Manually cancel other tasks if one fails
+            if (userDataFuture != null && !userDataFuture.isDone()) userDataFuture.cancel(true);
+            if (orderInfoFuture != null && !orderInfoFuture.isDone()) orderInfoFuture.cancel(true);
+            throw new RuntimeException("Failed to handle user request", e.getCause());
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted: " + e.getMessage());
+            if (userDataFuture != null) userDataFuture.cancel(true);
+            if (orderInfoFuture != null) orderInfoFuture.cancel(true);
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        } catch (Exception e) { // TimeoutException etc.
+             System.err.println("Other error: " + e.getMessage());
+            if (userDataFuture != null) userDataFuture.cancel(true);
+            if (orderInfoFuture != null) orderInfoFuture.cancel(true);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(4); // Or virtual thread executor
+        try {
+            System.out.println(new UnstructuredConcurrencyExample().handleUserRequestUnstructured(1, executor));
+        } catch(Exception e) {
+            System.err.println("Caught in main for user 1: " + e.getMessage());
+        }
+        try {
+            System.out.println(new UnstructuredConcurrencyExample().handleUserRequestUnstructured(2, executor)); // Will throw
+        } catch(Exception e) {
+            System.err.println("Caught in main for user 2: " + e.getMessage());
+        } finally {
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+```
+
+## Rule 10: Manage Thread-Shared Data with Scoped Values
+
+Title: Manage Thread-Shared Data Safely and Efficiently with Scoped Values (JEP 464)
+Description: Use Scoped Values as a modern, preferred alternative to thread-local variables, especially when working with virtual threads. Scoped Values allow for robust and performant sharing of immutable data across related tasks within a dynamically bounded scope.
+- Prefer Scoped Values over `ThreadLocal` for new code, particularly in virtual thread environments, to avoid issues like unbounded data retention, complex cleanup, and inefficiencies with large numbers of threads.
+- Scoped Values are inherently immutable once set for a scope.
+- Data shared via Scoped Values is automatically inherited by child threads (both platform and virtual) created within the `run` or `call` method of `ScopedValue.where(...)`, but not by threads created outside this dynamic scope.
+- Define a scope using `ScopedValue.where(scopedValueInstance, value).run(() -> { /* code within scope */ });` or `.call(() -> { /* code within scope */ });`.
+- Scoped Values are designed to be efficient even with millions of virtual threads.
+
+**Good example:**
+
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.StructuredTaskScope;
+import java.util.concurrent.Future;
+
+class ScopedValueExample {
+    // Define a ScopedValue. It's often static and final.
+    private static final ScopedValue<String> USER_ID = ScopedValue.newInstance();
+
+    public void processRequest(String currentUserId) {
+        // Bind the ScopedValue to a value for the duration of this call
+        ScopedValue.where(USER_ID, currentUserId)
+            .run(() -> {
+                // Code running here, and any methods it calls, can access USER_ID.get()
+                System.out.println("Processing task for user: " + USER_ID.get() + " on " + Thread.currentThread());
+                performSubTask();
+
+                // Example with structured concurrency
+                try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+                    Future<String> f1 = scope.fork(this::anotherSubTaskWithUser);
+                    scope.join().throwIfFailed();
+                    System.out.println("Structured task result: " + f1.resultNow());
+                } catch (Exception e) {
+                    System.err.println("Error in structured task: " + e.getMessage());
+                }
+            });
+
+        // Outside the run block, USER_ID.isBound() would be false (unless bound by an outer scope)
+        // System.out.println("USER_ID is bound: " + USER_ID.isBound()); // Likely false or bound by outer scope
+    }
+
+    private void performSubTask() {
+        // This method can access the ScopedValue if called within the scope
+        if (USER_ID.isBound()) {
+            System.out.println("Sub-task for user: " + USER_ID.get() + " on " + Thread.currentThread());
+        } else {
+            System.out.println("Sub-task: USER_ID not bound.");
+        }
+    }
+
+    private String anotherSubTaskWithUser() {
+         if (USER_ID.isBound()) {
+            System.out.println("Another sub-task for user: " + USER_ID.get() + " on " + Thread.currentThread());
+            return "Data for " + USER_ID.get();
+        }
+        return "USER_ID not bound in anotherSubTaskWithUser";
+    }
+
+
+    public static void main(String[] args) {
+        ScopedValueExample example = new ScopedValueExample();
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            executor.submit(() -> example.processRequest("user-alpha-123"));
+            executor.submit(() -> example.processRequest("user-beta-456"));
+            // A task outside the explicit binding
+            executor.submit(() -> {
+                System.out.println("Task outside direct binding, USER_ID bound: " + USER_ID.isBound() + " on " + Thread.currentThread()); // false
+                example.performSubTask(); // USER_ID will not be bound here
+            });
+        }
+        System.out.println("Main thread finished submitting tasks.");
+    }
+}
+```
+
+**Bad Example:** (Using ThreadLocal with Virtual Threads, highlighting potential issues)
+
+```java
+import java.util.concurrent.Executors;
+import java.time.Duration;
+
+class ThreadLocalWithVirtualThreadsExample {
+    // ThreadLocal holds mutable state and can persist beyond apparent scope if not cleaned.
+    private static final ThreadLocal<String> USER_CONTEXT = new ThreadLocal<>();
+
+    public void handleUser(String userId) {
+        USER_CONTEXT.set(userId); // Set data
+        System.out.println("ThreadLocal set for user: " + USER_CONTEXT.get() + " on " + Thread.currentThread());
+        try {
+            // Simulate work
+            if (Math.random() > 0.5) { // Simulate work with a sub-call
+                 processFurther();
+            }
+            Thread.sleep(Duration.ofMillis(50));
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            // CRITICAL: Must clean up ThreadLocal, especially with virtual threads
+            // If not cleaned, and if carrier threads are reused by new virtual threads
+            // that don't set their own value, they might see stale data.
+            // More importantly, it can lead to memory leaks if the ThreadLocal map in the
+            // thread object holds onto references indefinitely.
+            System.out.println("Cleaning up ThreadLocal for user: " + USER_CONTEXT.get() + " on " + Thread.currentThread());
+            USER_CONTEXT.remove();
+        }
+    }
+
+    private void processFurther() {
+        System.out.println("Processing further with ThreadLocal user: " + USER_CONTEXT.get() + " on " + Thread.currentThread());
+    }
+
+    public static void main(String[] args) {
+        ThreadLocalWithVirtualThreadsExample example = new ThreadLocalWithVirtualThreadsExample();
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 0; i < 5; i++) {
+                final String currentUser = "user-" + i;
+                executor.submit(() -> example.handleUser(currentUser));
+            }
+        }
+        // With many virtual threads, forgetting .remove() can be problematic for memory
+        // and correctness if carrier threads are reused and ThreadLocals are not re-initialized.
+        // ScopedValue avoids this by design (immutable, scoped lifecycle).
+        System.out.println("Main thread finished submitting tasks.");
+    }
+}
+
+```
+
+---
+*(Optional Section: Add other relevant top-level sections if they apply globally across rules, such as "Key Concepts", "General Principles", "Anti-Patterns to Avoid", etc.)*
+

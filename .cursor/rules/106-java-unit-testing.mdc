@@ -1,9 +1,26 @@
 ---
-description: Java Unit testing
-globs: **/*Test.java
+description: Java Unit testing guidelines
+globs: **/*.java
 alwaysApply: false
 ---
 # Java Unit testing
+
+## Table of contents
+
+- Rule 1: Use JUnit 5 Annotations
+- Rule 2: Use AssertJ for Assertions
+- Rule 3: Structure Tests with Given-When-Then
+- Rule 4: Use Descriptive Test Names
+- Rule 5: Aim for Single Responsibility in Tests
+- Rule 6: Ensure Tests are Independent
+- Rule 7: Use Parameterized Tests for Data Variations
+- Rule 8: Utilize Mocking for Dependencies (Mockito)
+- Rule 9: Consider Test Coverage, But Don't Obsess
+- Rule 10: Test Scopes
+- Rule 11: Code Splitting Strategies
+- Rule 12: Anti-patterns and Code Smells
+- Rule 13: State Management
+- Rule 14: Error Handling
 
 ## Rule 1: Use JUnit 5 Annotations
 
@@ -344,7 +361,7 @@ class ParameterizedCalculatorTest {
 
     private final Calculator calculator = new Calculator();
 
-    @ParameterizedTest(name = "[{index}] {0} + {1} = {2}") // Clear naming for each case
+    @ParameterizedTest(name = "{index} {0} + {1} = {2}") // Clear naming for each case
     @CsvSource({
         "1,  2,  3",
         "0,  0,  0",
@@ -499,13 +516,41 @@ class UserServiceTest {
 Title: Use code coverage as a guide, not a definitive quality metric.
 Description: Tools like JaCoCo can measure which lines of code are executed by your tests (code coverage). Aiming for high coverage (e.g., >80% line/branch coverage) is generally good practice, as it indicates most code paths are tested. However, 100% coverage doesn't guarantee bug-free code or high-quality tests. Focus on writing meaningful tests for critical logic and edge cases rather than solely chasing coverage numbers. A test might cover a line but not actually verify its correctness effectively.
 
-## Best Practices Summary
+## Rule 10: Test Scopes
 
-*   Use JUnit 5 and AssertJ.
-*   Structure tests with Given-When-Then.
-*   Write descriptive test names (`@DisplayName` or clear method names).
-*   Keep tests focused (single responsibility) and independent.
-*   Use parameterized tests for data variations.
-*   Isolate units with mocking (Mockito).
-*   Test edge cases and exception handling thoroughly.
-*   Use coverage metrics as a tool, not the ultimate goal.
+### Test classes should be package-private
+
+Test classes should have package-private visibility. There is no need for them to be public.
+
+### Test methods should be package-private
+
+Test methods should have package-private visibility. There is no need for them to be public.
+
+## Rule 11: Code Splitting Strategies
+
+- **Small Test Methods:** Keep test methods small and focused on testing a single behavior.
+- **Helper Methods:** Use helper methods to avoid code duplication in test setup and assertions.
+- **Parameterized Tests:** Utilize JUnit's parameterized tests to test the same logic with different input values.
+
+## Rule 12: Anti-patterns and Code Smells
+
+- **Testing Implementation Details:** Avoid testing implementation details that might change, leading to brittle tests. Focus on testing behavior and outcomes.
+- **Hard-coded Values:** Avoid hard-coding values in tests. Use constants or test data to make tests more maintainable.
+- **Complex Test Logic:** Keep test logic simple and avoid complex calculations or conditional statements within tests.
+- **Ignoring Edge Cases:** Don't ignore edge cases or boundary conditions. Ensure tests cover a wide range of inputs, including invalid or unexpected values.
+- **Slow Tests:** Avoid slow tests that discourage developers from running them frequently.
+- **Over-reliance on Mocks:** Mock judiciously; too many mocks can obscure the actual behavior and make tests less reliable.
+- **Ignoring Test Failures:** Never ignore failing tests. Investigate and fix them promptly.
+
+## Rule 13: State Management
+
+- **Isolated State:** Ensure each test has its own isolated state to avoid interference between tests. Use `@BeforeEach` to reset the state before each test.
+- **Immutable Objects:** Prefer immutable objects to simplify state management and avoid unexpected side effects.
+- **Stateless Components:** Design stateless components whenever possible to reduce the need for state management in tests.
+
+## Rule 14: Error Handling
+
+- **Expected Exceptions:** Use `assertThrows` to verify that a method throws the expected exception under specific conditions.
+- **Exception Messages:** Assert the exception message to ensure the correct error is being thrown with helpful context.
+- **Graceful Degradation:** Test how the application handles errors and gracefully degrades when dependencies are unavailable.
+

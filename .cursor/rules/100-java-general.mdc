@@ -1,0 +1,758 @@
+---
+description: General java rules
+globs: **/*.java
+alwaysApply: false
+---
+# Java General Guidelines
+
+## Table of contents
+
+- Rule 1: Java Code Style
+- Rule 2: Architecture Guidelines
+- Rule 3: Security Guidelines
+- Rule 4: Performance Guidelines
+- Rule 5: Documentation Standards
+- Rule 6: Error Handling
+- Rule 7: Secure Exception Handling Practices
+
+## Rule 1: Java Code Style
+
+Title: Adhere to Consistent and Modern Java Code Style
+
+Description: Maintaining a consistent and modern code style is crucial for readability, collaboration, and long-term maintainability of Java projects. This rule encompasses naming conventions, code formatting, import organization, and the appropriate use of modern language features and annotations.
+
+### 1.1 Naming Conventions
+
+-   **Packages:** Lowercase, using reverse domain name notation (e.g., `com.example.project.module`). Avoid underscores.
+-   **Classes and Interfaces:** PascalCase (e.g., `UserProfile`, `DataAccessService`). Names should be descriptive nouns or noun phrases.
+-   **Methods:** camelCase (e.g., `getUserName`, `calculateTotalAmount`). Names should be verbs or verb phrases.
+-   **Variables:** camelCase (e.g., `userName`, `currentIndex`). Strive for short yet meaningful names. Avoid single-character names except for temporary loop counters (like `i`, `j`, `k`) or lambda parameters where context is clear.
+-   **Constants:** `ALL_CAPS_SNAKE_CASE` (e.g., `MAX_LOGIN_ATTEMPTS`, `DEFAULT_TIMEOUT_MS`).
+-   **Type Parameters:** Single uppercase letter (e.g., `T`, `E`, `K`, `V`) or a descriptive name in PascalCase if more complex.
+
+### 1.2 Formatting
+
+-   **Indentation:** Use 4 spaces for indentation. Some style guides (like Google's) recommend 2 spaces; consistency within a project is key. Do not use tabs.
+-   **Line Length:** Aim for a maximum line length of 120 characters. Some guides suggest 100 characters (Google) or even 80 (older Oracle). This helps readability, especially with side-by-side diffs.
+-   **Braces (Curly Braces):**
+    -   Use K&R style ("Egyptian brackets"): the opening brace is at the end of the line that begins the block; the closing brace is on its own line, aligned with the start of the construct.
+    -   Always use braces for `if`, `else`, `for`, `do`, `while` statements, even if the body is a single line or empty. This prevents ambiguity and errors when adding statements later.
+        ```java
+        // Good
+        if (condition) {
+            doSomething();
+        }
+
+        // Avoid (even if allowed by some relaxed styles for single lines)
+        // if (condition) doSomething();
+        // if (condition)
+        //     doSomething();
+        ```
+-   **Whitespace:**
+    -   **Vertical:**
+        -   Use a single blank line to separate methods.
+        -   Use blank lines within methods to separate logical blocks of code.
+        -   Avoid excessive blank lines.
+    -   **Horizontal:**
+        -   Use a single space around binary operators (`+`, `-`, `*`, `/`, `=`, `==`, `!=`, `&&`, `||`, etc.).
+        -   Use a single space after commas in argument lists and after semicolons in `for` statements.
+        -   Use a single space after keywords like `if`, `for`, `while`, `catch` and before the opening parenthesis `(`.
+        -   No trailing whitespace on any line.
+-   **`var` Keyword (Java 10+):**
+    -   Use `var` for local variable type inference when it improves readability and the type of the variable is clear from the initializer or context.
+    -   Good: `var userList = new ArrayList<User>();`, `var stream = Files.lines(path);`
+    -   Avoid: `var result = getComplexObject();` (if `getComplexObject()` return type isn't immediately obvious).
+-   **Annotations:**
+    -   Apply annotations on separate lines immediately preceding the code they annotate, unless the annotation is very short and applies to a parameter.
+    -   Standard annotations like `@Override` and `@Deprecated` should be used consistently.
+    -   Nullability annotations (e.g., `@Nullable`, `@NonNull` from JetBrains, JSpecify, or similar frameworks) should be used consistently if the project adopts them. Follow project-specific guidelines for their setup and usage.
+
+### 1.3 Import Statements
+
+-   **Order:**
+    1.  Static imports (all static imports grouped together).
+    2.  `java.*` packages.
+    3.  `jakarta.*` packages.
+    4.  Third-party library packages (e.g., `org.*`, `com.*`, excluding project's own).
+    5.  Project's own packages (e.g., `com.example.project.*`).
+-   Group imports by top-level package, with a blank line separating each group.
+-   Within each group, imports should be alphabetized.
+-   Do not use wildcard imports (e.g., `import java.util.*;`), except for static imports of enum constants if truly necessary and it improves readability. Prefer importing specific classes.
+
+**Example Illustrating Style Points:**
+
+```java
+package com.example.myapp.services; // Package naming
+
+import java.util.ArrayList;          // Import grouping and order
+import java.util.List;
+import java.util.Objects;
+
+import static com.example.myapp.utils.ValidationConstants.MAX_NAME_LENGTH; // Static import
+
+import com.example.myapp.dto.UserDTO; // Project-specific import
+import com.example.myapp.exceptions.InvalidUserDataException;
+
+/**
+ * Service class for managing user profiles.
+ * Uses PascalCase for class names.
+ * Annotations on separate lines.
+ */
+@Service // Example annotation
+public class UserProfileService {
+
+    public static final int DEFAULT_PAGE_SIZE = 20; // Constant naming
+
+    private final UserRepository userRepository; // camelCase for variables
+
+    /**
+     * Constructs a UserProfileService with a UserRepository.
+     *
+     * @param userRepository The repository for user data access.
+     */
+    public UserProfileService(UserRepository userRepository) { // camelCase for parameters
+        this.userRepository = Objects.requireNonNull(userRepository, "userRepository must not be null");
+    }
+
+    /**
+     * Retrieves a user by their username.
+     * Uses camelCase for method names.
+     *
+     * @param username The username to search for.
+     * @return The UserDTO if found.
+     * @throws InvalidUserDataException if the username is invalid or user not found.
+     */
+    public UserDTO getUserByUsername(String username) throws InvalidUserDataException {
+        if (username == null || username.trim().isEmpty() || username.length() > MAX_NAME_LENGTH) { // Brace usage
+            throw new InvalidUserDataException("Username is invalid.");
+        }
+
+        var userEntity = userRepository.findByUsername(username); // 'var' for clear type
+
+        if (userEntity == null) {
+            // Log error or handle as per application requirements before throwing
+            throw new InvalidUserDataException("User not found: " + username);
+        }
+
+        return convertToDTO(userEntity); // Logical separation within method
+    }
+
+    private UserDTO convertToDTO(UserEntity userEntity) {
+        UserDTO dto = new UserDTO();
+        dto.setUsername(userEntity.getUsername());
+        dto.setEmail(userEntity.getEmail());
+        // ... other conversions
+        return dto;
+    }
+
+    // Dummy inner classes/interfaces for example context
+    interface UserRepository { UserEntity findByUsername(String username); }
+    static class UserEntity {
+        private String username;
+        private String email;
+        public String getUsername() { return username; }
+        public String getEmail() { return email; }
+        // ... getters and setters
+    }
+    @interface Service {} // Dummy annotation
+
+    // Assume UserDTO is defined elsewhere e.g. com.example.myapp.dto.UserDTO
+    // Assume InvalidUserDataException is defined elsewhere e.g. com.example.myapp.exceptions.InvalidUserDataException
+}
+
+// Constants can be in a separate class/interface if widely used
+// Example:
+// package com.example.myapp.utils;
+//
+// public final class ValidationConstants {
+//     private ValidationConstants() {} // Private constructor for utility class
+//     public static final int MAX_NAME_LENGTH = 50;
+// }
+```
+
+**Bad Example (Revised to highlight new points):**
+
+```java
+// Package name does not follow reverse domain, uses underscore
+package my_app_services;
+
+// Wildcard imports, no order, no static grouping
+import java.util.*;
+import com.example.myapp.dto.UserDTO;
+import com.example.myapp.exceptions.InvalidUserDataException; // Should be after java.util
+import static com.example.myapp.utils.ValidationConstants.MAX_NAME_LENGTH; // Static not first
+
+// Class name not PascalCase
+class userProfileSvc {
+    // Constant not ALL_CAPS_SNAKE_CASE
+    public static final int defaultpagesize = 20;
+    // Variable not camelCase, Hungarian notation (avoid)
+    private UserRepository mUserRepository;
+
+    // No Javadoc, poor parameter naming
+    public userProfileSvc(UserRepository repo) {
+        this.mUserRepository = repo;
+    }
+
+    // Method not camelCase, poor parameter name
+    public UserDTO GetUser(String Username) throws InvalidUserDataException {
+        // No braces for single line if, inconsistent indentation
+        if (Username == null || Username.trim().isEmpty())
+          throw new InvalidUserDataException("Username is invalid.");
+
+        // 'var' used where type might not be immediately obvious if findByUsername was complex
+        // and not shown in context
+        var user_Entity = mUserRepository.findByUsername(Username); // variable not camelCase
+
+        if (user_Entity == null) {
+            throw new InvalidUserDataException("User not found: " + Username); } // Brace on same line as if, inconsistent
+        else { // else on new line
+            return convertToDTO(user_Entity);
+        }
+    }
+
+    UserDTO convertToDTO(UserEntity ue) { // No visibility modifier, inconsistent naming
+        UserDTO d = new UserDTO();
+        d.setUsername(ue.getUsername());
+        d.setEmail(ue.getEmail());
+        return d;
+    }
+
+    // Dummy inner classes/interfaces for example context
+    interface UserRepository { UserEntity findByUsername(String username); }
+    static class UserEntity {
+        private String username;
+        private String email;
+        public String getUsername() { return username; }
+        public String getEmail() { return email; }
+    }
+    // Assume UserDTO and InvalidUserDataException are defined elsewhere
+    // Assume ValidationConstants and MAX_NAME_LENGTH are defined elsewhere
+}
+``` 
+
+## Rule 2: Architecture Guidelines
+
+Title: Follow Sound Architectural Principles
+Description: Employ recommended architectural patterns and avoid common anti-patterns. Recommended patterns include Repository, Factory, Builder, Strategy, Observer, and Dependency Injection. Avoid anti-patterns like God Classes, Golden Hammer, Spaghetti Code, and Magic Numbers/Strings.
+
+**Good example:**
+
+```java
+// Using Dependency Injection (Conceptual)
+interface MessageService {
+    void sendMessage(String message);
+}
+
+class EmailService implements MessageService {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("Sending email: " + message);
+    }
+}
+
+class NotificationManager {
+    private final MessageService messageService;
+
+    // Dependency is injected via constructor
+    public NotificationManager(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void notifyUser(String notification) {
+        messageService.sendMessage(notification);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MessageService emailService = new EmailService();
+        NotificationManager notificationManager = new NotificationManager(emailService);
+        notificationManager.notifyUser("Your order has shipped!");
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// God Class (Conceptual)
+class SuperController {
+    public void processOrder() { /* ... */ }
+    public void updateUserProfile() { /* ... */ }
+    public void generateReport() { /* ... */ }
+    public void sendEmailNotification() { /* ... */ }
+    public void validateInput() { /* ... */ }
+    // Many more unrelated responsibilities...
+}
+
+public class Main {
+    public static void main(String[] args) {
+        SuperController controller = new SuperController();
+        controller.processOrder();
+        // This class does too many things.
+    }
+}
+```
+
+## Rule 3: Security Guidelines
+
+Title: Implement Robust Security Practices
+Description: Ensure application security by validating all inputs, using parameterized queries, and sanitizing user input. For authentication, use strong password policies, MFA, and secure session management. Implement role-based access control, follow the principle of least privilege, and validate permissions at each layer. Protect data by encrypting sensitive information, using secure communication protocols, and implementing proper key management.
+
+**Good example:**
+
+```java
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.regex.Pattern;
+
+public class SecureOperations {
+
+    // Input validation example
+    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,16}$");
+
+    public boolean isValidUsername(String username) {
+        if (username == null) {
+            return false;
+        }
+        return USERNAME_PATTERN.matcher(username).matches();
+    }
+
+    // Parameterized query example
+    public void updateUserEmail(Connection connection, int userId, String newEmail) throws SQLException {
+        if (!isValidUsername(newEmail.split("@")[0])) { // Basic email validation part
+             System.out.println("Invalid email format part.");
+             return;
+        }
+        String sql = "UPDATE users SET email = ? WHERE user_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, newEmail);
+            pstmt.setInt(2, userId);
+            pstmt.executeUpdate();
+        }
+    }
+    // Dummy main for demonstration
+    public static void main(String[] args) {
+        SecureOperations ops = new SecureOperations();
+        System.out.println("Is 'user123' valid? " + ops.isValidUsername("user123"));
+        System.out.println("Is 'user@123' valid? " + ops.isValidUsername("user@123"));
+        // Connection conn = null; // Get a real connection
+        // try {
+        // ops.updateUserEmail(conn, 1, "new.email@example.com");
+        // } catch (SQLException e) {
+        // e.printStackTrace();
+        // }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class InsecureOperations {
+
+    // No input validation
+    public void updateUserEmail(Connection connection, int userId, String newEmail) throws SQLException {
+        // Unsafe: susceptible to SQL Injection
+        String sql = "UPDATE users SET email = '" + newEmail + "' WHERE user_id = " + userId;
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(sql);
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example of how SQL injection could occur if not careful
+        // String maliciousEmail = "test@example.com'; DROP TABLE users; --";
+        // InsecureOperations ops = new InsecureOperations();
+        // Connection conn = null; // Get a real connection
+        // try {
+        //    ops.updateUserEmail(conn, 1, maliciousEmail);
+        // } catch (SQLException e) {
+        //    e.printStackTrace();
+        // }
+        System.out.println("This shows an example of constructing SQL queries with string concatenation, which is bad.");
+    }
+}
+```
+
+## Rule 4: Performance Guidelines
+
+Title: Optimize for Performance
+Description: Improve application performance by using appropriate data structures, optimizing database queries, implementing caching, using lazy loading, and minimizing object creation. Monitor performance by using appropriate logging levels, implementing metrics collection, monitoring resource usage, and setting up alerting.
+
+**Good example:**
+
+```java
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+public class PerformanceDemo {
+
+    public static void main(String[] args) {
+        // Choosing an appropriate data structure:
+        // ArrayList is good for frequent random access.
+        List<String> arrayList = new ArrayList<>();
+        arrayList.add("Apple");
+        arrayList.add("Banana");
+        System.out.println("Element at index 1 (ArrayList): " + arrayList.get(1));
+
+        // LinkedList is good for frequent insertions/deletions.
+        List<String> linkedList = new LinkedList<>();
+        linkedList.add("Orange");
+        linkedList.add(0, "Mango"); // Efficient insertion at the beginning
+        System.out.println("Element at index 0 (LinkedList): " + linkedList.get(0));
+
+        // Minimizing object creation in a loop (conceptual)
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            sb.append(i); // Reuses StringBuilder
+        }
+        System.out.println("Concatenated string: " + sb.toString());
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class PerformanceAntiPattern {
+
+    public static void main(String[] args) {
+        // Inefficient string concatenation in a loop
+        String result = "";
+        for (int i = 0; i < 10; i++) {
+            result += i; // Creates a new String object in each iteration
+        }
+        System.out.println("Concatenated string (inefficient): " + result);
+
+        // Using ArrayList when LinkedList would be better for many insertions at start
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            list.add(0, String.valueOf(i)); // Inefficient for ArrayList
+        }
+        System.out.println("Added 10000 elements to ArrayList at index 0.");
+    }
+}
+```
+
+## Rule 5: Documentation Standards
+
+Title: Maintain Clear Documentation
+Description: Write self-documenting code and comment on complex algorithms, business rules, and public APIs. Use Javadoc with required elements like @param, @return, @throws, and @since. Javadoc style should be clear, concise, use complete sentences, and proper grammar.
+
+**Good example:**
+
+```java
+/**
+ * Utility class for string manipulations.
+ * @since 1.0
+ */
+public class StringUtil {
+
+    /**
+     * Checks if a string is null or empty.
+     *
+     * @param str The string to check.
+     * @return {@code true} if the string is null or empty, {@code false} otherwise.
+     * @throws IllegalArgumentException if the input string is "error" (for demo purposes).
+     */
+    public boolean isNullOrEmpty(String str) throws IllegalArgumentException {
+        if ("error".equals(str)) {
+            throw new IllegalArgumentException("Input cannot be 'error'");
+        }
+        return str == null || str.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        StringUtil util = new StringUtil();
+        System.out.println("Is null empty? " + util.isNullOrEmpty(null));
+        System.out.println("Is '' empty? " + util.isNullOrEmpty(""));
+        System.out.println("Is 'hello' empty? " + util.isNullOrEmpty("hello"));
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Poor or missing Javadoc
+public class StringHelper {
+
+    // No explanation of what it does or parameters
+    public boolean check(String s) {
+        return s == null || s.length() == 0; // "length == 0" is less clear than "isEmpty()"
+    }
+
+    public static void main(String[] args) {
+        StringHelper h = new StringHelper();
+        // Code is not self-documenting regarding purpose
+        System.out.println(h.check("test"));
+    }
+}
+```
+
+## Rule 6: Error Handling
+
+Title: Implement Proper Error Handling
+Description: Use specific exceptions and handle them at appropriate levels. Provide meaningful error messages and log errors with context. Do not swallow exceptions, clean up resources in finally blocks or use try-with-resources, and implement proper fallback mechanisms.
+
+**Good example:**
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ErrorHandlingGood {
+
+    public String readFile(String filePath) {
+        StringBuilder content = new StringBuilder();
+        // try-with-resources ensures the reader is closed automatically
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append(System.lineSeparator());
+            }
+        } catch (IOException e) { // Specific exception
+            // Log error with context and provide meaningful message
+            System.err.println("Error reading file '" + filePath + "': " + e.getMessage());
+            // Optionally, rethrow as a custom application exception or return a default
+            return "Error: Could not read file.";
+        }
+        return content.toString();
+    }
+
+    public static void main(String[] args) {
+        ErrorHandlingGood ehg = new ErrorHandlingGood();
+        // Create a dummy file for testing, or use an existing one
+        // try { new java.io.File("test.txt").createNewFile(); } catch (IOException e) {}
+        System.out.println(ehg.readFile("non_existent_file.txt"));
+        // System.out.println(ehg.readFile("test.txt"));
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ErrorHandlingBad {
+
+    public String readFile(String filePath) {
+        StringBuilder content = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append(System.lineSeparator());
+            }
+        } catch (IOException e) {
+            // Swallowing exception: Bad practice!
+            // No logging, no user feedback, just an empty string returned.
+        } finally {
+            // Resource cleanup is manual and error-prone if not done carefully
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // Another swallowed exception or poor handling
+                    System.err.println("Failed to close reader.");
+                }
+            }
+        }
+        return content.toString(); // Returns empty on error, hiding the problem
+    }
+
+    public static void main(String[] args) {
+        ErrorHandlingBad ehb = new ErrorHandlingBad();
+        // The error is silent
+        String result = ehb.readFile("another_non_existent_file.txt");
+        if (result.isEmpty()){
+            System.out.println("File read failed silently (Bad Practice).");
+        }
+    }
+}
+```
+
+## Rule 7: Secure Exception Handling Practices
+
+Title: Implement Secure Exception Handling Practices
+
+Description: Proper exception handling is critical for application security. It helps prevent information leakage, denial of service (DoS) vulnerabilities, and ensures the application remains robust and predictable even when errors occur. These guidelines focus on handling exceptions in a way that enhances security.
+
+### 7.1 Avoid Exposing Sensitive Information
+
+-   **Rationale:** Exception messages and stack traces can inadvertently reveal sensitive system details, internal logic, library versions, or user data, which can be exploited by attackers.
+-   **Guideline:**
+    -   Never include sensitive information (e.g., passwords, PII, secret keys, internal system paths, full SQL queries) directly in exception messages that might be logged or shown to users.
+    -   Sanitize or generalize error messages intended for users. Provide generic error messages (e.g., "An internal error occurred. Please try again later.") and log detailed, non-sensitive diagnostic information for developers.
+    -   Be cautious with `toString()` methods of objects involved in exceptions, as they might serialize sensitive data.
+
+**Good Example (Logging):**
+
+```java
+try {
+    // Risky operation that might expose data
+    performSensitiveOperation(userData);
+} catch (SpecificSecurityException e) {
+    // Log a generic message for security audit, and specific non-sensitive details for debugging
+    logger.error("Security validation failed for user: {}. Details: {}", sanitizeForLogging(userData.getUsername()), e.getErrorCode());
+    // For user:
+    throw new UserFacingException("Operation failed due to a validation error. Please check your input.");
+} catch (Exception e) {
+    logger.error("An unexpected error occurred during sensitive operation for user: {}", sanitizeForLogging(userData.getUsername()), e); // Log the exception for internal review
+    throw new UserFacingException("An unexpected error occurred. Please contact support.");
+}
+```
+
+**Bad Example:**
+
+```java
+try {
+    // ...
+    if (!isValid(creditCardNumber)) {
+        throw new IllegalArgumentException("Invalid credit card number: " + creditCardNumber); // Leaks credit card number
+    }
+} catch (Exception e) {
+    logger.error("Error processing payment: " + e.getMessage(), e); // Potentially logs sensitive data from exception message
+    // Displaying e.getMessage() directly to the user can also be risky
+}
+```
+
+### 7.2 Catch Specific Exceptions
+
+-   **Rationale:** Catching overly broad exceptions like `java.lang.Exception` or `java.lang.Throwable` can mask underlying issues, lead to incorrect error handling, and make the code harder to understand and maintain. It can also inadvertently catch security-critical exceptions that should be handled differently or allowed to propagate.
+-   **Guideline:**
+    -   Catch the most specific exception classes relevant to the operation being performed.
+    -   Handle each specific exception appropriately based on its meaning.
+    -   If you must catch a general exception (e.g., in a top-level error handler), log it thoroughly and consider if it can be re-thrown as a more specific, application-defined exception.
+
+**Good Example:**
+
+```java
+try {
+    File configFile = new File("app.config");
+    FileInputStream fis = new FileInputStream(configFile);
+    // ... process file
+} catch (FileNotFoundException e) {
+    logger.warn("Configuration file not found: app.config", e);
+    // Handle missing configuration file (e.g., use defaults)
+} catch (IOException e) {
+    logger.error("Error reading configuration file: app.config", e);
+    // Handle general I/O errors
+}
+```
+
+**Bad Example:**
+
+```java
+try {
+    // ... file operations, network calls, etc.
+} catch (Exception e) { // Too broad
+    logger.error("Something went wrong: ", e);
+    // How to recover? What was the actual problem?
+}
+```
+
+### 7.3 Do Not Ignore or "Swallow" Exceptions
+
+-   **Rationale:** Ignoring exceptions by catching them and doing nothing (or just logging without further action if action is needed) can leave the application in an inconsistent or insecure state. It hides problems that could be critical.
+-   **Guideline:**
+    -   Every `catch` block should handle the exception appropriately or explicitly document why no action is taken (which should be rare).
+    -   Handling might involve logging, cleaning up resources, attempting recovery, re-throwing the exception (possibly wrapped in a custom exception), or notifying the user.
+    -   Avoid empty `catch` blocks. If an exception is truly expected and ignorable, comment explaining why.
+
+**Good Example:**
+
+```java
+try {
+    // ... operation that might fail ...
+} catch (SpecificRecoverableException e) {
+    logger.warn("Recoverable error occurred: {}. Attempting recovery.", e.getMessage());
+    attemptRecovery();
+} catch (UnrecoverableException e) {
+    logger.error("Unrecoverable error: {}. Propagating.", e.getMessage(), e);
+    throw new ApplicationCriticalException("Critical operation failed.", e);
+}
+```
+
+**Bad Example:**
+
+```java
+try {
+    // ...
+} catch (IOException e) {
+    // Swallowed exception - problem is hidden!
+}
+
+try {
+    // ...
+} catch (NullPointerException e) {
+    e.printStackTrace(); // Not sufficient for production code; use a logger and proper handling.
+}
+```
+
+### 7.4 Centralize and Standardize Exception Handling (Where Appropriate)
+
+-   **Rationale:** Consistent handling of common exceptions across the application improves maintainability and reduces the risk of introducing security vulnerabilities through ad-hoc error handling.
+-   **Guideline:**
+    -   Consider using framework-specific mechanisms (e.g., `@ControllerAdvice` in Spring) or custom handlers for cross-cutting concerns like security exceptions, validation exceptions, etc.
+    -   Define application-specific exception hierarchies to provide clear, contextual error information.
+
+### 7.5 Secure Use of `finally` Blocks and Try-With-Resources
+
+-   **Rationale:** `finally` blocks are crucial for releasing resources (files, network connections, locks) to prevent resource leaks, which can lead to DoS. However, code in `finally` blocks can also throw exceptions, potentially masking the original exception.
+-   **Guideline:**
+    -   Prefer `try-with-resources` for managing resources that implement `AutoCloseable`, as it handles resource closing automatically and correctly suppresses exceptions thrown during close if an original exception is pending.
+    -   If using `finally` for resource cleanup, ensure the cleanup code itself does not throw new exceptions that would hide the original issue. If cleanup can fail, log those failures separately.
+
+**Good Example (try-with-resources):**
+
+```java
+try (FileInputStream fis = new FileInputStream("file.txt");
+     BufferedInputStream bis = new BufferedInputStream(fis)) {
+    // work with bis
+} catch (IOException e) {
+    logger.error("Failed to process file.txt", e);
+    // Handle I/O error
+}
+```
+
+**Good Example (careful finally):**
+
+```java
+Lock lock = new ReentrantLock();
+lock.lock();
+try {
+    // critical section
+} finally {
+    lock.unlock(); // Simple, unlikely to throw an exception here
+}
+```
+
+### 7.6 Be Cautious with Exception Chaining
+
+-   **Rationale:** While exception chaining (`new MyException("...", cause)`) is good for preserving context, ensure that the "cause" exception does not inadvertently carry sensitive information that then gets logged or propagated where it shouldn't.
+-   **Guideline:**
+    -   When wrapping exceptions, consider if the original exception (`cause`) contains sensitive data. If so, log the original securely and throw a new, sanitized exception without wrapping the sensitive one, or wrap a sanitized version of it.
+
+### 7.7 Validate Data from Exceptions
+
+-   **Rationale:** If data from an exception object (e.g., from a third-party library or a deserialized object) is used in responses or further processing, it must be treated as untrusted input and validated/sanitized to prevent injection attacks or other security issues.
+-   **Guideline:**
+    -   Do not directly embed arbitrary strings from exception objects (especially from external sources) into HTML/JSON responses or SQL queries without proper sanitization or escaping.
+
+This provides a comprehensive set of guidelines for secure exception handling.
+
+
