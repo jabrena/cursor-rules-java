@@ -4,7 +4,7 @@
 
 Modern Java IDEs, such as **Cursor AI**, provide ways to customize how the `Agent model` behaves using reusable and scoped instructions. This repository offers a collection of such Cursor rules specifically for Java development.
 
-The collection tries to enrich the developer experience with LLMs in some phases in any CI workflow.
+This collection of Cursor Rules for Java development, tries to enrich the developer experience when the Software engineer interact with LLMs in some phases in of any CI workflow.
 
 ![](./docs/dev-cicd-process.png)
 
