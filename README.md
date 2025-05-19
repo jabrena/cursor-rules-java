@@ -10,7 +10,6 @@ Modern Java IDEs like Cursor AI includes a way to customize the waythe `Agent mo
 - [General Java](.cursor/rules/111-java-general-guidelines.mdc)
 - [Object oriented design](.cursor/rules/112-java-object-oriented-design.mdc)
 - [Modern Java](.cursor/rules/113-java-refactoring-wiht-modern-features.mdc)
-- [REST API Design](.cursor/rules/114-java-rest-api-design.mdc)
 - [Logging](.cursor/rules/121-java-logging.mdc)
 - [Functional Programming](.cursor/rules/131-java-functional-programming.mdc)
 - [Data oriented programming](.cursor/rules/132-java-data-oriented-programming.mdc)
@@ -27,4 +26,4 @@ Modern Java IDEs like Cursor AI includes a way to customize the waythe `Agent mo
 
 - https://www.cursor.com/
 - https://docs.cursor.com/context/rules
-- https://docs.cursor.com/context/%40-symbols/%40-cursor-rules
+- https://docs.cursor.com/context/@-symbols/@-cursor-rules
