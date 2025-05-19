@@ -22,6 +22,10 @@ Modern Java IDEs like Cursor AI includes a way to customize the waythe `Agent mo
 - [Books: Refactoring by Martin Fowler](.cursor/rules/203-book-refactoring.mdc)
 - [SQL](.cursor/rules/500-sql.mdc)
 
+## Java JEPS from Java 8
+
+- [JEPS List](./docs/All-JEPS.md)
+
 ## References
 
 - https://www.cursor.com/
