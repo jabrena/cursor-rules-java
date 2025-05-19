@@ -7,21 +7,14 @@ alwaysApply: false
 
 ## Table of contents
 
-- Rule 1: Java Code Style
-- Rule 2: Architecture Guidelines
-- Rule 3: Security Guidelines
-- Rule 4: Performance Guidelines
-- Rule 5: Documentation Standards
-- Rule 6: Error Handling
-- Rule 7: Secure Exception Handling Practices
+- Rule 1: Naming Conventions
+- Rule 2: Formatting
+- Rule 3: Import Statements
+- Rule 4: Documentation Standards
+- Rule 5: Error Handling
+- Rule 6: Secure Exception Handling Practices
 
-## Rule 1: Java Code Style
-
-Title: Adhere to Consistent and Modern Java Code Style
-
-Description: Maintaining a consistent and modern code style is crucial for readability, collaboration, and long-term maintainability of Java projects. This rule encompasses naming conventions, code formatting, import organization, and the appropriate use of modern language features and annotations.
-
-### 1.1 Naming Conventions
+## Rule 1: Naming Conventions
 
 -   **Packages:** Lowercase, using reverse domain name notation (e.g., `com.example.project.module`). Avoid underscores.
 -   **Classes and Interfaces:** PascalCase (e.g., `UserProfile`, `DataAccessService`). Names should be descriptive nouns or noun phrases.
@@ -30,7 +23,7 @@ Description: Maintaining a consistent and modern code style is crucial for reada
 -   **Constants:** `ALL_CAPS_SNAKE_CASE` (e.g., `MAX_LOGIN_ATTEMPTS`, `DEFAULT_TIMEOUT_MS`).
 -   **Type Parameters:** Single uppercase letter (e.g., `T`, `E`, `K`, `V`) or a descriptive name in PascalCase if more complex.
 
-### 1.2 Formatting
+## Rule 2: Formatting
 
 -   **Indentation:** Use 4 spaces for indentation. Some style guides (like Google's) recommend 2 spaces; consistency within a project is key. Do not use tabs.
 -   **Line Length:** Aim for a maximum line length of 120 characters. Some guides suggest 100 characters (Google) or even 80 (older Oracle). This helps readability, especially with side-by-side diffs.
@@ -67,7 +60,7 @@ Description: Maintaining a consistent and modern code style is crucial for reada
     -   Standard annotations like `@Override` and `@Deprecated` should be used consistently.
     -   Nullability annotations (e.g., `@Nullable`, `@NonNull` from JetBrains, JSpecify, or similar frameworks) should be used consistently if the project adopts them. Follow project-specific guidelines for their setup and usage.
 
-### 1.3 Import Statements
+## Rule 3: Import Statements
 
 -   **Order:**
     1.  Static imports (all static imports grouped together).
@@ -232,219 +225,7 @@ class userProfileSvc {
 }
 ``` 
 
-## Rule 2: Architecture Guidelines
-
-Title: Follow Sound Architectural Principles
-Description: Employ recommended architectural patterns and avoid common anti-patterns. Recommended patterns include Repository, Factory, Builder, Strategy, Observer, and Dependency Injection. Avoid anti-patterns like God Classes, Golden Hammer, Spaghetti Code, and Magic Numbers/Strings.
-
-**Good example:**
-
-```java
-// Using Dependency Injection (Conceptual)
-interface MessageService {
-    void sendMessage(String message);
-}
-
-class EmailService implements MessageService {
-    @Override
-    public void sendMessage(String message) {
-        System.out.println("Sending email: " + message);
-    }
-}
-
-class NotificationManager {
-    private final MessageService messageService;
-
-    // Dependency is injected via constructor
-    public NotificationManager(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    public void notifyUser(String notification) {
-        messageService.sendMessage(notification);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        MessageService emailService = new EmailService();
-        NotificationManager notificationManager = new NotificationManager(emailService);
-        notificationManager.notifyUser("Your order has shipped!");
-    }
-}
-```
-
-**Bad Example:**
-
-```java
-// God Class (Conceptual)
-class SuperController {
-    public void processOrder() { /* ... */ }
-    public void updateUserProfile() { /* ... */ }
-    public void generateReport() { /* ... */ }
-    public void sendEmailNotification() { /* ... */ }
-    public void validateInput() { /* ... */ }
-    // Many more unrelated responsibilities...
-}
-
-public class Main {
-    public static void main(String[] args) {
-        SuperController controller = new SuperController();
-        controller.processOrder();
-        // This class does too many things.
-    }
-}
-```
-
-## Rule 3: Security Guidelines
-
-Title: Implement Robust Security Practices
-Description: Ensure application security by validating all inputs, using parameterized queries, and sanitizing user input. For authentication, use strong password policies, MFA, and secure session management. Implement role-based access control, follow the principle of least privilege, and validate permissions at each layer. Protect data by encrypting sensitive information, using secure communication protocols, and implementing proper key management.
-
-**Good example:**
-
-```java
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Objects;
-import java.util.regex.Pattern;
-
-public class SecureOperations {
-
-    // Input validation example
-    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,16}$");
-
-    public boolean isValidUsername(String username) {
-        if (Objects.isNull(username)) {
-            return false;
-        }
-        return USERNAME_PATTERN.matcher(username).matches();
-    }
-
-    // Parameterized query example
-    public void updateUserEmail(Connection connection, int userId, String newEmail) throws SQLException {
-        if (!isValidUsername(newEmail.split("@")[0])) { // Basic email validation part
-             System.out.println("Invalid email format part.");
-             return;
-        }
-        String sql = "UPDATE users SET email = ? WHERE user_id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, newEmail);
-            pstmt.setInt(2, userId);
-            pstmt.executeUpdate();
-        }
-    }
-    // Dummy main for demonstration
-    public static void main(String[] args) {
-        SecureOperations ops = new SecureOperations();
-        System.out.println("Is 'user123' valid? " + ops.isValidUsername("user123"));
-        System.out.println("Is 'user@123' valid? " + ops.isValidUsername("user@123"));
-        // Connection conn = null; // Get a real connection
-        // try {
-        // ops.updateUserEmail(conn, 1, "new.email@example.com");
-        // } catch (SQLException e) {
-        // e.printStackTrace();
-        // }
-    }
-}
-```
-
-**Bad Example:**
-
-```java
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class InsecureOperations {
-
-    // No input validation
-    public void updateUserEmail(Connection connection, int userId, String newEmail) throws SQLException {
-        // Unsafe: susceptible to SQL Injection
-        String sql = "UPDATE users SET email = '" + newEmail + "' WHERE user_id = " + userId;
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(sql);
-        }
-    }
-
-    public static void main(String[] args) {
-        // Example of how SQL injection could occur if not careful
-        // String maliciousEmail = "test@example.com'; DROP TABLE users; --";
-        // InsecureOperations ops = new InsecureOperations();
-        // Connection conn = null; // Get a real connection
-        // try {
-        //    ops.updateUserEmail(conn, 1, maliciousEmail);
-        // } catch (SQLException e) {
-        //    e.printStackTrace();
-        // }
-        System.out.println("This shows an example of constructing SQL queries with string concatenation, which is bad.");
-    }
-}
-```
-
-## Rule 4: Performance Guidelines
-
-Title: Optimize for Performance
-Description: Improve application performance by using appropriate data structures, optimizing database queries, implementing caching, using lazy loading, and minimizing object creation. Monitor performance by using appropriate logging levels, implementing metrics collection, monitoring resource usage, and setting up alerting.
-
-**Good example:**
-
-```java
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class PerformanceDemo {
-
-    public static void main(String[] args) {
-        // Choosing an appropriate data structure:
-        // ArrayList is good for frequent random access.
-        List<String> arrayList = new ArrayList<>();
-        arrayList.add("Apple");
-        arrayList.add("Banana");
-        System.out.println("Element at index 1 (ArrayList): " + arrayList.get(1));
-
-        // LinkedList is good for frequent insertions/deletions.
-        List<String> linkedList = new LinkedList<>();
-        linkedList.add("Orange");
-        linkedList.add(0, "Mango"); // Efficient insertion at the beginning
-        System.out.println("Element at index 0 (LinkedList): " + linkedList.get(0));
-
-        // Minimizing object creation in a loop (conceptual)
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            sb.append(i); // Reuses StringBuilder
-        }
-        System.out.println("Concatenated string: " + sb.toString());
-    }
-}
-```
-
-**Bad Example:**
-
-```java
-public class PerformanceAntiPattern {
-
-    public static void main(String[] args) {
-        // Inefficient string concatenation in a loop
-        String result = "";
-        for (int i = 0; i < 10; i++) {
-            result += i; // Creates a new String object in each iteration
-        }
-        System.out.println("Concatenated string (inefficient): " + result);
-
-        // Using ArrayList when LinkedList would be better for many insertions at start
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            list.add(0, String.valueOf(i)); // Inefficient for ArrayList
-        }
-        System.out.println("Added 10000 elements to ArrayList at index 0.");
-    }
-}
-```
-
-## Rule 5: Documentation Standards
+## Rule 4: Documentation Standards
 
 Title: Maintain Clear Documentation
 Description: Write self-documenting code and comment on complex algorithms, business rules, and public APIs. Use Javadoc with required elements like @param, @return, @throws, and @since. Javadoc style should be clear, concise, use complete sentences, and proper grammar.
@@ -500,7 +281,7 @@ public class StringHelper {
 }
 ```
 
-## Rule 6: Error Handling
+## Rule 5: Error Handling
 
 Title: Implement Proper Error Handling
 Description: Use specific exceptions and handle them at appropriate levels. Provide meaningful error messages and log errors with context. Do not swallow exceptions, clean up resources in finally blocks or use try-with-resources, and implement proper fallback mechanisms.
@@ -587,13 +368,13 @@ public class ErrorHandlingBad {
 }
 ```
 
-## Rule 7: Secure Exception Handling Practices
+## Rule 6: Secure Exception Handling Practices
 
 Title: Implement Secure Exception Handling Practices
 
 Description: Proper exception handling is critical for application security. It helps prevent information leakage, denial of service (DoS) vulnerabilities, and ensures the application remains robust and predictable even when errors occur. These guidelines focus on handling exceptions in a way that enhances security.
 
-### 7.1 Avoid Exposing Sensitive Information
+### 6.1 Avoid Exposing Sensitive Information
 
 -   **Rationale:** Exception messages and stack traces can inadvertently reveal sensitive system details, internal logic, library versions, or user data, which can be exploited by attackers.
 -   **Guideline:**
@@ -632,7 +413,7 @@ try {
 }
 ```
 
-### 7.2 Catch Specific Exceptions
+### 6.2 Catch Specific Exceptions
 
 -   **Rationale:** Catching overly broad exceptions like `java.lang.Exception` or `java.lang.Throwable` can mask underlying issues, lead to incorrect error handling, and make the code harder to understand and maintain. It can also inadvertently catch security-critical exceptions that should be handled differently or allowed to propagate.
 -   **Guideline:**
@@ -667,7 +448,7 @@ try {
 }
 ```
 
-### 7.3 Do Not Ignore or "Swallow" Exceptions
+### 6.3 Do Not Ignore or "Swallow" Exceptions
 
 -   **Rationale:** Ignoring exceptions by catching them and doing nothing (or just logging without further action if action is needed) can leave the application in an inconsistent or insecure state. It hides problems that could be critical.
 -   **Guideline:**
@@ -705,7 +486,7 @@ try {
 }
 ```
 
-### 7.4 Centralize and Standardize Exception Handling (Where Appropriate)
+### 6.4 Centralize and Standardize Exception Handling (Where Appropriate)
 
 -   **Rationale:** Consistent handling of common exceptions across the application improves maintainability and reduces the risk of introducing security vulnerabilities through ad-hoc error handling.
 -   **Guideline:**
@@ -743,13 +524,13 @@ try {
 }
 ```
 
-### 7.6 Be Cautious with Exception Chaining
+### 6.6 Be Cautious with Exception Chaining
 
 -   **Rationale:** While exception chaining (`new MyException("...", cause)`) is good for preserving context, ensure that the "cause" exception does not inadvertently carry sensitive information that then gets logged or propagated where it shouldn't.
 -   **Guideline:**
     -   When wrapping exceptions, consider if the original exception (`cause`) contains sensitive data. If so, log the original securely and throw a new, sanitized exception without wrapping the sensitive one, or wrap a sanitized version of it.
 
-### 7.7 Validate Data from Exceptions
+### 6.7 Validate Data from Exceptions
 
 -   **Rationale:** If data from an exception object (e.g., from a third-party library or a deserialized object) is used in responses or further processing, it must be treated as untrusted input and validated/sanitized to prevent injection attacks or other security issues.
 -   **Guideline:**
