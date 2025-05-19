@@ -123,13 +123,13 @@ public class UserProfileService {
      * @throws InvalidUserDataException if the username is invalid or user not found.
      */
     public UserDTO getUserByUsername(String username) throws InvalidUserDataException {
-        if (username == null || username.trim().isEmpty() || username.length() > MAX_NAME_LENGTH) { // Brace usage
+        if (Objects.isNull(username) || username.trim().isEmpty() || username.length() > MAX_NAME_LENGTH) { // Brace usage
             throw new InvalidUserDataException("Username is invalid.");
         }
 
         var userEntity = userRepository.findByUsername(username); // 'var' for clear type
 
-        if (userEntity == null) {
+        if (Objects.isNull(userEntity)) {
             // Log error or handle as per application requirements before throwing
             throw new InvalidUserDataException("User not found: " + username);
         }
@@ -178,6 +178,7 @@ package my_app_services;
 
 // Wildcard imports, no order, no static grouping
 import java.util.*;
+import java.util.Objects;
 import com.example.myapp.dto.UserDTO;
 import com.example.myapp.exceptions.InvalidUserDataException; // Should be after java.util
 import static com.example.myapp.utils.ValidationConstants.MAX_NAME_LENGTH; // Static not first
@@ -197,14 +198,14 @@ class userProfileSvc {
     // Method not camelCase, poor parameter name
     public UserDTO GetUser(String Username) throws InvalidUserDataException {
         // No braces for single line if, inconsistent indentation
-        if (Username == null || Username.trim().isEmpty())
+        if (Objects.isNull(Username) || Username.trim().isEmpty())
           throw new InvalidUserDataException("Username is invalid.");
 
         // 'var' used where type might not be immediately obvious if findByUsername was complex
         // and not shown in context
         var user_Entity = mUserRepository.findByUsername(Username); // variable not camelCase
 
-        if (user_Entity == null) {
+        if (Objects.isNull(user_Entity)) {
             throw new InvalidUserDataException("User not found: " + Username); } // Brace on same line as if, inconsistent
         else { // else on new line
             return convertToDTO(user_Entity);
@@ -306,6 +307,7 @@ Description: Ensure application security by validating all inputs, using paramet
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class SecureOperations {
@@ -314,7 +316,7 @@ public class SecureOperations {
     private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,16}$");
 
     public boolean isValidUsername(String username) {
-        if (username == null) {
+        if (Objects.isNull(username)) {
             return false;
         }
         return USERNAME_PATTERN.matcher(username).matches();
@@ -467,7 +469,7 @@ public class StringUtil {
         if ("error".equals(str)) {
             throw new IllegalArgumentException("Input cannot be 'error'");
         }
-        return str == null || str.isEmpty();
+        return Objects.isNull(str) || str.isEmpty();
     }
 
     public static void main(String[] args) {
@@ -487,7 +489,7 @@ public class StringHelper {
 
     // No explanation of what it does or parameters
     public boolean check(String s) {
-        return s == null || s.length() == 0; // "length == 0" is less clear than "isEmpty()"
+        return Objects.isNull(s) || s.length() == 0; // "length == 0" is less clear than "isEmpty()"
     }
 
     public static void main(String[] args) {
@@ -658,7 +660,7 @@ try {
 
 ```java
 try {
-    // ... file operations, network calls, etc.
+    // ...
 } catch (Exception e) { // Too broad
     logger.error("Something went wrong: ", e);
     // How to recover? What was the actual problem?

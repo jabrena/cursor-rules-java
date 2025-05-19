@@ -151,18 +151,18 @@ if (validationFailed) {
 **Bad Example:**
 
 ```java
-// Bad: Returning 200 OK for all situations, even errors.
+import java.util.Objects;
 public ResponseEntity<String> processSomething(String input) {
     try {
-        if (input == null) {
+        if (Objects.isNull(input)) {
             // Client should receive a 400 Bad Request, not 200 with an error message in body.
-            return ResponseEntity.ok("{"error":"Input cannot be null"}"); 
+            return ResponseEntity.ok("{\"error\":\"Input cannot be null\"}"); 
         }
         // ... process ...
-        return ResponseEntity.ok("{"data":"Success!"}");
+        return ResponseEntity.ok("{\"data\":\"Success!\"}");
     } catch (Exception e) {
         // Client should receive a 500 Internal Server Error, not 200.
-        return ResponseEntity.ok("{"error":"Something went wrong on the server"}");
+        return ResponseEntity.ok("{\"error\":\"Something went wrong on the server\"}");
     }
 }
 ```

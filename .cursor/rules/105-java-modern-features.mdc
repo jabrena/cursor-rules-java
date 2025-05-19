@@ -486,7 +486,7 @@ interface BadInterface {
     // Bad: Default method with overly complex logic or many dependencies
     // that should ideally be in a separate class or abstract class.
     default void complexDefaultOperation(String config) {
-        if (config == null) {
+        if (Objects.isNull(config)) {
             // ... handle complex setup A ...
             System.out.println("Complex default with null config");
         } else {
@@ -921,6 +921,7 @@ Description:
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 // Simulate an expensive object to initialize
 class ExpensiveObject {
@@ -937,10 +938,10 @@ public class PerformanceConsiderations {
 
     public ExpensiveObject getLazyInitializedInstance() {
         ExpensiveObject result = instance; // Read volatile field once
-        if (result == null) {
+        if (Objects.isNull(result)) {
             synchronized (this) { // Synchronize only if instance is null
                 result = instance; // Double-check
-                if (result == null) {
+                if (Objects.isNull(result)) {
                     instance = result = new ExpensiveObject();
                 }
             }
@@ -1039,7 +1040,7 @@ import java.util.stream.Collectors;
 
 class ModernFeaturesService {
     public List<String> filterAndToUpper(List<String> input, String startsWith) {
-        if (input == null) return List.of();
+        if (Objects.isNull(input)) return List.of();
         return input.stream()
             .filter(s -> s != null && s.startsWith(startsWith))
             .map(String::toUpperCase)
@@ -1047,7 +1048,7 @@ class ModernFeaturesService {
     }
 
     public Optional<String> findFirstLongString(List<String> input, int minLength) {
-        if (input == null) return Optional.empty();
+        if (Objects.isNull(input)) return Optional.empty();
         return input.stream()
             .filter(s -> s != null && s.length() >= minLength)
             .findFirst();

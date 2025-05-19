@@ -30,6 +30,7 @@ Using a standard logging facade like SLF4J allows for flexibility in choosing an
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class MyService {
     // Logger declared using SLF4J
@@ -38,7 +39,7 @@ public class MyService {
     public void performAction(String input) {
         // SLF4J API is used for logging
         logger.info("Performing action with input: {}", input);
-        if (input == null || input.isEmpty()) {
+        if (Objects.isNull(input) || input.isEmpty()) {
             logger.warn("Input is null or empty, this might lead to unexpected behavior.");
             // Potentially handle error or default behavior
         }
@@ -97,6 +98,7 @@ Use logging levels consistently to categorize the severity and importance of log
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class DataProcessor {
     private static final Logger logger = LoggerFactory.getLogger(DataProcessor.class);
@@ -104,7 +106,7 @@ public class DataProcessor {
     public void processData(String recordId, String data) {
         logger.trace("Entering processData for recordId: {}, data snippet: {}", recordId, data.substring(0, Math.min(data.length(), 10)));
         
-        if (data == null || data.isEmpty()) {
+        if (Objects.isNull(data) || data.isEmpty()) {
             logger.warn("Data for recordId {} is null or empty. Skipping processing.", recordId);
             return;
         }
@@ -140,6 +142,7 @@ public class DataProcessor {
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class MisguidedLogger {
     private static final Logger logger = LoggerFactory.getLogger(MisguidedLogger.class);
@@ -198,7 +201,7 @@ Follow these core practices to ensure logs are useful, maintainable, and perform
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-
+import java.util.Objects;
 import java.util.UUID;
 
 class TransactionService {
@@ -213,7 +216,7 @@ class TransactionService {
         logger.info("Processing transaction ID: {}", transactionId);
 
         try {
-            if (transactionId == null || transactionId.isEmpty()) {
+            if (Objects.isNull(transactionId) || transactionId.isEmpty()) {
                 throw new IllegalArgumentException("Transaction ID cannot be null or empty.");
             }
 
@@ -274,6 +277,7 @@ class TransactionService {
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class BadLoggingExample {
     private static final Logger logger = LoggerFactory.getLogger(BadLoggingExample.class);
@@ -359,6 +363,7 @@ Proper configuration is key to effective logging.
 // Java code showing how logger names affect output based on the above config
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 // Assuming package is com.example.myapp
 // package com.example.myapp; 
@@ -407,6 +412,7 @@ public class ConfiguredLoggerExample {
 // Java code consequences
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class BadConfigConsequences {
     private static final Logger logger = LoggerFactory.getLogger(BadConfigConsequences.class);
@@ -438,13 +444,14 @@ Logging can inadvertently expose sensitive information if not handled carefully.
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class SecureLogger {
     private static final Logger logger = LoggerFactory.getLogger(SecureLogger.class);
 
     // Example of a simple masking utility
     private static String maskCreditCard(String cardNumber) {
-        if (cardNumber == null || cardNumber.length() < 10) {
+        if (Objects.isNull(cardNumber) || cardNumber.length() < 10) {
             return "INVALID_CC_DATA";
         }
         // Mask all but first 6 and last 4 digits typically
@@ -487,6 +494,7 @@ public class SecureLogger {
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class InsecureLogger {
     private static final Logger logger = LoggerFactory.getLogger(InsecureLogger.class);
@@ -533,6 +541,7 @@ Proactively use logs to understand application behavior and identify issues.
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MonitoredService {
@@ -597,6 +606,7 @@ public class MonitoredService {
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public class UnmonitoredService {
     private static final Logger logger = LoggerFactory.getLogger(UnmonitoredService.class);
@@ -645,6 +655,7 @@ Ensure logging works as expected and doesn't negatively impact the application.
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 // For a real test, you'd use a testing framework (JUnit, TestNG)
 // and a library to capture logs, e.g., Logback's ListAppender or SystemLambda.
 
@@ -652,7 +663,7 @@ import org.slf4j.LoggerFactory;
 class ImportantService {
     private static final Logger logger = LoggerFactory.getLogger(ImportantService.class);
     public void processImportantData(String dataId) {
-        if (dataId == null) {
+        if (Objects.isNull(dataId)) {
             logger.error("Data ID is null, cannot process.");
             throw new IllegalArgumentException("Data ID cannot be null");
         }
@@ -749,6 +760,10 @@ public class LoggingTestExample {
 **Bad Example:**
 ```java
 // Code that is hard to test for logging behavior
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.Objects;
+
 public class UntestableLogging {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(UntestableLogging.class);
 

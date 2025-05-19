@@ -27,9 +27,10 @@ Description:
 
 ```java
 // Example: Testing a simple utility method
+import java.util.Objects;
 public class StringUtils {
     public static boolean isEmpty(String str) {
-        return str == null || str.trim().isEmpty();
+        return Objects.isNull(str) || str.trim().isEmpty();
     }
 }
 
@@ -205,8 +206,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Production class (simplified)
+import java.util.Objects;
 class OrderProcessor {
     private List<String> items;
 
@@ -215,7 +218,7 @@ class OrderProcessor {
     }
 
     public void addItem(String item) {
-        if (item == null || item.trim().isEmpty()) {
+        if (Objects.isNull(item) || item.trim().isEmpty()) {
             throw new IllegalArgumentException("Item cannot be null or empty");
         }
         this.items.add(item);
@@ -331,6 +334,7 @@ Ensure your tests check the following boundary conditions (CORRECT):
 
 ```java
 // Example: Testing a method that validates a user registration age.
+import java.util.Objects;
 public class UserValidation {
     private static final int MIN_AGE = 18;
     private static final int MAX_AGE = 120;
@@ -341,14 +345,14 @@ public class UserValidation {
     }
 
     public boolean isValidEmailFormat(String email) {
-        if (email == null) return false;
+        if (Objects.isNull(email)) return false;
         // C - Conformance (simplified regex for demonstration)
-        return email.matches("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+        return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     }
     
     // E - Existence
     public boolean processUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
+        if (Objects.isNull(username) || username.trim().isEmpty()) {
             // Checks for existence (non-null, non-empty)
             return false; 
         }

@@ -289,6 +289,7 @@ Description:
 
 ```java
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -307,7 +308,7 @@ public class FunctionalParadigms {
 
     // Optional usage for safe division
     public static Optional<Double> divideNumbers(Double numerator, Double denominator) {
-        if (denominator == null || denominator == 0) {
+        if (Objects.isNull(denominator) || denominator == 0) {
             return Optional.empty();
         }
         return Optional.of(numerator / denominator);
@@ -397,7 +398,7 @@ public final class PointClass {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (Objects.isNull(o) || getClass() != o.getClass()) return false;
         PointClass that = (PointClass) o;
         return x == that.x && y == that.y;
     }

@@ -327,6 +327,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
 // Flat structures with references (IDs)
 record TaskData(String id, String name, String description, String assigneeId) {}
@@ -347,7 +348,7 @@ class FlatDataStore {
 
     public List<TaskData> getTasksForProject(String projectId) {
         ProjectData project = projects.get(projectId);
-        if (project == null) return List.of();
+        if (Objects.isNull(project)) return List.of();
         return project.taskIds().stream()
             .map(tasks::get)
             .collect(Collectors.toList());
@@ -432,6 +433,7 @@ Description:
 import java.util.Map;
 import java.util.HashMap;
 import java.time.LocalDate;
+import java.util.Objects;
 
 // Specific target type (record)
 record UserProfile(
@@ -463,7 +465,7 @@ class UserProfileConverter {
             throw new IllegalArgumentException("Invalid birthDate format");
         }
 
-        if (email == null || firstName == null || lastName == null || birthDate == null) {
+        if (Objects.isNull(email) || Objects.isNull(firstName) || Objects.isNull(lastName) || Objects.isNull(birthDate)) {
             throw new IllegalArgumentException("Missing required user profile fields");
         }
         
@@ -554,15 +556,16 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.Objects;
 
 record UserRecord(String id, String email, int age) {}
 
 // Validation functions as static methods in a utility class
 class UserValidators {
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^\w.-+@\w.-+\.a-zA-Z{2,}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^\\w.-+@\\w.-+\\.a-zA-Z{2,}$");
 
     public static Optional<String> validateEmailFormat(String email) {
-        if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
+        if (Objects.isNull(email) || !EMAIL_PATTERN.matcher(email).matches()) {
             return Optional.of("Invalid email format for: " + email);
         }
         return Optional.empty(); // No error
@@ -612,10 +615,11 @@ class ValidationFunctionExample {
 
 ```java
 // Validation logic mixed into data object, or throwing exceptions for normal flow
+import java.util.Objects;
 record UserWithEmbeddedValidation(String email, int age) {
     public UserWithEmbeddedValidation {
         // Validation in constructor - can be problematic
-        if (email == null || !email.contains("@")) {
+        if (Objects.isNull(email) || !email.contains("@")) {
             throw new IllegalArgumentException("Invalid email in constructor");
         }
         if (age < 0) {
@@ -625,7 +629,7 @@ record UserWithEmbeddedValidation(String email, int age) {
 
     // Or validation method that throws exceptions
     public void validate() {
-        if (email == null || !email.contains("@")) {
+        if (Objects.isNull(email) || !email.contains("@")) {
             throw new IllegalStateException("User email is invalid");
         }
         if (age < 0) {

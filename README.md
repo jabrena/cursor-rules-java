@@ -19,14 +19,12 @@ Modern Java IDEs like Cursor AI includes a way to customize the waythe `Agent mo
 - [Pragmatic Unit Testing](.cursor/rules/202-book-pragmatic-unit-testing.mdc)
 - [Refactoring](.cursor/rules/203-book-refactoring.mdc)
 - [SQL](.cursor/rules/500-sql.mdc)
+- [Maven Best Practices](.cursor/rules/109-java-maven-best-practices.mdc)
+- [REST API Design](.cursor/rules/110-java-rest-api-design.mdc)
+- [Secure Coding](.cursor/rules/111-java-secure-coding.mdc)
 
 ## References
 
 - https://www.cursor.com/
 - https://docs.cursor.com/context/rules
 - https://docs.cursor.com/context/%40-symbols/%40-cursor-rules
-
-### Articles
-
-- https://dev.to/dpaluy/mastering-cursor-rules-a-developers-guide-to-smart-ai-integration-1k65
-- https://www.instructa.ai/en/blog/how-to-use-cursor-rules-in-version-0-45

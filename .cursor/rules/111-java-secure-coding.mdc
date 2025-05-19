@@ -21,8 +21,9 @@ Description: Always validate and sanitize data received from untrusted sources (
 **Good example:**
 
 ```java
+import java.util.Objects;
 public void processUserData(String username, String ageString) {
-    if (username == null || !username.matches("^[a-zA-Z0-9_]{3,16}$")) {
+    if (Objects.isNull(username) || !username.matches("^[a-zA-Z0-9_]{3,16}$")) {
         throw new IllegalArgumentException("Invalid username format.");
     }
 
