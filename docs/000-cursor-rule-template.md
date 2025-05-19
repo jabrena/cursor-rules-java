@@ -18,14 +18,14 @@ Description: Explain the rule clearly. What is it? Why is it important? How to a
 
 **Good example:**
 
-```language-if-applicable
+```java
 // Provide a clear, concise code example demonstrating the good practice.
 // Keep it minimal and focused on the rule.
 ```
 
 **Bad Example:**
 
-```language-if-applicable
+```java
 // Provide a clear, concise code example demonstrating the anti-pattern or incorrect way.
 // Highlight why it's bad in relation to the rule.
 ```
