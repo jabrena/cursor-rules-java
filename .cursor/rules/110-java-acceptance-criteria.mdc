@@ -1,0 +1,221 @@
+---
+description: Java Acceptance criteria guidelines
+globs: **/*.feature
+alwaysApply: false
+---
+# Java Acceptance criteria guidelines
+
+# Gherkin for Java Acceptance Criteria
+
+This document provides guidelines for writing Gherkin feature files to define acceptance criteria for Java applications. It focuses on capturing both functional and non-functional requirements in a clear, concise, and testable manner.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+- Clarity: Scenarios should be easily understandable by all stakeholders (developers, testers, business analysts).
+- Testability: Scenarios should be written in a way that allows for straightforward automation.
+- Completeness: Cover both functional behavior and relevant non-functional characteristics.
+- Collaboration: Gherkin files serve as a shared understanding of requirements.
+
+## Table of contents
+
+- Rule 1: Standard Gherkin Structure
+- Rule 2: Writing Effective Scenarios for Functional Requirements
+- Rule 3: Incorporating Non-Functional Requirements (NFRs)
+- Rule 4: Using Background for Preconditions
+- Rule 5: Scenario Outlines for Data-Driven Tests
+- Rule 6: Tags for Organization and Filtering
+
+## Rule 1: Standard Gherkin Structure
+
+Title: Adhere to Standard Gherkin Keywords and Structure
+Description: Gherkin files should follow the standard `Feature`, `Scenario` (or `Example`), `Given`, `When`, `Then`, `And`, `But` keywords. This ensures consistency and readability.
+
+**Good example:**
+
+```gherkin
+Feature: User Authentication
+
+  Scenario: Successful login
+    Given the user is on the login page
+    When the user enters valid credentials
+    And clicks the login button
+    Then the user should be redirected to the dashboard
+```
+
+**Bad Example:**
+
+```gherkin
+# Missing Feature or Scenario keywords, or using non-standard terms.
+# For instance, just writing a paragraph of text without structure.
+
+User tries to log in.
+If they provide correct username and password, they see the main page.
+```
+
+## Rule 2: Writing Effective Scenarios for Functional Requirements
+
+Title: Clearly Define Actions and Expected Outcomes for Functional Behavior
+Description: Scenarios should describe a specific user interaction or system behavior and its observable outcome. Focus on "what" the system does, not "how" it does it.
+
+**Good example:**
+
+```gherkin
+Feature: Product Search
+
+  Scenario: Search for an existing product
+    Given the user is on the product search page
+    When the user enters "Laptop" in the search bar
+    And clicks the search button
+    Then a list of laptops should be displayed
+    And each product in the list should show its name and price
+```
+
+**Bad Example:**
+
+```gherkin
+Feature: Product Search
+
+  Scenario: Test product search
+    Given the database connection is established
+    When the search algorithm processes the query "Laptop"
+    Then the results are fetched from the Product table
+    And the UI renders the data
+# This is too focused on implementation details, not user-observable behavior.
+```
+
+## Rule 3: Incorporating Non-Functional Requirements (NFRs)
+
+Title: Specify Non-Functional Requirements Clearly within Scenarios or via Tags
+Description: NFRs like performance, security, and usability can be incorporated into Gherkin. This can be done by adding specific steps in scenarios or by using tags to categorize NFR-related tests.
+
+**Good example (Performance in Scenario):**
+
+```gherkin
+Feature: Product Search Performance
+
+  Scenario: Search response time
+    Given the user is on the product search page
+    When the user searches for "Electronics"
+    Then the search results should be displayed within 2 seconds
+```
+
+**Good example (Security via Tag and Scenario):**
+
+```gherkin
+Feature: Secure Data Access
+
+  @security @authorization
+  Scenario: Unauthorized access to admin panel
+    Given a user with "viewer" role is logged in
+    When the user attempts to access the admin panel
+    Then the user should be denied access
+    And an "Access Denied" message should be displayed
+```
+
+**Good example (Usability - Accessibility):**
+
+```gherkin
+Feature: Website Accessibility
+
+  Scenario: Keyboard navigation for login form
+    Given the user is on the login page
+    When the user navigates the login form using only the keyboard
+    Then all interactive elements (username, password, login button) should be focusable
+    And the user should be able to submit the form using the Enter key
+```
+
+**Bad Example (Vague NFR):**
+
+```gherkin
+Feature: System Performance
+
+  Scenario: System should be fast
+    Given any user action
+    When the action is performed
+    Then the system should respond quickly
+# "Fast" and "quickly" are subjective and not testable without specific metrics.
+```
+
+## Rule 4: Using Background for Preconditions
+
+Title: Use `Background` for Steps Common to All Scenarios in a Feature
+Description: The `Background` keyword allows you to define steps that are executed before each scenario in a feature file. This reduces repetition.
+
+**Good example:**
+
+```gherkin
+Feature: Shopping Cart Management
+
+  Background:
+    Given the user has an active account
+    And the user is logged in
+    And the user has an empty shopping cart
+
+  Scenario: Add item to cart
+    When the user adds "Product A" to the cart
+    Then the shopping cart should contain 1 item
+    And the item should be "Product A"
+
+  Scenario: Add multiple items to cart
+    When the user adds "Product B" to the cart
+    And the user adds "Product C" to the cart
+    Then the shopping cart should contain 2 items
+```
+
+## Rule 5: Scenario Outlines for Data-Driven Tests
+
+Title: Employ `Scenario Outline` and `Examples` for Data-Driven Testing
+Description: Use `Scenario Outline` (or `Scenario Template`) with an `Examples` table to run the same scenario with different sets of data. This is useful for testing various inputs and conditions without duplicating the scenario logic.
+
+**Good example:**
+
+```gherkin
+Feature: User Login Validation
+
+  Scenario Outline: Login with different credentials
+    Given the user is on the login page
+    When the user enters "<username>" and "<password>"
+    And clicks the login button
+    Then the user should see "<message>"
+
+    Examples:
+      | username      | password    | message                     |
+      | "valid_user"  | "valid_pass"| "Welcome to your dashboard" |
+      | "invalid_user"| "wrong_pass"| "Invalid credentials"       |
+      | ""            | "some_pass" | "Username cannot be empty"  |
+      | "some_user"   | ""          | "Password cannot be empty"  |
+```
+
+## Rule 6: Tags for Organization and Filtering
+
+Title: Utilize Tags for Categorizing and Filtering Scenarios
+Description: Tags (e.g., `@functional`, `@smoke`, `@regression`, `@sprint-5`, `@NFR-Performance`) help organize scenarios and allow for selective execution of tests.
+
+**Good example:**
+
+```gherkin
+Feature: Order Processing
+
+  @smoke @functional
+  Scenario: Successful order placement
+    Given a logged-in user with items in the cart
+    When the user proceeds to checkout
+    And provides valid shipping and payment information
+    Then the order should be placed successfully
+    And the user should receive an order confirmation
+
+  @regression @functional @edge-case
+  Scenario: Order placement with insufficient stock
+    Given a logged-in user
+    And "Product X" has only 1 item in stock
+    When the user tries to add 2 units of "Product X" to the cart
+    And proceeds to checkout
+    Then the order placement should fail
+    And an "Insufficient stock" message should be displayed
+```
+---
+*(This template provides a comprehensive starting point. Adapt and extend these rules based on your project's specific needs and conventions.)*
+
+

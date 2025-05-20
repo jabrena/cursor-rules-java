@@ -5,6 +5,25 @@ alwaysApply: false
 ---
 # Java Logging Best Practices
 
+Effective Java logging involves selecting a standard framework (SLF4J with Logback/Log4j2), using appropriate log levels (ERROR, WARN, INFO, DEBUG, TRACE),
+and adhering to core practices like parameterized logging, proper exception handling, and avoiding sensitive data exposure.
+Configuration should be environment-specific with clear output formats.
+Security is paramount: mask sensitive data, control log access, and ensure secure transmission.
+Implement centralized log aggregation, monitoring, and alerting for proactive issue detection.
+Finally, logging behavior and its impact should be validated through comprehensive testing.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+1.  **Standardized Framework Selection**: Utilize a widely accepted logging facade (preferably SLF4J) and a robust underlying implementation (Logback or Log4j2). This promotes consistency, flexibility, and access to advanced logging features.
+2.  **Meaningful and Consistent Log Levels**: Employ logging levels (ERROR, WARN, INFO, DEBUG, TRACE) deliberately and consistently to categorize the severity and importance of messages. This allows for effective filtering, monitoring, and targeted issue diagnosis.
+3.  **Adherence to Core Logging Practices**: Follow fundamental best practices such as using parameterized logging (avoiding string concatenation for performance and clarity), always logging exceptions with their stack traces, never logging sensitive data directly (PII, credentials), and using correlation IDs (e.g., via MDC) for request tracing in distributed environments.
+4.  **Thoughtful and Flexible Configuration**: Manage logging configuration externally (e.g., `logback.xml`, `log4j2.xml`). Tailor configurations for different environments (dev, test, prod) with appropriate log levels for various packages, clear and informative output formats (including timestamps, levels, logger names, thread info, and MDC data), and robust log rotation and retention policies.
+5.  **Security-Conscious Logging**: Prioritize security in all logging activities. Actively mask or filter sensitive information, control access to log files and log management systems, use secure protocols for transmitting logs, and ensure compliance with relevant data protection regulations (e.g., GDPR, HIPAA).
+6.  **Proactive Log Monitoring and Alerting**: Implement centralized log aggregation systems (e.g., ELK Stack, Splunk, Grafana Loki). Establish automated alerts based on log patterns, error rates, or specific critical events to enable proactive issue detection and rapid response.
+7.  **Comprehensive Logging Validation Through Testing**: Integrate logging into the testing strategy. Assert that critical log messages (especially errors and warnings) are generated as expected under specific conditions, verify log formats, test log level filtering, and assess any performance impact of logging.
+
 ## Table of contents
 
 - Rule 1: Choose an Appropriate Logging Framework

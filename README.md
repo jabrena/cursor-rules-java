@@ -11,11 +11,13 @@ This collection of Cursor Rules for Java development, tries to enrich the develo
 ## Cursor Rules
 
 - [Build: Maven Best Practices](.cursor/rules/100-java-maven-best-practices.mdc)
-- [Coding: General Java Guidelines](.cursor/rules/111-java-general-guidelines.mdc)
-- [Coding: Object Oriented Design](.cursor/rules/112-java-object-oriented-design.mdc)
-- [Coding: Secure Java Coding](.cursor/rules/113-java-secure-coding.mdc)
-- [Coding: Concurrency (If required)](.cursor/rules/114-java-concurrency.mdc)
-- [Coding: Logging Guidelines](.cursor/rules/115-java-logging.mdc)
+- [Design: Acceptance criteria](.cursor/rules/110-java-acceptance-criteria.mdc)
+- [Coding: Object Oriented Design](.cursor/rules/111-java-object-oriented-design.mdc)
+- [Coding: Type Design](.cursor/rules/112-java-type-design.mdc)
+- [Coding: General Java Guidelines](.cursor/rules/113-java-general-guidelines.mdc)
+- [Coding: Secure Java Coding](.cursor/rules/114-java-secure-coding.mdc)
+- [Coding: Concurrency (If required)](.cursor/rules/115-java-concurrency.mdc)
+- [Coding: Logging Guidelines](.cursor/rules/116-java-logging.mdc)
 - [Testing: Unit Testing](.cursor/rules/121-java-unit-testing.mdc)
 - [Testing: Integration Testing (If required)](.cursor/rules/122-java-integration-testing.mdc)
 - [Refactoring: Add Modern Java Features](.cursor/rules/131-java-refactoring-with-modern-features.mdc)

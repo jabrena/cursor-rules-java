@@ -5,7 +5,19 @@ alwaysApply: false
 ---
 # Java Object-Oriented Design Guidelines
 
-This document provides guidelines for designing and refactoring objects in Java projects, promoting maintainable, flexible, and understandable code.
+This document provides comprehensive guidelines for robust Java object-oriented design and refactoring. It emphasizes core principles like SOLID, DRY, and YAGNI, best practices for class and interface design including favoring composition over inheritance and designing for immutability. The rules also cover mastering encapsulation, inheritance, and polymorphism, and finally, identifying and refactoring common object-oriented design code smells such as God Classes, Feature Envy, and Data Clumps to promote maintainable, flexible, and understandable code.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+1.  **Adherence to Fundamental Design Principles**: Embrace foundational principles like SOLID (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion), DRY (Don't Repeat Yourself), and YAGNI (You Ain't Gonna Need It). These principles are key to building systems that are robust, maintainable, flexible, and easy to understand.
+2.  **Effective Class and Interface Design**: Employ best practices for designing classes and interfaces. This includes favoring composition over inheritance to achieve flexibility, programming to an interface rather than an implementation to promote loose coupling, keeping classes small and focused on a single responsibility, and designing for immutability where appropriate to enhance simplicity and thread-safety.
+3.  **Mastery of Core OOP Concepts**: Thoroughly understand and correctly apply the pillars of object-oriented programming:
+    *   **Encapsulation**: Protect internal state and expose behavior through well-defined interfaces.
+    *   **Inheritance**: Model true "is-a" relationships, ensuring subclasses are substitutable for their base types (Liskov Substitution Principle).
+    *   **Polymorphism**: Allow objects of different types to respond to the same message in their own way, simplifying client code.
+4.  **Proactive Code Smell Management**: Develop the ability to identify common object-oriented design "code smells" (e.g., God Class, Feature Envy, Data Clumps, Refused Bequest). Recognizing and refactoring these smells is crucial for improving the long-term health, maintainability, and clarity of the codebase.
 
 ## Table of contents
 

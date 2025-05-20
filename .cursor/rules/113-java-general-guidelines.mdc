@@ -5,14 +5,25 @@ alwaysApply: false
 ---
 # Java General Guidelines
 
+This document outlines general Java coding guidelines covering fundamental aspects such as naming conventions for packages, classes, methods, variables, and constants; code formatting rules including indentation, line length, brace style, and whitespace usage; standards for organizing import statements; best practices for Javadoc documentation; and comprehensive error and exception handling with a strong focus on security, including avoiding sensitive information exposure, catching specific exceptions, and secure resource management.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+1.  **Clarity and Consistency in Naming**: Adhere to standard Java naming conventions for all code elements (packages, classes, methods, variables, constants). This promotes code that is intuitive, predictable, and easier for developers to understand and navigate.
+2.  **Readability through Formatting**: Consistently apply formatting rules for indentation, line length, brace style, and whitespace. Well-formatted code is significantly easier to read, debug, and maintain.
+3.  **Organized Import Statements**: Structure import statements logically by grouping related packages and alphabetizing within those groups. Avoid wildcard imports to ensure clarity about class origins and prevent namespace conflicts.
+4.  **Effective Documentation**: Strive for self-documenting code. For public APIs, complex algorithms, non-obvious business logic, or any part of the code that isn't immediately clear, provide comprehensive Javadoc. Good documentation aids understanding, usage, and maintenance.
+5.  **Robust and Secure Error Handling**: Implement thorough error and exception handling with a strong focus on security. This includes using specific exceptions, managing resources diligently (preferably with try-with-resources), preventing the leakage of sensitive information in logs or error messages, and never "swallowing" exceptions without proper handling or justification. Resilient and secure applications depend on robust error management.
+
 ## Table of contents
 
 - Rule 1: Naming Conventions
 - Rule 2: Formatting
 - Rule 3: Import Statements
 - Rule 4: Documentation Standards
-- Rule 5: Error Handling
-- Rule 6: Secure Exception Handling Practices
+- Rule 5: Comprehensive Error and Exception Handling (Including Security Best Practices)
 
 ## Rule 1: Naming Conventions
 
@@ -281,10 +292,11 @@ public class StringHelper {
 }
 ```
 
-## Rule 5: Error Handling
 
-Title: Implement Proper Error Handling
-Description: Use specific exceptions and handle them at appropriate levels. Provide meaningful error messages and log errors with context. Do not swallow exceptions, clean up resources in finally blocks or use try-with-resources, and implement proper fallback mechanisms.
+## Rule 5: Comprehensive Error and Exception Handling (Including Security Best Practices)
+
+Title: Implement Comprehensive Error Handling with Security Focus
+Description: Implement robust error handling using specific exceptions, managing them at appropriate levels. Provide meaningful error messages and log errors with necessary context while rigorously preventing information leakage and other security vulnerabilities. Do not swallow exceptions, ensure resources are cleaned up (preferably using try-with-resources), and implement proper fallback mechanisms. This rule outlines practices for creating resilient and secure applications.
 
 **Good example:**
 
@@ -368,13 +380,9 @@ public class ErrorHandlingBad {
 }
 ```
 
-## Rule 6: Secure Exception Handling Practices
+### Further Secure Exception Handling Practices:
 
-Title: Implement Secure Exception Handling Practices
-
-Description: Proper exception handling is critical for application security. It helps prevent information leakage, denial of service (DoS) vulnerabilities, and ensures the application remains robust and predictable even when errors occur. These guidelines focus on handling exceptions in a way that enhances security.
-
-### 6.1 Avoid Exposing Sensitive Information
+### 5.1 Avoid Exposing Sensitive Information
 
 -   **Rationale:** Exception messages and stack traces can inadvertently reveal sensitive system details, internal logic, library versions, or user data, which can be exploited by attackers.
 -   **Guideline:**
@@ -413,7 +421,7 @@ try {
 }
 ```
 
-### 6.2 Catch Specific Exceptions
+### 5.2 Catch Specific Exceptions
 
 -   **Rationale:** Catching overly broad exceptions like `java.lang.Exception` or `java.lang.Throwable` can mask underlying issues, lead to incorrect error handling, and make the code harder to understand and maintain. It can also inadvertently catch security-critical exceptions that should be handled differently or allowed to propagate.
 -   **Guideline:**
@@ -448,7 +456,7 @@ try {
 }
 ```
 
-### 6.3 Do Not Ignore or "Swallow" Exceptions
+### 5.3 Do Not Ignore or "Swallow" Exceptions
 
 -   **Rationale:** Ignoring exceptions by catching them and doing nothing (or just logging without further action if action is needed) can leave the application in an inconsistent or insecure state. It hides problems that could be critical.
 -   **Guideline:**
@@ -486,14 +494,14 @@ try {
 }
 ```
 
-### 6.4 Centralize and Standardize Exception Handling (Where Appropriate)
+### 5.4 Centralize and Standardize Exception Handling (Where Appropriate)
 
 -   **Rationale:** Consistent handling of common exceptions across the application improves maintainability and reduces the risk of introducing security vulnerabilities through ad-hoc error handling.
 -   **Guideline:**
     -   Consider using framework-specific mechanisms (e.g., `@ControllerAdvice` in Spring) or custom handlers for cross-cutting concerns like security exceptions, validation exceptions, etc.
     -   Define application-specific exception hierarchies to provide clear, contextual error information.
 
-### 7.5 Secure Use of `finally` Blocks and Try-With-Resources
+### 5.5 Secure Use of `finally` Blocks and Try-With-Resources
 
 -   **Rationale:** `finally` blocks are crucial for releasing resources (files, network connections, locks) to prevent resource leaks, which can lead to DoS. However, code in `finally` blocks can also throw exceptions, potentially masking the original exception.
 -   **Guideline:**
@@ -524,18 +532,14 @@ try {
 }
 ```
 
-### 6.6 Be Cautious with Exception Chaining
+### 5.6 Be Cautious with Exception Chaining
 
 -   **Rationale:** While exception chaining (`new MyException("...", cause)`) is good for preserving context, ensure that the "cause" exception does not inadvertently carry sensitive information that then gets logged or propagated where it shouldn't.
 -   **Guideline:**
     -   When wrapping exceptions, consider if the original exception (`cause`) contains sensitive data. If so, log the original securely and throw a new, sanitized exception without wrapping the sensitive one, or wrap a sanitized version of it.
 
-### 6.7 Validate Data from Exceptions
+### 5.7 Validate Data from Exceptions
 
 -   **Rationale:** If data from an exception object (e.g., from a third-party library or a deserialized object) is used in responses or further processing, it must be treated as untrusted input and validated/sanitized to prevent injection attacks or other security issues.
 -   **Guideline:**
-    -   Do not directly embed arbitrary strings from exception objects (especially from external sources) into HTML/JSON responses or SQL queries without proper sanitization or escaping.
-
-This provides a comprehensive set of guidelines for secure exception handling.
-
-
+    -   Do not directly embed arbitrary strings from exception objects (especially from external sources) into HTML/JSON responses or SQL queries without proper sanitization or escaping. 

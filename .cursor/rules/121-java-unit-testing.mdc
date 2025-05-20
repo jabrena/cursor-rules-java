@@ -5,6 +5,18 @@ alwaysApply: false
 ---
 # Java Unit testing
 
+Effective Java unit testing involves using JUnit 5 annotations and AssertJ for fluent assertions. Tests should follow the Given-When-Then structure with descriptive names for clarity. Each test must have a single responsibility, be independent, and leverage parameterized tests for data variations. Mocking dependencies with frameworks like Mockito is crucial for isolating the unit under test. While code coverage is a useful guide, the focus should be on meaningful tests for critical logic and edge cases. Test classes and methods should typically be package-private. Strategies for code splitting include small test methods and helper functions. Anti-patterns like testing implementation details, hard-coded values, and ignoring failures should be avoided. Proper state management involves isolated state and immutable objects, and error handling should include testing for expected exceptions and their messages.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+1.  **Clarity and Readability**: Tests should be easy to understand. This is achieved through descriptive names (or `@DisplayName`), a clear Given-When-Then structure, and focused assertions. Readable tests serve as living documentation for the code under test.
+2.  **Isolation and Independence**: Each test must be self-contained, not relying on the state or outcome of other tests. Dependencies should be mocked to ensure the unit under test is validated in isolation. This leads to reliable and stable test suites.
+3.  **Comprehensive Validation**: Tests should thoroughly verify the behavior of the unit, including its responses to valid inputs, edge cases, boundary conditions, and error scenarios. This involves not just positive paths but also how the code handles failures and exceptions.
+4.  **Modern Tooling and Practices**: Leverage modern testing frameworks (JUnit 5), fluent assertion libraries (AssertJ), and mocking tools (Mockito) to write expressive, maintainable, and powerful tests. Utilize features like parameterized tests to reduce boilerplate and improve coverage of data variations.
+5.  **Maintainability and Focus**: Tests should be easy to maintain. This means avoiding tests that are too complex, test implementation details, or have multiple responsibilities. A well-written test makes it clear what is being tested and why, simplifying debugging and refactoring efforts.
+
 ## Table of contents
 
 - Rule 1: Use JUnit 5 Annotations
@@ -21,6 +33,7 @@ alwaysApply: false
 - Rule 12: Anti-patterns and Code Smells
 - Rule 13: State Management
 - Rule 14: Error Handling
+- Rule 15: Leverage JSpecify for Null Safety
 
 ## Rule 1: Use JUnit 5 Annotations
 
@@ -553,4 +566,138 @@ Test methods should have package-private visibility. There is no need for them t
 - **Expected Exceptions:** Use `assertThrows` to verify that a method throws the expected exception under specific conditions.
 - **Exception Messages:** Assert the exception message to ensure the correct error is being thrown with helpful context.
 - **Graceful Degradation:** Test how the application handles errors and gracefully degrades when dependencies are unavailable.
+
+## Rule 15: Leverage JSpecify for Null Safety
+
+Title: Utilize JSpecify annotations for explicit nullness contracts.
+Description: Employ JSpecify annotations (`org.jspecify.annotations.*`) such as `@NullMarked`, `@Nullable`, and `@NonNull` to clearly define the nullness expectations of method parameters, return types, and fields within your tests and the code under test. This practice enhances code clarity, enables static analysis tools to catch potential `NullPointerExceptions` early, and improves the overall robustness of your tests and application code. In test code, this is particularly important for defining the expected behavior of mocks and verifying interactions with potentially null values.
+
+**Good Example (Illustrating usage in a test context):**
+
+```java
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+// Assume:
+// @NullMarked // Usually at package-info.java or a higher-level class
+// interface DataService {
+//     @Nullable String getData(String key);
+//     String processData(@Nullable String data);
+// }
+//
+// class MyProcessor {
+//     private final DataService dataService;
+//
+//     MyProcessor(DataService dataService) {
+//         this.dataService = dataService;
+//     }
+//
+//     String execute(String key) {
+//         @Nullable String rawData = dataService.getData(key);
+//         // rawData could be null here, static analysis would warn if not checked
+//         if (rawData == null) {
+//             return dataService.processData(null);
+//         }
+//         return dataService.processData(rawData.toUpperCase());
+//     }
+// }
+
+
+@NullMarked // Applies non-null by default to this test class
+@ExtendWith(MockitoExtension.class)
+class MyProcessorTest {
+
+    @Mock
+    private DataService mockDataService;
+
+    private MyProcessor myProcessor;
+
+    @Test
+    void should_handleNullData_when_serviceReturnsNull() {
+        // Given
+        myProcessor = new MyProcessor(mockDataService);
+        String key = "testKey";
+        // JSpecify helps clarify that getData can return null
+        when(mockDataService.getData(key)).thenReturn(null);
+        // JSpecify helps clarify that processData can accept null
+        when(mockDataService.processData(null)).thenReturn("processed:null");
+
+
+        // When
+        String result = myProcessor.execute(key);
+
+        // Then
+        assertThat(result).isEqualTo("processed:null");
+    }
+
+    @Test
+    void should_processNonNullData_when_serviceReturnsData() {
+        // Given
+        myProcessor = new MyProcessor(mockDataService);
+        String key = "testKey";
+        String serviceData = "someData"; // Effectively @NonNull due to @NullMarked context
+        // getData's return is @Nullable, but we are testing the non-null path
+        when(mockDataService.getData(key)).thenReturn(serviceData);
+        // processData's argument is @Nullable, here we pass a non-null value
+        when(mockDataService.processData("SOMEDATA")).thenReturn("processed:SOMEDATA");
+
+        // When
+        String result = myProcessor.execute(key);
+
+        // Then
+        assertThat(result).isEqualTo("processed:SOMEDATA");
+    }
+}
+```
+
+**Bad Example (Lack of explicit nullness):**
+
+```java
+// No JSpecify annotations, nullness is ambiguous
+// class DataService {
+//     String getData(String key); // Is null return possible? Is key nullable?
+//     String processData(String data); // Can data be null?
+// }
+//
+// class MyProcessor {
+//     // ... constructor ...
+//     String execute(String key) {
+//         String rawData = dataService.getData(key);
+//         // Potential NPE here if getData can return null and it's not handled.
+//         // The contract is unclear without annotations.
+//         return dataService.processData(rawData.toUpperCase());
+//     }
+// }
+
+class MyProcessorTest {
+    // ... test setup ...
+
+    @Test
+    void testProcessing() {
+        // Given
+        MyProcessor myProcessor = new MyProcessor(mockDataService);
+        String key = "testKey";
+        // Ambiguity: if getData returns null, this test might pass or fail unexpectedly
+        // depending on mock setup, but the underlying contract isn't clear.
+        when(mockDataService.getData(key)).thenReturn("someData");
+        when(mockDataService.processData("SOMEDATA")).thenReturn("processed:SOMEDATA");
+        // If getData could return null and mockDataService.processData isn't
+        // prepared for mockDataService.processData(null), an NPE could occur
+        // in the code under test or the test itself, masking the real issue.
+
+        // When
+        String result = myProcessor.execute(key);
+
+        // Then
+        assertThat(result).isEqualTo("processed:SOMEDATA");
+    }
+}
+```
 

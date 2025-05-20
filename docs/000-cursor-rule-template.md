@@ -5,6 +5,15 @@ alwaysApply: false
 ---
 # Overall Topic/Technology Name
 
+General summary about the cursor rule.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+- Principle 1: xxx
+- Principle 2: yyy
+
 ## Table of contents
 
 - Rule 1: Name of Rule 1

@@ -5,6 +5,18 @@ alwaysApply: false
 ---
 # Modern Java Development Guidelines (Java 8+)
 
+Modern Java development (Java 8+) emphasizes leveraging lambda expressions and functional interfaces over anonymous classes, and using the Stream API for declarative collection processing. The `Optional` API should be used for handling potentially absent values gracefully, and the `java.time` API for all date/time operations. Default methods allow non-breaking interface evolution. Local Variable Type Inference (`var`) can improve readability when used judiciously. Unmodifiable collection factory methods (`List.of()`, etc.) provide concise immutable collections. `CompletableFuture` facilitates composable asynchronous programming. The Java Platform Module System (JPMS, Java 9+) enables strong encapsulation. Performance implications of new features should be considered and profiled. Testing strategies need to adapt to these modern features, and text blocks (Java 15+) offer improved readability for multi-line strings.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+1.  **Conciseness and Readability**: Leverage modern Java features (like lambdas, streams, `var`, text blocks) to write code that is more concise and easier to read and understand, reducing boilerplate and focusing on intent.
+2.  **Immutability and Safety**: Embrace features like `Optional`, unmodifiable collection factories, and the `java.time` API to create more robust, null-safe, and thread-safe code by default, reducing common sources of bugs.
+3.  **Expressive Power**: Utilize functional constructs like streams and `CompletableFuture` to express complex data manipulations and asynchronous workflows in a more declarative and composable manner.
+4.  **Asynchronous and Modular Design**: Employ `CompletableFuture` for efficient asynchronous programming and the Java Platform Module System (JPMS) for building maintainable, strongly encapsulated applications with clear dependencies.
+5.  **Performance Awareness**: While modern features offer syntactic improvements, remain mindful of their potential performance implications. Profile critical sections and make informed decisions, especially with streams and asynchronous operations.
+
 ## Table of contents
 
 - Rule 1: Lambda Expressions and Functional Interfaces
