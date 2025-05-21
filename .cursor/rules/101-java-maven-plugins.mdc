@@ -1,0 +1,362 @@
+---
+description: Maven plugins
+globs: pom.xml
+alwaysApply: false
+---
+# Maven plugins
+
+Explain how to update a pom.xml file defining a set of maven plugins
+
+## Table of contents
+
+- Rule 1: Maven Properties
+- Rule 2: Add flatten-maven-plugin
+- Rule 3: Add maven-plugins-enforcer
+- Rule 4: Add maven-plugins-compiler
+- Rule 5: Add maven-plugins-surefire
+- Rule 6: Add maven-failsafe-plugin
+- Rule 7: Add versions-maven-plugin
+- Rule 8: Add git-commit-id-plugin
+- Rule 9: Add jacoco-maven-plugin
+- Rule 10: Add test reports
+
+## Rule 1: Maven Properties
+
+Update the pom.xml with this set of properties:
+
+```xml
+<properties>
+    <java.version>24</java.version>
+    <maven.version>3.9.9</maven.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Dependencies -->
+
+    <!-- Test dependencies -->
+
+    <!-- Maven Plugins -->
+    <maven-plugins-flatten.version>1.7.0</maven-plugins-flatten.version>
+    <maven-plugins-enforcer.version>3.5.0</maven-plugins-enforcer.version>
+    <maven-plugins-compiler.version>3.14.0</maven-plugins-compiler.version>
+    <error-prone.version>2.38.0</error-prone.version>
+    <nullaway.version>0.11.0</nullaway.version>
+    <maven-plugins-surefire.version>3.5.3</maven-plugins-surefire.version>
+    <maven-plugins-failsafe.version>3.5.3</maven-plugins-failsafe.version>
+    <maven-plugins-jxr.version>3.6.0</maven-plugins-jxr.version>
+    <maven-plugins-jacoco.version>0.8.13</maven-plugins-jacoco.version>
+    <maven-plugins-versions.version>2.18.0</maven-plugins-versions.version>
+    <maven-plugins-git-commit-id.version>4.9.10</maven-plugins-git-commit-id.version>
+
+    <!-- Coverage -->
+    <coverage.level>80</coverage.level>
+</properties>
+```
+
+## Rule 2: Add flatten-maven-plugin
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>flatten-maven-plugin</artifactId>
+    <version>${maven-plugins-flatten.version}</version>
+    <configuration>
+    </configuration>
+    <executions>
+        <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+                <goal>flatten</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+                <goal>clean</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+## Rule 3: Add maven-plugins-enforcer
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-enforcer-plugin</artifactId>
+    <version>${maven-plugins-enforcer.version}</version>
+    <executions>
+        <execution>
+            <id>enforce</id>
+            <configuration>
+                <rules>
+                    <dependencyConvergence />
+                    <banDuplicatePomDependencyVersions />
+                    <requireMavenVersion>
+                        <version>${maven.version}</version>
+                    </requireMavenVersion>
+                    <requireJavaVersion>
+                        <version>${java.version}</version>
+                    </requireJavaVersion>
+                    <bannedDependencies>
+                        <excludes>
+                            <exclude>org.projectlombok:lombok</exclude>
+                        </excludes>
+                    </bannedDependencies>
+                </rules>
+                <fail>true</fail>
+            </configuration>
+            <goals>
+                <goal>enforce</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+## Rule 4: Add maven-plugins-compiler
+
+Create/Update the file $(pwd)/.mvn/jvm.config with the following content:
+
+```txt
+--add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+--add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+--add-opens jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
+--add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED
+```
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>${maven-plugins-compiler.version}</version>
+    <configuration>
+        <release>${java.version}</release>
+        <compilerArgs>
+            <arg>-Xlint:all</arg>
+            <arg>-Werror</arg>
+            <!-- Error prone settings-->
+            <arg>-XDcompilePolicy=simple</arg>
+            <arg>--should-stop=ifError=FLOW</arg>
+            <arg>-Xplugin:ErrorProne \
+                -Xep:NullAway:ERROR \
+                -XepOpt:NullAway:JSpecifyMode=true \
+                -XepOpt:NullAway:TreatGeneratedAsUnannotated=true \
+                -XepOpt:NullAway:CheckOptionalEmptiness=true \
+                -XepOpt:NullAway:HandleTestAssertionLibraries=true \
+                -XepOpt:NullAway:AssertsEnabled=true \
+                -XepOpt:NullAway:AnnotatedPackages=info.jab.cli
+            </arg>
+        </compilerArgs>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>${error-prone.version}</version>
+            </path>
+            <path>
+                <groupId>com.uber.nullaway</groupId>
+                <artifactId>nullaway</artifactId>
+                <version>${nullaway.version}</version>
+            </path>
+        </annotationProcessorPaths>
+    </configuration>
+</plugin>
+```
+
+## Rule 5: Add maven-plugins-surefire
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>${maven-plugins-surefire.version}</version>
+    <configuration>
+        <skipAfterFailureCount>1</skipAfterFailureCount>
+        <includes>
+            <include>**/*Test.java</include>
+        </includes>
+        <excludes>
+            <exclude>**/*IT.java</exclude>
+        </excludes>
+    </configuration>
+</plugin>
+```
+
+## Rule 6: Add maven-failsafe-plugin
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>${maven-plugins-failsafe.version}</version>
+    <configuration>
+        <includes>
+            <include>**/*IT.java</include>
+        </includes>
+        <excludes>
+            <exclude>**/*Test.java</exclude>
+        </excludes>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>integration-test</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+## Rule 7: Add versions-maven-plugin
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>versions-maven-plugin</artifactId>
+    <version>${maven-plugins-versions.version}</version>
+    <configuration>
+        <allowSnapshots>false</allowSnapshots>
+    </configuration>
+</plugin>
+```
+
+## Rule 8: Add git-commit-id-plugin
+
+Update the pom.xml with this new plugin:
+
+```xml
+<plugin>
+    <groupId>pl.project13.maven</groupId>
+    <artifactId>git-commit-id-plugin</artifactId>
+    <version>${maven-plugins-git-commit-id.version}</version>
+    <executions>
+        <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+                <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+        </execution>
+    </executions>
+    <configuration>
+        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+        <commitIdGenerationMode>full</commitIdGenerationMode>
+    </configuration>
+</plugin>
+```
+
+## Rule 9: Add jacoco-maven-plugin
+
+Update the pom.xml with this profile to run jacoco:
+
+```xml
+<profiles>
+    <profile>
+        <id>jacoco</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${maven-plugins-jacoco.version}</version>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>check</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>LINE</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>BRANCH</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
+```
+
+## Rule 10: Add test reports
+
+Update the pom.xml with this reporting section:
+
+```xml
+<reporting>
+    <plugins>
+        <!-- Generates HTML test reports -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>${maven-plugins-surefire.version}</version>
+            <configuration>
+                <outputName>junit-report</outputName>
+                <showSuccess>true</showSuccess>
+            </configuration>
+        </plugin>
+
+        <!-- Adds links to source code in reports -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jxr-plugin</artifactId>
+            <version>${maven-plugins-jxr.version}</version>
+        </plugin>
+    </plugins>
+</reporting>
+```
