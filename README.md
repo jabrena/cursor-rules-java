@@ -49,7 +49,9 @@ If you have new ideas to improve any of the current Cursor rules or add a new on
 - https://docs.cursor.com/context/rules
 - https://docs.cursor.com/context/@-symbols/@-cursor-rules
 - https://openjdk.org/jeps/0
+- ...
+- https://github.com/jabrena/cursor-rules-agile
 - https://github.com/jabrena/cursor-rules-java
 - https://github.com/jabrena/cursor-rules-tasks
-- https://github.com/jabrena/cursor-rules-agile
 - https://github.com/jabrena/cursor-rules-examples
+- https://github.com/jabrena/101-cursor
