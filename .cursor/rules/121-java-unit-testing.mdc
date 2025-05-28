@@ -34,6 +34,9 @@ These guidelines are built upon the following core principles:
 - Rule 13: State Management
 - Rule 14: Error Handling
 - Rule 15: Leverage JSpecify for Null Safety
+- Rule 16: Key Questions to Guide Test Creation (RIGHT-BICEP)
+- Rule 17: Characteristics of Good Tests (A-TRIP)
+- Rule 18: Verifying CORRECT Boundary Conditions
 
 ## Rule 1: Use JUnit 5 Annotations
 
@@ -563,7 +566,7 @@ Test methods should have package-private visibility. There is no need for them t
 
 ## Rule 14: Error Handling
 
-- **Expected Exceptions:** Use `assertThrows` to verify that a method throws the expected exception under specific conditions.
+- **Expected Exceptions:** Use AssertJ's `assertThatThrownBy` to verify that a method throws the expected exception under specific conditions.
 - **Exception Messages:** Assert the exception message to ensure the correct error is being thrown with helpful context.
 - **Graceful Degradation:** Test how the application handles errors and gracefully degrades when dependencies are unavailable.
 
@@ -697,6 +700,387 @@ class MyProcessorTest {
 
         // Then
         assertThat(result).isEqualTo("processed:SOMEDATA");
+    }
+}
+```
+
+## Rule 16: Key Questions to Guide Test Creation (RIGHT-BICEP)
+
+Title: Key Questions to Guide Test Creation
+Description:
+- If the code ran correctly, how would I know?
+- How am I going to test this?
+- What else can go wrong?
+- Could this same kind of problem happen anywhere else?
+- What to Test: Use Your RIGHT-BICEP
+  - Are the results **R**ight?
+  - Are all the **B**oundary conditions CORRECT?
+  - Can you check **I**nverse relationships?
+  - Can you **C**ross-check results using other means?
+  - Can you force **E**rror conditions to happen?
+  - Are **P**erformance characteristics within bounds?
+
+**Good example:**
+
+```java
+// Testing a calculator's add method, considering RIGHT-BICEP
+public class Calculator {
+    public int add(int a, int b) {
+        if ((long)a + b > Integer.MAX_VALUE || (long)a + b < Integer.MIN_VALUE) {
+            throw new ArithmeticException("Integer overflow");
+        }
+        return a + b;
+    }
+}
+
+// Test class
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class CalculatorTest {
+
+    private final Calculator calculator = new Calculator();
+
+    // R - Right results
+    @Test
+    void add_simplePositiveNumbers_returnsCorrectSum() {
+        assertThat(calculator.add(2, 3)).isEqualTo(5);
+    }
+
+    // B - Boundary conditions (e.g., with zero, negative numbers, max/min values)
+    @Test
+    void add_numberAndZero_returnsNumber() {
+        assertThat(calculator.add(5, 0)).isEqualTo(5);
+    }
+
+    @Test
+    void add_positiveAndNegative_returnsCorrectSum() {
+        assertThat(calculator.add(5, -4)).isEqualTo(1);
+    }
+    
+    @Test
+    void add_nearMaxInteger_returnsCorrectSum() {
+        assertThat(calculator.add(Integer.MAX_VALUE - 1, 1)).isEqualTo(Integer.MAX_VALUE);
+    }
+
+    // I - Inverse relationships (e.g., subtraction)
+    // (Not directly applicable for a simple add, but if we had subtract: result - b == a)
+
+    // C - Cross-check (e.g., add(a,b) == add(b,a))
+    @Test
+    void add_commutativeProperty_holdsTrue() {
+        assertThat(calculator.add(2, 3)).isEqualTo(calculator.add(3, 2));
+    }
+
+    // E - Error conditions (e.g., overflow)
+    @Test
+    void add_integerOverflow_throwsArithmeticException() {
+        assertThatThrownBy(() -> calculator.add(Integer.MAX_VALUE, 1))
+            .isInstanceOf(ArithmeticException.class)
+            .hasMessageContaining("overflow");
+    }
+    
+    @Test
+    void add_integerUnderflow_throwsArithmeticException() {
+        assertThatThrownBy(() -> calculator.add(Integer.MIN_VALUE, -1))
+            .isInstanceOf(ArithmeticException.class)
+            .hasMessageContaining("overflow");
+    }
+
+    // P - Performance (Not typically unit tested unless specific requirements)
+    // @Test
+    // void add_performance_isWithinAcceptableLimits() {
+    //     // Potentially a more complex performance test scenario
+    // }
+}
+```
+
+**Bad Example:**
+
+```java
+// Test only covers one simple case (violates "Thorough" from A-TRIP, and doesn't consider RIGHT-BICEP)
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class CalculatorTestPoor {
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    void add_basicTest() {
+        assertThat(calculator.add(2, 2)).isEqualTo(4); // Only testing one happy path.
+                                                      // No boundary conditions, no error conditions, etc.
+    }
+}
+```
+
+## Rule 17: Characteristics of Good Tests (A-TRIP)
+
+Title: Characteristics of Good Tests (A-TRIP)
+Description:
+Good tests are A-TRIP:
+- **A**utomatic: Tests should run without human intervention.
+- **T**horough: Test everything that could break; cover edge cases.
+- **R**epeatable: Tests should produce the same results every time, in any environment.
+- **I**ndependent: Tests should not rely on each other or on the order of execution.
+- **P**rofessional: Test code is real code; keep it clean, maintainable, and well-documented.
+
+**Good example:**
+
+```java
+// Demonstrating A-TRIP principles
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+// Production class (simplified)
+class OrderProcessor {
+    private List<String> items;
+
+    public OrderProcessor() {
+        this.items = new ArrayList<>();
+    }
+
+    public void addItem(String item) {
+        if (Objects.isNull(item) || item.trim().isEmpty()) {
+            throw new IllegalArgumentException("Item cannot be null or empty");
+        }
+        this.items.add(item);
+    }
+
+    public int getItemCount() {
+        return this.items.size();
+    }
+
+    public void clearItems() {
+        this.items.clear();
+    }
+}
+
+// Test class demonstrating A-TRIP
+public class OrderProcessorTest {
+
+    private OrderProcessor processor;
+
+    // Automatic: Part of JUnit test suite, runs with build tools.
+    // Independent: Each test sets up its own state.
+    @BeforeEach
+    void setUp() {
+        processor = new OrderProcessor(); // Fresh instance for each test
+    }
+
+    // Thorough: Testing adding valid items.
+    @Test
+    void addItem_validItem_increasesCount() {
+        processor.addItem("Laptop");
+        assertThat(processor.getItemCount()).isEqualTo(1);
+        processor.addItem("Mouse");
+        assertThat(processor.getItemCount()).isEqualTo(2);
+    }
+
+    // Thorough: Testing an edge case (adding null).
+    @Test
+    void addItem_nullItem_throwsIllegalArgumentException() {
+        assertThatThrownBy(() -> processor.addItem(null))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+    
+    // Thorough: Testing another edge case (adding empty string).
+    @Test
+    void addItem_emptyItem_throwsIllegalArgumentException() {
+        assertThatThrownBy(() -> processor.addItem("   "))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    // Repeatable: No external dependencies that change (e.g., time, random numbers without seed).
+    // This test will always pass or always fail consistently.
+    @Test
+    void getItemCount_afterClearing_isZero() {
+        processor.addItem("Keyboard");
+        processor.clearItems();
+        assertThat(processor.getItemCount()).isEqualTo(0);
+    }
+
+    // Professional: Code is clean, uses meaningful names, follows conventions.
+}
+```
+
+**Bad Example:**
+
+```java
+// Violating A-TRIP principles
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class BadOrderProcessorTest {
+    // Violates Independent: static processor shared between tests can lead to order dependency.
+    private static OrderProcessor sharedProcessor = new OrderProcessor();
+
+    @Test
+    void test1_addItem() {
+        // Assumes this runs first or that sharedProcessor is empty.
+        sharedProcessor.addItem("Book");
+        assertThat(sharedProcessor.getItemCount()).isEqualTo(1); // Might fail if other tests run first and add items.
+                                                                // This makes it NOT Repeatable consistently.
+    }
+
+    @Test
+    void test2_addAnotherItem() {
+        sharedProcessor.addItem("Pen");
+        // The expected count depends on whether test1_addItem ran and succeeded.
+        // assertThat(sharedProcessor.getItemCount()).isEqualTo(2); // Unreliable
+        assertThat(sharedProcessor.getItemCount()).isGreaterThan(0); // Weaker assertion due to lack of independence.
+    }
+
+    // Violates Automatic: If a test required manual setup (e.g., "Ensure database server X is running and has Y data")
+    // Violates Thorough: Might only test happy paths.
+    // Violates Professional: Unclear test names, messy code, reliance on external state.
+}
+```
+
+## Rule 18: Verifying CORRECT Boundary Conditions
+
+Title: Verifying CORRECT Boundary Conditions
+Description:
+Ensure your tests check the following boundary conditions (CORRECT):
+- **C**onformance: Does the value conform to an expected format? (e.g., email format, date format)
+- **O**rdering: Is the set of values ordered or unordered as appropriate? (e.g., sorted list, items in a queue)
+- **R**ange: Is the value within reasonable minimum and maximum values? (e.g., age > 0, percentage 0-100)
+- **R**eference: Does the code reference anything external that isn't under direct control of the code itself? (e.g., file existence, network connection - often for integration tests, but can apply to unit tests with mocks)
+- **E**xistence: Does the value exist? (e.g., is non-null, non-zero, present in a set)
+- **C**ardinality: Are there exactly enough values? (e.g., expecting 1 result, 0 results, N results)
+- **T**ime (absolute and relative): Is everything happening in order? At the right time? In time? (e.g., timeouts, sequence of events)
+
+**Good example:**
+
+```java
+// Example: Testing a method that validates a user registration age.
+import java.util.Objects;
+public class UserValidation {
+    private static final int MIN_AGE = 18;
+    private static final int MAX_AGE = 120;
+
+    public boolean isAgeValid(int age) {
+        // R - Range
+        return age >= MIN_AGE && age <= MAX_AGE;
+    }
+
+    public boolean isValidEmailFormat(String email) {
+        if (Objects.isNull(email)) return false;
+        // C - Conformance (simplified regex for demonstration)
+        return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    }
+    
+    // E - Existence
+    public boolean processUsername(String username) {
+        if (Objects.isNull(username) || username.trim().isEmpty()) {
+            // Checks for existence (non-null, non-empty)
+            return false; 
+        }
+        // process username
+        return true;
+    }
+}
+
+// Test class
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class UserValidationTest {
+    private final UserValidation validator = new UserValidation();
+
+    // Testing Range for age
+    @Test
+    void isAgeValid_ageAtLowerBound_returnsTrue() {
+        assertThat(validator.isAgeValid(18)).isTrue();
+    }
+
+    @Test
+    void isAgeValid_ageAtUpperBound_returnsTrue() {
+        assertThat(validator.isAgeValid(120)).isTrue();
+    }
+    
+    @Test
+    void isAgeValid_ageWithinBounds_returnsTrue() {
+        assertThat(validator.isAgeValid(35)).isTrue();
+    }
+
+    @Test
+    void isAgeValid_ageBelowLowerBound_returnsFalse() {
+        assertThat(validator.isAgeValid(17)).isFalse();
+    }
+
+    @Test
+    void isAgeValid_ageAboveUpperBound_returnsFalse() {
+        assertThat(validator.isAgeValid(121)).isFalse();
+    }
+
+    // Testing Conformance for email
+    @ParameterizedTest
+    @ValueSource(strings = {"user@example.com", "user.name@sub.example.co.uk"})
+    void isValidEmailFormat_validEmails_returnsTrue(String email) {
+        assertThat(validator.isValidEmailFormat(email)).isTrue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"userexample.com", "user@", "@example.com", "user @example.com", ""})
+    void isValidEmailFormat_invalidEmails_returnsFalse(String email) {
+        assertThat(validator.isValidEmailFormat(email)).isFalse();
+    }
+    
+    @Test
+    void isValidEmailFormat_nullEmail_returnsFalse() {
+        assertThat(validator.isValidEmailFormat(null)).isFalse();
+    }
+
+    // Testing Existence for username
+    @Test
+    void processUsername_validUsername_returnsTrue() {
+        assertThat(validator.processUsername("john_doe")).isTrue();
+    }
+
+    @Test
+    void processUsername_nullUsername_returnsFalse() {
+        assertThat(validator.processUsername(null)).isFalse();
+    }
+    
+    @Test
+    void processUsername_emptyUsername_returnsFalse() {
+        assertThat(validator.processUsername("")).isFalse();
+    }
+
+    @Test
+    void processUsername_blankUsername_returnsFalse() {
+        assertThat(validator.processUsername("   ")).isFalse();
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Only testing one happy path for age validation, ignoring boundaries.
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class UserValidationPoorTest {
+    private final UserValidation validator = new UserValidation();
+
+    @Test
+    void isAgeValid_typicalAge_returnsTrue() {
+        assertThat(validator.isAgeValid(25)).isTrue(); // Only one value tested.
+                                                      // Min, max, below min, above max are not tested.
+    }
+    
+    @Test
+    void isValidEmailFormat_typicalEmail_returnsTrue() {
+        assertThat(validator.isValidEmailFormat("test@example.com")).isTrue(); // No invalid formats, no nulls.
     }
 }
 ```

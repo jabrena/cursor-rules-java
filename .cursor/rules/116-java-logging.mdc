@@ -704,7 +704,7 @@ class ImportantService {
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.Test;
 // import static org.assertj.core.api.Assertions.assertThat;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
+// import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class LoggingTestExample {
     /*
@@ -732,7 +732,8 @@ public class LoggingTestExample {
 
     @Test
     void testNullDataId_logsErrorAndThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> service.processImportantData(null));
+        assertThatThrownBy(() -> service.processImportantData(null))
+            .isInstanceOf(IllegalArgumentException.class);
         
         List<ILoggingEvent> logs = listAppender.list;
         assertThat(logs).hasSize(1);

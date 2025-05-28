@@ -1,5 +1,5 @@
 ---
-description: Java Integration testing guidelines 
+description: Java Integration testing guidelines
 globs: **/*IT.java
 alwaysApply: false
 ---
@@ -274,7 +274,7 @@ class MyApiControllerIT {
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
-// import static org.junit.jupiter.api.Assertions.assertEquals; // Using JUnit assert for body checks
+import static org.assertj.core.api.Assertions.assertThat; // Using AssertJ for body checks
 
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApiTestAntiPatternsIT {
@@ -287,7 +287,7 @@ public class ApiTestAntiPatternsIT {
         // Bad: Not checking status code first or at all.
         // Bad: Extracting entire response as string and doing string manipulations.
         // String responseBody = get("/resources/1").asString(); 
-        // assertTrue(responseBody.contains("\"id\":1")); // Brittle, hard to read
+        // assertThat(responseBody).contains("\"id\":1"); // Brittle, hard to read
         
         // Bad: Overly specific assertions on large JSON strings.
         // get("/complex-resource/1").then().body(equalTo("{very long and complex json string...}"));
@@ -464,7 +464,7 @@ public class VagueUserActionsIT {
         // 3. Fetch the user and verify all fields
         // String response = get("/users/1").asString();
         // Bad: Asserting a large string is brittle.
-        // assertEquals("{ \"id\":1, \"name\":\"updated\", ... very_long_json ... }", response);
+        // assertThat(response).isEqualTo("{ \"id\":1, \"name\":\"updated\", ... very_long_json ... }"); // Should use specific field assertions instead
         
         // 4. Delete the user
         // when().delete("/users/1").then().statusCode(204);

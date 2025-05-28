@@ -11,7 +11,7 @@ This document provides comprehensive guidelines for robust Java object-oriented 
 
 These guidelines are built upon the following core principles:
 
-1.  **Adherence to Fundamental Design Principles**: Embrace foundational principles like SOLID (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion), DRY (Don't Repeat Yourself), and YAGNI (You Ain't Gonna Need It). These principles are key to building systems that are robust, maintainable, flexible, and easy to understand.
+1.  **Adherence to Fundamental Design Principles**: Embrace foundational principles like SOLID, DRY, and YAGNI. These principles are key to building systems that are robust, maintainable, flexible, and easy to understand.
 2.  **Effective Class and Interface Design**: Employ best practices for designing classes and interfaces. This includes favoring composition over inheritance to achieve flexibility, programming to an interface rather than an implementation to promote loose coupling, keeping classes small and focused on a single responsibility, and designing for immutability where appropriate to enhance simplicity and thread-safety.
 3.  **Mastery of Core OOP Concepts**: Thoroughly understand and correctly apply the pillars of object-oriented programming:
     *   **Encapsulation**: Protect internal state and expose behavior through well-defined interfaces.
@@ -25,6 +25,11 @@ These guidelines are built upon the following core principles:
 - Rule 2: Follow Best Practices for Class and Interface Design
 - Rule 3: Master Encapsulation, Inheritance, and Polymorphism
 - Rule 4: Identify and Refactor Object-Oriented Design Code Smells
+- Rule 5: Creating and Destroying Objects 
+- Rule 6: Classes and Interfaces Best Practices 
+- Rule 7: Enums and Annotations 
+- Rule 8: Method Design
+- Rule 9: Exception Handling
 
 ## Rule 1: Adhere to Core Design Principles (SOLID, DRY, YAGNI)
 
@@ -806,6 +811,1608 @@ class EventSchedulerBad {
         return false;
     }
     // This pattern of passing around many related date parts is a data clump.
+}
+```
+
+## Rule 5: Creating and Destroying Objects
+
+Title: Best Practices for Object Creation and Destruction
+Description: Effective object creation and destruction patterns improve code clarity, performance, and maintainability. These practices help avoid common pitfalls and leverage Java's capabilities effectively.
+
+### Sub-Rule 5.1: Consider Static Factory Methods Instead of Constructors
+
+Title: Use static factory methods to provide more flexibility than constructors
+Description: Static factory methods offer advantages like descriptive names, ability to return existing instances, and flexibility in return types.
+
+**Good example:**
+
+```java
+public class BigInteger {
+    // Static factory method with descriptive name
+    public static BigInteger valueOf(long val) {
+        if (val == 0) return ZERO;  // Return cached instance
+        if (val > 0 && val <= MAX_CONSTANT) return posConst[(int) val];
+        return new BigInteger(val);
+    }
+    
+    // Private constructor
+    private BigInteger(long val) { /* implementation */ }
+    
+    private static final BigInteger ZERO = new BigInteger(0);
+    private static final BigInteger[] posConst = new BigInteger[MAX_CONSTANT + 1];
+}
+
+// Usage with clear intent
+BigInteger zero = BigInteger.valueOf(0);  // Clear what we're creating
+BigInteger hundred = BigInteger.valueOf(100);
+```
+
+**Bad Example:**
+
+```java
+public class BigInteger {
+    // Only constructor available - less flexible
+    public BigInteger(long val) { /* implementation */ }
+    
+    // Client code is less clear
+    BigInteger zero = new BigInteger(0);  // Not clear this could be cached
+    BigInteger hundred = new BigInteger(100);  // Creates new instance every time
+}
+```
+
+### Sub-Rule 5.2: Consider a Builder When Faced with Many Constructor Parameters
+
+Title: Use the Builder pattern for classes with multiple optional parameters
+Description: The Builder pattern provides a readable alternative to telescoping constructors and is safer than JavaBeans pattern.
+
+**Good example:**
+
+```java
+public class NutritionFacts {
+    private final int servingSize;
+    private final int servings;
+    private final int calories;
+    private final int fat;
+    private final int sodium;
+    private final int carbohydrate;
+
+    public static class Builder {
+        // Required parameters
+        private final int servingSize;
+        private final int servings;
+
+        // Optional parameters - initialized to default values
+        private int calories = 0;
+        private int fat = 0;
+        private int sodium = 0;
+        private int carbohydrate = 0;
+
+        public Builder(int servingSize, int servings) {
+            this.servingSize = servingSize;
+            this.servings = servings;
+        }
+
+        public Builder calories(int val) { calories = val; return this; }
+        public Builder fat(int val) { fat = val; return this; }
+        public Builder sodium(int val) { sodium = val; return this; }
+        public Builder carbohydrate(int val) { carbohydrate = val; return this; }
+
+        public NutritionFacts build() {
+            return new NutritionFacts(this);
+        }
+    }
+
+    private NutritionFacts(Builder builder) {
+        servingSize = builder.servingSize;
+        servings = builder.servings;
+        calories = builder.calories;
+        fat = builder.fat;
+        sodium = builder.sodium;
+        carbohydrate = builder.carbohydrate;
+    }
+}
+
+// Usage - readable and flexible
+NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8)
+    .calories(100)
+    .sodium(35)
+    .carbohydrate(27)
+    .build();
+```
+
+**Bad Example:**
+
+```java
+// Telescoping constructor pattern - hard to read and error-prone
+public class NutritionFacts {
+    private final int servingSize;
+    private final int servings;
+    private final int calories;
+    private final int fat;
+    private final int sodium;
+    private final int carbohydrate;
+
+    public NutritionFacts(int servingSize, int servings) {
+        this(servingSize, servings, 0);
+    }
+
+    public NutritionFacts(int servingSize, int servings, int calories) {
+        this(servingSize, servings, calories, 0);
+    }
+
+    public NutritionFacts(int servingSize, int servings, int calories, int fat) {
+        this(servingSize, servings, calories, fat, 0);
+    }
+
+    public NutritionFacts(int servingSize, int servings, int calories, int fat, int sodium) {
+        this(servingSize, servings, calories, fat, sodium, 0);
+    }
+
+    public NutritionFacts(int servingSize, int servings, int calories, int fat, int sodium, int carbohydrate) {
+        this.servingSize = servingSize;
+        this.servings = servings;
+        this.calories = calories;
+        this.fat = fat;
+        this.sodium = sodium;
+        this.carbohydrate = carbohydrate;
+    }
+}
+
+// Usage - confusing parameter order, easy to make mistakes
+NutritionFacts cocaCola = new NutritionFacts(240, 8, 100, 0, 35, 27);  // What do these numbers mean?
+```
+
+### Sub-Rule 5.3: Enforce the Singleton Property with a Private Constructor or an Enum Type
+
+Title: Use enum or private constructor with static field for singletons
+Description: Enum-based singletons are the best way to implement singletons, providing serialization and reflection safety.
+
+**Good example:**
+
+```java
+// Enum singleton - preferred approach
+public enum DatabaseConnection {
+    INSTANCE;
+    
+    public void connect() {
+        System.out.println("Connecting to database...");
+    }
+    
+    public void executeQuery(String query) {
+        System.out.println("Executing: " + query);
+    }
+}
+
+// Alternative: Static field with private constructor
+public class Logger {
+    private static final Logger INSTANCE = new Logger();
+    
+    private Logger() { /* private constructor */ }
+    
+    public static Logger getInstance() {
+        return INSTANCE;
+    }
+    
+    public void log(String message) {
+        System.out.println("LOG: " + message);
+    }
+}
+
+// Usage
+DatabaseConnection.INSTANCE.connect();
+Logger.getInstance().log("Application started");
+```
+
+**Bad Example:**
+
+```java
+// Not thread-safe singleton
+public class BadSingleton {
+    private static BadSingleton instance;
+    
+    private BadSingleton() {}
+    
+    public static BadSingleton getInstance() {
+        if (instance == null) {  // Race condition possible
+            instance = new BadSingleton();
+        }
+        return instance;
+    }
+}
+```
+
+### Sub-Rule 5.4: Prefer Dependency Injection to Hardwiring Resources
+
+Title: Use dependency injection instead of hardcoded dependencies
+Description: Classes should not create their dependencies directly but receive them from external sources, improving testability and flexibility.
+
+**Good example:**
+
+```java
+public class SpellChecker {
+    private final Lexicon dictionary;
+    
+    // Dependency injected through constructor
+    public SpellChecker(Lexicon dictionary) {
+        this.dictionary = Objects.requireNonNull(dictionary);
+    }
+    
+    public boolean isValid(String word) {
+        return dictionary.contains(word);
+    }
+}
+
+interface Lexicon {
+    boolean contains(String word);
+}
+
+class EnglishLexicon implements Lexicon {
+    public boolean contains(String word) {
+        // English dictionary lookup
+        return true;
+    }
+}
+
+// Usage - flexible and testable
+Lexicon englishDict = new EnglishLexicon();
+SpellChecker checker = new SpellChecker(englishDict);
+```
+
+**Bad Example:**
+
+```java
+// Hardwired dependency - inflexible and hard to test
+public class SpellChecker {
+    private static final Lexicon dictionary = new EnglishLexicon();  // Hardcoded
+    
+    private SpellChecker() {}  // Noninstantiable
+    
+    public static boolean isValid(String word) {
+        return dictionary.contains(word);
+    }
+}
+```
+
+### Sub-Rule 5.5: Avoid Creating Unnecessary Objects
+
+Title: Reuse objects when possible to improve performance
+Description: Object creation can be expensive. Reuse immutable objects and avoid creating objects in loops when possible.
+
+**Good example:**
+
+```java
+public class DateUtils {
+    // Reuse expensive objects
+    private static final DateTimeFormatter FORMATTER = 
+        DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    public String formatDate(LocalDate date) {
+        return FORMATTER.format(date);  // Reuse formatter
+    }
+    
+    // Use primitives when possible
+    public boolean isEven(int number) {
+        return number % 2 == 0;  // No object creation
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class DateUtils {
+    public String formatDate(LocalDate date) {
+        // Creates new formatter every time - expensive
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+    
+    // Unnecessary autoboxing
+    public boolean isEven(Integer number) {
+        return number % 2 == 0;  // Creates Integer objects
+    }
+}
+```
+
+## Rule 6: Classes and Interfaces Best Practices
+
+Title: Design Classes and Interfaces for Maximum Effectiveness
+Description: Well-designed classes and interfaces are the foundation of maintainable and robust Java applications. These practices ensure proper encapsulation, inheritance, and interface design.
+
+### Sub-Rule 6.1: Minimize the Accessibility of Classes and Members
+
+Title: Use the most restrictive access level that makes sense
+Description: Proper encapsulation hides implementation details and allows for easier maintenance and evolution of code.
+
+**Good example:**
+
+```java
+public class BankAccount {
+    private final String accountNumber;  // Private - implementation detail
+    private double balance;              // Private - internal state
+    
+    // Package-private for testing
+    static final double MINIMUM_BALANCE = 0.0;
+    
+    public BankAccount(String accountNumber, double initialBalance) {  // Public - part of API
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+    
+    public double getBalance() {  // Public - part of API
+        return balance;
+    }
+    
+    public void deposit(double amount) {  // Public - part of API
+        validateAmount(amount);
+        balance += amount;
+    }
+    
+    private void validateAmount(double amount) {  // Private - implementation detail
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class BankAccount {
+    public String accountNumber;  // Should be private
+    public double balance;        // Should be private
+    public static final double MINIMUM_BALANCE = 0.0;  // Unnecessarily public
+    
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+    
+    public void validateAmount(double amount) {  // Should be private
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+    }
+}
+```
+
+### Sub-Rule 6.2: In Public Classes, Use Accessor Methods, Not Public Fields
+
+Title: Provide getter and setter methods instead of exposing fields directly
+Description: Accessor methods provide flexibility to add validation, logging, or other logic without breaking clients.
+
+**Good example:**
+
+```java
+public class Point {
+    private double x;
+    private double y;
+    
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    public double getX() { return x; }
+    public double getY() { return y; }
+    
+    public void setX(double x) {
+        // Can add validation or other logic
+        if (Double.isNaN(x)) {
+            throw new IllegalArgumentException("x cannot be NaN");
+        }
+        this.x = x;
+    }
+    
+    public void setY(double y) {
+        if (Double.isNaN(y)) {
+            throw new IllegalArgumentException("y cannot be NaN");
+        }
+        this.y = y;
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class Point {
+    public double x;  // Direct field access - no validation possible
+    public double y;  // Cannot add logic later without breaking clients
+    
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+
+### Sub-Rule 6.3: Minimize Mutability
+
+Title: Make classes immutable when possible
+Description: Immutable classes are simpler, safer, and can be freely shared. They are inherently thread-safe and have no temporal coupling.
+
+**Good example:**
+
+```java
+public final class Complex {
+    private final double real;
+    private final double imaginary;
+    
+    public Complex(double real, double imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+    
+    public double realPart() { return real; }
+    public double imaginaryPart() { return imaginary; }
+    
+    // Operations return new instances instead of modifying
+    public Complex plus(Complex c) {
+        return new Complex(real + c.real, imaginary + c.imaginary);
+    }
+    
+    public Complex minus(Complex c) {
+        return new Complex(real - c.real, imaginary - c.imaginary);
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Complex)) return false;
+        Complex c = (Complex) o;
+        return Double.compare(c.real, real) == 0 && 
+               Double.compare(c.imaginary, imaginary) == 0;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(real, imaginary);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class Complex {
+    private double real;      // Mutable fields
+    private double imaginary; // Mutable fields
+    
+    public Complex(double real, double imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+    
+    public double getRealPart() { return real; }
+    public double getImaginaryPart() { return imaginary; }
+    
+    // Mutating operations - not thread-safe, harder to reason about
+    public void plus(Complex c) {
+        this.real += c.real;
+        this.imaginary += c.imaginary;
+    }
+    
+    public void setReal(double real) { this.real = real; }
+    public void setImaginary(double imaginary) { this.imaginary = imaginary; }
+}
+```
+
+### Sub-Rule 6.4: Favor Composition Over Inheritance
+
+Title: Use composition instead of inheritance when you want to reuse code
+Description: Composition is more flexible than inheritance and avoids the fragility of inheritance hierarchies.
+
+**Good example:**
+
+```java
+// Using composition
+public class InstrumentedSet<E> {
+    private final Set<E> s;
+    private int addCount = 0;
+    
+    public InstrumentedSet(Set<E> s) {
+        this.s = s;
+    }
+    
+    public boolean add(E e) {
+        addCount++;
+        return s.add(e);
+    }
+    
+    public boolean addAll(Collection<? extends E> c) {
+        addCount += c.size();
+        return s.addAll(c);
+    }
+    
+    public int getAddCount() {
+        return addCount;
+    }
+    
+    // Delegate other methods to the wrapped set
+    public int size() { return s.size(); }
+    public boolean isEmpty() { return s.isEmpty(); }
+    public boolean contains(Object o) { return s.contains(o); }
+    // ... other delegating methods
+}
+```
+
+**Bad Example:**
+
+```java
+// Using inheritance - fragile and error-prone
+public class InstrumentedHashSet<E> extends HashSet<E> {
+    private int addCount = 0;
+    
+    @Override
+    public boolean add(E e) {
+        addCount++;
+        return super.add(e);
+    }
+    
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        addCount += c.size();
+        return super.addAll(c);  // This calls add() internally, double-counting!
+    }
+    
+    public int getAddCount() {
+        return addCount;
+    }
+}
+```
+
+### Sub-Rule 6.5: Design and Document for Inheritance or Else Prohibit It
+
+Title: Either design classes specifically for inheritance or make them final
+Description: Classes not designed for inheritance can break when subclassed. Document self-use patterns or prohibit inheritance.
+
+**Good example:**
+
+```java
+// Designed for inheritance with proper documentation
+public abstract class AbstractProcessor {
+    
+    /**
+     * Processes the given data. This implementation calls {@link #validate(String)}
+     * followed by {@link #transform(String)}. Subclasses may override this method
+     * to provide different processing logic.
+     * 
+     * @param data the data to process
+     * @return the processed result
+     * @throws IllegalArgumentException if data is invalid
+     */
+    public String process(String data) {
+        validate(data);
+        return transform(data);
+    }
+    
+    /**
+     * Validates the input data. The default implementation checks for null.
+     * Subclasses may override to provide additional validation.
+     */
+    protected void validate(String data) {
+        if (data == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+    }
+    
+    /**
+     * Transforms the validated data. Subclasses must implement this method.
+     */
+    protected abstract String transform(String data);
+}
+
+// Or prohibit inheritance
+public final class UtilityClass {
+    private UtilityClass() { /* prevent instantiation */ }
+    
+    public static String formatName(String firstName, String lastName) {
+        return firstName + " " + lastName;
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+// Not designed for inheritance but not prohibited
+public class DataProcessor {
+    public String process(String data) {
+        // Complex logic that might break if overridden
+        String validated = validate(data);
+        String transformed = transform(validated);
+        return finalize(transformed);
+    }
+    
+    private String validate(String data) { /* ... */ return data; }
+    private String transform(String data) { /* ... */ return data; }
+    private String finalize(String data) { /* ... */ return data; }
+}
+```
+
+## Rule 7: Enums and Annotations
+
+Title: Effective Use of Enums and Annotations
+Description: Enums and annotations are powerful Java features that, when used correctly, can make code more readable, type-safe, and maintainable.
+
+### Sub-Rule 7.1: Use Enums Instead of Int Constants
+
+Title: Replace int constants with type-safe enums
+Description: Enums provide type safety, namespace protection, and additional functionality that int constants cannot offer.
+
+**Good example:**
+
+```java
+public enum Planet {
+    MERCURY(3.302e+23, 2.439e6),
+    VENUS  (4.869e+24, 6.052e6),
+    EARTH  (5.975e+24, 6.378e6),
+    MARS   (6.419e+23, 3.393e6);
+    
+    private final double mass;           // In kilograms
+    private final double radius;         // In meters
+    private final double surfaceGravity; // In m / s^2
+    
+    // Universal gravitational constant in m^3 / kg s^2
+    private static final double G = 6.67300E-11;
+    
+    Planet(double mass, double radius) {
+        this.mass = mass;
+        this.radius = radius;
+        surfaceGravity = G * mass / (radius * radius);
+    }
+    
+    public double mass()           { return mass; }
+    public double radius()         { return radius; }
+    public double surfaceGravity() { return surfaceGravity; }
+    
+    public double surfaceWeight(double mass) {
+        return mass * surfaceGravity;  // F = ma
+    }
+}
+
+// Usage
+double earthWeight = 175;
+double mass = earthWeight / Planet.EARTH.surfaceGravity();
+for (Planet p : Planet.values()) {
+    System.out.printf("Weight on %s is %f%n", p, p.surfaceWeight(mass));
+}
+```
+
+**Bad Example:**
+
+```java
+// Int constants - not type-safe, no namespace
+public class Planet {
+    public static final int MERCURY = 0;
+    public static final int VENUS   = 1;
+    public static final int EARTH   = 2;
+    public static final int MARS    = 3;
+    
+    // Separate arrays for data - error-prone
+    private static final double[] MASS = {3.302e+23, 4.869e+24, 5.975e+24, 6.419e+23};
+    private static final double[] RADIUS = {2.439e6, 6.052e6, 6.378e6, 3.393e6};
+    
+    public static double surfaceWeight(int planet, double mass) {
+        // No compile-time checking - could pass any int
+        if (planet < 0 || planet >= MASS.length) {
+            throw new IllegalArgumentException("Invalid planet: " + planet);
+        }
+        // Complex calculations with array indexing
+        return mass * (6.67300E-11 * MASS[planet] / (RADIUS[planet] * RADIUS[planet]));
+    }
+}
+```
+
+### Sub-Rule 7.2: Use Instance Fields Instead of Ordinals
+
+Title: Don't derive values from enum ordinals; use instance fields
+Description: Ordinal values can change when enum constants are reordered, making code fragile.
+
+**Good example:**
+
+```java
+public enum Ensemble {
+    SOLO(1), DUET(2), TRIO(3), QUARTET(4), QUINTET(5),
+    SEXTET(6), SEPTET(7), OCTET(8), DOUBLE_QUARTET(8),
+    NONET(9), DECTET(10), TRIPLE_QUARTET(12);
+    
+    private final int numberOfMusicians;
+    
+    Ensemble(int size) { 
+        this.numberOfMusicians = size; 
+    }
+    
+    public int numberOfMusicians() { 
+        return numberOfMusicians; 
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public enum Ensemble {
+    SOLO, DUET, TRIO, QUARTET, QUINTET,
+    SEXTET, SEPTET, OCTET, NONET, DECTET;
+    
+    public int numberOfMusicians() { 
+        return ordinal() + 1;  // Fragile - breaks if order changes
+    }
+}
+```
+
+### Sub-Rule 7.3: Use EnumSet Instead of Bit Fields
+
+Title: Replace bit field enums with EnumSet for better type safety and performance
+Description: EnumSet provides all the benefits of bit fields with better readability and type safety.
+
+**Good example:**
+
+```java
+public class Text {
+    public enum Style { BOLD, ITALIC, UNDERLINE, STRIKETHROUGH }
+    
+    // EnumSet - type-safe and efficient
+    public void applyStyles(Set<Style> styles) {
+        System.out.printf("Applying styles %s to text%n", styles);
+        // Implementation here
+    }
+}
+
+// Usage
+text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));
+```
+
+**Bad Example:**
+
+```java
+public class Text {
+    public static final int STYLE_BOLD          = 1 << 0;  // 1
+    public static final int STYLE_ITALIC        = 1 << 1;  // 2
+    public static final int STYLE_UNDERLINE     = 1 << 2;  // 4
+    public static final int STYLE_STRIKETHROUGH = 1 << 3;  // 8
+    
+    // Bit field - not type-safe
+    public void applyStyles(int styles) {
+        System.out.printf("Applying styles %s to text%n", styles);
+        // Implementation here
+    }
+}
+
+// Usage - error-prone, no type safety
+text.applyStyles(STYLE_BOLD | STYLE_ITALIC);
+```
+
+### Sub-Rule 7.4: Use EnumMap Instead of Ordinal Indexing
+
+Title: Use EnumMap for enum-keyed data instead of ordinal indexing
+Description: EnumMap is specifically designed for enum keys and provides better performance and type safety.
+
+**Good example:**
+
+```java
+public enum Phase {
+    SOLID, LIQUID, GAS;
+    
+    public enum Transition {
+        MELT(SOLID, LIQUID), FREEZE(LIQUID, SOLID),
+        BOIL(LIQUID, GAS), CONDENSE(GAS, LIQUID),
+        SUBLIME(SOLID, GAS), DEPOSIT(GAS, SOLID);
+        
+        private final Phase from;
+        private final Phase to;
+        
+        Transition(Phase from, Phase to) {
+            this.from = from;
+            this.to = to;
+        }
+        
+        // Initialize the phase transition map
+        private static final Map<Phase, Map<Phase, Transition>> m =
+            Stream.of(values()).collect(groupingBy(t -> t.from,
+                () -> new EnumMap<>(Phase.class),
+                toMap(t -> t.to, t -> t, (x, y) -> y, () -> new EnumMap<>(Phase.class))));
+        
+        public static Transition from(Phase from, Phase to) {
+            return m.get(from).get(to);
+        }
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public enum Phase {
+    SOLID, LIQUID, GAS;
+    
+    public enum Transition {
+        MELT, FREEZE, BOIL, CONDENSE, SUBLIME, DEPOSIT;
+        
+        // Ordinal-based array - fragile and error-prone
+        private static final Transition[][] TRANSITIONS = {
+            { null,    MELT,     SUBLIME  },  // SOLID
+            { FREEZE,  null,     BOIL     },  // LIQUID
+            { DEPOSIT, CONDENSE, null     }   // GAS
+        };
+        
+        public static Transition from(Phase from, Phase to) {
+            return TRANSITIONS[from.ordinal()][to.ordinal()];
+        }
+    }
+}
+```
+
+### Sub-Rule 7.5: Consistently Use the Override Annotation
+
+Title: Always use @Override when overriding methods
+Description: The @Override annotation catches errors at compile time and makes code more readable.
+
+**Good example:**
+
+```java
+public class Bigram {
+    private final char first;
+    private final char second;
+    
+    public Bigram(char first, char second) {
+        this.first = first;
+        this.second = second;
+    }
+    
+    @Override
+    public boolean equals(Object o) {  // Correct signature
+        if (!(o instanceof Bigram)) return false;
+        Bigram b = (Bigram) o;
+        return b.first == first && b.second == second;
+    }
+    
+    @Override
+    public int hashCode() {
+        return 31 * first + second;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("(%c, %c)", first, second);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class Bigram {
+    private final char first;
+    private final char second;
+    
+    public Bigram(char first, char second) {
+        this.first = first;
+        this.second = second;
+    }
+    
+    // Missing @Override - typo in method signature won't be caught
+    public boolean equals(Bigram b) {  // Wrong signature! Should be equals(Object)
+        return b.first == first && b.second == second;
+    }
+    
+    public int hashCode() {  // Missing @Override
+        return 31 * first + second;
+    }
+}
+```
+
+## Rule 8: Method Design
+
+Title: Design Methods for Clarity, Safety, and Usability
+Description: Well-designed methods are the building blocks of maintainable code. These practices ensure methods are robust, clear, and easy to use correctly.
+
+### Sub-Rule 8.1: Check Parameters for Validity
+
+Title: Validate method parameters early and clearly
+Description: Fail fast by checking parameters at the beginning of methods. This makes debugging easier and prevents corruption of object state.
+
+**Good example:**
+
+```java
+public class MathUtils {
+    /**
+     * Returns a BigInteger whose value is (this mod m).
+     * @param m the modulus, which must be positive
+     * @return this mod m
+     * @throws ArithmeticException if m <= 0
+     */
+    public BigInteger mod(BigInteger m) {
+        if (m.signum() <= 0) {
+            throw new ArithmeticException("Modulus <= 0: " + m);
+        }
+        // ... do the computation
+        return this;
+    }
+    
+    /**
+     * Returns the index of the first occurrence of needle in haystack,
+     * or -1 if needle is not contained in haystack.
+     * @param haystack the string to search in
+     * @param needle the string to search for
+     * @throws NullPointerException if haystack or needle is null
+     */
+    public static int indexOf(String haystack, String needle) {
+        Objects.requireNonNull(haystack, "haystack");
+        Objects.requireNonNull(needle, "needle");
+        // ... do the search
+        return haystack.indexOf(needle);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class MathUtils {
+    public BigInteger mod(BigInteger m) {
+        // No parameter validation - could cause confusing errors later
+        // ... do the computation
+        return this;
+    }
+    
+    public static int indexOf(String haystack, String needle) {
+        // No null checks - will throw NullPointerException at some random point
+        return haystack.indexOf(needle);
+    }
+}
+```
+
+### Sub-Rule 8.2: Make Defensive Copies When Needed
+
+Title: Protect against malicious or accidental modification of mutable parameters
+Description: When accepting mutable objects as parameters or returning them, make defensive copies to maintain class invariants.
+
+**Good example:**
+
+```java
+public final class Period {
+    private final Date start;
+    private final Date end;
+    
+    /**
+     * @param start the beginning of the period
+     * @param end the end of the period; must not precede start
+     * @throws IllegalArgumentException if start is after end
+     * @throws NullPointerException if start or end is null
+     */
+    public Period(Date start, Date end) {
+        this.start = new Date(start.getTime());  // Defensive copy
+        this.end = new Date(end.getTime());      // Defensive copy
+        
+        if (this.start.compareTo(this.end) > 0) {
+            throw new IllegalArgumentException(this.start + " after " + this.end);
+        }
+    }
+    
+    public Date start() {
+        return new Date(start.getTime());  // Defensive copy on return
+    }
+    
+    public Date end() {
+        return new Date(end.getTime());    // Defensive copy on return
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public final class Period {
+    private final Date start;
+    private final Date end;
+    
+    public Period(Date start, Date end) {
+        if (start.compareTo(end) > 0) {
+            throw new IllegalArgumentException(start + " after " + end);
+        }
+        this.start = start;  // No defensive copy - client can modify after construction
+        this.end = end;      // No defensive copy - client can modify after construction
+    }
+    
+    public Date start() {
+        return start;  // No defensive copy - client can modify internal state
+    }
+    
+    public Date end() {
+        return end;    // No defensive copy - client can modify internal state
+    }
+}
+```
+
+### Sub-Rule 8.3: Design Method Signatures Carefully
+
+Title: Choose method names carefully and avoid long parameter lists
+Description: Good method signatures are self-documenting and hard to use incorrectly.
+
+**Good example:**
+
+```java
+public class UserService {
+    // Clear, descriptive method names
+    public User createUser(String username, String email, LocalDate birthDate) {
+        // Implementation
+        return new User(username, email, birthDate);
+    }
+    
+    // Use builder pattern for many parameters
+    public static class UserBuilder {
+        private String username;
+        private String email;
+        private LocalDate birthDate;
+        private String firstName;
+        private String lastName;
+        private Address address;
+        
+        public UserBuilder username(String username) { this.username = username; return this; }
+        public UserBuilder email(String email) { this.email = email; return this; }
+        public UserBuilder birthDate(LocalDate birthDate) { this.birthDate = birthDate; return this; }
+        public UserBuilder firstName(String firstName) { this.firstName = firstName; return this; }
+        public UserBuilder lastName(String lastName) { this.lastName = lastName; return this; }
+        public UserBuilder address(Address address) { this.address = address; return this; }
+        
+        public User build() {
+            return new User(this);
+        }
+    }
+    
+    // Use helper classes to group related parameters
+    public void updateUserProfile(User user, ProfileUpdate update) {
+        // Implementation
+    }
+}
+
+class ProfileUpdate {
+    private final String firstName;
+    private final String lastName;
+    private final Address address;
+    
+    // Constructor and getters
+}
+```
+
+**Bad Example:**
+
+```java
+public class UserService {
+    // Unclear method name and too many parameters
+    public User doUserStuff(String s1, String s2, int d, int m, int y, 
+                           String s3, String s4, String s5, String s6, String s7) {
+        // What do these parameters mean?
+        return new User(s1, s2, LocalDate.of(y, m, d));
+    }
+    
+    // Ambiguous parameter types
+    public void updateUser(String username, String data) {
+        // What kind of data? How is it formatted?
+    }
+}
+```
+
+### Sub-Rule 8.4: Return Empty Collections or Arrays, Not Nulls
+
+Title: Never return null from methods that return collections or arrays
+Description: Returning null forces clients to handle null checks and is a common source of bugs.
+
+**Good example:**
+
+```java
+public class ShoppingCart {
+    private final List<Item> items = new ArrayList<>();
+    
+    /**
+     * Returns a list of items in the cart.
+     * @return the items in the cart (never null, but may be empty)
+     */
+    public List<Item> getItems() {
+        return new ArrayList<>(items);  // Return copy of list, never null
+    }
+    
+    /**
+     * Returns items matching the given category.
+     * @param category the category to filter by
+     * @return matching items (never null, but may be empty)
+     */
+    public List<Item> getItemsByCategory(String category) {
+        return items.stream()
+                   .filter(item -> category.equals(item.getCategory()))
+                   .collect(Collectors.toList());  // Returns empty list if no matches
+    }
+    
+    /**
+     * Returns an array of item names.
+     * @return array of item names (never null, but may be empty)
+     */
+    public String[] getItemNames() {
+        return items.stream()
+                   .map(Item::getName)
+                   .toArray(String[]::new);  // Returns empty array if no items
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class ShoppingCart {
+    private final List<Item> items = new ArrayList<>();
+    
+    public List<Item> getItems() {
+        return items.isEmpty() ? null : new ArrayList<>(items);  // Bad: returns null
+    }
+    
+    public List<Item> getItemsByCategory(String category) {
+        List<Item> result = items.stream()
+                                .filter(item -> category.equals(item.getCategory()))
+                                .collect(Collectors.toList());
+        return result.isEmpty() ? null : result;  // Bad: returns null
+    }
+    
+    public String[] getItemNames() {
+        if (items.isEmpty()) {
+            return null;  // Bad: returns null instead of empty array
+        }
+        return items.stream()
+                   .map(Item::getName)
+                   .toArray(String[]::new);
+    }
+}
+```
+
+### Sub-Rule 8.5: Return Optionals Judiciously
+
+Title: Use Optional for methods that may not return a value, but use it carefully
+Description: Optional is intended for return types where there might legitimately be no result and the client needs to perform special processing.
+
+**Good example:**
+
+```java
+public class UserRepository {
+    private final Map<String, User> users = new HashMap<>();
+    
+    /**
+     * Finds a user by username.
+     * @param username the username to search for
+     * @return an Optional containing the user if found, empty otherwise
+     */
+    public Optional<User> findByUsername(String username) {
+        return Optional.ofNullable(users.get(username));
+    }
+    
+    /**
+     * Gets the maximum age among all users.
+     * @return an Optional containing the max age if users exist, empty otherwise
+     */
+    public OptionalInt getMaxAge() {
+        return users.values().stream()
+                   .mapToInt(User::getAge)
+                   .max();
+    }
+}
+
+// Usage
+Optional<User> user = repository.findByUsername("john");
+if (user.isPresent()) {
+    System.out.println("Found user: " + user.get().getName());
+} else {
+    System.out.println("User not found");
+}
+
+// Or with functional style
+repository.findByUsername("john")
+         .ifPresentOrElse(
+             u -> System.out.println("Found: " + u.getName()),
+             () -> System.out.println("User not found")
+         );
+```
+
+**Bad Example:**
+
+```java
+public class UserRepository {
+    private final Map<String, User> users = new HashMap<>();
+    
+    // Bad: Using Optional for fields
+    private Optional<String> defaultUsername = Optional.empty();
+    
+    // Bad: Using Optional for parameters
+    public void updateUser(Optional<String> username, Optional<String> email) {
+        // This makes the API harder to use
+    }
+    
+    // Bad: Using Optional for collections
+    public Optional<List<User>> getAllUsers() {
+        return users.isEmpty() ? Optional.empty() : Optional.of(new ArrayList<>(users.values()));
+        // Should just return empty list instead
+    }
+    
+    // Bad: Optional in performance-critical code where null would be fine
+    public Optional<User> findByUsernameInLoop(String username) {
+        // If this is called in a tight loop, the Optional allocation overhead matters
+        return Optional.ofNullable(users.get(username));
+    }
+}
+```
+
+## Rule 9: Exception Handling
+
+Title: Handle Exceptions Effectively and Appropriately
+Description: Proper exception handling makes code more robust and easier to debug. These practices ensure exceptions are used correctly and provide meaningful information.
+
+### Sub-Rule 9.1: Use Exceptions Only for Exceptional Conditions
+
+Title: Don't use exceptions for ordinary control flow
+Description: Exceptions should be used for exceptional conditions, not for normal program flow. They are expensive and make code harder to understand.
+
+**Good example:**
+
+```java
+public class NumberProcessor {
+    public void processNumbers(int[] numbers) {
+        for (int number : numbers) {  // Normal iteration
+            if (isValid(number)) {    // Normal condition checking
+                process(number);
+            } else {
+                System.out.println("Skipping invalid number: " + number);
+            }
+        }
+    }
+    
+    private boolean isValid(int number) {
+        return number >= 0 && number <= 1000;
+    }
+    
+    private void process(int number) {
+        // Process the number
+        System.out.println("Processing: " + number);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class NumberProcessor {
+    public void processNumbers(int[] numbers) {
+        try {
+            int i = 0;
+            while (true) {  // Using exception for loop termination
+                process(numbers[i++]);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // Using exception for normal control flow - bad!
+        }
+    }
+    
+    private void process(int number) {
+        System.out.println("Processing: " + number);
+    }
+}
+```
+
+### Sub-Rule 9.2: Use Checked Exceptions for Recoverable Conditions and Runtime Exceptions for Programming Errors
+
+Title: Choose the right type of exception for the situation
+Description: Checked exceptions force the caller to handle recoverable conditions, while runtime exceptions indicate programming errors.
+
+**Good example:**
+
+```java
+public class FileProcessor {
+    /**
+     * Processes a file. Throws checked exception for recoverable I/O issues.
+     */
+    public void processFile(String filename) throws FileProcessingException {
+        try {
+            // File operations that might fail due to external factors
+            Files.readAllLines(Paths.get(filename));
+        } catch (IOException e) {
+            // Wrap in domain-specific checked exception
+            throw new FileProcessingException("Failed to process file: " + filename, e);
+        }
+    }
+    
+    /**
+     * Validates input parameters. Throws runtime exception for programming errors.
+     */
+    public void validateInput(String input) {
+        if (input == null) {
+            // Programming error - should never happen in correct code
+            throw new IllegalArgumentException("Input cannot be null");
+        }
+        if (input.trim().isEmpty()) {
+            // Programming error - caller should validate before calling
+            throw new IllegalArgumentException("Input cannot be empty");
+        }
+    }
+}
+
+// Custom checked exception for recoverable conditions
+class FileProcessingException extends Exception {
+    public FileProcessingException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class FileProcessor {
+    // Bad: Using checked exception for programming error
+    public void validateInput(String input) throws ValidationException {
+        if (input == null) {
+            throw new ValidationException("Input cannot be null");  // Should be RuntimeException
+        }
+    }
+    
+    // Bad: Using runtime exception for recoverable condition
+    public void processFile(String filename) {
+        try {
+            Files.readAllLines(Paths.get(filename));
+        } catch (IOException e) {
+            // Should be checked exception so caller can handle
+            throw new RuntimeException("File processing failed", e);
+        }
+    }
+}
+```
+
+### Sub-Rule 9.3: Favor the Use of Standard Exceptions
+
+Title: Use standard Java exceptions when appropriate
+Description: Standard exceptions are familiar to developers and have clear semantics. Don't reinvent the wheel.
+
+**Good example:**
+
+```java
+public class Calculator {
+    public double divide(double dividend, double divisor) {
+        if (divisor == 0.0) {
+            throw new ArithmeticException("Division by zero");  // Standard exception
+        }
+        return dividend / divisor;
+    }
+    
+    public int getElement(List<Integer> list, int index) {
+        Objects.requireNonNull(list, "list");  // Standard NullPointerException
+        if (index < 0 || index >= list.size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + list.size());
+        }
+        return list.get(index);
+    }
+    
+    public void processPositiveNumber(int number) {
+        if (number <= 0) {
+            throw new IllegalArgumentException("Number must be positive: " + number);
+        }
+        // Process the number
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class Calculator {
+    public double divide(double dividend, double divisor) {
+        if (divisor == 0.0) {
+            throw new DivisionByZeroException("Cannot divide by zero");  // Custom exception when standard would do
+        }
+        return dividend / divisor;
+    }
+    
+    public int getElement(List<Integer> list, int index) {
+        if (list == null) {
+            throw new ListIsNullException("List cannot be null");  // Custom exception when standard would do
+        }
+        if (index < 0 || index >= list.size()) {
+            throw new InvalidIndexException("Bad index: " + index);  // Custom exception when standard would do
+        }
+        return list.get(index);
+    }
+}
+
+// Unnecessary custom exceptions
+class DivisionByZeroException extends RuntimeException {
+    public DivisionByZeroException(String message) {
+        super(message);
+    }
+}
+class ListIsNullException extends RuntimeException {
+    public ListIsNullException(String message) {
+        super(message);
+    }
+}
+class InvalidIndexException extends RuntimeException {
+    public InvalidIndexException(String message) {
+        super(message);
+    }
+}
+```
+
+### Sub-Rule 9.4: Include Failure-Capture Information in Detail Messages
+
+Title: Provide detailed, actionable information in exception messages
+Description: Exception messages should contain all information needed to diagnose the failure.
+
+**Good example:**
+
+```java
+public class BankAccount {
+    private double balance;
+    private final String accountNumber;
+    
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+    
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                String.format("Withdrawal amount must be positive. Account: %s, Amount: %.2f", 
+                             accountNumber, amount));
+        }
+        if (amount > balance) {
+            throw new InsufficientFundsException(
+                String.format("Insufficient funds. Account: %s, Balance: %.2f, Requested: %.2f", 
+                             accountNumber, balance, amount));
+        }
+        balance -= amount;
+    }
+    
+    public void transfer(BankAccount toAccount, double amount) {
+        if (toAccount == null) {
+            throw new IllegalArgumentException(
+                String.format("Destination account cannot be null. Source account: %s, Amount: %.2f", 
+                             accountNumber, amount));
+        }
+        if (toAccount.accountNumber.equals(this.accountNumber)) {
+            throw new IllegalArgumentException(
+                String.format("Cannot transfer to same account. Account: %s, Amount: %.2f", 
+                             accountNumber, amount));
+        }
+        withdraw(amount);
+        toAccount.deposit(amount);
+    }
+    
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                String.format("Deposit amount must be positive. Account: %s, Amount: %.2f", 
+                             accountNumber, amount));
+        }
+        balance += amount;
+    }
+}
+
+class InsufficientFundsException extends RuntimeException {
+    public InsufficientFundsException(String message) {
+        super(message);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class BankAccount {
+    private double balance;
+    private final String accountNumber;
+    
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid amount");  // Too vague
+        }
+        if (amount > balance) {
+            throw new InsufficientFundsException("Not enough money");  // No specific details
+        }
+        balance -= amount;
+    }
+    
+    public void transfer(BankAccount toAccount, double amount) {
+        if (toAccount == null) {
+            throw new IllegalArgumentException("Bad account");  // No context
+        }
+        if (toAccount.accountNumber.equals(this.accountNumber)) {
+            throw new IllegalArgumentException("Error");  // Completely unhelpful
+        }
+        withdraw(amount);
+        toAccount.deposit(amount);
+    }
+}
+```
+
+### Sub-Rule 9.5: Don't Ignore Exceptions
+
+Title: Always handle exceptions appropriately, never ignore them silently
+Description: Ignoring exceptions can hide bugs and make debugging extremely difficult.
+
+**Good example:**
+
+```java
+public class FileManager {
+    private static final Logger logger = LoggerFactory.getLogger(FileManager.class);
+    
+    public Optional<String> readFileContent(String filename) {
+        try {
+            return Optional.of(Files.readString(Paths.get(filename)));
+        } catch (IOException e) {
+            // Log the exception with context
+            logger.warn("Failed to read file: {}", filename, e);
+            return Optional.empty();  // Return meaningful result
+        }
+    }
+    
+    public void saveToFile(String filename, String content) throws FileOperationException {
+        try {
+            Files.writeString(Paths.get(filename), content);
+            logger.info("Successfully saved content to file: {}", filename);
+        } catch (IOException e) {
+            // Re-throw as domain-specific exception with context
+            throw new FileOperationException("Failed to save content to file: " + filename, e);
+        }
+    }
+    
+    public void cleanupTempFiles(List<String> tempFiles) {
+        for (String tempFile : tempFiles) {
+            try {
+                Files.deleteIfExists(Paths.get(tempFile));
+            } catch (IOException e) {
+                // Log but continue with other files
+                logger.warn("Failed to delete temporary file: {}", tempFile, e);
+            }
+        }
+    }
+}
+
+class FileOperationException extends Exception {
+    public FileOperationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+```
+
+**Bad Example:**
+
+```java
+public class FileManager {
+    public String readFileContent(String filename) {
+        try {
+            return Files.readString(Paths.get(filename));
+        } catch (IOException e) {
+            // Silently ignoring exception - very bad!
+        }
+        return null;  // Caller has no idea what went wrong
+    }
+    
+    public void saveToFile(String filename, String content) {
+        try {
+            Files.writeString(Paths.get(filename), content);
+        } catch (IOException e) {
+            // Empty catch block - hiding the problem
+        }
+    }
+    
+    public void processFiles(List<String> files) {
+        for (String file : files) {
+            try {
+                // Some file processing
+                Files.readString(Paths.get(file));
+            } catch (Exception e) {
+                // Catching Exception is too broad, and then ignoring it
+            }
+        }
+    }
 }
 ```
 

@@ -1048,7 +1048,7 @@ import java.util.stream.Collectors;
 // For actual tests, use JUnit, TestNG, AssertJ etc.
 // import org.junit.jupiter.api.Test;
 // import static org.assertj.core.api.Assertions.assertThat;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
+// import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ModernFeaturesService {
     public List<String> filterAndToUpper(List<String> input, String startsWith) {
@@ -1121,7 +1121,7 @@ public class TestingModernCodeExample {
     void testProcessDataAsync_failure() {
         ModernFeaturesService service = new ModernFeaturesService();
         CompletableFuture<String> future = service.processDataAsync("fail");
-        // assertThrows(CompletionException.class, future::join);
+        // assertThatThrownBy(future::join).isInstanceOf(CompletionException.class);
         try {
             future.join(); // This will throw CompletionException
         } catch (Exception e) {
