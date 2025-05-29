@@ -50,8 +50,8 @@ Update the pom.xml with this set of properties:
     <nullaway.version>0.11.0</nullaway.version>
     <maven-plugins-surefire.version>3.5.3</maven-plugins-surefire.version>
     <maven-plugins-failsafe.version>3.5.3</maven-plugins-failsafe.version>
-    <maven-plugins-jacoco.version>0.8.13</maven-plugins-jacoco.version>
     <maven-plugins-jxr.version>3.6.0</maven-plugins-jxr.version>
+    <maven-plugins-jacoco.version>0.8.13</maven-plugins-jacoco.version>
     <maven-plugins-versions.version>2.18.0</maven-plugins-versions.version>
     <maven-plugins-git-commit-id.version>4.9.10</maven-plugins-git-commit-id.version>
     <maven-plugins-pitest.version>1.19.4</maven-plugins-pitest.version>
