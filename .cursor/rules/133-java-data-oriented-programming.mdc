@@ -3,7 +3,7 @@ description: Java rules to apply data oriented programming style
 globs: **/*.java
 alwaysApply: false
 ---
-# Java Data-Oriented Programming
+# Java rules to apply data oriented programming style
 
 Java Data-Oriented Programming emphasizes separating code (behavior) from data structures, which should ideally be immutable (e.g., using records). Data manipulation should occur via pure functions that transform data into new instances. It's often beneficial to keep data structures flat and denormalized (using IDs for references) where appropriate, and to start with generic data representations (like `Map<String, Object>`) converting to specific types only when necessary. Data integrity is ensured through pure validation functions. Flexible, generic data access layers facilitate working with various data types and storage mechanisms. All data transformations should be explicit, traceable, and composed of clear, pure functional steps.
 

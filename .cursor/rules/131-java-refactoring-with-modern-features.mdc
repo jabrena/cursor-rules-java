@@ -1,5 +1,5 @@
 ---
-description: Java rules to apply modern features released in java8+
+description: Modern Java Development Guidelines (Java 8+)
 globs: **/*.java
 alwaysApply: false
 ---

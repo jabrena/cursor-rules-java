@@ -11,7 +11,7 @@ This collection of Cursor Rules for Java development, tries to enrich the develo
 ## Cursor Rules
 
 - [Build: Maven Best Practices](.cursor/rules/100-java-maven-best-practices.mdc)
-- [Build: Maven Plugins](.cursor/rules/101-java-maven-plugins.mdc)
+- [Build: Maven Dependencies & Plugins](.cursor/rules/101-java-maven-deps-and-plugins.mdc)
 - [Design: Object Oriented Design](.cursor/rules/111-java-object-oriented-design.mdc)
 - [Design: Type Design](.cursor/rules/112-java-type-design.mdc)
 - [Coding: General Java Guidelines](.cursor/rules/113-java-general-guidelines.mdc)

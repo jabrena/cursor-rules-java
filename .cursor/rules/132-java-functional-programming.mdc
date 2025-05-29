@@ -1,9 +1,9 @@
 ---
-description: Java rules for Functional programming
+description: Java Functional Programming rules
 globs: **/*.java
 alwaysApply: false
 ---
-# Java Functional Programming
+# Java Functional Programming rules
 
 Java functional programming revolves around immutable objects and state transformations, ensuring functions are pure (no side effects, depend only on inputs). It leverages functional interfaces, concise lambda expressions, and the Stream API for collection processing. Core paradigms include function composition, `Optional` for null safety, and higher-order functions. Modern Java features like Records enhance immutable data transfer, while pattern matching (for `instanceof` and `switch`) and switch expressions improve conditional logic. Sealed classes and interfaces enable controlled, exhaustive hierarchies, and upcoming Stream Gatherers will offer advanced custom stream operations.
 

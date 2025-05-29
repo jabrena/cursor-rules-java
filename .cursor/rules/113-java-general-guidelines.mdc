@@ -1,5 +1,5 @@
 ---
-description: General java rules
+description: Java General Guidelines
 globs: **/*.java
 alwaysApply: false
 ---

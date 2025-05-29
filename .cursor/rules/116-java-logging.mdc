@@ -1,5 +1,5 @@
 ---
-description: Java rules to apply logging guidelines in Java applications
+description: Java Logging Best Practices
 globs: **/*.java
 alwaysApply: false
 ---

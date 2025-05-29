@@ -3,7 +3,7 @@ description: Java Integration testing guidelines
 globs: **/*IT.java
 alwaysApply: false
 ---
-# Java Integration Testing Guidelines
+# Java Integration testing guidelines
 
 These guidelines aim to ensure consistency, reliability, and maintainability of integration tests within the project.
 
