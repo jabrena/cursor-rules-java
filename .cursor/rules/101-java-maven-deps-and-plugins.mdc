@@ -40,7 +40,6 @@ Update the pom.xml with this set of properties:
     <assertj.version>3.27.3</assertj.version>
 
     <!-- Maven Extensions -->
-    <maven-extensions-timeline.version>2.0.1</maven-extensions-timeline.version>
     <maven-extensions-build-cache.version>1.2.0</maven-extensions-build-cache.version>
 
     <!-- Maven Plugins -->
@@ -484,11 +483,6 @@ Update the pom.xml with this reporting section:
 
 ```xml
 <extensions>
-    <extension>
-        <groupId>io.takari.maven</groupId>
-        <artifactId>maven-timeline</artifactId>
-        <version>${maven-extensions-timeline.version}</version>
-    </extension>
     <extension>
         <groupId>org.apache.maven.extensions</groupId>
         <artifactId>maven-build-cache-extension</artifactId>
