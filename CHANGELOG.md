@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0]
 
+### Added
+
+- Added a new cursor rules about Maven dependencies & plugins
+
 ### Changed
 
 - Removed Cursor rules about Books for clarity
