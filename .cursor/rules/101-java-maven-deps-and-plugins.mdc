@@ -10,15 +10,18 @@ Explain how to update a pom.xml file defining a set of maven plugins
 ## Table of contents
 
 - Rule 1: Maven Properties
-- Rule 2: Add flatten-maven-plugin
-- Rule 3: Add maven-plugins-enforcer
-- Rule 4: Add maven-plugins-compiler
-- Rule 5: Add maven-plugins-surefire
-- Rule 6: Add maven-failsafe-plugin
-- Rule 7: Add versions-maven-plugin
-- Rule 8: Add git-commit-id-plugin
-- Rule 9: Add jacoco-maven-plugin
-- Rule 10: Add test reports
+- Rule 2: Add JSpecify to increase null safety
+- Rule 3: Add flatten-maven-plugin
+- Rule 4: Add maven-plugins-enforcer
+- Rule 5: Add maven-plugins-compiler
+- Rule 6: Add maven-plugins-surefire
+- Rule 7: Add maven-failsafe-plugin
+- Rule 8: Add versions-maven-plugin
+- Rule 9: Add git-commit-id-plugin
+- Rule 10: Add jacoco-maven-plugin
+- Rule 11: Add test reports
+- Rule 12: Add Pitest profile to analyze the quality of your asserts
+- Rule 13: Add security profile to execute dependency-check
 
 ## Rule 1: Maven Properties
 
@@ -477,16 +480,4 @@ Update the pom.xml with this reporting section:
         </plugins>
     </build>
 </profile>
-```
-
-# Rule 14: Add extensions
-
-```xml
-<extensions>
-    <extension>
-        <groupId>org.apache.maven.extensions</groupId>
-        <artifactId>maven-build-cache-extension</artifactId>
-        <version>${maven-extensions-build-cache.version}</version>
-    </extension>
-</extensions>
 ```
