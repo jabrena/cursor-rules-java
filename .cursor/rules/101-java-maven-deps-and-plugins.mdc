@@ -1,483 +1,275 @@
 ---
-description: Update pom.xlm to add Maven dependencies & plugins
+description: Update pom.xml to add Maven dependencies & plugins
 globs: pom.xml
 alwaysApply: false
 ---
-# Update pom.xlm to add Maven dependencies & plugins
+# Update pom.xml to add Maven dependencies & plugins
 
-Explain how to update a pom.xml file defining a set of maven plugins
+This rule provides a comprehensive, conversational approach to updating Maven pom.xml files with properties, dependencies, plugins, and profiles. It MUST ask questions first to understand the project needs and then conditionally add only relevant components.
 
-## Table of contents
+## Pre-requisites Check
 
-- Rule 1: Maven Properties
-- Rule 2: Add JSpecify to increase null safety
-- Rule 3: Add flatten-maven-plugin
-- Rule 4: Add maven-plugins-enforcer
-- Rule 5: Add maven-plugins-compiler
-- Rule 6: Add maven-plugins-surefire
-- Rule 7: Add maven-failsafe-plugin
-- Rule 8: Add versions-maven-plugin
-- Rule 9: Add git-commit-id-plugin
-- Rule 10: Add jacoco-maven-plugin
-- Rule 11: Add test reports
-- Rule 12: Add Pitest profile to analyze the quality of your asserts
-- Rule 13: Add security profile to execute dependency-check
+Before starting the Maven configuration process:
 
-## Rule 1: Maven Properties
+1. **Maven Wrapper Check and Installation**: 
+   
+   **First, check for Maven Wrapper files** in the project root:
+   - Look for `mvnw` (Unix/Mac) and `mvnw.cmd` (Windows) files
+   - Check for `.mvn/wrapper/` directory with `maven-wrapper.properties`
+   
+   **If Maven Wrapper is NOT present:**
+   
+   a) Ask the user: "I notice this project doesn't have Maven Wrapper configured. The Maven Wrapper ensures everyone uses the same Maven version, improving build consistency across different environments. Would you like me to install it? (y/n)"
+   
+   b) **If user says yes, help them install it:**
+   
+   - **Check if Maven is available**: First verify if `mvn` command is available by running `mvn --version`
+   - **If Maven is not installed**: Provide installation instructions for their OS:
+     - **macOS**: `brew install maven` (if Homebrew is available) or download from Apache Maven
+     - **Windows**: Download from Apache Maven or use package managers like Chocolatey
+     - **Linux**: Use package manager (`apt install maven`, `yum install maven`, etc.)
+   
+   - **Install Maven Wrapper**: Once Maven is available, run the wrapper installation command in the project root:
+     ```bash
+     mvn wrapper:wrapper
+     ```
+   
+   - **Verify installation**: Check that the following files were created:
+     - `mvnw` (executable script for Unix/Mac)
+     - `mvnw.cmd` (batch script for Windows) 
+     - `.mvn/wrapper/maven-wrapper.properties`
+     - `.mvn/wrapper/maven-wrapper.jar`
+   
+   - **Update .gitignore** (if not already present): Ensure `.mvn` is tracked in Git, but add any IDE-specific files to .gitignore
+   
+   c) **If user says no**: Proceed with system Maven, but note in validation steps that system Maven will be used
+   
+   **Benefits of Maven Wrapper:**
+   - Ensures consistent Maven version across all environments
+   - No need for developers to manually install Maven
+   - Reduces "works on my machine" issues
+   - Easier CI/CD pipeline setup
 
-Update the pom.xml with this set of properties:
+## Step 1: MANDATORY Conversational Assessment
+
+**IMPORTANT**: You MUST ask these questions before making any changes to understand the project needs. Based on the answers, you will conditionally add only relevant dependencies and plugins.
+
+### Project Assessment Questions
+
+Ask the user these questions to understand their project needs:
+
+[java-maven-questions-template.md](mdc:.cursor/rules/templates/java-maven-questions-template.md)
+
+## Step 2: Conditional Configuration Based on Answers
+
+After getting answers, implement the configuration following this order:
+
+### 2.1 Properties Section (Interactive Configuration)
+
+**Properties Configuration Strategy**: Build properties incrementally based on user's actual needs and project requirements.
+
+#### Java Version Selection
+**Ask the user**: "Which Java version does your project target? (11, 17, 21, 24, or other)"
+- Replace `[USER_SELECTED_JAVA_VERSION]` with their choice
+- **Validate choice**: Ensure the version is supported and reasonable
+- **Recommend**: Suggest LTS versions (11, 17, 21) for stability or latest for new features
+
+#### Core Properties (Always Added)
+Start with essential build properties that every project needs:
 
 ```xml
 <properties>
-    <java.version>24</java.version>
-    <maven.version>3.9.9</maven.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <!-- Dependencies -->
-    <jspecify.version>1.0.0</jspecify.version>
-
-    <!-- Test dependencies -->
-    <junit.version>5.12.0</junit.version>
-    <mockito.version>5.18.0</mockito.version>
-    <assertj.version>3.27.3</assertj.version>
-
-    <!-- Maven Extensions -->
-    <maven-extensions-build-cache.version>1.2.0</maven-extensions-build-cache.version>
-
-    <!-- Maven Plugins -->
-    <maven-plugins-flatten.version>1.7.0</maven-plugins-flatten.version>
-    <maven-plugins-enforcer.version>3.5.0</maven-plugins-enforcer.version>
-    <maven-plugins-compiler.version>3.14.0</maven-plugins-compiler.version>
-    <error-prone.version>2.38.0</error-prone.version>
-    <nullaway.version>0.11.0</nullaway.version>
-    <maven-plugins-surefire.version>3.5.3</maven-plugins-surefire.version>
-    <maven-plugins-failsafe.version>3.5.3</maven-plugins-failsafe.version>
-    <maven-plugins-jxr.version>3.6.0</maven-plugins-jxr.version>
-    <maven-plugins-jacoco.version>0.8.13</maven-plugins-jacoco.version>
-    <maven-plugins-versions.version>2.18.0</maven-plugins-versions.version>
-    <maven-plugins-git-commit-id.version>4.9.10</maven-plugins-git-commit-id.version>
-    <maven-plugins-pitest.version>1.19.4</maven-plugins-pitest.version>
-    <maven-plugins-pitest-junit5.version>1.2.3</maven-plugins-pitest-junit5.version>
-    <maven-plugins-dependency-check.version>12.1.1</maven-plugins-dependency-check.version>
-
-    <!-- Coverage -->
-    <coverage.level>80</coverage.level>
+  <java.version>[USER_SELECTED_JAVA_VERSION]</java.version>
+  <!-- Essential build properties -->
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>  
 </properties>
 ```
 
-## Rule 2: Add JSpecify to increase null safety
+#### Maven Version and Plugin Properties (Conditional)
+**Ask**: "Do you want to enforce specific Maven and plugin versions for build consistency? (y/n)"
 
+**If yes, add**:
 ```xml
-<!-- Null Safety Annotations -->
-<dependency>
-    <groupId>org.jspecify</groupId>
-    <artifactId>jspecify</artifactId>
-    <version>${jspecify.version}</version>
-</dependency>
+<!-- Maven and core plugin versions -->
+<maven.version>3.9.10</maven.version>
+<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
 ```
 
-## Rule 3: Add flatten-maven-plugin
+#### Dependency Version Properties (Conditional)
+**Based on dependency selections**, add relevant version properties:
 
-Update the pom.xml with this new plugin:
+#### Quality and Analysis Properties (Conditional)
+**Ask**: "Do you want to configure quality thresholds for code coverage and analysis? (y/n)"
 
+**If yes, ask for specific thresholds**:
+- "What minimum code coverage percentage do you want? (default: 80%)"
+- "What minimum mutation testing score do you want? (default: 70%)"
+
+**Add based on answers**:
 ```xml
-<plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>flatten-maven-plugin</artifactId>
-    <version>${maven-plugins-flatten.version}</version>
-    <configuration>
-    </configuration>
-    <executions>
-        <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-                <goal>flatten</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-                <goal>clean</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+<!-- Quality thresholds -->
+<coverage.level>[USER_SPECIFIED_COVERAGE]</coverage.level>
+<mutation.level>[USER_SPECIFIED_MUTATION]</mutation.level>
 ```
 
-## Rule 4: Add maven-plugins-enforcer
+#### Additional Plugin Version Properties (Feature-Based)
+**Only add plugin version properties for selected features**:
 
-Update the pom.xml with this new plugin:
-
+**If Integration Testing selected**:
 ```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-enforcer-plugin</artifactId>
-    <version>${maven-plugins-enforcer.version}</version>
-    <executions>
-        <execution>
-            <id>enforce</id>
-            <configuration>
-                <rules>
-                    <dependencyConvergence />
-                    <banDuplicatePomDependencyVersions />
-                    <requireMavenVersion>
-                        <version>${maven.version}</version>
-                    </requireMavenVersion>
-                    <requireJavaVersion>
-                        <version>${java.version}</version>
-                    </requireJavaVersion>
-                    <bannedDependencies>
-                        <excludes>
-                            <exclude>org.projectlombok:lombok</exclude>
-                        </excludes>
-                    </bannedDependencies>
-                </rules>
-                <fail>true</fail>
-            </configuration>
-            <goals>
-                <goal>enforce</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
 ```
 
-## Rule 5: Add maven-plugins-compiler
-
-Create/Update the file $(pwd)/.mvn/jvm.config with the following content:
-
-```txt
---add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
---add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
---add-opens jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
---add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED
-```
-
-Update the pom.xml with this new plugin:
-
+**If Code Coverage selected**:
 ```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>${maven-plugins-compiler.version}</version>
-    <configuration>
-        <release>${java.version}</release>
-        <compilerArgs>
-            <arg>-Xlint:all</arg>
-            <arg>-Werror</arg>
-            <!-- Error prone settings-->
-            <arg>-XDcompilePolicy=simple</arg>
-            <arg>--should-stop=ifError=FLOW</arg>
-            <arg>-Xplugin:ErrorProne \
-                -Xep:NullAway:ERROR \
-                -XepOpt:NullAway:JSpecifyMode=true \
-                -XepOpt:NullAway:TreatGeneratedAsUnannotated=true \
-                -XepOpt:NullAway:CheckOptionalEmptiness=true \
-                -XepOpt:NullAway:HandleTestAssertionLibraries=true \
-                -XepOpt:NullAway:AssertsEnabled=true \
-                -XepOpt:NullAway:AnnotatedPackages=info.jab.cli
-            </arg>
-        </compilerArgs>
-        <annotationProcessorPaths>
-            <path>
-                <groupId>com.google.errorprone</groupId>
-                <artifactId>error_prone_core</artifactId>
-                <version>${error-prone.version}</version>
-            </path>
-            <path>
-                <groupId>com.uber.nullaway</groupId>
-                <artifactId>nullaway</artifactId>
-                <version>${nullaway.version}</version>
-            </path>
-        </annotationProcessorPaths>
-    </configuration>
-</plugin>
+<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 ```
 
-## Rule 6: Add maven-plugins-surefire
-
-Update the pom.xml with this new plugin:
-
+**If Mutation Testing selected**:
 ```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>${maven-plugins-surefire.version}</version>
-    <configuration>
-        <skipAfterFailureCount>1</skipAfterFailureCount>
-        <includes>
-            <include>**/*Test.java</include>
-        </includes>
-        <excludes>
-            <exclude>**/*IT.java</exclude>
-        </excludes>
-    </configuration>
-</plugin>
+<pitest-maven.version>1.19.4</pitest-maven.version>
+<pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
 ```
 
-## Rule 7: Add maven-failsafe-plugin
-
-Update the pom.xml with this new plugin:
-
+**If Security Scanning selected**:
 ```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven-plugins-failsafe.version}</version>
-    <configuration>
-        <includes>
-            <include>**/*IT.java</include>
-        </includes>
-        <excludes>
-            <exclude>**/*Test.java</exclude>
-        </excludes>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
-                <goal>integration-test</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+<dependency-check-maven.version>12.1.1</dependency-check-maven.version>
 ```
 
-## Rule 8: Add versions-maven-plugin
-
-Update the pom.xml with this new plugin:
-
+**If Static Analysis selected**:
 ```xml
-<plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>versions-maven-plugin</artifactId>
-    <version>${maven-plugins-versions.version}</version>
-    <configuration>
-        <allowSnapshots>false</allowSnapshots>
-    </configuration>
-</plugin>
+<spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
+<maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
 ```
 
-## Rule 9: Add git-commit-id-plugin
-
-Update the pom.xml with this new plugin:
-
+#### Final Properties Structure
+The final `<properties>` section will look like this (example with common selections):
 ```xml
-<plugin>
-    <groupId>pl.project13.maven</groupId>
-    <artifactId>git-commit-id-plugin</artifactId>
-    <version>${maven-plugins-git-commit-id.version}</version>
-    <executions>
-        <execution>
-            <id>get-the-git-infos</id>
-            <goals>
-                <goal>revision</goal>
-            </goals>
-            <phase>initialize</phase>
-        </execution>
-    </executions>
-    <configuration>
-        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-        <commitIdGenerationMode>full</commitIdGenerationMode>
-    </configuration>
-</plugin>
+<properties>
+  <!-- Essential build properties -->
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  <maven.compiler.release>17</maven.compiler.release>
+  <maven.compiler.source>17</maven.compiler.source>
+  <maven.compiler.target>17</maven.compiler.target>
+
+  <!-- Maven and plugin versions (if selected) -->
+  <maven.version>3.9.10</maven.version>
+  <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+  <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+  <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+
+  <!-- Dependency versions (based on selections) -->
+  <jspecify.version>1.0.0</jspecify.version>
+
+  <!-- Quality thresholds (if configured) -->
+  <coverage.level>80</coverage.level>
+  <mutation.level>70</mutation.level>
+
+  <!-- Feature-specific plugin versions (based on selections) -->
+  <!-- Only included if features were selected -->
+</properties>
 ```
 
-## Rule 10: Add jacoco-maven-plugin
+### 2.2 Dependencies Section (Optional)
 
-Update the pom.xml with this profile to run jacoco:
+**Dependency Strategy**: Add only essential dependencies that enhance code quality and safety.
 
-```xml
-<profiles>
-    <profile>
-        <id>jacoco</id>
-        <activation>
-            <activeByDefault>false</activeByDefault>
-        </activation>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${maven-plugins-jacoco.version}</version>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>check</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                            <configuration>
-                                <rules>
-                                    <rule>
-                                        <element>BUNDLE</element>
-                                        <limits>
-                                            <limit>
-                                                <counter>LINE</counter>
-                                                <value>COVEREDRATIO</value>
-                                                <minimum>${coverage.level}%</minimum>
-                                            </limit>
-                                            <limit>
-                                                <counter>BRANCH</counter>
-                                                <value>COVEREDRATIO</value>
-                                                <minimum>${coverage.level}%</minimum>
-                                            </limit>
-                                        </limits>
-                                    </rule>
-                                </rules>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-    </profile>
-</profiles>
+**Reference**: For specific dependency configurations, see [java-maven-deps-template.md](mdc:.cursor/rules/templates/java-maven-deps-template.md)
+
+#### Available Dependencies (add only if selected):
+- **JSpecify**: Nullness annotations for improved null safety
+
+#### Implementation Approach:
+1. **Ask about code quality dependencies**: Follow the questions in the template file
+2. **Add only selected dependencies**: Don't include dependencies the user doesn't need  
+3. **Configure with appropriate scope**: Use `provided` scope for compile-time only dependencies
+
+### 2.3 Build Plugins Section (Conditional)
+
+**Plugin Configuration Strategy**: Add plugins based only on selected features and user needs.
+
+**Reference**: For specific plugin configurations, see [java-maven-plugins-template.md](mdc:.cursor/rules/templates/java-maven-plugins-template.md)
+
+#### Plugin Selection Process:
+
+**Core Plugins** (ask if user wants enhanced enforcement):
+- **maven-compiler-plugin**: Enhanced with Error Prone and NullAway analysis
+- **maven-enforcer-plugin**: With dependency convergence and circular dependency checks  
+- **maven-surefire-plugin**: For unit testing with proper configuration
+
+**Feature-Based Plugins** (add only if selected):
+- **Integration Testing**: maven-failsafe-plugin
+- **Code Coverage**: jacoco-maven-plugin (in profile)
+- **Mutation Testing**: pitest-maven (in profile)
+- **Security Scanning**: dependency-check-maven (in profile)
+- **Static Analysis**: spotbugs-maven-plugin, maven-pmd-plugin (in profile)
+- **Version Management**: versions-maven-plugin
+- **Build Info**: git-commit-id-plugin
+- **Library Publishing**: flatten-maven-plugin
+
+#### Implementation Approach:
+1. **Ask about enhancement level**: "Do you want enhanced code analysis (Error Prone, NullAway)? (y/n)"
+2. **Add core plugins** based on enhancement choice
+3. **Add feature plugins** only for selected features
+4. **Configure profiles** for optional analysis tools
+5. **Customize package names** in plugin configurations
+
+### 2.4 Profiles Section (Conditional)
+
+**Profile Strategy**: Create profiles only for selected optional features to avoid overwhelming the default build.
+
+**Reference**: For specific profile configurations, see [java-maven-plugins-template.md](mdc:.cursor/rules/templates/java-maven-plugins-template.md)
+
+**Available Profiles** (add only if features selected):
+- `jacoco`: Code coverage analysis
+- `pitest`: Mutation testing  
+- `security`: OWASP dependency security scanning
+- `find-bugs`: Static analysis with SpotBugs and PMD
+
+#### Profile Usage Examples:
+Only provide examples for profiles that were actually added based on user selections.
+
+## Step 3: Final Validation
+
+After all updates are complete, validate the configuration:
+
+### If using Maven Wrapper (recommended):
+```bash
+./mvnw validate
 ```
 
-## Rule 11: Add test reports
-
-Update the pom.xml with this reporting section:
-
-```xml
-<reporting>
-    <plugins>
-        <!-- Generates HTML test reports -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-report-plugin</artifactId>
-            <version>${maven-plugins-surefire.version}</version>
-            <configuration>
-                <outputName>junit-report</outputName>
-                <showSuccess>true</showSuccess>
-            </configuration>
-        </plugin>
-
-        <!-- Adds links to source code in reports -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jxr-plugin</artifactId>
-            <version>${maven-plugins-jxr.version}</version>
-        </plugin>
-    </plugins>
-</reporting>
+### If using system Maven:
+```bash
+mvn validate
 ```
 
-## Rule 12: Add Pitest profile to analyze the quality of your asserts
+**Note**: Always prefer using the Maven Wrapper (./mvnw) if it was installed during the pre-requisites check, as it ensures consistent build behavior across different environments.
 
-```xml
-<profile>
-    <id>pitest</id>
-    <activation>
-        <activeByDefault>false</activeByDefault>
-    </activation>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${maven-plugins-pitest.version}</version>
-                <configuration>
-                    <targetClasses>
-                        <param>info.jab.cli.*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>info.jab.cli.*</param>
-                    </targetTests>
-                    <outputFormats>
-                        <outputFormat>HTML</outputFormat>
-                        <outputFormat>XML</outputFormat>
-                    </outputFormats>
-                    <mutationThreshold>${coverage.level}</mutationThreshold>
-                    <coverageThreshold>${coverage.level}</coverageThreshold>
-                    <timestampedReports>false</timestampedReports>
-                    <verbose>false</verbose>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>${maven-plugins-pitest-junit5.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>pitest-mutation-testing</id>
-                        <goals>
-                            <goal>mutationCoverage</goal>
-                        </goals>
-                        <phase>verify</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-</profile>
-```
+## Step 4: Provide Usage Examples
 
-## Rule 13: Add security profile to execute dependency-check
+Only provide examples for the features that were actually added based on user selections.
 
-```xml
-<profile>
-    <id>security</id>
-    <activation>
-        <activeByDefault>false</activeByDefault>
-    </activation>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>${maven-plugins-dependency-check.version}</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/dependency-check</outputDirectory>
-                    <format>ALL</format>
-                    <failBuildOnCVSS>7</failBuildOnCVSS>
-                    <skipProvidedScope>false</skipProvidedScope>
-                    <skipRuntimeScope>false</skipRuntimeScope>
-                    <skipSystemScope>false</skipSystemScope>
-                    <skipTestScope>false</skipTestScope>
-                    <!-- Performance and reliability improvements -->
-                    <nvdApiDelay>4000</nvdApiDelay>
-                    <nvdMaxRetryCount>3</nvdMaxRetryCount>
-                    <nvdValidForHours>24</nvdValidForHours>
-                    <!-- Skip analyzers that might cause issues -->
-                    <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
-                    <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>dependency-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>verify</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-</profile>
-```
+## Implementation Guidelines
+
+1. **ALWAYS ask the questions first** - Do not make assumptions about what the user needs
+2. **Add only what was requested** - Don't include everything by default
+3. **Follow the order**: Questions → Properties → Dependencies → Plugins → Profiles
+4. **Customize package names**: Update package structure to match the actual project
+5. **Adjust thresholds**: Use the coverage levels specified by the user
+6. **Validate configuration**: Always run validation after changes
+7. **Provide relevant examples**: Only show usage examples for added features
+
+## Conversation Flow Example
+
+1. Start with: "I'll help you improve your pom.xml with Maven best practices. Let me ask a few questions to understand your project needs."
+2. Ask all relevant questions from Step 1
+3. Based on answers, explain what will be added: "Based on your selections, I'll add..."
+4. Implement only the requested features
+5. Validate the configuration
+6. Provide usage examples for the added features
+
+This approach ensures the pom.xml is tailored to the actual project needs rather than adding everything by default.
