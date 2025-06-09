@@ -68,14 +68,8 @@ After getting answers, implement the configuration following this order:
 
 **Properties Configuration Strategy**: Build properties incrementally based on user's actual needs and project requirements.
 
-#### Java Version Selection
-**Ask the user**: "Which Java version does your project target? (11, 17, 21, 24, or other)"
-- Replace `[USER_SELECTED_JAVA_VERSION]` with their choice
-- **Validate choice**: Ensure the version is supported and reasonable
-- **Recommend**: Suggest LTS versions (11, 17, 21) for stability or latest for new features
-
 #### Core Properties (Always Added)
-Start with essential build properties that every project needs:
+Start with essential build properties that every project needs (use the Java version selected in the template questions):
 
 ```xml
 <properties>
@@ -146,18 +140,18 @@ Start with essential build properties that every project needs:
 ```
 
 #### Final Properties Structure
+
 The final `<properties>` section will look like this (example with common selections):
 ```xml
 <properties>
   <!-- Essential build properties -->
+  <java.version>24</java.version> 
+  <maven.version>3.9.10</maven.version>
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  <maven.compiler.release>17</maven.compiler.release>
-  <maven.compiler.source>17</maven.compiler.source>
-  <maven.compiler.target>17</maven.compiler.target>
 
   <!-- Maven and plugin versions (if selected) -->
-  <maven.version>3.9.10</maven.version>
+
   <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
   <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
   <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
