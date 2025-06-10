@@ -38,13 +38,6 @@ Start with essential build properties that every project needs (use the Java ver
 <jspecify.version>1.0.0</jspecify.version>
 ```
 
-### Test Dependencies (If testing frameworks selected)
-```xml
-<junit.version>5.12.0</junit.version>
-<mockito.version>5.18.0</mockito.version>
-<assertj.version>3.27.3</assertj.version>
-```
-
 ## Quality and Analysis Properties (Conditional)
 
 **Ask**: "Do you want to configure quality thresholds for code coverage and analysis? (y/n)"

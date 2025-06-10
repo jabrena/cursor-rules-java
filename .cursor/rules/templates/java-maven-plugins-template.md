@@ -122,7 +122,7 @@ Update the pom.xml with this new plugin:
     <artifactId>maven-compiler-plugin</artifactId>
     <version>${maven-plugins-compiler.version}</version>
     <configuration>
-        <release>${maven.compiler.release}</release>
+        <release>${java.version}</release>
         <compilerArgs>
             <arg>-Xlint:all</arg>
             <arg>-Werror</arg>

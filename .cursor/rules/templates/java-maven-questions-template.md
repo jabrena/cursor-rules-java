@@ -17,21 +17,17 @@ Options:
 **Which Java version does your project target?**
 
 Options:
-- Java 11 (LTS - stable, widely supported)
 - Java 17 (LTS - recommended for new projects)
 - Java 21 (LTS - latest LTS version)
 - Java 24 (latest features)
 - Other (specify version)
-
-**Recommendations:**
-- Use LTS versions (11, 17, 21) for stability and long-term support
-- Use latest version (24) for new features and modern development
 
 ## 3. Build and Quality Aspects
 
 **What build and quality aspects are important for your project?** (Select all that apply)
 
 Options:
+- Compiler behaviour improvements with ErrorProne + NullAway (Ask for JSpecify)
 - Integration testing (Failsafe)
 - Code coverage reporting (JaCoCo)
 - Mutation testing (PiTest)

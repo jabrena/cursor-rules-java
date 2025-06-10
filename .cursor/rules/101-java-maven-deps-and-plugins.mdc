@@ -55,15 +55,54 @@ This rule provides a comprehensive, conversational approach to updating Maven po
 
 ## Step 1: MANDATORY Conversational Assessment
 
-**IMPORTANT**: You MUST ask these questions before making any changes to understand the project needs. Based on the answers, you will conditionally add only relevant dependencies and plugins.
+**CRITICAL**: You MUST ask the exact questions from the template in strict order before making any changes to understand the project needs. Based on the answers, you will conditionally add only relevant dependencies and plugins.
 
-### Project Assessment Questions
+### Project Assessment Questions (STRICT TEMPLATE COMPLIANCE)
 
-Ask the user these questions to understand their project needs:
+**MANDATORY PROCESS:**
 
-[java-maven-questions-template.md](mdc:.cursor/rules/templates/java-maven-questions-template.md)
+1. **Reference the Template**: Use the questions from [java-maven-questions-template.md](mdc:.cursor/rules/templates/java-maven-questions-template.md)
+
+2. **STRICT ENFORCEMENT RULES:**
+   - ✅ Ask questions **ONE BY ONE** in the exact order specified in the template
+   - ✅ **WAIT** for user response to each question before proceeding to the next
+   - ✅ Use the **EXACT wording** from the template questions
+   - ✅ Present the **EXACT options** listed in the template
+   - ✅ Include **recommendations** when specified in the template
+   - ✅ **Do NOT** ask all questions simultaneously
+   - ✅ **Do NOT** assume answers or provide defaults
+   - ✅ **Do NOT** skip questions or change their order
+
+3. **QUESTION SEQUENCE** (from template):
+   - **Question 1**: [Project Nature](mdc:.cursor/rules/templates/java-maven-questions-template.md#1-project-nature) (single selection from the template)
+   - **Question 2**: [Java Version](mdc:.cursor/rules/templates/java-maven-questions-template.md#2-java-version) (single selection from the template)
+   - **Question 3**: [Build and Quality Aspects](mdc:.cursor/rules/templates/java-maven-questions-template.md#3-build-and-quality-aspects) (multiple selection allowed from the template)
+   - **Question 4**: [Coverage Threshold](mdc:.cursor/rules/templates/java-maven-questions-template.md#4-coverage-threshold) (conditional - only if coverage selected)
+
+4. **VALIDATION CHECKPOINT:**
+   - **STOP** and verify all applicable questions have been answered
+   - **Do NOT proceed** to Step 2 until complete responses received
+   - **Confirm** understanding of user selections before implementation
+
+**TEMPLATE ADHERENCE IS MANDATORY** - Follow the template questions exactly as written, maintaining their structure, options, and recommendations.
 
 ## Step 2: Conditional Configuration Based on Answers
+
+**⚠️ CRITICAL TEMPLATE COMPLIANCE REQUIREMENT ⚠️**
+
+**ALL plugin configurations MUST exactly match the templates in `java-maven-plugins-template.md`. Do NOT deviate from template specifications. This includes:**
+
+- ✅ **Property Naming Convention**: Use `maven-plugins-*` format (e.g., `maven-plugins-compiler.version`, NOT `maven-compiler-plugin.version`)
+- ✅ **Complete Compiler Configuration**: Include ALL Error Prone and NullAway options as specified in template:
+  - `-Xlint:all` and `-Werror` compiler arguments
+  - `--should-stop=ifError=FLOW`
+  - Full NullAway configuration with `JSpecifyMode=true`, `TreatGeneratedAsUnannotated=true`, etc.
+- ✅ **Full Enforcer Plugin Setup**: Include `extra-enforcer-rules` dependency and all specified rules
+- ✅ **Exact Profile Structure**: Follow template's `<build>` vs `<reporting>` section separation
+- ✅ **Required Supporting Files**: Create `.mvn/jvm.config` when Error Prone is enabled
+- ✅ **Package Name Customization**: Update `AnnotatedPackages` and `targetClasses` to match actual project structure
+
+**TEMPLATE ADHERENCE IS MANDATORY - No exceptions or "simplified" versions allowed.**
 
 After getting answers, implement the configuration following this order:
 
@@ -161,12 +200,13 @@ Only provide examples for the features that were actually added based on user se
 ## Implementation Guidelines
 
 1. **ALWAYS ask the questions first** - Do not make assumptions about what the user needs
-2. **Add only what was requested** - Don't include everything by default
-3. **Follow the order**: Questions → Properties → Dependencies → Plugins → Profiles
-4. **Customize package names**: Update package structure to match the actual project
-5. **Adjust thresholds**: Use the coverage levels specified by the user
-6. **Validate configuration**: Always run validation after changes
-7. **Provide relevant examples**: Only show usage examples for added features
+2. **STRICTLY follow template specifications** - Copy configurations exactly from `java-maven-plugins-template.md` without modifications
+3. **Add only what was requested** - Don't include everything by default
+4. **Follow the order**: Questions → Properties → Dependencies → Plugins → Profiles
+5. **Customize package names**: Update package structure to match the actual project
+6. **Adjust thresholds**: Use the coverage levels specified by the user
+7. **Validate configuration**: Always run validation after changes
+8. **Provide relevant examples**: Only show usage examples for added features
 
 ## Conversation Flow Example
 
