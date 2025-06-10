@@ -9,46 +9,49 @@ This rule provides a comprehensive, conversational approach to updating Maven po
 
 ## Pre-requisites Check
 
-Before starting the Maven configuration process:
+**CRITICAL**: This step MUST be completed before proceeding to any subsequent steps. Do NOT continue with Step 1 (Project Assessment Questions) until the Maven Wrapper question is fully resolved.
 
-1. **Maven Wrapper Check and Installation**: 
-   
-   **First, check for Maven Wrapper files** in the project root:
-   - Look for `mvnw` (Unix/Mac) and `mvnw.cmd` (Windows) files
-   - Check for `.mvn/wrapper/` directory with `maven-wrapper.properties`
-   
-   **If Maven Wrapper is NOT present:**
-   
-   a) Ask the user: "I notice this project doesn't have Maven Wrapper configured. The Maven Wrapper ensures everyone uses the same Maven version, improving build consistency across different environments. Would you like me to install it? (y/n)"
-   
-   b) **If user says yes, help them install it:**
-   
-   - **Check if Maven is available**: First verify if `mvn` command is available by running `mvn --version`
-   - **If Maven is not installed**: Provide installation instructions for their OS:
-     - **macOS**: `brew install maven` (if Homebrew is available) or download from Apache Maven
-     - **Windows**: Download from Apache Maven or use package managers like Chocolatey
-     - **Linux**: Use package manager (`apt install maven`, `yum install maven`, etc.)
-   
-   - **Install Maven Wrapper**: Once Maven is available, run the wrapper installation command in the project root:
-     ```bash
-     mvn wrapper:wrapper
-     ```
-   
-   - **Verify installation**: Check that the following files were created:
-     - `mvnw` (executable script for Unix/Mac)
-     - `mvnw.cmd` (batch script for Windows) 
-     - `.mvn/wrapper/maven-wrapper.properties`
-     - `.mvn/wrapper/maven-wrapper.jar`
-   
-   - **Update .gitignore** (if not already present): Ensure `.mvn` is tracked in Git, but add any IDE-specific files to .gitignore
-   
-   c) **If user says no**: Proceed with system Maven, but note in validation steps that system Maven will be used
-   
-   **Benefits of Maven Wrapper:**
-   - Ensures consistent Maven version across all environments
-   - No need for developers to manually install Maven
-   - Reduces "works on my machine" issues
-   - Easier CI/CD pipeline setup
+### Maven Wrapper Check and Installation (MANDATORY FIRST STEP)
+
+**First, check for Maven Wrapper files** in the project root:
+- Look for `mvnw` (Unix/Mac) and `mvnw.cmd` (Windows) files
+- Check for `.mvn/wrapper/` directory with `maven-wrapper.properties`
+
+**If Maven Wrapper is NOT present:**
+
+**STOP HERE** and ask the user: "I notice this project doesn't have Maven Wrapper configured. The Maven Wrapper ensures everyone uses the same Maven version, improving build consistency across different environments. Would you like me to install it? (y/n)"
+
+**WAIT for the user's response. Do NOT proceed to any other questions or steps until this is resolved.**
+
+**If user says yes:**
+1. **Check if Maven is available**: First verify if `mvn` command is available by running `mvn --version`
+2. **If Maven is not installed**: Provide installation instructions for their OS:
+   - **macOS**: `brew install maven` (if Homebrew is available) or download from Apache Maven
+   - **Windows**: Download from Apache Maven or use package managers like Chocolatey
+   - **Linux**: Use package manager (`apt install maven`, `yum install maven`, etc.)
+
+3. **Install Maven Wrapper**: Once Maven is available, run the wrapper installation command in the project root:
+   ```bash
+   mvn wrapper:wrapper
+   ```
+
+4. **Verify installation**: Check that the following files were created:
+   - `mvnw` (executable script for Unix/Mac)
+   - `mvnw.cmd` (batch script for Windows) 
+   - `.mvn/wrapper/maven-wrapper.properties`
+   - `.mvn/wrapper/maven-wrapper.jar`
+
+5. **Update .gitignore** (if not already present): Ensure `.mvn` is tracked in Git, but add any IDE-specific files to .gitignore
+
+**If user says no**: Note that system Maven will be used for validation steps.
+
+**Benefits of Maven Wrapper:**
+- Ensures consistent Maven version across all environments
+- No need for developers to manually install Maven
+- Reduces "works on my machine" issues
+- Easier CI/CD pipeline setup
+
+**ONLY AFTER** the Maven Wrapper question is completely resolved (installation completed or user declined), proceed to Step 1.
 
 ## Step 1: MANDATORY Conversational Assessment
 
@@ -66,107 +69,15 @@ After getting answers, implement the configuration following this order:
 
 ### 2.1 Properties Section (Interactive Configuration)
 
-**Properties Configuration Strategy**: Build properties incrementally based on user's actual needs and project requirements.
+**Reference**: For detailed properties configuration strategy and conditional logic, see [java-maven-properties-template.md](mdc:.cursor/rules/templates/java-maven-properties-template.md)
 
-#### Core Properties (Always Added)
-Start with essential build properties that every project needs (use the Java version selected in the template questions):
-
-```xml
-<properties>
-  <java.version>[USER_SELECTED_JAVA_VERSION]</java.version>
-  <!-- Essential build properties -->
-  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>  
-</properties>
-```
-
-#### Maven Version and Plugin Properties (Conditional)
-**Ask**: "Do you want to enforce specific Maven and plugin versions for build consistency? (y/n)"
-
-**If yes, add**:
-```xml
-<!-- Maven and core plugin versions -->
-<maven.version>3.9.10</maven.version>
-<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-```
-
-#### Dependency Version Properties (Conditional)
-**Based on dependency selections**, add relevant version properties:
-
-#### Quality and Analysis Properties (Conditional)
-**Ask**: "Do you want to configure quality thresholds for code coverage and analysis? (y/n)"
-
-**If yes, ask for specific thresholds**:
-- "What minimum code coverage percentage do you want? (default: 80%)"
-- "What minimum mutation testing score do you want? (default: 70%)"
-
-**Add based on answers**:
-```xml
-<!-- Quality thresholds -->
-<coverage.level>[USER_SPECIFIED_COVERAGE]</coverage.level>
-<mutation.level>[USER_SPECIFIED_MUTATION]</mutation.level>
-```
-
-#### Additional Plugin Version Properties (Feature-Based)
-**Only add plugin version properties for selected features**:
-
-**If Integration Testing selected**:
-```xml
-<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
-```
-
-**If Code Coverage selected**:
-```xml
-<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-```
-
-**If Mutation Testing selected**:
-```xml
-<pitest-maven.version>1.19.4</pitest-maven.version>
-<pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
-```
-
-**If Security Scanning selected**:
-```xml
-<dependency-check-maven.version>12.1.1</dependency-check-maven.version>
-```
-
-**If Static Analysis selected**:
-```xml
-<spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
-<maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
-```
-
-#### Final Properties Structure
-
-The final `<properties>` section will look like this (example with common selections):
-```xml
-<properties>
-  <!-- Essential build properties -->
-  <java.version>24</java.version> 
-  <maven.version>3.9.10</maven.version>
-  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-  <!-- Maven and plugin versions (if selected) -->
-
-  <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-  <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-  <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-
-  <!-- Dependency versions (based on selections) -->
-  <jspecify.version>1.0.0</jspecify.version>
-
-  <!-- Quality thresholds (if configured) -->
-  <coverage.level>80</coverage.level>
-  <mutation.level>70</mutation.level>
-
-  <!-- Feature-specific plugin versions (based on selections) -->
-  <!-- Only included if features were selected -->
-</properties>
-```
+**Summary**: Build properties incrementally based on user's actual needs and project requirements. The template provides comprehensive guidance on:
+- Core properties (always added)
+- Maven version and plugin properties (conditional)
+- Dependency version properties (based on selections)
+- Quality and analysis properties (with custom thresholds)
+- Feature-specific plugin version properties
+- Implementation guidelines
 
 ### 2.2 Dependencies Section (Optional)
 
