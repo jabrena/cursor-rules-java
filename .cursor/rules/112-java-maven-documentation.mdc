@@ -1,0 +1,35 @@
+---
+description: Create README-DEV.md with information about how to use the Maven project
+globs: pom.xml
+alwaysApply: false
+---
+# Create README-DEV.md with information about how to use the Maven project
+
+When creating a README-DEV.md file for a Maven project, include the following sections with comprehensive information about Maven goals and project usage:
+
+## Structure for README-DEV.md:
+
+# Essential Maven Goals:
+
+```bash
+# Clean the project
+mvn clean
+
+# Clean and package in one command
+mvn clean package
+
+# Run integration tests
+mvn verify
+
+# Check for dependency updates
+mvn versions:display-dependency-updates
+mvn versions:display-plugin-updates
+
+# Analyze dependencies
+mvn dependency:tree
+mvn dependency:analyze
+
+# Generate project reports
+mvn site
+```
+
