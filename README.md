@@ -10,20 +10,44 @@ This collection of Cursor Rules for Java development, tries to enrich the develo
 
 ## Cursor Rules
 
-- [Build: Maven Best Practices](.cursor/rules/100-java-maven-best-practices.mdc)
-- [Build: Maven Dependencies & Plugins](.cursor/rules/101-java-maven-deps-and-plugins.mdc)
-- [Design: Object Oriented Design](.cursor/rules/111-java-object-oriented-design.mdc)
-- [Design: Type Design](.cursor/rules/112-java-type-design.mdc)
-- [Coding: General Java Guidelines](.cursor/rules/113-java-general-guidelines.mdc)
-- [Coding: Secure Java Coding](.cursor/rules/114-java-secure-coding.mdc)
-- [Coding: Concurrency](.cursor/rules/115-java-concurrency.mdc)
-- [Coding: Logging Guidelines](.cursor/rules/116-java-logging.mdc)
-- [Testing: Unit Testing](.cursor/rules/121-java-unit-testing.mdc)
-- [Testing: Integration Testing (If required)](.cursor/rules/122-java-integration-testing.mdc)
-- [Refactoring: Add Modern Java Features](.cursor/rules/131-java-refactoring-with-modern-features.mdc)
-- [Refactoring: Functional Programming](.cursor/rules/132-java-functional-programming.mdc)
-- [Refactoring: Data Oriented Programming](.cursor/rules/133-java-data-oriented-programming.mdc)
+- [Build: Maven Best Practices](.cursor/rules/110-java-maven-best-practices.mdc)
+- [Build: Maven Dependencies & Plugins](.cursor/rules/111-java-maven-deps-and-plugins.mdc)
+- [Design: Object Oriented Design](.cursor/rules/121-java-object-oriented-design.mdc)
+- [Design: Type Design](.cursor/rules/122-java-type-design.mdc)
+- [Coding: General Java Guidelines](.cursor/rules/123-java-general-guidelines.mdc)
+- [Coding: Secure Java Coding](.cursor/rules/124-java-secure-coding.mdc)
+- [Coding: Concurrency](.cursor/rules/125-java-concurrency.mdc)
+- [Coding: Logging Guidelines](.cursor/rules/126-java-logging.mdc)
+- [Testing: Unit Testing](.cursor/rules/131-java-unit-testing.mdc)
+- [Testing: Integration Testing (If required)](.cursor/rules/132-java-integration-testing.mdc)
+- [Refactoring: Add Modern Java Features](.cursor/rules/141-java-refactoring-with-modern-features.mdc)
+- [Refactoring: Functional Programming](.cursor/rules/142-java-functional-programming.mdc)
+- [Refactoring: Data Oriented Programming](.cursor/rules/143-java-data-oriented-programming.mdc)
 - [Database: SQL Guidelines](.cursor/rules/500-sql.mdc)
+
+## Getting started
+
+If you are interested in getting the benefits from these cursor rules, you can manually download this repository and copy the './cursor' folder and paste it into your repository, or delegate this task to a specific command-line tool based on **Jbang**:
+
+```bash
+sdk install jbang
+# Add cursor rules for Java in ./cursor/rules
+jbang --fresh setup@jabrena init --cursor https://github.com/jabrena/cursor-rules-java
+```
+
+Once you have installed the cursor rules:
+
+| Phase | Role | Cursor Rule | Description |
+|-------|------|-------------|-------------|
+| Getting Started | All | [Create Java Development Guide](.cursor/rules/100-java-checklist-guide.mdc) | Cursor rule designed to help the user when using the whole set of cursor rules for Java in an easy way |
+
+Type the following prompt in the cursor chat:
+
+![](./docs/getting-started-prompt.png)
+
+```bash
+Create an java development guide using the cursor rule @100-java-checklist-guide
+```
 
 ## Java JEPS from Java 8
 

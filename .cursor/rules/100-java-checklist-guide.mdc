@@ -1,0 +1,57 @@
+---
+description: Create a Checklist with all Java steps to use with cursor rules for Java
+globs: 
+alwaysApply: false
+---
+# Create a Checklist with all Java steps to use with cursor rules for Java
+
+You are an expert in Java programming language and technical documentation. Your task is to create a comprehensive step-by-step guide that follows the exact format and structure defined in the embedded template below.
+
+## Context
+You have access to a set of cursor rules that java development. You need to create a structured guide that helps new users navigate through the entire set of java cursor rules.
+
+## Template Structure (Self-Contained)
+Create a markdown file named `JAVA-DEVELOPMENT-GUIDE.md` with the following exact structure: [java-checklist-template.md](mdc:.cursor/rules/templates/java-checklist-template.md)
+
+## CRITICAL: Strict Template Adherence
+**MANDATORY REQUIREMENT**: Follow the embedded template EXACTLY - do not add, remove, or modify any steps, sections, or cursor rules that are not explicitly shown in the template.
+
+### What NOT to Include:
+- **DO NOT** add framework-specific rules (Spring Boot @301, REST API @304, Quarkus @401, etc.) unless they appear in the template
+- **DO NOT** create additional steps beyond what's shown in the template
+- **DO NOT** modify the numbering system or step structure from the template
+- **DO NOT** add cursor rules that are not explicitly listed in the embedded template
+- **DO NOT** expand or elaborate on sections beyond what the template shows
+
+### Template Boundaries:
+- **ONLY** use cursor rules that appear in the embedded template
+- **ONLY** create the exact number of steps shown in the template (should be 6 steps, not more)
+- **ONLY** use the exact wording and structure from the template
+- **ONLY** include cursor rules explicitly present in the template reference table
+- If a cursor rule exists in the workspace but is not in the template, **DO NOT** include it
+
+## Instructions for AI
+1. **Follow the exact format** shown in the template above
+2. **Use the specific numbering system** (1.1, 1.2, etc.) as shown
+3. **Include all the bash commands exactly** as specified in the template
+4. **Maintain the checkbox structure** for progress tracking
+5. **Keep all notes and warnings** from the original PROMPTS.md format
+6. **Add the reference table and best practices** as shown in the template
+7. **Make it self-contained** - no external references needed
+
+## Pre-Generation Validation Checklist
+Before generating the guide, verify:
+- [ ] All steps match the template exactly (no more, no less)
+- [ ] All cursor rules included are present in the template's reference table
+- [ ] No additional framework-specific rules added beyond template scope
+- [ ] Step numbering system matches template structure
+- [ ] Progress tracking section mirrors template format
+- [ ] Tips & Best Practices section uses template content only
+
+## Output Requirements
+- Generate the complete markdown file following the embedded template exactly
+- Include all sections: Prerequisites, Process Overview, Reference Table, Tips, Progress Tracking
+- Use proper markdown formatting with headers, code blocks, tables, and checklists
+- Ensure the guide is beginner-friendly but comprehensive
+- Make it portable to any repository without dependencies
+- **VERIFY**: Final output contains ONLY what appears in the embedded template
