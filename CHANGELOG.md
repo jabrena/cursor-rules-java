@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0]
+
+### Added
+
+- **Java Checklist Guide**: Added `@100-java-checklist-guide` cursor rule to help developers use cursor rules effectively (#59)
+- **Maven Documentation**: Added `@112-java-maven-documentation` cursor rule to generate README-DEV.md from existing pom.xml files
+- **Maven Dependencies & Plugins**: Added `@111-java-maven-deps-and-plugins` cursor rule for better Maven dependency management
+- **Template System**: Added multiple template files to support cursor rule generation
+- **Example Project**: Added complete Maven demo project (`example/maven-demo/`) to test the new features
+
+### Changed
+
+- **Rule Organization**: Reorganized cursor rule numbering system for better categorization
+
+### Removed
+
+- **Cache Files**: Removed Maven cache files that were not useful for daily development work (#44)
+
+### Fixed
+
+- **Maven Plugins**: Improved cursor rules for Maven plugins with better examples and guidance (#54, #56)
+
 ## [0.6.0] 30/5/2025
 
 ### Added

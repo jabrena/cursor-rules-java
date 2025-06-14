@@ -5,31 +5,43 @@ alwaysApply: false
 ---
 # Create README-DEV.md with information about how to use the Maven project
 
-When creating a README-DEV.md file for a Maven project, include the following sections with comprehensive information about Maven goals and project usage:
+When creating a README-DEV.md file for a Maven project, include ONLY the following sections with the specified Maven goals. Do NOT add any additional sections, explanations, or content beyond what is explicitly listed below.
 
-## Structure for README-DEV.md:
+## STRICT Structure for README-DEV.md (Template):
+
+**IMPORTANT: Include ONLY the content specified below.**
+
+---
 
 # Essential Maven Goals:
 
 ```bash
+# Analyze dependencies
+./mvnw dependency:tree
+./mvnw dependency:analyze
+./mvnw dependency:resolve
+
+./mvnw clean validate -U
+./mvnw buildplan:list-phase
+./mvnw license:third-party-report
+
 # Clean the project
-mvn clean
+./mvnw clean
 
 # Clean and package in one command
-mvn clean package
+./mvnw clean package
 
 # Run integration tests
-mvn verify
+./mvnw verify
 
 # Check for dependency updates
-mvn versions:display-dependency-updates
-mvn versions:display-plugin-updates
-
-# Analyze dependencies
-mvn dependency:tree
-mvn dependency:analyze
+./mvnw versions:display-property-updates
+./mvnw versions:display-dependency-updates
+./mvnw versions:display-plugin-updates
 
 # Generate project reports
-mvn site
+./mvnw site
+jwebserver -p 8005 -d "$(pwd)/target/site/"
 ```
 
+**END OF TEMPLATE - DO NOT ADD ANYTHING BEYOND THIS POINT** 

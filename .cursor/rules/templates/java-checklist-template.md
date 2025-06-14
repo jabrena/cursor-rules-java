@@ -9,7 +9,8 @@ Use the following process to improve the java development in some areas if requi
 | Activity | Done | Prompt | Notes |
 |----------|------|--------|-------|
 | Review your pom.xml and Maven project | [ ] | `Help me to review the pom.xml  following the best practices for dependency management and directory structure use the cursor rule @110-java-maven-best-practices` | |
-| Improve the Maven project with plugins & dependencies | [ ] | `Can you improve the pom.xml using the cursor rule @101-java-maven-deps-and-plugins.mdc` | Conversational approach|
+| Improve the Maven project with plugins & dependencies | [ ] | `Can you improve the pom.xml using the cursor rule @101-java-maven-deps-and-plugins.mdc` | Conversational approach |
+| Create documentation about Maven`s usage | [ ] | `Generate developer documentation with essential Maven commands using @112-java-maven-documentation.mdc` | Add in the context the `pom.xml` which you want to generate the documentation |
 
 ### Step 2: Design Principles
 
