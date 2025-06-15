@@ -7,6 +7,11 @@ alwaysApply: false
 
 This rule provides a comprehensive, conversational approach to updating Maven pom.xml files with properties, dependencies, plugins, and profiles. It MUST ask questions first to understand the project needs and then conditionally add only relevant components.
 
+**⚠️ CRITICAL: NO CACHING OF QUESTIONS ⚠️**
+- NEVER use cached or remembered questions from previous interactions
+- ALWAYS read the template file fresh using file_search and read_file tools
+- Verify all questions and options match the current template content exactly
+
 ## Pre-requisites Check
 
 **CRITICAL**: This step MUST be completed before proceeding to any subsequent steps. Do NOT continue with Step 1 (Project Assessment Questions) until the Maven Wrapper question is fully resolved.
@@ -61,9 +66,11 @@ This rule provides a comprehensive, conversational approach to updating Maven po
 
 **MANDATORY PROCESS:**
 
-1. **Reference the Template**: Use the questions from [java-maven-questions-template.md](mdc:.cursor/rules/templates/java-maven-questions-template.md)
+1. **ALWAYS READ THE TEMPLATE FRESH**: Before asking any questions, you MUST use the `file_search` and `read_file` tools to locate and read the complete content of `java-maven-questions-template.md`. DO NOT use cached or remembered questions from previous interactions.
 
-2. **STRICT ENFORCEMENT RULES:**
+2. **Reference the Template**: Use the questions from [java-maven-questions-template.md](mdc:.cursor/rules/templates/java-maven-questions-template.md)
+
+3. **STRICT ENFORCEMENT RULES:**
    - ✅ Ask questions **ONE BY ONE** in the exact order specified in the template
    - ✅ **WAIT** for user response to each question before proceeding to the next
    - ✅ Use the **EXACT wording** from the template questions
@@ -73,7 +80,7 @@ This rule provides a comprehensive, conversational approach to updating Maven po
    - ✅ **Do NOT** assume answers or provide defaults
    - ✅ **Do NOT** skip questions or change their order
 
-3. **QUESTION SEQUENCE** (from template):
+4. **QUESTION SEQUENCE** (from template - MUST BE READ FRESH EACH TIME):
    - **Question 1**: [Project Nature](mdc:.cursor/rules/templates/java-maven-questions-template.md#1-project-nature) (single selection from the template)
    - **Question 2**: [Java Version](mdc:.cursor/rules/templates/java-maven-questions-template.md#2-java-version) (single selection from the template)
    - **Question 3**: [Build and Quality Aspects](mdc:.cursor/rules/templates/java-maven-questions-template.md#3-build-and-quality-aspects) (multiple selection allowed from the template)
@@ -81,7 +88,12 @@ This rule provides a comprehensive, conversational approach to updating Maven po
    - **Question 5**: [Sonar Configuration](mdc:.cursor/rules/templates/java-maven-questions-template.md#5-sonar-configuration-conditional) (conditional - only if static analysis with Sonar selected)
    - **Question 6**: [Sonar Host Configuration](mdc:.cursor/rules/templates/java-maven-questions-template.md#6-sonar-host-configuration-conditional) (conditional - only if Sonar configuration enabled)
 
-4. **VALIDATION CHECKPOINT:**
+5. **TEMPLATE VERIFICATION STEP:**
+   - Before asking questions, verify that ALL options from the template are included
+   - Cross-check your question content against the freshly read template file
+   - If there are discrepancies, re-read the template and correct your questions
+
+6. **VALIDATION CHECKPOINT:**
    - **STOP** and verify all applicable questions have been answered
    - **Do NOT proceed** to Step 2 until complete responses received
    - **Confirm** understanding of user selections before implementation
