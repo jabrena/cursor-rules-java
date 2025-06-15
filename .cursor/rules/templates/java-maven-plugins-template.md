@@ -6,7 +6,7 @@ This template provides Maven plugin configurations that should be added conditio
 
 ## Core Plugins
 
-### Add maven-plugins-enforcer (Enhanced)
+### Add maven-plugin-enforcer (Enhanced)
 
 **When to use**: Always recommended for build consistency and dependency management.
 **User question**: "Do you want enhanced dependency validation and build enforcement? (y/n)"
@@ -20,7 +20,7 @@ Update the pom.xml with this enhanced enforcer plugin:
 <plugin>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>flatten-maven-plugin</artifactId>
-    <version>${maven-plugins-flatten.version}</version>
+    <version>${maven-plugin-flatten.version}</version>
     <configuration>
     </configuration>
     <executions>
@@ -42,7 +42,7 @@ Update the pom.xml with this enhanced enforcer plugin:
 </plugin>
 ```
 
-## Add maven-plugins-enforcer
+## Add maven-plugin-enforcer
 
 Nature: General
 Category: Build
@@ -53,7 +53,7 @@ Update the pom.xml with this new plugin:
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-enforcer-plugin</artifactId>
-    <version>${maven-plugins-enforcer.version}</version>
+    <version>${maven-plugin-enforcer.version}</version>
     <dependencies>
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
@@ -73,7 +73,7 @@ Update the pom.xml with this new plugin:
                         <version>${maven.version}</version>
                     </requireMavenVersion>
                     <requireJavaVersion>
-                        <version>[${maven.compiler.release},)</version>
+                        <version>${java.version}</version>
                     </requireJavaVersion>
                     <bannedDependencies>
                         <excludes>
@@ -91,7 +91,7 @@ Update the pom.xml with this new plugin:
 </plugin>
 ```
 
-### Add maven-plugins-compiler (Enhanced)
+### Add maven-plugin-compiler (Enhanced)
 
 **When to use**: Always included, but ask about enhancement level.
 **User question**: "Do you want enhanced code analysis with Error Prone and NullAway? (y/n)"
@@ -120,7 +120,7 @@ Update the pom.xml with this new plugin:
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-compiler-plugin</artifactId>
-    <version>${maven-plugins-compiler.version}</version>
+    <version>${maven-plugin-compiler.version}</version>
     <configuration>
         <release>${java.version}</release>
         <compilerArgs>
@@ -171,7 +171,7 @@ Update the pom.xml with this plugin:
 <plugin>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>flatten-maven-plugin</artifactId>
-    <version>${maven-plugins-flatten.version}</version>
+    <version>${maven-plugin-flatten.version}</version>
     <configuration>
     </configuration>
     <executions>
@@ -207,7 +207,7 @@ Update the pom.xml with this plugin:
 <plugin>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>versions-maven-plugin</artifactId>
-    <version>${maven-plugins-versions.version}</version>
+    <version>${maven-plugin-versions.version}</version>
     <configuration>
         <allowSnapshots>false</allowSnapshots>
     </configuration>
@@ -228,7 +228,7 @@ Update the pom.xml with this plugin:
 <plugin>
     <groupId>pl.project13.maven</groupId>
     <artifactId>git-commit-id-plugin</artifactId>
-    <version>${maven-plugins-git-commit-id.version}</version>
+    <version>${maven-plugin-git-commit-id.version}</version>
     <executions>
         <execution>
             <id>get-the-git-infos</id>
@@ -248,7 +248,7 @@ Update the pom.xml with this plugin:
 
 ## Testing Plugins
 
-### Add maven-plugins-surefire
+### Add maven-plugin-surefire
 
 **When to use**: Always included for unit testing.
 **User question**: Automatically included with testing framework selection.
@@ -262,7 +262,7 @@ Update the pom.xml with this plugin:
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
-    <version>${maven-plugins-surefire.version}</version>
+    <version>${maven-plugin-surefire.version}</version>
     <configuration>
         <skipAfterFailureCount>1</skipAfterFailureCount>
         <includes>
@@ -289,7 +289,7 @@ Update the pom.xml with this plugin:
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven-plugins-failsafe.version}</version>
+    <version>${maven-plugin-failsafe.version}</version>
     <configuration>
         <includes>
             <include>**/*IT.java</include>
@@ -325,7 +325,7 @@ Update the pom.xml with this reporting section:
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-report-plugin</artifactId>
-            <version>${maven-plugins-surefire.version}</version>
+            <version>${maven-plugin-surefire.version}</version>
             <configuration>
                 <outputName>junit-report</outputName>
                 <showSuccess>true</showSuccess>
@@ -336,7 +336,7 @@ Update the pom.xml with this reporting section:
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jxr-plugin</artifactId>
-            <version>${maven-plugins-jxr.version}</version>
+            <version>${maven-plugin-jxr.version}</version>
         </plugin>
     </plugins>
 </reporting>
@@ -366,7 +366,7 @@ Update the pom.xml with this profile to run jacoco:
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${maven-plugins-jacoco.version}</version>
+                    <version>${maven-plugin-jacoco.version}</version>
                     <executions>
                         <execution>
                             <id>prepare-agent</id>
@@ -436,7 +436,7 @@ Update the pom.xml with this profile to execute Mutation testing in order to ana
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>${maven-plugins-pitest.version}</version>
+                <version>${maven-plugin-pitest.version}</version>
                 <configuration>
                     <targetClasses>
                         <param>info.jab.cli.*</param>
@@ -457,7 +457,7 @@ Update the pom.xml with this profile to execute Mutation testing in order to ana
                     <dependency>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>${maven-plugins-pitest-junit5.version}</version>
+                        <version>${maven-plugin-pitest-junit5.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -496,7 +496,7 @@ Update the pom.xml with this profile
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>${maven-plugins-dependency-check.version}</version>
+                <version>${maven-plugin-dependency-check.version}</version>
                 <configuration>
                     <outputDirectory>${project.build.directory}/dependency-check</outputDirectory>
                     <format>ALL</format>
@@ -549,12 +549,12 @@ Update the pom.xml with this profile
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven-plugins-pmd.version}</version>
+                <version>${maven-plugin-pmd.version}</version>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${maven-plugins-spotbugs.version}</version>
+                <version>${maven-plugin-spotbugs.version}</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
@@ -569,7 +569,7 @@ Update the pom.xml with this profile
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${maven-plugins-spotbugs.version}</version>
+                <version>${maven-plugin-spotbugs.version}</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
@@ -580,10 +580,48 @@ Update the pom.xml with this profile
             <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
-            <version>${maven-plugins-pmd.version}</version>
+            <version>${maven-plugin-pmd.version}</version>
             </plugin>
         </plugins>
     </reporting>
 </profile>
 ```
 
+### Add sonar profile to execute sonar
+
+Nature: General
+Category: Quality
+
+```xml
+<profile>
+    <id>sonar</id>
+    <activation>
+        <activeByDefault>false</activeByDefault>
+    </activation>
+    <properties>
+        <!-- SonarCloud configuration -->
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>YOUR_GITHUB_USER</sonar.organization>
+        <sonar.projectKey>YOUR_GITHUB_USER_REPOSITORY_NAME</sonar.projectKey>
+        <sonar.projectName>YOUR_PROJECT_NAME</sonar.projectName>
+        <sonar.projectVersion>${project.version}</sonar.projectVersion>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.tests>src/test/java</sonar.tests>
+        <sonar.java.binaries>target/classes</sonar.java.binaries>
+        <sonar.java.test.binaries>target/test-classes</sonar.java.test.binaries>
+        <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
+        <sonar.coverage.exclusions>**/*Test.java,**/*IT.java</sonar.coverage.exclusions>
+        <sonar.java.source>${java.version}</sonar.java.source>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${maven-plugin-sonar.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</profile>
+```

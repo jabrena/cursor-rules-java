@@ -9,8 +9,8 @@ Use the following process to improve the java development in some areas if requi
 | Activity | Done | Prompt | Notes |
 |----------|------|--------|-------|
 | Review your pom.xml and Maven project | [ ] | `Help me to review the pom.xml  following the best practices for dependency management and directory structure use the cursor rule @110-java-maven-best-practices` | Add in the context the `pom.xml` which you want to generate the documentation |
-| Improve the Maven project with plugins & dependencies | [ ] | `Can you improve the pom.xml using the cursor rule @101-java-maven-deps-and-plugins.mdc` | Add in the context the `pom.xml` which you want to generate the documentation. Conversational approach |
-| Create documentation about Maven`s usage | [ ] | `Generate developer documentation with essential Maven commands using @112-java-maven-documentation.mdc` | Add in the context the `pom.xml` which you want to generate the documentation |
+| Improve the Maven project with plugins & dependencies | [ ] | `Can you improve the pom.xml using the cursor rule @111-java-maven-deps-and-plugins` | Add in the context the `pom.xml` which you want to generate the documentation. Conversational approach |
+| Create documentation about Maven's usage | [ ] | `Generate developer documentation with essential Maven commands using @112-java-maven-documentation` | Add in the context the `pom.xml` which you want to generate the documentation |
 
 ### Step 2: Design Principles
 
@@ -33,7 +33,7 @@ Use the following process to improve the java development in some areas if requi
 | Activity | Done | Prompt | Notes |
 |----------|------|--------|-------|
 | Unit Testing | [ ] | `Can improve the unit tests using the cursor rule @131-java-unit-testing` | |
-| Integration Testing | [ ] | `Help me write integration tests using the cursor rule @132-java-integration-testing` | If required |
+| Integration Testing | [ ] | `Can improve the integration tests using the cursor rule @132-java-integration-testing` | If required |
 
 ### Step 5: Refactoring
 
@@ -55,6 +55,7 @@ Use the following process to improve the java development in some areas if requi
 |-----------|-------------|-------------|
 | Maven Best Practices | @110-java-maven-best-practices | Best practices for Maven dependency management and project structure |
 | Maven Dependencies & Plugins | @111-java-maven-deps-and-plugins | Improve pom.xml with recommended plugins and dependencies |
+| Maven Documentation | @112-java-maven-documentation | Generate developer documentation with essential Maven commands |
 | Object Oriented Design | @121-java-object-oriented-design | Object-oriented design principles and review |
 | Type Design | @122-java-type-design | Best practices for type design in Java |
 | General Java Guidelines | @123-java-general-guidelines | General Java coding best practices |

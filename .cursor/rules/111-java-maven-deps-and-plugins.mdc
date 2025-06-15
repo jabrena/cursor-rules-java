@@ -78,6 +78,8 @@ This rule provides a comprehensive, conversational approach to updating Maven po
    - **Question 2**: [Java Version](mdc:.cursor/rules/templates/java-maven-questions-template.md#2-java-version) (single selection from the template)
    - **Question 3**: [Build and Quality Aspects](mdc:.cursor/rules/templates/java-maven-questions-template.md#3-build-and-quality-aspects) (multiple selection allowed from the template)
    - **Question 4**: [Coverage Threshold](mdc:.cursor/rules/templates/java-maven-questions-template.md#4-coverage-threshold) (conditional - only if coverage selected)
+   - **Question 5**: [Sonar Configuration](mdc:.cursor/rules/templates/java-maven-questions-template.md#5-sonar-configuration-conditional) (conditional - only if static analysis with Sonar selected)
+   - **Question 6**: [Sonar Host Configuration](mdc:.cursor/rules/templates/java-maven-questions-template.md#6-sonar-host-configuration-conditional) (conditional - only if Sonar configuration enabled)
 
 4. **VALIDATION CHECKPOINT:**
    - **STOP** and verify all applicable questions have been answered
@@ -150,7 +152,7 @@ After getting answers, implement the configuration following this order:
 - **Code Coverage**: jacoco-maven-plugin (in profile)
 - **Mutation Testing**: pitest-maven (in profile)
 - **Security Scanning**: dependency-check-maven (in profile)
-- **Static Analysis**: spotbugs-maven-plugin, maven-pmd-plugin (in profile)
+- **Static Analysis**: spotbugs-maven-plugin, maven-pmd-plugin (in profile) & sonar (in profile)
 - **Version Management**: versions-maven-plugin
 - **Build Info**: git-commit-id-plugin
 - **Library Publishing**: flatten-maven-plugin
@@ -205,8 +207,13 @@ Only provide examples for the features that were actually added based on user se
 4. **Follow the order**: Questions → Properties → Dependencies → Plugins → Profiles
 5. **Customize package names**: Update package structure to match the actual project
 6. **Adjust thresholds**: Use the coverage levels specified by the user
-7. **Validate configuration**: Always run validation after changes
-8. **Provide relevant examples**: Only show usage examples for added features
+7. **Configure Sonar parameters**: Replace template placeholders with user-provided values:
+   - Replace `YOUR_GITHUB_USER` with the provided organization identifier
+   - Replace `YOUR_GITHUB_USER_REPOSITORY_NAME` with the provided project key
+   - Replace `YOUR_PROJECT_NAME` with the provided project display name
+   - Set `sonar.host.url` based on the selected Sonar service (SonarCloud or custom SonarQube)
+8. **Validate configuration**: Always run validation after changes
+9. **Provide relevant examples**: Only show usage examples for added features
 
 ## Conversation Flow Example
 

@@ -23,9 +23,9 @@ Start with essential build properties that every project needs (use the Java ver
 
 **If yes, add**:
 ```xml
-<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+<maven-plugin-compiler.version>3.14.0</maven-plugin-compiler.version>
+<maven-plugin-surefire.version>3.5.3</maven-plugin-surefire.version>
+<maven-plugin-enforcer.version>3.5.0</maven-plugin-enforcer.version>
 ```
 
 ## Dependency Version Properties (Conditional)
@@ -60,34 +60,35 @@ Start with essential build properties that every project needs (use the Java ver
 ### Integration Testing
 **If Integration Testing selected**:
 ```xml
-<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
+<maven-plugin-failsafe.version>3.5.3</maven-plugin-failsafe.version>
 ```
 
 ### Code Coverage
 **If Code Coverage selected**:
 ```xml
-<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-<maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
+<maven-plugin-jacoco.version>0.8.13</maven-plugin-jacoco.version>
+<maven-plugin-jxr.version>3.6.0</maven-plugin-jxr.version>
 ```
 
 ### Mutation Testing
 **If Mutation Testing selected**:
 ```xml
-<pitest-maven.version>1.19.4</pitest-maven.version>
-<pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
+<maven-plugin-pitest.version>1.19.4</maven-plugin-pitest.version>
+<maven-plugin-pitest-junit5.version>1.2.3</maven-plugin-pitest-junit5.version>
 ```
 
 ### Security Scanning
 **If Security Scanning selected**:
 ```xml
-<dependency-check-maven.version>12.1.1</dependency-check-maven.version>
+<maven-plugin-dependency-check.version>12.1.1</maven-plugin-dependency-check.version>
 ```
 
 ### Static Analysis
 **If Static Analysis selected**:
 ```xml
-<spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
-<maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
+<maven-plugin-spotbugs.version>4.9.3.0</maven-plugin-spotbugs.version>
+<maven-plugin-pmd.version>3.26.0</maven-plugin-pmd.version>
+<maven-plugin-sonar.version>4.0.0.4121</maven-plugin-sonar.version>
 ```
 
 ### Enhanced Compiler Analysis
@@ -101,32 +102,32 @@ Start with essential build properties that every project needs (use the Java ver
 ### Version Management
 **If Version Management selected**:
 ```xml
-<versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+<maven-plugin-versions.version>2.18.0</maven-plugin-versions.version>
 ```
 
 ### Build Info
 **If Build Info selected**:
 ```xml
-<git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
+<maven-plugin-git-commit-id.version>4.9.10</maven-plugin-git-commit-id.version>
 ```
 
 ### Library Publishing
 **If Library Publishing selected**:
 ```xml
-<flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
+<maven-plugin-flatten.version>1.7.0</maven-plugin-flatten.version>
 ```
 
 ### Site and Reporting
 **If Site Generation selected**:
 ```xml
-<maven-site-plugin.version>3.20.0</maven-site-plugin.version>
-<maven-project-info-reports-plugin.version>3.7.0</maven-project-info-reports-plugin.version>
+<maven-plugin-site.version>3.20.0</maven-plugin-site.version>
+<maven-plugin-project-info-reports.version>3.7.0</maven-plugin-project-info-reports.version>
 ```
 
 ### SonarQube Integration
 **If SonarQube Integration selected**:
 ```xml
-<sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
+<maven-plugin-sonar.version>4.0.0.4121</maven-plugin-sonar.version>
 ```
 
 ## Final Properties Structure Example
@@ -144,15 +145,15 @@ The final `<properties>` section will look like this (example with common select
   <jspecify.version>1.0.0</jspecify.version>
 
   <!-- Feature-specific plugin versions (based on selections) -->
-  <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-  <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-  <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-  <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-  <pitest-maven.version>1.19.4</pitest-maven.version>
-  <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
-  <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
+  <maven-plugin-compiler.version>3.14.0</maven-plugin-compiler.version>
   <error-prone.version>2.38.0</error-prone.version>
   <nullaway.version>0.11.0</nullaway.version>
+  <maven-plugin-surefire.version>3.5.3</maven-plugin-surefire.version>
+  <maven-plugin-enforcer.version>3.5.0</maven-plugin-enforcer.version>
+  <maven-plugin-jacoco.version>0.8.13</maven-plugin-jacoco.version>
+  <maven-plugin-pitest.version>1.19.4</maven-plugin-pitest.version>
+  <maven-plugin-pitest-junit5.version>1.2.3</maven-plugin-pitest-junit5.version>
+  <maven-plugin-spotbugs.version>4.9.3.0</maven-plugin-spotbugs.version>
 
   <!-- Quality thresholds (if configured) -->
   <coverage.level>80</coverage.level>
