@@ -57,6 +57,12 @@ Start with essential build properties that every project needs (use the Java ver
 
 **Only add plugin version properties for selected features**:
 
+### Static Analysis
+**If Format source code selected**:
+```xml
+<maven-plugin-spotless.version>2.44.5</maven-plugin-spotless.version>
+```
+
 ### Integration Testing
 **If Integration Testing selected**:
 ```xml

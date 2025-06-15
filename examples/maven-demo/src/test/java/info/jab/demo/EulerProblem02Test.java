@@ -1,9 +1,9 @@
 package info.jab.demo;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import org.junit.jupiter.api.Test;
 import info.jab.demo.utils.EulerAnswersLoader;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class EulerProblem02Test {
 

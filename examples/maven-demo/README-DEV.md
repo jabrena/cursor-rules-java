@@ -16,6 +16,9 @@
 # Clean and package in one command
 ./mvnw clean package
 
+#Format source code
+./mvnw spotless:apply
+
 # Run integration tests
 ./mvnw verify
 

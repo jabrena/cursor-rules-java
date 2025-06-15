@@ -11,7 +11,7 @@ public class EulerAnswersLoader {
     private List<String> loadFile() {
         try (var inputStream = getClass().getClassLoader().getResourceAsStream("euler/answers.txt");
             var reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            
+
             return reader.lines().toList();
         } catch (IOException e) {
             e.printStackTrace();
