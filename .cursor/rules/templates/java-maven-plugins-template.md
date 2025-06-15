@@ -6,43 +6,7 @@ This template provides Maven plugin configurations that should be added conditio
 
 ## Core Plugins
 
-### Add maven-plugin-enforcer (Enhanced)
-
-**When to use**: Always recommended for build consistency and dependency management.
-**User question**: "Do you want enhanced dependency validation and build enforcement? (y/n)"
-
-Nature: General
-Category: Build
-
-Update the pom.xml with this enhanced enforcer plugin:
-
-```xml
-<plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>flatten-maven-plugin</artifactId>
-    <version>${maven-plugin-flatten.version}</version>
-    <configuration>
-    </configuration>
-    <executions>
-        <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-                <goal>flatten</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-                <goal>clean</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-
-## Add maven-plugin-enforcer
+### Add maven-plugin-enforcer
 
 Nature: General
 Category: Build
@@ -156,6 +120,44 @@ Update the pom.xml with this new plugin:
 ```
 
 ## Optional Build Enhancement Plugins
+
+### Add spotless-maven-plugin
+
+Nature: General
+Category: Build
+
+Update the pom.xml with this plugin:
+
+```xml
+<plugin>
+    <groupId>com.diffplug.spotless</groupId>
+    <artifactId>spotless-maven-plugin</artifactId>
+    <version>${maven-plugin-spotless.version}</version>
+    <configuration>
+        <encoding>UTF-8</encoding>
+        <java>
+            <removeUnusedImports />
+            <importOrder>
+                <order>,\#</order>
+            </importOrder>
+            <endWithNewline />
+            <trimTrailingWhitespace />
+            <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+            </indent>
+        </java>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>check</goal>
+            </goals>
+            <phase>process-sources</phase>
+        </execution>
+    </executions>
+</plugin>
+```
 
 ### Add flatten-maven-plugin
 

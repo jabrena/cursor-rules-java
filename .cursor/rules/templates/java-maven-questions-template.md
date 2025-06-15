@@ -28,6 +28,7 @@ Options:
 **What build and quality aspects are important for your project?** (Select all that apply)
 
 Options:
+_ Format source code (Spotless)
 - Compiler behaviour improvements with ErrorProne + NullAway (Ask for JSpecify)
 - Integration testing (Failsafe)
 - Code coverage reporting (JaCoCo)
