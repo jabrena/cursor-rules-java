@@ -1,0 +1,396 @@
+---
+description: Spring Boot Hikari configuration
+globs: 
+alwaysApply: false
+---
+# Spring Boot HikariCP Connection Pool Configuration
+
+HikariCP is the default connection pool for Spring Boot 2.x+ and is known for being the fastest, most reliable connection pool available for Java applications. This guide will help you configure HikariCP optimally for your Spring Boot applications.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+- **Performance First**: Configure pool sizes based on your application's actual database concurrency needs
+- **Resource Efficiency**: Balance connection availability with memory and database server resources
+- **Monitoring & Observability**: Enable metrics and logging to understand pool behavior
+- **Environment-Specific**: Adjust configurations based on development, testing, and production environments
+- **Fail-Fast**: Configure appropriate timeouts to detect issues quickly
+
+## Table of contents
+
+- Rule 1: Essential Pool Sizing Configuration
+- Rule 2: Connection Timeout and Lifecycle Management
+- Rule 3: Health Check and Validation Configuration
+- Rule 4: Performance Monitoring and Metrics
+- Rule 5: Environment-Specific Configuration Strategies
+
+## Rule 1: Essential Pool Sizing Configuration
+
+**Title**: Right-size your connection pool based on application needs
+
+**Description**: The most critical aspect of HikariCP configuration is determining the optimal pool size. Ask yourself: "How many concurrent database operations does my application actually need?" Most applications need far fewer connections than developers initially think.
+
+**Key Questions to Ask:**
+- How many concurrent users will access my application?
+- How many database operations happen per user request?
+- What's my database server's connection limit?
+- Am I running multiple application instances?
+
+**Good example:**
+
+```yaml
+# application.yml
+spring:
+  datasource:
+    hikari:
+      # Start with this formula: connections = ((core_count * 2) + effective_spindle_count)
+      # For most web apps: 10-15 connections is often sufficient
+      maximum-pool-size: 10
+      minimum-idle: 5
+      # Allow pool to shrink during low activity
+      idle-timeout: 300000  # 5 minutes
+```
+
+```java
+// For programmatic configuration
+@Configuration
+public class DatabaseConfig {
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig hikariConfig() {
+        HikariConfig config = new HikariConfig();
+        // Conservative pool sizing for most applications
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(5);
+        config.setIdleTimeout(300_000);
+        return config;
+    }
+}
+```
+
+**Bad Example:**
+
+```yaml
+# application.yml - DON'T DO THIS
+spring:
+  datasource:
+    hikari:
+      # Too many connections - wastes resources and can overwhelm DB
+      maximum-pool-size: 100
+      minimum-idle: 50
+      # Never let connections be idle - keeps unnecessary connections
+      idle-timeout: 0
+```
+
+## Rule 2: Connection Timeout and Lifecycle Management
+
+**Title**: Configure appropriate timeouts for reliable connection handling
+
+**Description**: Proper timeout configuration ensures your application fails fast when database issues occur and doesn't hold onto stale connections. Ask yourself: "How long should my application wait for a database connection before giving up?"
+
+**Key Questions to Ask:**
+- What's an acceptable wait time for users when the database is under load?
+- How quickly should I detect database connectivity issues?
+- What's my application's typical query execution time?
+
+**Good example:**
+
+```yaml
+# application.yml
+spring:
+  datasource:
+    hikari:
+      # Fast failure for connection acquisition
+      connection-timeout: 20000      # 20 seconds - adjust based on your needs
+      # Detect stale connections quickly
+      max-lifetime: 1800000         # 30 minutes - less than DB connection timeout
+      # Quick validation of connections
+      validation-timeout: 5000       # 5 seconds
+      # Test connections when borrowed from pool
+      connection-test-query: SELECT 1
+```
+
+```java
+// Programmatic configuration with monitoring
+@Configuration
+public class DatabaseConfig {
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig hikariConfig() {
+        HikariConfig config = new HikariConfig();
+        config.setConnectionTimeout(20_000);
+        config.setMaxLifetime(1_800_000);
+        config.setValidationTimeout(5_000);
+        
+        // Enable connection testing
+        config.setConnectionTestQuery("SELECT 1");
+        return config;
+    }
+}
+```
+
+**Bad Example:**
+
+```yaml
+# application.yml - DON'T DO THIS
+spring:
+  datasource:
+    hikari:
+      # Too long - users will think app is frozen
+      connection-timeout: 120000
+      # Too long - may exceed DB server timeout
+      max-lifetime: 7200000
+      # No validation - stale connections may be used
+      # connection-test-query: # missing
+```
+
+## Rule 3: Health Check and Validation Configuration
+
+**Title**: Implement robust connection health checking
+
+**Description**: Configure HikariCP to validate connections and maintain pool health. Ask yourself: "How can I ensure my application always gets working database connections?"
+
+**Key Questions to Ask:**
+- Does my database server have connection timeouts?
+- How can I detect network issues between app and database?
+- Should I validate connections proactively or reactively?
+
+**Good example:**
+
+```yaml
+# application.yml
+spring:
+  datasource:
+    hikari:
+      # Lightweight validation query for most databases
+      connection-test-query: SELECT 1
+      # Validate connections when borrowed (recommended for production)
+      validation-timeout: 5000
+      # Remove connections that fail validation
+      leak-detection-threshold: 60000  # 60 seconds - helps find connection leaks
+```
+
+```java
+// Database-specific configuration
+@Configuration
+@Profile("production")
+public class ProductionDatabaseConfig {
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig hikariConfig() {
+        HikariConfig config = new HikariConfig();
+        
+        // PostgreSQL-specific validation
+        config.setConnectionTestQuery("SELECT 1");
+        config.setValidationTimeout(5_000);
+        config.setLeakDetectionThreshold(60_000);
+        
+        // Additional PostgreSQL optimizations
+        config.addDataSourceProperty("socketTimeout", "30");
+        config.addDataSourceProperty("loginTimeout", "10");
+        
+        return config;
+    }
+}
+```
+
+**Bad Example:**
+
+```yaml
+# application.yml - DON'T DO THIS
+spring:
+  datasource:
+    hikari:
+      # Heavy validation query that impacts performance
+      connection-test-query: "SELECT COUNT(*) FROM large_table WHERE complex_condition = 'value'"
+      # No leak detection - memory leaks may go unnoticed
+      # leak-detection-threshold: # missing
+```
+
+## Rule 4: Performance Monitoring and Metrics
+
+**Title**: Enable comprehensive monitoring and metrics collection
+
+**Description**: Configure HikariCP to provide visibility into connection pool behavior. Ask yourself: "How will I know if my connection pool is properly sized and performing well?"
+
+**Key Questions to Ask:**
+- How can I monitor pool utilization in production?
+- What metrics indicate pool sizing issues?
+- How do I correlate application performance with database connection patterns?
+
+**Good example:**
+
+```yaml
+# application.yml
+spring:
+  datasource:
+    hikari:
+      # Enable detailed metrics
+      register-mbeans: true
+      pool-name: "HikariPool-${spring.application.name}"
+      
+# Enable JMX metrics for monitoring tools
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,hikari
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+```
+
+```java
+// Comprehensive monitoring setup
+@Configuration
+@ConditionalOnProperty(name = "management.metrics.enabled", matchIfMissing = true)
+public class DatabaseMonitoringConfig {
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig hikariConfig(MeterRegistry meterRegistry) {
+        HikariConfig config = new HikariConfig();
+        
+        // Enable metrics collection
+        config.setRegisterMbeans(true);
+        config.setPoolName("HikariPool-" + getApplicationName());
+        config.setMetricRegistry(meterRegistry);
+        
+        // Configure alerts for pool exhaustion
+        config.setConnectionTimeout(20_000);
+        config.setLeakDetectionThreshold(60_000);
+        
+        return config;
+    }
+    
+    private String getApplicationName() {
+        return System.getProperty("spring.application.name", "app");
+    }
+}
+```
+
+**Bad Example:**
+
+```yaml
+# application.yml - DON'T DO THIS
+spring:
+  datasource:
+    hikari:
+      # No monitoring enabled - flying blind in production
+      register-mbeans: false
+      # Generic pool name - hard to identify in monitoring tools
+      pool-name: "pool"
+```
+
+## Rule 5: Environment-Specific Configuration Strategies
+
+**Title**: Adapt HikariCP configuration for different environments
+
+**Description**: Configure HikariCP differently for development, testing, and production environments. Ask yourself: "What are the different requirements for each environment where my application runs?"
+
+**Key Questions to Ask:**
+- How do my development and production database loads differ?
+- Should I use different pool sizes for testing vs production?
+- How can I make troubleshooting easier in development?
+
+**Good example:**
+
+```yaml
+# application-dev.yml - Development environment
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 5          # Smaller pool for dev
+      minimum-idle: 2
+      connection-timeout: 30000     # Longer timeout for debugging
+      leak-detection-threshold: 30000  # Faster leak detection for dev
+      register-mbeans: true         # Enable for local monitoring
+
+# application-prod.yml - Production environment  
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20         # Larger pool for production load
+      minimum-idle: 10
+      connection-timeout: 20000     # Fast failure in production
+      idle-timeout: 300000          # Allow shrinking during low load
+      max-lifetime: 1800000         # Refresh connections regularly
+      leak-detection-threshold: 60000
+      register-mbeans: true
+      pool-name: "${spring.application.name}-prod"
+```
+
+```java
+// Environment-specific configuration
+@Configuration
+public class EnvironmentSpecificDatabaseConfig {
+    
+    @Bean
+    @Profile("development")
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig devHikariConfig() {
+        HikariConfig config = new HikariConfig();
+        // Development: Favor debugging over performance
+        config.setMaximumPoolSize(5);
+        config.setConnectionTimeout(30_000);
+        config.setLeakDetectionThreshold(30_000);
+        config.setRegisterMbeans(true);
+        return config;
+    }
+    
+    @Bean
+    @Profile("production")
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariConfig prodHikariConfig() {
+        HikariConfig config = new HikariConfig();
+        // Production: Favor performance and reliability
+        config.setMaximumPoolSize(20);
+        config.setMinimumIdle(10);
+        config.setConnectionTimeout(20_000);
+        config.setIdleTimeout(300_000);
+        config.setMaxLifetime(1_800_000);
+        config.setLeakDetectionThreshold(60_000);
+        config.setRegisterMbeans(true);
+        config.setPoolName(getApplicationName() + "-prod");
+        return config;
+    }
+    
+    private String getApplicationName() {
+        return System.getProperty("spring.application.name", "app");
+    }
+}
+```
+
+**Bad Example:**
+
+```yaml
+# Same configuration for all environments - DON'T DO THIS
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50        # Too many for dev, maybe wrong for prod
+      minimum-idle: 25             # Wastes resources in all environments
+      connection-timeout: 60000    # Too slow for production
+      # No environment-specific tuning
+```
+
+---
+
+## Quick Configuration Checklist
+
+Before deploying your HikariCP configuration, ask yourself these questions:
+
+1. **Pool Sizing**: Have I calculated the right pool size based on my application's concurrency needs?
+2. **Timeouts**: Are my timeouts appropriate for fast failure detection without being too aggressive?
+3. **Monitoring**: Can I see pool utilization and performance metrics in my monitoring system?
+4. **Environment Differences**: Do I have different configurations for dev, test, and production?
+5. **Database Specifics**: Have I configured database-specific optimizations?
+6. **Connection Health**: Am I validating connections appropriately without impacting performance?
+7. **Resource Limits**: Are my pool settings within my database server's connection limits?
+
+Remember: Start with conservative settings and adjust based on monitoring data from your actual production load!

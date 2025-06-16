@@ -7,11 +7,22 @@ alwaysApply: false
 
 These guidelines aim to ensure consistency, reliability, and maintainability of integration tests within the project.
 
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+- Principle 1: Test Isolation - Each integration test must be independent and not affect other tests
+- Principle 2: Environment Reproducibility - Use containerized dependencies for consistent test environments  
+- Principle 3: Clear Test Boundaries - Focus on integration points rather than duplicating unit test logic
+- Principle 4: Performance Optimization - Balance thorough testing with execution speed
+- Principle 5: Maintainable Assertions - Use specific, clear assertions that provide meaningful feedback
+- Principle 6: Resource Management - Properly manage external dependencies and cleanup after tests
+
 ## Table of contents
 
 - Rule 1: Define Clear Scope and Purpose for Integration Tests
 - Rule 2: Manage Test Environment & Dependencies with Testcontainers
-- Rule 3: Utilize RestAssured for Robust API Testing
+- Rule 3: Utilize TestRestTemplate for Robust API Testing
 - Rule 4: Implement Consistent Data Management Strategies
 - Rule 5: Maintain Clear Test Structure and Assertions
 - Rule 6: Optimize for Performance and Ensure Proper Cleanup
@@ -32,6 +43,7 @@ Description:
 // @SpringBootTest // or similar context for the test
 // @Testcontainers // if using Testcontainers
 public class ProductServiceIT {
+    private static final Logger log = LoggerFactory.getLogger(ProductServiceIT.class);
 
     // @Autowired
     // private ProductService productService;
@@ -62,7 +74,7 @@ public class ProductServiceIT {
 
         // 2. Notification service was called (verify via mock or wiremock if testing HTTP contract)
         // verify(mockNotificationService).sendProductCreationNotification(any(Product.class));
-        System.out.println("Conceptual test: Product creation flow verified.");
+        log.info("Conceptual test: Product creation flow verified.");
     }
 }
 ```
@@ -71,6 +83,7 @@ public class ProductServiceIT {
 ```java
 // @SpringBootTest
 public class OverlappingProductLogicIT {
+    private static final Logger log = LoggerFactory.getLogger(OverlappingProductLogicIT.class);
 
     // @Autowired
     // private ProductService productService;
@@ -87,7 +100,7 @@ public class OverlappingProductLogicIT {
         
         // If asserts here are deeply checking specific price calculations, it's likely a unit test concern.
         // assertThat(createdProduct.getFinalPrice()).isEqualTo(9.99); // This might be too specific for an IT
-        System.out.println("Conceptual bad test: Replicating unit test logic for pricing.");
+        log.warn("Conceptual bad test: Replicating unit test logic for pricing.");
     }
 }
 ```
@@ -105,6 +118,8 @@ Description:
 **Good example:**
 ```java
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -116,6 +131,7 @@ import static org.assertj.core.api.Assertions.assertThat; // For assertion
 @Testcontainers
 @SpringBootTest // Or relevant test context setup
 class MyRepositoryIT {
+    private static final Logger log = LoggerFactory.getLogger(MyRepositoryIT.class);
 
     @Container // Static -> shared container for all tests in this class
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
@@ -142,7 +158,7 @@ class MyRepositoryIT {
         // Test logic interacting with the repository,
         // which uses the Testcontainer database
         assertThat(postgres.isRunning()).isTrue();
-        System.out.println("PostgreSQL container is running on JDBC URL: " + postgres.getJdbcUrl());
+        log.info("PostgreSQL container is running on JDBC URL: {}", postgres.getJdbcUrl());
         // ... perform repository operations and assertions ...
         // Example: MyEntity entity = new MyEntity("testData");
         // repository.save(entity);
@@ -156,6 +172,7 @@ class MyRepositoryIT {
 ```java
 // @SpringBootTest
 public class MyServiceReliesOnExternalDbIT {
+    private static final Logger log = LoggerFactory.getLogger(MyServiceReliesOnExternalDbIT.class);
 
     // @Autowired
     // private MyDataService dataService;
@@ -174,37 +191,42 @@ public class MyServiceReliesOnExternalDbIT {
         // - Hard to manage data state between tests.
         // List<Data> data = dataService.findAll();
         // assertThat(data).isNotEmpty(); // This might pass or fail based on external DB state.
-        System.out.println("Conceptual bad test: Relies on external, shared database.");
+        log.warn("Conceptual bad test: Relies on external, shared database.");
     }
 }
 ```
 
-## Rule 3: Utilize RestAssured for Robust API Testing
+## Rule 3: Utilize TestRestTemplate for Robust API Testing
 
-Title: Employ RestAssured for Testing RESTful APIs Following Given/When/Then
+Title: Employ TestRestTemplate for Testing RESTful APIs Following Arrange/Act/Assert
 Description:
-- Use RestAssured (`io.rest-assured:rest-assured`) for testing RESTful APIs.
-- Structure tests using the Given/When/Then (Gherkin-like) syntax provided by RestAssured:
-    - `given()`: Set up request prerequisites (headers, authentication, path/query parameters, request body).
-    - `when()`: Perform the HTTP request (GET, POST, PUT, DELETE, etc.).
-    - `then()`: Validate the response (status code, headers, response body).
-- Always validate the HTTP status code first using `statusCode()`.
-- Use Hamcrest matchers (`org.hamcrest.Matchers`) or RestAssured's built-in JSON/XML path validation (`body()`) for asserting response content. Be specific but avoid overly brittle assertions (e.g., don't assert entire large JSON bodies if only a few fields matter).
-- Define base URIs, ports, and common paths in a setup method (`@BeforeEach` or a base test class). Set `RestAssured.baseURI`, `RestAssured.port` (often using the dynamic port from Spring Boot Test or Testcontainers).
-- Handle authentication consistently. Use RestAssured's built-in mechanisms or abstract authentication logic.
-- For complex request/response bodies, use POJOs with libraries like Jackson or Gson for serialization/deserialization.
+- Use Spring Boot's `TestRestTemplate` (provided by `spring-boot-starter-test`) for testing RESTful APIs in integration tests.
+- Structure tests using the Arrange/Act/Assert pattern:
+    - **Arrange**: Set up request data, headers, authentication, and test prerequisites.
+    - **Act**: Perform the HTTP request using TestRestTemplate methods (`getForEntity()`, `postForEntity()`, `exchange()`, etc.).
+    - **Assert**: Validate the response (status code, headers, response body) using AssertJ or JUnit assertions.
+- Always validate the HTTP status code first using `ResponseEntity.getStatusCode()`.
+- Use AssertJ assertions for clear and fluent validation of response content. Be specific but avoid overly brittle assertions (e.g., don't assert entire large JSON bodies if only a few fields matter).
+- Configure TestRestTemplate in a `@BeforeEach` method or inject it via `@Autowired`. For custom configurations (authentication, headers), use `TestRestTemplate.withBasicAuth()` or create `HttpEntity` with custom headers.
+- Handle authentication consistently using TestRestTemplate's built-in methods or by setting appropriate headers in `HttpEntity`.
+- For complex request/response bodies, use POJOs that will be automatically serialized/deserialized by Spring's message converters (Jackson by default).
 
 **Good example:**
 ```java
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 // Assuming a simple DTO for request/response
 class ResourceDto {
@@ -223,84 +245,91 @@ class MyApiControllerIT {
     @LocalServerPort
     private int port;
 
-    @BeforeEach
-    void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
-        // RestAssured.basePath = "/api/v1"; // If applicable
-        // Setup mock responses for an actual test if the backend is not fully running for this slice
-        // For this example, assume the endpoints are live and will respond appropriately.
-    }
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Test
     void getResourceById_shouldReturnOkAndResource() {
-        // Mocking for standalone example (replace with actual endpoint call if SUT is running)
-        // For a real test against a live Spring Boot app, remove this mock if endpoint is implemented
-        // MocoRestAssured.given().get("/resources/123"). répondre().statusCode(200).contentType(ContentType.JSON).body("{ \"id\": 123, \"name\": \"ResourceName\", \"data\": \"Sample Data\" }");
+        // Arrange: Set up the expected resource ID
+        int resourceId = 123;
 
-        given()
-            .accept(ContentType.JSON)
-            .pathParam("id", 123)
-        .when()
-            .get("/resources/{id}") // Replace with actual implemented endpoint
-        .then()
-            .statusCode(200) // Assume endpoint returns 200 for existing resource
-            .contentType(ContentType.JSON)
-            .body("id", equalTo(123)) 
-            .body("name", containsString("ResourceName")); // Flexible assertion for name
-            // .body("name", equalTo("ResourceName")); // More specific if exact match needed
+        // Act: Perform GET request
+        ResponseEntity<ResourceDto> response = restTemplate.getForEntity(
+            "/resources/{id}", 
+            ResourceDto.class, 
+            resourceId
+        );
+
+        // Assert: Validate response
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().id).isEqualTo(123);
+        assertThat(response.getBody().name).contains("ResourceName"); // Flexible assertion
+        assertThat(response.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
     }
 
     @Test
     void createResource_shouldReturnCreatedAndResourceLocation() {
+        // Arrange: Set up request data and headers
         ResourceDto newResource = new ResourceDto(0, "New Item", "Some data");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<ResourceDto> request = new HttpEntity<>(newResource, headers);
 
-        given()
-            .contentType(ContentType.JSON)
-            .body(newResource) // Serialize POJO to JSON
-        .when()
-            .post("/resources") // Replace with actual implemented endpoint
-        .then()
-            .statusCode(201) // Assume endpoint returns 201 for new resource
-            .header("Location", containsString("/resources/")) // Check for Location header
-            .body("id", notNullValue()) // Assert that an ID was generated
-            .body("name", equalTo("New Item"));
+        // Act: Perform POST request
+        ResponseEntity<ResourceDto> response = restTemplate.postForEntity(
+            "/resources", 
+            request, 
+            ResourceDto.class
+        );
+
+        // Assert: Validate response
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().id).isNotNull(); // Assert that an ID was generated
+        assertThat(response.getBody().name).isEqualTo("New Item");
+        assertThat(response.getHeaders().getLocation()).isNotNull();
+        assertThat(response.getHeaders().getLocation().toString()).contains("/resources/");
     }
 }
 ```
 
 **Bad Example:**
 ```java
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
-import static io.restassured.RestAssured.*;
-import static org.assertj.core.api.Assertions.assertThat; // Using AssertJ for body checks
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+import static org.assertj.core.api.Assertions.assertThat;
 
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApiTestAntiPatternsIT {
+    private static final Logger log = LoggerFactory.getLogger(ApiTestAntiPatternsIT.class);
 
-    // @LocalServerPort private int port;
-    // @BeforeEach void setUp() { RestAssured.port = port; RestAssured.baseURI="http://localhost"; }
+    // @Autowired private TestRestTemplate restTemplate;
 
     @Test
     void getResource_badAssertions() {
         // Bad: Not checking status code first or at all.
         // Bad: Extracting entire response as string and doing string manipulations.
-        // String responseBody = get("/resources/1").asString(); 
-        // assertThat(responseBody).contains("\"id\":1"); // Brittle, hard to read
+        // ResponseEntity<String> response = restTemplate.getForEntity("/resources/1", String.class);
+        // String responseBody = response.getBody();
+        // assertThat(responseBody).contains("\"id\":1"); // Brittle, hard to read, no status check
         
         // Bad: Overly specific assertions on large JSON strings.
-        // get("/complex-resource/1").then().body(equalTo("{very long and complex json string...}"));
-        System.out.println("Conceptual bad API test: Poor assertions, missing status code check.");
+        // assertThat(responseBody).isEqualTo("{very long and complex json string...}"); // Brittle
+        log.warn("Conceptual bad API test: Poor assertions, missing status code check.");
     }
 
     @Test
     void createResource_noBodyValidation() {
         // Bad: Not validating the structure or content of the response body upon creation.
-        // given().contentType("application/json").body("{ \"name\": \"Test\" }")
-        // .when().post("/resources")
-        // .then().statusCode(201); // Only checks status code, not what was created or returned.
-        System.out.println("Conceptual bad API test: Missing response body validation.");
+        // ResourceDto newResource = new ResourceDto(0, "Test", "data");
+        // ResponseEntity<Void> response = restTemplate.postForEntity("/resources", newResource, Void.class);
+        // assertThat(response.getStatusCode().value()).isEqualTo(201); // Only checks status code, ignores response body
+        log.warn("Conceptual bad API test: Missing response body validation.");
     }
 }
 ```
@@ -324,6 +353,8 @@ Description:
 (Using Spring Test `@Transactional` for rollback)
 ```java
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -334,6 +365,7 @@ import org.springframework.transaction.annotation.Transactional;
 // @SpringBootTest
 // @Transactional // This will roll back transactions after each test method
 public class ItemRepositoryTransactionalIT {
+    private static final Logger log = LoggerFactory.getLogger(ItemRepositoryTransactionalIT.class);
 
     // @Autowired
     // private ItemRepository itemRepository;
@@ -347,7 +379,7 @@ public class ItemRepositoryTransactionalIT {
         // Optional<Item> foundItem = itemRepository.findById(savedItem.getId());
         // assertThat(foundItem).isPresent();
         // assertThat(foundItem.get().getName()).isEqualTo("Test Item");
-        System.out.println("Conceptual test: Save and retrieve with @Transactional rollback.");
+        log.info("Conceptual test: Save and retrieve with @Transactional rollback.");
         // Data inserted here will be rolled back automatically after this test method.
     }
 
@@ -355,7 +387,7 @@ public class ItemRepositoryTransactionalIT {
     void should_findNoItems_ifNoneSavedInThisTest() {
         // List<Item> items = itemRepository.findAll();
         // assertThat(items).isEmpty();
-        System.out.println("Conceptual test: Ensuring test isolation via @Transactional.");
+        log.info("Conceptual test: Ensuring test isolation via @Transactional.");
         // Due to rollback from other tests, this test starts with a clean state (within its transaction).
     }
 }
@@ -366,6 +398,8 @@ public class ItemRepositoryTransactionalIT {
 // @SpringBootTest
 // @Testcontainers
 public class ItemRepositoryNoCleanupIT {
+    private static final Logger log = LoggerFactory.getLogger(ItemRepositoryNoCleanupIT.class);
+    
     // @Autowired 
     // private ItemRepository itemRepository;
     private static Long sharedItemId; // Bad: Sharing state between tests via static field
@@ -376,7 +410,7 @@ public class ItemRepositoryNoCleanupIT {
         // item = itemRepository.save(item);
         // sharedItemId = item.getId();
         // assertThat(itemRepository.count()).isGreaterThan(0);
-        System.out.println("Conceptual bad test A: Creates data that might affect other tests.");
+        log.warn("Conceptual bad test A: Creates data that might affect other tests.");
     }
 
     // @Test
@@ -390,7 +424,7 @@ public class ItemRepositoryNoCleanupIT {
         //    List<Item> items = itemRepository.findAll();
         //    assertThat(items.stream().anyMatch(i -> i.getName().equals("Shared Item"))).isTrue(); // Brittle check
         // }
-        System.out.println("Conceptual bad test B: Depends on data from another test due to no cleanup.");
+        log.warn("Conceptual bad test B: Depends on data from another test due to no cleanup.");
     }
 }
 ```
@@ -402,48 +436,66 @@ Description:
 - Keep integration tests focused on a single user story, API endpoint interaction, or component integration scenario.
 - Use descriptive test method names (e.g., `should_ExpectedBehavior_when_StateUnderTest`) or JUnit 5's `@DisplayName` annotation to clearly explain the scenario being tested.
 - Assertions should be specific and provide clear failure messages.
-    - **RestAssured:** Leverage Hamcrest matchers for clear assertions on response bodies (e.g., `body("path.to.field", equalTo(expectedValue))`).
+    - **TestRestTemplate:** Use AssertJ assertions for clear validation of response status, headers, and body content (e.g., `assertThat(response.getBody().fieldName).isEqualTo(expectedValue)`).
     - **Database State:** Use repositories or JDBC to fetch data after the action and assert its state using libraries like AssertJ for fluent and readable assertions.
-- Use RestAssured's logging (`log().ifValidationFails()`) during development/debugging, but remove or minimize verbose logging (`log().all()`) in committed code to keep test output clean and focus on assertion failures.
+- For debugging, consider logging response details in test methods during development, but remove verbose logging in committed code to keep test output clean and focus on assertion failures.
 
 **Good example:**
 ```java
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-// import static io.restassured.RestAssured.*;
-// import static org.hamcrest.Matchers.*;
-// import static org.assertj.core.api.Assertions.assertThat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import static org.assertj.core.api.Assertions.assertThat;
 
-// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class UserDto {
+    public Long id;
+    public String username;
+    public String email;
+    public UserDto() {}
+    public UserDto(String username, String email) { this.username = username; this.email = email; }
+}
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserRegistrationIT {
-    // @LocalServerPort private int port;
+    private static final Logger log = LoggerFactory.getLogger(UserRegistrationIT.class);
+    
     // @Autowired private UserRepository userRepository;
-    // @BeforeEach void setUp() { /* RestAssured.port = port; ... */ }
+    // @Autowired private TestRestTemplate restTemplate;
 
     @Test
     @DisplayName("POST /users with valid data should create user, return 201, and user details")
     void postUsers_withValidData_shouldCreateUserAndReturn201() {
-        // String newUserJson = "{ \"username\": \"testuser\", \"email\": \"test@example.com\" }";
+        // Arrange: Prepare request data
+        // UserDto newUser = new UserDto("testuser", "test@example.com");
+        // HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.APPLICATION_JSON);
+        // HttpEntity<UserDto> request = new HttpEntity<>(newUser, headers);
         
-        // int newUserId = 
-        // given()
-        //    .contentType(ContentType.JSON)
-        //    .body(newUserJson)
-        // .when()
-        //    .post("/users")
-        // .then()
-        //    .log().ifValidationFails() // Good: log only if something is wrong
-        //    .statusCode(201)
-        //    .body("username", equalTo("testuser"))
-        //    .body("email", equalTo("test@example.com"))
-        //    .body("id", notNullValue())
-        //    .extract().path("id");
+        // Act: Send POST request
+        // ResponseEntity<UserDto> response = restTemplate.postForEntity("/users", request, UserDto.class);
+        
+        // Assert: Validate API response
+        // assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        // assertThat(response.getBody()).isNotNull();
+        // assertThat(response.getBody().username).isEqualTo("testuser");
+        // assertThat(response.getBody().email).isEqualTo("test@example.com");
+        // assertThat(response.getBody().id).isNotNull();
 
         // Verify database state (using AssertJ for fluent assertions)
+        // Long newUserId = response.getBody().id;
         // Optional<UserEntity> createdUser = userRepository.findById(newUserId);
         // assertThat(createdUser).isPresent();
         // assertThat(createdUser.get().getEmail()).isEqualTo("test@example.com");
-        System.out.println("Conceptual good test: Clear name, focused scope, specific assertions.");
+        log.info("Conceptual good test: Clear name, focused scope, specific assertions.");
     }
 }
 ```
@@ -452,23 +504,28 @@ public class UserRegistrationIT {
 ```java
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VagueUserActionsIT {
+    private static final Logger log = LoggerFactory.getLogger(VagueUserActionsIT.class);
+    
+    // @Autowired private TestRestTemplate restTemplate;
+    
     // @Test
     void testUserActions() { // Bad: Vague test name, unclear scope
         // This test might try to do too many things:
         // 1. Create a user
-        // given(...).when().post("/users").then().statusCode(201);
+        // restTemplate.postForEntity("/users", userDto, UserDto.class); // No assertions
         
         // 2. Update the user
-        // given(...).body("{...update...}").when().put("/users/1").then().statusCode(200);
+        // restTemplate.put("/users/1", updatedUserDto); // No return value validation
         
         // 3. Fetch the user and verify all fields
-        // String response = get("/users/1").asString();
+        // ResponseEntity<String> response = restTemplate.getForEntity("/users/1", String.class);
+        // String responseBody = response.getBody();
         // Bad: Asserting a large string is brittle.
-        // assertThat(response).isEqualTo("{ \"id\":1, \"name\":\"updated\", ... very_long_json ... }"); // Should use specific field assertions instead
+        // assertThat(responseBody).isEqualTo("{ \"id\":1, \"name\":\"updated\", ... very_long_json ... }"); // Should use specific field assertions instead
         
         // 4. Delete the user
-        // when().delete("/users/1").then().statusCode(204);
-        System.out.println("Conceptual bad test: Vague name, too broad, brittle assertions.");
+        // restTemplate.delete("/users/1"); // No status code validation
+        log.warn("Conceptual bad test: Vague name, too broad, brittle assertions.");
         // Problem: If one part fails, it's hard to know which interaction broke.
         // Assertions are not specific enough or are too brittle.
     }
@@ -491,6 +548,8 @@ Description:
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -499,6 +558,7 @@ import static org.assertj.core.api.Assertions.assertThat; // For assertion
 
 @Testcontainers
 public class MyServiceWithSharedContainerIT {
+    private static final Logger log = LoggerFactory.getLogger(MyServiceWithSharedContainerIT.class);
 
     // Good: Static container is started once for all tests in this class
     @Container
@@ -507,7 +567,7 @@ public class MyServiceWithSharedContainerIT {
 
     @BeforeAll
     static void beforeAll() {
-        System.out.println("Redis container started for suite: " + redis.getContainerIpAddress() + ":" + redis.getMappedPort(6379));
+        log.info("Redis container started for suite: {}:{}", redis.getContainerIpAddress(), redis.getMappedPort(6379));
         // Setup SUT to use redis.getMappedPort(6379) etc.
     }
 
@@ -515,19 +575,19 @@ public class MyServiceWithSharedContainerIT {
     void testOperationOne_usesRedis() {
         assertThat(redis.isRunning()).isTrue();
         // ... test logic interacting with service that uses Redis ...
-        System.out.println("Test one with shared Redis.");
+        log.info("Test one with shared Redis.");
     }
 
     @Test
     void testOperationTwo_usesRedis() {
         assertThat(redis.isRunning()).isTrue();
         // ... another test logic ...
-        System.out.println("Test two with shared Redis.");
+        log.info("Test two with shared Redis.");
     }
 
     // @AfterAll // Not strictly needed for @Container, as Testcontainers extension handles stop()
     // static void afterAll() {
-    //    System.out.println("Suite finished, Testcontainers will stop the Redis container.");
+    //    log.info("Suite finished, Testcontainers will stop the Redis container.");
     // }
 }
 ```
@@ -537,11 +597,14 @@ public class MyServiceWithSharedContainerIT {
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 // @Testcontainers // Annotation might be missing or misused
 public class MyServiceWithPerMethodContainerIT {
+    private static final Logger log = LoggerFactory.getLogger(MyServiceWithPerMethodContainerIT.class);
 
     // Bad: Non-static @Container (or manual management per method) starts a new container for EACH test method.
     // This is very slow for multiple tests.
@@ -553,26 +616,26 @@ public class MyServiceWithPerMethodContainerIT {
         redisPerMethod = new GenericContainer<>(DockerImageName.parse("redis:5-alpine"))
                             .withExposedPorts(6379);
         redisPerMethod.start(); // Manual start
-        System.out.println("Redis started for method at port: " + redisPerMethod.getMappedPort(6379));
+        log.info("Redis started for method at port: {}", redisPerMethod.getMappedPort(6379));
     }
 
     // @Test
     void testA() {
         // assertThat(redisPerMethod.isRunning()).isTrue();
-        System.out.println("Test A using its own Redis instance.");
+        log.info("Test A using its own Redis instance.");
     }
 
     // @Test
     void testB() {
         // assertThat(redisPerMethod.isRunning()).isTrue();
-        System.out.println("Test B using its own Redis instance (slow!).");
+        log.warn("Test B using its own Redis instance (slow!).");
     }
 
     // @AfterEach
     void tearDownPerMethod() {
         if (redisPerMethod != null) {
             redisPerMethod.stop(); // Manual stop needed
-            System.out.println("Redis stopped for method.");
+            log.info("Redis stopped for method.");
         }
     }
     // Problem: Significant performance degradation due to container restart for every test.
@@ -581,5 +644,5 @@ public class MyServiceWithPerMethodContainerIT {
 ```
 
 ---
-This rule serves as a starting point. Refer to authoritative resources on Java Integration Testing, Testcontainers, and RestAssured for more in-depth understanding and application.
+This rule serves as a starting point. Refer to authoritative resources on Java Integration Testing, Testcontainers, and Spring Boot's TestRestTemplate for more in-depth understanding and application.
 

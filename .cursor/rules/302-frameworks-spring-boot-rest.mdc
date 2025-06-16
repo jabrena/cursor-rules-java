@@ -1,9 +1,20 @@
 ---
 description: Java REST API Design Principles
-globs: 
+globs: **/*.java
 alwaysApply: false
 ---
 # Java REST API Design Principles
+
+This comprehensive guide provides essential principles for designing robust, maintainable, and secure REST APIs using Spring Boot. These rules ensure your APIs follow industry best practices, maintain consistency, and provide excellent developer experience for API consumers.
+
+## Implementing These Principles
+
+These guidelines are built upon the following core principles:
+
+- **Semantic Consistency**: Use HTTP methods, status codes, and URI patterns according to their intended semantics
+- **Clear Communication**: Provide unambiguous API contracts through proper DTOs, error handling, and documentation
+- **Security by Design**: Implement authentication, authorization, and input validation from the start
+- **Evolutionary Design**: Version APIs and structure them to support future changes without breaking existing clients
 
 ## Table of contents
 
@@ -15,6 +26,8 @@ alwaysApply: false
 - Rule 6: Handle Errors Gracefully
 - Rule 7: Secure Your APIs
 - Rule 8: Document Your APIs
+- Rule 9: Use Controller Advice for Global Exception Handling
+- Rule 10: Implement Problem Details for Error Responses
 
 ## Rule 1: Use HTTP Methods Correctly
 
@@ -152,6 +165,7 @@ if (validationFailed) {
 
 ```java
 import java.util.Objects;
+
 public ResponseEntity<String> processSomething(String input) {
     try {
         if (Objects.isNull(input)) {
@@ -339,7 +353,6 @@ Description: Protect your APIs from common threats. Use HTTPS for all communicat
 
 ```java
 // In a Spring Security configuration:
-/*
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -357,7 +370,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     // ... user details service, password encoder, etc. ...
 }
-*/
 
 // In a controller method:
 // @PreAuthorize("hasAuthority('SCOPE_read:users')") // Example: OAuth2 scope-based authorization
@@ -449,4 +461,305 @@ public class LegacyThingController {
     }
 }
 // Clients have to guess or read source code to understand how to use the API.
+```
+
+## Rule 9: Use Controller Advice for Global Exception Handling
+
+Title: Implement Centralized Exception Handling with @ControllerAdvice
+Description: Use `@ControllerAdvice` to create a centralized exception handling mechanism that can catch and handle both checked `Exception` and unchecked `RuntimeException` across all controllers. Use Spring Boot's built-in `ProblemDetail` class for consistent, standardized error responses that follow RFC 7807. This approach promotes DRY principles, ensures consistent error responses, and separates error handling logic from business logic.
+
+**Good example:**
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ProblemDetail> handleIllegalArgument(
+            IllegalArgumentException ex, HttpServletRequest request) {
+        logger.warn("Invalid argument: {}", ex.getMessage());
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST, ex.getMessage()
+        );
+        problemDetail.setType(URI.create("https://example.com/problems/invalid-argument"));
+        problemDetail.setTitle("Invalid Argument");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleEntityNotFound(
+            EntityNotFoundException ex, HttpServletRequest request) {
+        logger.warn("Entity not found: {}", ex.getMessage());
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND, ex.getMessage()
+        );
+        problemDetail.setType(URI.create("https://example.com/problems/entity-not-found"));
+        problemDetail.setTitle("Entity Not Found");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ProblemDetail> handleRuntimeException(
+            RuntimeException ex, HttpServletRequest request) {
+        String errorId = UUID.randomUUID().toString();
+        logger.error("Unexpected runtime exception with ID: {}", errorId, ex);
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.INTERNAL_SERVER_ERROR, 
+            "An unexpected error occurred while processing the request"
+        );
+        problemDetail.setType(URI.create("https://example.com/problems/internal-error"));
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errorId", errorId);
+        
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> handleGenericException(
+            Exception ex, HttpServletRequest request) {
+        String errorId = UUID.randomUUID().toString();
+        logger.error("Unexpected exception with ID: {}", errorId, ex);
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.INTERNAL_SERVER_ERROR, 
+            "An unexpected error occurred while processing the request"
+        );
+        problemDetail.setType(URI.create("https://example.com/problems/internal-error"));
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errorId", errorId);
+        
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ProblemDetail> handleValidationException(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .collect(Collectors.toList());
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST, "Validation failed for the provided input"
+        );
+        problemDetail.setType(URI.create("https://example.com/problems/validation-error"));
+        problemDetail.setTitle("Validation Error");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("violations", errors);
+        
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+}
+
+// Custom exceptions
+class EntityNotFoundException extends RuntimeException {
+    public EntityNotFoundException(String message) { super(message); }
+}
+```
+
+**Bad Example:**
+
+```java
+@RestController
+public class BadUserController {
+    
+    // Bad: Exception handling scattered across multiple controllers
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getUser(@PathVariable String id) {
+        try {
+            if (id.equals("invalid")) {
+                throw new IllegalArgumentException("Invalid user ID");
+            }
+            if (id.equals("notfound")) {
+                throw new EntityNotFoundException("User not found");
+            }
+            // ... business logic ...
+            return ResponseEntity.ok(new UserDTO());
+        } catch (IllegalArgumentException e) {
+            // Bad: Inconsistent error format, not using ProblemDetail
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            // Bad: Different error format, no error details
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            // Bad: Exposing stack trace and inconsistent format
+            return ResponseEntity.status(500).body("Server error: " + e.toString());
+        }
+    }
+
+    // Bad: Different controller with different exception handling approach
+    @PostMapping("/users")
+    public ResponseEntity<?> createUser(@RequestBody UserCreateDTO user) {
+        try {
+            // ... business logic ...
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            // Bad: Yet another inconsistent error format, not using ProblemDetail
+            Map<String, String> error = Map.of("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+
+    // Bad: Using custom error response instead of standard ProblemDetail
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+        try {
+            // ... business logic ...
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            // Bad: Custom error format instead of ProblemDetail
+            CustomErrorResponse error = new CustomErrorResponse(
+                "DELETE_ERROR", e.getMessage(), new Date()
+            );
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+}
+
+// Bad: Custom error response class instead of using ProblemDetail
+class CustomErrorResponse {
+    private String code;
+    private String message;
+    private Date timestamp;
+    // constructors, getters, setters...
+}
+```
+
+## Rule 10: Implement Problem Details for Error Responses
+
+Title: Use RFC 7807 Problem Details for HTTP APIs
+Description: Implement standardized error responses using RFC 7807 Problem Details format for HTTP 500 (Internal Server Error) and other error responses. This provides machine-readable error information that includes a type, title, status, detail, and instance to help clients understand and handle errors consistently.
+
+**Good example:**
+
+```java
+@ControllerAdvice
+public class ProblemDetailsExceptionHandler {
+    
+    private static final Logger logger = LoggerFactory.getLogger(ProblemDetailsExceptionHandler.class);
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ProblemDetail> handleRuntimeException(
+            RuntimeException ex, HttpServletRequest request) {
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.INTERNAL_SERVER_ERROR, 
+            "An unexpected error occurred while processing the request"
+        );
+        
+        problemDetail.setType(URI.create("https://example.com/problems/internal-error"));
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errorId", UUID.randomUUID().toString());
+        
+        // Log the actual exception for debugging (don't expose to client)
+        logger.error("Internal server error with ID: {}", 
+            problemDetail.getProperties().get("errorId"), ex);
+        
+        return ResponseEntity.of(problemDetail).build();
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleEntityNotFound(
+            EntityNotFoundException ex, HttpServletRequest request) {
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND, ex.getMessage()
+        );
+        
+        problemDetail.setType(URI.create("https://example.com/problems/entity-not-found"));
+        problemDetail.setTitle("Entity Not Found");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        
+        return ResponseEntity.of(problemDetail).build();
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ProblemDetail> handleValidation(
+            ValidationException ex, HttpServletRequest request) {
+        
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST, "Validation failed for the provided input"
+        );
+        
+        problemDetail.setType(URI.create("https://example.com/problems/validation-error"));
+        problemDetail.setTitle("Validation Error");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("violations", ex.getViolations());
+        
+        return ResponseEntity.of(problemDetail).build();
+    }
+}
+
+// Custom validation exception
+class ValidationException extends RuntimeException {
+    private final List<String> violations;
+    
+    public ValidationException(String message, List<String> violations) {
+        super(message);
+        this.violations = violations;
+    }
+    
+    public List<String> getViolations() { return violations; }
+}
+```
+
+**Bad Example:**
+
+```java
+@ControllerAdvice
+public class BadExceptionHandler {
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> handleRuntimeException(RuntimeException ex) {
+        // Bad: Non-standard error format, inconsistent fields
+        Map<String, Object> error = new HashMap<>();
+        error.put("error", true);
+        error.put("msg", "Something went wrong");
+        error.put("exception_type", ex.getClass().getSimpleName());
+        error.put("time", new Date());
+        
+        // Bad: Exposing sensitive stack trace information
+        error.put("stack_trace", Arrays.toString(ex.getStackTrace()));
+        
+        return error;
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
+        // Bad: Inconsistent response format (string vs JSON vs problem details)
+        return ResponseEntity.status(404).body("Not found: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Object> handleValidation(ValidationException ex) {
+        // Bad: Yet another inconsistent format
+        return ResponseEntity.badRequest().body(
+            Map.of("validationErrors", ex.getViolations())
+        );
+    }
+
+    // Bad: Missing proper error ID, timestamps, and structured format
+    // Bad: No type URIs or standard problem details structure
+    // Bad: Inconsistent error formats across different exception types
+}
 ```
