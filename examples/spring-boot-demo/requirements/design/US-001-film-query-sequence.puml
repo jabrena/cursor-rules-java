@@ -1,0 +1,90 @@
+@startuml US-001-Film-Query-Sequence-Diagram
+
+title Film Query by Starting Letter - Sequence Diagram\n(User Story US-001)
+
+actor "Film Database User" as User
+participant "Web Browser" as Browser  
+participant "REST API\n(/api/v1/films)" as API
+participant "Film Service" as Service
+participant "Film Repository" as Repository
+database "PostgreSQL\n(Sakila DB)" as Database
+
+== Successful Film Query Scenario ==
+
+User -> Browser: Navigate to film search
+Browser -> API: GET /api/v1/films?startsWith=A
+activate API
+
+API -> API: Validate query parameter
+note right: Check if startsWith parameter\nis valid single letter
+
+alt Valid Parameter
+    API -> Service: findFilmsByStartingLetter("A")
+    activate Service
+    
+    Service -> Repository: findByTitleStartingWith("A")
+    activate Repository
+    
+    Repository -> Database: SELECT FILM_ID, TITLE\nFROM film\nWHERE title LIKE 'A%'
+    activate Database
+    
+    Database -> Repository: Return 46 film records
+    deactivate Database
+    
+    Repository -> Service: List<Film> (46 films)
+    deactivate Repository
+    
+    Service -> Service: Transform to DTOs
+    note right: Convert entity objects\nto response DTOs
+    
+    Service -> API: FilmQueryResponse\n(films, count=46, filter="A")
+    deactivate Service
+    
+    API -> Browser: HTTP 200 OK\nJSON Response
+    note left: {\n  "films": [...],\n  "count": 46,\n  "filter": "A"\n}
+    
+    Browser -> User: Display film list
+    
+else Invalid Parameter
+    API -> Browser: HTTP 400 Bad Request\nError message
+    Browser -> User: Show error message
+end
+
+deactivate API
+
+== Performance Validation ==
+
+note over Database: Query execution time < 2 seconds\nUsing title index for optimization
+
+== Empty Results Scenario ==
+
+User -> Browser: Search for films starting with "X"
+Browser -> API: GET /api/v1/films?startsWith=X
+activate API
+
+API -> Service: findFilmsByStartingLetter("X")
+activate Service
+
+Service -> Repository: findByTitleStartingWith("X")
+activate Repository
+
+Repository -> Database: SELECT FILM_ID, TITLE\nFROM film\nWHERE title LIKE 'X%'
+activate Database
+
+Database -> Repository: Return empty result set
+deactivate Database
+
+Repository -> Service: Empty List<Film>
+deactivate Repository
+
+Service -> API: FilmQueryResponse\n(films=[], count=0, filter="X")
+deactivate Service
+
+API -> Browser: HTTP 200 OK\nEmpty JSON Response
+note left: {\n  "films": [],\n  "count": 0,\n  "filter": "X",\n  "message": "No films found"\n}
+
+Browser -> User: Display "No films found" message
+
+deactivate API
+
+@enduml 

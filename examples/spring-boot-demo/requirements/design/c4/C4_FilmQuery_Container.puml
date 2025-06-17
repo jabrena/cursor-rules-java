@@ -1,0 +1,24 @@
+@startuml Film Query System - Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container diagram for Film Query System
+
+' External Actors
+Person(filmUser, "Film Database User", "User querying films by starting letter")
+
+' System Boundary
+System_Boundary(filmQuerySystem, "Film Query System") {
+    Container(restAPI, "REST API", "Spring Boot", "Provides film query endpoints and handles HTTP requests")
+    Container(filmService, "Film Service", "Spring Boot Service", "Contains business logic for film queries and filtering")
+    Container(filmRepository, "Film Repository", "Spring Data JDBC", "Handles database operations and SQL queries")
+    ContainerDb(sakilaDB, "Sakila PostgreSQL Database", "PostgreSQL", "Film database with sample data")
+}
+
+' Relationships
+Rel(filmUser, restAPI, "Makes API calls", "JSON/HTTPS")
+Rel(restAPI, filmService, "Delegates business logic", "Java Method Calls")
+Rel(filmService, filmRepository, "Requests film data", "Java Method Calls")
+Rel(filmRepository, sakilaDB, "Executes SQL queries", "JDBC/PostgreSQL")
+
+SHOW_LEGEND()
+@enduml 

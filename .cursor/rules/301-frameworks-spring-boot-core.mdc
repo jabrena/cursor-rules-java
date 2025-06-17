@@ -18,6 +18,7 @@ These guidelines are built upon the following core principles:
 
 ## Table of contents
 
+- Rule 0: Spring Boot Main Application Class
 - Rule 1: Main Spring Boot Annotations Usage
 - Rule 2: Bean Definition and Management
 - Rule 3: Configuration Classes and Properties
@@ -26,6 +27,75 @@ These guidelines are built upon the following core principles:
 - Rule 6: Constructor Dependency Injection Best Practices
 - Rule 7: Bean Minimization and Composition
 - Rule 8: Scheduled Tasks and Background Processing
+
+## Rule 0: Spring Boot Main Application Class
+
+Title: Create a Proper Spring Boot Main Application Class
+Description: Every Spring Boot application should have a main application class annotated with @SpringBootApplication. This class serves as the entry point and configuration root, combining @Configuration, @EnableAutoConfiguration, and @ComponentScan annotations.
+
+**Good example:**
+
+```java
+@SpringBootApplication
+public class MainApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class, args);
+    }
+}
+
+// For more complex scenarios with custom configuration
+@SpringBootApplication(
+    scanBasePackages = {
+        "com.company.app.controller",
+        "com.company.app.service", 
+        "com.company.app.repository",
+        "com.company.app.config"
+    },
+    exclude = {
+        DataSourceAutoConfiguration.class,
+        SecurityAutoConfiguration.class
+    }
+)
+```
+
+**Bad Example:**
+
+```java
+// Missing @SpringBootApplication annotation
+public class MainApplication {
+    public static void main(String[] args) {
+        // Manual Spring context setup instead of SpringApplication.run()
+        ApplicationContext context = new AnnotationConfigApplicationContext();
+        // Manual configuration - loses Spring Boot benefits
+    }
+}
+
+// Using individual annotations instead of @SpringBootApplication
+@Configuration
+@EnableAutoConfiguration  
+@ComponentScan
+public class MainApplication { // Verbose and error-prone
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class, args);
+    }
+}
+
+// Poor naming and structure
+@SpringBootApplication
+public class App { // Non-descriptive name
+    
+    @Autowired
+    private UserService userService; // Business logic in main class
+    
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+        
+        // Business logic in main method - should be in separate components
+        System.out.println("Processing users...");
+    }
+}
+```
 
 ## Rule 1: Main Spring Boot Annotations Usage
 

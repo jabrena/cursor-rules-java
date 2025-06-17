@@ -1,0 +1,20 @@
+@startuml Film Query System - System Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context diagram for Film Query System
+
+' External Actors/Users
+Person(filmUser, "Film Database User", "User who wants to query and browse films alphabetically")
+
+' The Main System
+System(filmQuerySystem, "Film Query System", "Provides REST API to query films by starting letter from Sakila database")
+
+' External Systems
+System_Ext(sakilaDB, "Sakila PostgreSQL Database", "Contains sample film data with 1000 films for testing and demonstration")
+
+' Relationships
+Rel(filmUser, filmQuerySystem, "Queries films starting with specific letter", "HTTPS/REST")
+Rel(filmQuerySystem, sakilaDB, "Retrieves film data", "JDBC/PostgreSQL")
+
+SHOW_LEGEND()
+@enduml 

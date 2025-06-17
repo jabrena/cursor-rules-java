@@ -1,0 +1,31 @@
+@startuml Film Query System - REST API Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component diagram for REST API in Film Query System
+
+' External Actors
+Person(filmUser, "Film Database User", "User querying films")
+
+' Other Containers
+Container(webBrowser, "Web Browser", "HTML/CSS/JavaScript", "User interface for film queries")
+
+' External Systems
+System_Ext(sakilaDB, "Sakila PostgreSQL Database", "Film database")
+
+' Focus Container Boundary
+Container_Boundary(restAPI, "REST API") {
+    Component(filmController, "Film Controller", "Spring MVC Controller", "Handles HTTP requests for film queries, validates parameters, and builds responses")
+    Component(filmService, "Film Service", "Spring Boot Service", "Business logic layer")
+    Component(filmRepository, "Film Repository", "Spring Data JDBC", "Data access layer")
+    Component(exceptionHandler, "Exception Handler", "Spring ControllerAdvice", "Handles errors and returns appropriate HTTP status codes")
+}
+
+' Relationships
+Rel(filmUser, webBrowser, "Uses browser to search films", "User Interaction")
+Rel(webBrowser, filmController, "GET /api/v1/films?startsWith=A", "HTTPS/JSON")
+Rel(filmController, filmService, "findFilmsByStartingLetter()", "Java Method")
+Rel(filmService, filmRepository, "Repository method calls", "Java Method")
+Rel(filmRepository, sakilaDB, "SQL: SELECT * FROM film WHERE title LIKE 'A%'", "JDBC")
+
+SHOW_LEGEND()
+@enduml 

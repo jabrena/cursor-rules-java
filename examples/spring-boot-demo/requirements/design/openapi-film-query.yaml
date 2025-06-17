@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Film Query API
+  description: REST API to query films from Sakila database by starting letter
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+
+paths:
+  /api/v1/films:
+    get:
+      summary: Query films by starting letter
+      description: |
+        Retrieves films from the Sakila database that start with the specified letter.
+        The query is case-insensitive and returns film ID and title for each matching film.
+        
+        **Performance**: Query execution time is guaranteed to be under 2 seconds.
+        
+        **Expected Results**:
+        - Letter "A": 46 films
+        - Letter "B": 54 films  
+        - Letter "C": 58 films
+      operationId: getFilmsByStartingLetter
+      tags:
+        - Films
+      parameters:
+        - name: startsWith
+          in: query
+          required: true
+          description: Single letter to filter films by (case-insensitive)
+          schema:
+            type: string
+            pattern: '^[A-Za-z]$'
+            minLength: 1
+            maxLength: 1
+          example: A
+      responses:
+        '200':
+          description: Successful response with list of films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmQueryResponse'
+              examples:
+                films_starting_with_A:
+                  summary: Films starting with letter A
+                  value:
+                    films:
+                      - film_id: 1
+                        title: "ACADEMY DINOSAUR"
+                      - film_id: 2
+                        title: "ACE GOLDFINGER"
+                      - film_id: 3
+                        title: "ADAPTATION HOLES"
+                    count: 46
+                    filter: "A"
+                    message: "Successfully retrieved films starting with 'A'"
+                empty_result:
+                  summary: No films found for letter X
+                  value:
+                    films: []
+                    count: 0
+                    filter: "X"
+                    message: "No films found starting with 'X'"
+        '400':
+          description: Bad Request - Invalid query parameter
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+              examples:
+                invalid_parameter:
+                  summary: Invalid startsWith parameter
+                  value:
+                    type: "https://example.com/problems/invalid-parameter"
+                    title: "Invalid Parameter"
+                    status: 400
+                    detail: "The 'startsWith' parameter must be a single letter"
+                    instance: "/api/v1/films"
+                    timestamp: "2024-01-15T10:30:00Z"
+                missing_parameter:
+                  summary: Missing startsWith parameter
+                  value:
+                    type: "https://example.com/problems/missing-parameter"
+                    title: "Missing Required Parameter"
+                    status: 400
+                    detail: "The 'startsWith' parameter is required"
+                    instance: "/api/v1/films"
+                    timestamp: "2024-01-15T10:30:00Z"
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+              example:
+                type: "https://example.com/problems/internal-error"
+                title: "Internal Server Error"
+                status: 500
+                detail: "An unexpected error occurred while processing the request"
+                instance: "/api/v1/films"
+                timestamp: "2024-01-15T10:30:00Z"
+
+components:
+  schemas:
+    Film:
+      type: object
+      required:
+        - film_id
+        - title
+      properties:
+        film_id:
+          type: integer
+          format: int32
+          description: Unique identifier for the film
+          example: 1
+        title:
+          type: string
+          description: Title of the film
+          example: "ACADEMY DINOSAUR"
+          maxLength: 255
+    
+    FilmQueryResponse:
+      type: object
+      required:
+        - films
+        - count
+        - filter
+      properties:
+        films:
+          type: array
+          description: List of films matching the query
+          items:
+            $ref: '#/components/schemas/Film'
+        count:
+          type: integer
+          format: int32
+          description: Total number of films returned
+          example: 46
+          minimum: 0
+        filter:
+          type: string
+          description: The letter used for filtering
+          example: "A"
+          pattern: '^[A-Za-z]$'
+        message:
+          type: string
+          description: Descriptive message about the query result
+          example: "Successfully retrieved films starting with 'A'"
+    
+    ProblemDetail:
+      type: object
+      description: RFC 7807 Problem Details for HTTP APIs
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI reference that identifies the problem type
+          example: "https://example.com/problems/invalid-parameter"
+        title:
+          type: string
+          description: Short, human-readable summary of the problem type
+          example: "Invalid Parameter"
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code
+          example: 400
+        detail:
+          type: string
+          description: Human-readable explanation specific to this occurrence
+          example: "The 'startsWith' parameter must be a single letter"
+        instance:
+          type: string
+          format: uri
+          description: URI reference that identifies the specific occurrence
+          example: "/api/v1/films"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+          example: "2024-01-15T10:30:00Z"
+
+tags:
+  - name: Films
+    description: Film query operations
+    externalDocs:
+      description: Find out more about Sakila Database
+      url: https://dev.mysql.com/doc/sakila/en/ 

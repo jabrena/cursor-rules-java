@@ -16,3 +16,5 @@ jobs:
           java-version: '24'
       - name: Maven build
         run: cd examples/maven-demo && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
+      - name: Spring Boot build
+        run: cd examples/spring-boot-demo/implementation && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
