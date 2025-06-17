@@ -11,11 +11,8 @@ WHERE title LIKE 'A%'
 **Note:** The query returns 46 rows.
 
 ```bash
-docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "frantiseks/postgres-sakila"
-mvn spring-boot:run -pl spring-boot-jdbc
-mvn spring-boot:run -pl spring-boot-jooq
-mvn spring-boot:run -pl spring-data-jdbc
-mvn spring-boot:run -pl spring-data-jpa
+docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "sakiladb/postgres"
+./mvnw spring-boot:run
 curl http://localhost:8080/api/v1/films
 docker stop sakiladb
 ```

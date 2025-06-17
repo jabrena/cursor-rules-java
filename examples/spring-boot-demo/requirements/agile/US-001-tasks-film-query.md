@@ -192,7 +192,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - **Technical flow respects sequence diagram interactions** from UML design
 - **JaCoCo enforces 80% minimum code coverage** as quality gate
 - **TestContainers provide isolated testing environment** for database integration tests
-- **Database:** Using Sakila PostgreSQL database with Docker: `docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "frantiseks/postgres-sakila"`
+- **Database:** Using Sakila PostgreSQL database with Docker: `docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "sakiladb/postgres"`
 - **Build command:** `./mvnw clean verify` to run all tests with coverage validation
 
 ---

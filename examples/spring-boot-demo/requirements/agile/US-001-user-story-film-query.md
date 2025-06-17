@@ -89,7 +89,7 @@ WHERE title LIKE 'A%'
 - **Expected Result Count**: 46 films
 - **Docker Command**: 
 ```bash
-docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "frantiseks/postgres-sakila"
+docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "sakiladb/postgres"
 ```
 
 ## Implementation Technologies
