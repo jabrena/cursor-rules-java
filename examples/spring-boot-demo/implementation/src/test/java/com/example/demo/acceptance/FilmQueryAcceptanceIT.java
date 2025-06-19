@@ -9,6 +9,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -37,6 +38,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @ActiveProfiles("test")
+@Sql("/init-sakila-test.sql")
 class FilmQueryAcceptanceIT {
 
     @LocalServerPort
@@ -73,6 +75,8 @@ class FilmQueryAcceptanceIT {
             .withTmpFs(Map.of("/var/lib/postgresql/data", "rw"))
             .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 1))
             .withStartupTimeout(Duration.ofMinutes(3));
+
+
 
     /**
      * Basic setup test to verify Spring Boot Test with TestRestTemplate is working

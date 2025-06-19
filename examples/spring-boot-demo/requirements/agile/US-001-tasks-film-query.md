@@ -50,18 +50,18 @@
   - [x] 3.8 Create unit tests for OpenAPI annotations validation
   - [x] 3.9 **Verify REST API unit tests FAIL** (Red phase - TDD strategy)
 
-- [ ] 4.0 **REST API Layer Implementation**
-  - [ ] 4.1 Create FilmController class with @RestController annotation
-  - [ ] 4.2 Implement GET /api/v1/films endpoint with @GetMapping
-  - [ ] 4.3 Add startsWith parameter with @RequestParam validation
-  - [ ] 4.4 Implement parameter validation logic (single letter, not empty)
-  - [ ] 4.5 Create FilmResponse DTO for JSON response format
-  - [ ] 4.6 Implement response formatting with films array, count, and filter
-  - [ ] 4.7 Add OpenAPI @Operation, @Parameter, and @ApiResponse annotations
-  - [ ] 4.8 Implement proper HTTP status code handling
-  - [ ] 4.9 **Verify REST API unit tests PASS** (Green phase - TDD strategy)
-  - [ ] 4.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 4.11 **Test locally** - Ensure application starts and endpoints are accessible
+- [x] 4.0 **REST API Layer Implementation**
+  - [x] 4.1 Create FilmController class with @RestController annotation
+  - [x] 4.2 Implement GET /api/v1/films endpoint with @GetMapping
+  - [x] 4.3 Add startsWith parameter with @RequestParam validation
+  - [x] 4.4 Implement parameter validation logic (single letter, not empty)
+  - [x] 4.5 Create FilmResponse DTO for JSON response format
+  - [x] 4.6 Implement response formatting with films array, count, and filter
+  - [x] 4.7 Add OpenAPI @Operation, @Parameter, and @ApiResponse annotations
+  - [x] 4.8 Implement proper HTTP status code handling
+  - [x] 4.9 **Verify REST API unit tests PASS** (Green phase - TDD strategy)
+  - [x] 4.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
+  - [x] 4.11 **Test locally** - Ensure application starts and endpoints are accessible
 
 - [ ] 5.0 **Business Logic Unit Tests Creation**
   - [ ] 5.1 Create unit tests for FilmService.findFilmsByStartingLetter() method

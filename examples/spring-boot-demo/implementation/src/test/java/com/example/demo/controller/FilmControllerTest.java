@@ -323,14 +323,14 @@ class FilmControllerTest {
                 // Then: Should return HTTP 400 Bad Request
                 .andExpect(status().isBadRequest())
                 
-                // And: Response should be JSON with error details
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // And: Response should be Problem Details JSON (RFC 7807)
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
                 .andExpect(jsonPath("$.title").exists())
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.detail").value("Parameter 'startsWith' must be a single letter (A-Z)"));
+                .andExpect(jsonPath("$.detail").value("Parameter 'startsWith' cannot be empty"));
     }
 
     @Test
@@ -343,8 +343,8 @@ class FilmControllerTest {
                 // Then: Should return HTTP 400 Bad Request
                 .andExpect(status().isBadRequest())
                 
-                // And: Response should be JSON with error details
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // And: Response should be Problem Details JSON (RFC 7807)
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
@@ -363,8 +363,8 @@ class FilmControllerTest {
                         // Then: Should return HTTP 400 Bad Request
         .andExpect(status().isBadRequest())
         
-        // And: Response should be JSON with error details
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        // And: Response should be Problem Details JSON (RFC 7807)
+        .andExpect(content().contentType("application/problem+json"))
         
         // And: Should follow RFC 7807 Problem Details format
         .andExpect(jsonPath("$.type").exists())
@@ -383,8 +383,8 @@ class FilmControllerTest {
                 // Then: Should return HTTP 400 Bad Request
                 .andExpect(status().isBadRequest())
                 
-                // And: Response should be JSON with error details
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // And: Response should be Problem Details JSON (RFC 7807)
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
@@ -403,14 +403,14 @@ class FilmControllerTest {
                 // Then: Should return HTTP 400 Bad Request
                 .andExpect(status().isBadRequest())
                 
-                // And: Response should be JSON with error details
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // And: Response should be Problem Details JSON (RFC 7807)
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
                 .andExpect(jsonPath("$.title").exists())
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.detail").value("Parameter 'startsWith' must be a single letter (A-Z)"));
+                .andExpect(jsonPath("$.detail").value("Parameter 'startsWith' cannot be empty"));
     }
 
     // ========================================================================
@@ -647,7 +647,7 @@ class FilmControllerTest {
                 
                 // Then: Should return error response from global exception handler
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
@@ -671,7 +671,7 @@ class FilmControllerTest {
                 
                 // Then: Should return error response from global exception handler
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should follow RFC 7807 Problem Details format
                 .andExpect(jsonPath("$.type").exists())
@@ -697,7 +697,7 @@ class FilmControllerTest {
                     
                     // Then: All should return consistent error format
                     .andExpect(status().isBadRequest())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(content().contentType("application/problem+json"))
                     
                     // And: Should have consistent RFC 7807 structure
                     .andExpect(jsonPath("$.type").exists())
@@ -767,7 +767,7 @@ class FilmControllerTest {
                 
                 // Then: Error response should match documented 400 error schema
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType("application/problem+json"))
                 
                 // And: Should match Problem Details format as documented
                 .andExpect(jsonPath("$.type").exists())
