@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: film-query-service
+  
+  docker:
+    compose:
+      enabled: true
+      file: compose.yaml
+      lifecycle-management: start_and_stop
+      readiness:
+        wait: ALWAYS
+        timeout: 2m
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakila
+    username: sakila
+    password: sakila
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    jdbc:
+      repositories:
+        enabled: true
+
+# OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /api/v1/api-docs
+  swagger-ui:
+    path: /api/v1/swagger-ui.html
+    operationsSorter: method
+
+# Management and monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Logging
+logging:
+  level:
+    org.springframework.boot.docker: INFO
+    org.springframework.data.jdbc: INFO 

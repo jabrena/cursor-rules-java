@@ -17,16 +17,16 @@
 
 ### Phase 1: High-Level Tasks
 
-- [ ] 1.0 **Project Setup and Database Configuration**
-  - [ ] 1.1 Create Spring Boot project with Maven
-  - [ ] 1.2 Add Spring Boot dependencies (Web, Data JDBC, Test)
-  - [ ] 1.3 Add PostgreSQL driver dependency
-  - [ ] 1.4 Add TestContainers dependencies (PostgreSQL, JUnit)
-  - [ ] 1.5 Add OpenAPI/SpringDoc dependency
-  - [ ] 1.6 Add JaCoCo Maven plugin for code coverage
-  - [ ] 1.7 Configure application.yaml for PostgreSQL connection
-  - [ ] 1.8 Set up Docker Compose with Sakila PostgreSQL database
-  - [ ] 1.9 Verify database connection and Sakila data availability
+- [x] 1.0 **Project Setup and Database Configuration**
+  - [x] 1.1 Create Spring Boot project with Maven
+  - [x] 1.2 Add Spring Boot dependencies (Web, Data JDBC, Test)
+  - [x] 1.3 Add PostgreSQL driver dependency
+  - [x] 1.4 Add TestContainers dependencies (PostgreSQL, JUnit)
+  - [x] 1.5 Add OpenAPI/SpringDoc dependency
+  - [x] 1.6 Add JaCoCo Maven plugin for code coverage
+  - [x] 1.7 Configure application.yaml for PostgreSQL connection
+  - [x] 1.8 Set up Docker Compose with Sakila PostgreSQL database
+  - [x] 1.9 Verify database connection and Sakila data availability
 
 - [ ] 2.0 **Acceptance Tests Implementation (TestRestTemplate-Based)**
   - [ ] 2.1 Set up Spring Boot Test with @SpringBootTest and TestRestTemplate

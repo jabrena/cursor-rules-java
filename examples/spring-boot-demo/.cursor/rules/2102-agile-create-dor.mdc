@@ -1,0 +1,266 @@
+---
+description: Agile Definition of Done (DoD) Creation
+globs: 
+alwaysApply: false
+---
+# Agile Definition of Done (DoD) Creation
+
+## Purpose
+This rule guides the creation of comprehensive Definition of Done (DoD) files that ensure user stories meet all acceptance criteria, technical requirements, and quality standards before being considered complete and ready for production deployment.
+
+## Instructions for AI
+
+When activated, you should guide the user through creating a DoD by following these structured phases:
+
+**Phase 0: Get Current Date**
+Before starting the DoD creation process, get the current date from the computer using the terminal command `date` to ensure accurate timestamps in the DoD document.
+
+**Phase 1: Information Gathering**
+Acknowledge the request and inform the user that you need specific inputs to create a comprehensive DoD. Then, systematically gather information about the user story, gherkin scenarios, ADRs, and technical stack.
+
+**Phase 2: DoD Document Generation**
+Once all information is gathered, inform the user you will now generate the DoD document. Use the current date obtained from the `date` command to replace the `{Date}` placeholders in the template.
+
+**Phase 3: Next Steps and Recommendations**
+After generating the content, provide additional recommendations for DoD management and story completion tracking.
+
+## When to Use
+- After user stories, gherkin scenarios, and related ADRs are defined
+- When teams need clear completion criteria for user stories
+- To ensure quality gates and requirements are met before story sign-off
+- For establishing production readiness checklists
+
+## Input Requirements
+To create an effective DoD, you need:
+1. **User Story**: With acceptance criteria and business value
+2. **Gherkin Feature File**: With detailed scenarios and test cases
+3. **Related ADRs**: Technical requirements and architectural decisions
+4. **Technical Stack Information**: Technology and framework details
+
+## DoD Structure Template
+
+### File Naming Convention
+- Format: `{UserStoryID}-DoD_{Brief_Description}.md`
+- Example: `US-001-DoD_API_Greek_Gods_Data_Retrieval.md`
+
+### Required Sections
+
+#### 1. Header Information
+```markdown
+# Definition of Done (DoD) - {UserStoryID}: {Story Title}
+
+**User Story ID:** {ID}
+**Feature ID:** {Feature ID}
+**Epic ID:** {Epic ID}
+**DoD Version:** {Version}
+**Created:** {Date}
+**Last Updated:** {Date}
+```
+
+#### 2. Overview
+- Brief description of what the DoD covers
+- Reference to related user story and acceptance criteria
+- Production readiness statement
+
+#### 3. Functional Requirements ✅
+- **Core Implementation**: Primary functionality checkboxes
+- **API/Interface Compliance**: Protocol and contract requirements
+- **Data Requirements**: Data validation and completeness
+- **Business Logic**: Domain-specific requirements
+
+#### 4. Performance Requirements ✅
+- **Response Time/Speed**: Performance targets and thresholds
+- **Scalability**: Load handling and concurrent user requirements
+- **Resource Usage**: Memory, CPU, database performance
+- **Monitoring**: Performance tracking and alerting
+
+#### 5. Quality Assurance ✅
+- **Testing Coverage**: Unit, integration, end-to-end test requirements
+- **Test Automation**: CI/CD integration and automated testing
+- **Gherkin Scenario Coverage**: All scenarios from feature file must pass
+- **Code Quality**: Coverage thresholds and quality gates
+
+#### 6. Technical Requirements ✅
+- **Integration**: Database, external service, API integrations
+- **Documentation**: API docs, OpenAPI specs, technical documentation
+- **Code Quality**: Reviews, standards, security assessments
+- **Architecture**: Design patterns and technical debt considerations
+
+#### 7. Infrastructure & Deployment ✅
+- **Deployment Readiness**: Environment configurations
+- **Availability**: Uptime and reliability requirements
+- **Monitoring & Alerting**: Operational monitoring setup
+- **Backup & Recovery**: Data protection and disaster recovery
+
+#### 8. Documentation & Communication ✅
+- **Technical Documentation**: Setup, troubleshooting, architecture
+- **Stakeholder Communication**: Demos, release notes, impact assessment
+- **Knowledge Transfer**: Team briefings and support handoff
+
+#### 9. Acceptance Criteria Validation ✅
+- **Gherkin Scenario Coverage**: Map each @tag scenario to completion status
+- **Business Value Validation**: Confirm business objectives are met
+- **User Experience**: End-user impact and experience validation
+
+#### 10. Sign-off Checklist ✅
+- **Development Team**: Developer, Tech Lead, QA Engineer sign-offs
+- **Product Team**: Product Owner, UX/Designer approvals
+- **Operations Team**: DevOps, Security, Support team sign-offs
+
+## Content Generation Guidelines
+
+### Functional Requirements
+- Extract specific acceptance criteria from user story
+- Map gherkin scenarios to functional checkboxes
+- Include API contract compliance (HTTP status codes, response formats)
+- Validate data completeness and business rules
+
+### Performance Requirements
+- Extract performance targets from user story and ADRs
+- Include response time thresholds (e.g., <1 second)
+- Add concurrent user/request handling requirements
+- Include monitoring and alerting setup requirements
+
+### Quality Assurance
+- Map all gherkin @tags to test categories
+- Require specific test coverage percentages
+- Include CI/CD integration requirements
+- Add code review and quality gate requirements
+
+### Technical Requirements
+- Extract technical constraints from ADRs
+- Include integration requirements (databases, APIs, services)
+- Add documentation requirements (OpenAPI, README, troubleshooting)
+- Include security and compliance requirements
+
+### Infrastructure & Deployment
+- Include environment configuration requirements
+- Add availability targets from ADRs (e.g., 99.9% uptime)
+- Include monitoring and operational requirements
+- Add backup and disaster recovery requirements
+
+## Gherkin Integration
+
+### Scenario Mapping
+For each @tag in the gherkin file, create corresponding DoD checklist items:
+- `@performance` → Response time and load requirements
+- `@error-handling` → Error scenario testing
+- `@data-quality` → Data validation and consistency
+- `@api-specification` → Contract compliance testing
+- `@availability` → Uptime and reliability testing
+- `@load-testing` → Concurrent request handling
+
+### Scenario Coverage Validation
+```markdown
+### Gherkin Scenario Coverage
+- [ ] **@happy-path**: {Scenario description} ✓
+- [ ] **@performance**: {Scenario description} ✓
+- [ ] **@error-handling**: {Scenario description} ✓
+```
+
+## ADR Integration
+
+### Technical Requirements Extraction
+From ADRs, extract:
+- **Performance Targets**: Response times, throughput, availability
+- **Architecture Decisions**: Technology stack, patterns, constraints
+- **Quality Attributes**: Security, maintainability, testability
+- **Integration Requirements**: External systems, databases, APIs
+
+### Implementation Guidelines
+From ADRs, include:
+- **Testing Strategy**: Framework choices and coverage requirements
+- **Deployment Strategy**: Environment and operational requirements
+- **Monitoring Strategy**: Metrics, logging, alerting requirements
+
+## Quality Checklist
+
+### Completeness Verification
+- [ ] All acceptance criteria from user story covered
+- [ ] All gherkin scenarios mapped to DoD items
+- [ ] All technical requirements from ADRs included
+- [ ] Performance targets clearly defined with measurable criteria
+- [ ] Quality gates and thresholds specified
+- [ ] Sign-off process clearly defined
+
+### Measurability
+- [ ] Each checklist item is specific and measurable
+- [ ] Performance requirements include quantifiable targets
+- [ ] Test coverage requirements specify percentages
+- [ ] Availability targets include specific uptime percentages
+
+### Actionability
+- [ ] Each item can be verified objectively
+- [ ] Clear ownership assigned for each category
+- [ ] Dependencies and prerequisites identified
+- [ ] Timeline and sprint information included
+
+## Best Practices
+
+### Content Quality
+- Use specific, measurable criteria (avoid vague terms like "works well")
+- Include quantifiable targets (response times, uptime percentages, test coverage)
+- Map directly to user story acceptance criteria and gherkin scenarios
+- Reference related documentation and dependencies
+
+### Organization
+- Group related requirements into logical sections
+- Use consistent checkbox formatting for easy tracking
+- Include priority and story point information
+- Maintain clear links to related artifacts
+
+### Maintenance
+- Version the DoD file for tracking changes
+- Update as requirements evolve during development
+- Keep related documentation links current
+- Regular review with stakeholders for completeness
+
+## Example Usage
+
+```markdown
+## Performance Requirements ✅
+
+### Response Time
+- [ ] **Sub-second Response**: API consistently responds in less than 1 second (99th percentile)
+- [ ] **Performance Testing**: Load testing confirms response time requirements under normal conditions
+- [ ] **Concurrent Request Handling**: API handles 100 concurrent requests successfully within 2 seconds total
+- [ ] **Performance Monitoring**: Response time monitoring and alerting configured
+```
+
+## Validation Criteria
+
+A DoD file is complete when:
+- All sections are present and populated
+- Every gherkin scenario is mapped to DoD criteria
+- All ADR requirements are reflected in technical sections
+- Performance targets are quantifiable and measurable
+- Sign-off process includes all necessary stakeholders
+- Related documentation is properly linked
+
+**Important Note on Date Handling:**
+- Always use the `date` terminal command to get the current system date
+- Format the date appropriately for documentation (e.g., "June 2, 2025" or "2025-06-02")
+- Replace all `{Date}` placeholders in the template with the actual current date
+- This ensures accurate timestamps for DoD creation and last update fields
+
+**Phase 3: Next Steps and Recommendations**
+After generating the DoD document, provide these additional recommendations:
+
+**Next Steps:**
+1. Review and validate the DoD with all stakeholders (Product Owner, Tech Lead, QA)
+2. Integrate the DoD checklist into the team's workflow and tracking tools
+3. Use the DoD as acceptance criteria validation before story sign-off
+4. Set up monitoring and tracking for DoD completion metrics
+5. Schedule regular DoD reviews and updates as requirements evolve
+
+**Tips for DoD Management:**
+- Keep the DoD living document - update it as acceptance criteria evolve or new requirements emerge
+- Ensure all team members understand each DoD item and their responsibilities
+- Use the DoD during sprint reviews and retrospectives for quality assessment
+- Track DoD completion rates and identify common blockers for process improvement
+- Link the DoD to related user stories, gherkin scenarios, ADRs, and testing artifacts
+
+## Related Rules
+- 2003-agile-create-user-story: For creating user stories that feed into DoD
+- 2007-adr-create-acceptance-testing-strategy: For testing requirements
+- 2100-create-task-list: For breaking down DoD items into tasks

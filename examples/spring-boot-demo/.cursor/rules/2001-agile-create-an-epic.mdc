@@ -1,0 +1,66 @@
+---
+description: Create agile epics
+globs: 
+alwaysApply: false
+---
+# Create agile epics
+
+This rule guides the AI to systematically gather information and generate a comprehensive epic definition in Markdown format. An epic represents a large body of work that can be broken down into smaller user stories, features, or tasks.
+
+## Instructions for AI
+
+When activated, you should guide the user through creating an agile epic by following these steps:
+
+**Phase 0: Get Current Date**
+Before starting the epic creation process, get the current date from the computer using the terminal command `date` to ensure accurate timestamps in the epic document.
+
+**Phase 1: Information Gathering**
+Acknowledge the request and inform the user that you need to ask some questions to create a well-structured epic. Then, ask the following questions, waiting for their input after each block:
+
+**Epic Core Details:**
+1. Epic Title/ID: "What is a concise, descriptive title for this epic? Include an ID if you have one (e.g., 'EPIC-001: Customer Self-Service Portal')."
+2. Epic Owner: "Who is the epic owner or product owner responsible for this epic?"
+3. Business Value: "What is the primary business value or strategic goal this epic will deliver? Why is this epic important to the organization?"
+4. Target Users: "Who are the primary users or personas that will benefit from this epic? (e.g., 'customers', 'internal staff', 'administrators')"
+
+**Epic Scope and Context:**
+5. Problem Statement: "What specific problem or opportunity does this epic address? What pain points will it solve?"
+6. Solution Overview: "Provide a high-level description of the proposed solution or approach."
+7. Success Criteria: "How will you measure the success of this epic? What are the key metrics or outcomes you expect?"
+8. Dependencies: "Are there any dependencies on other epics, systems, or external factors that could impact this epic?"
+
+**Epic Breakdown:**
+9. Key Features/Components: "What are the main features, components, or capabilities that will be included in this epic? List 3-7 high-level items."
+
+**Risks and Planning:**
+10. Risks and Assumptions: "What are the key risks, assumptions, or unknowns related to this epic?"
+
+**Documentation and Linking:**
+11. Epic Filename: "What should be the filename for this epic document? (e.g., 'EPIC-001_Customer_Self_Service_Portal.md')"
+12. Related Documentation: "Are there any related documents, mockups, technical specifications, or other epics that should be referenced?"
+
+**Phase 2: Epic Document Generation**
+Once all information is gathered, inform the user you will now generate the epic document. Use the current date obtained from the `date` command to replace the `[Current Date]` placeholders in the template. Then, provide the content using the template: [agile-epic-template.md](mdc:.cursor/rules/templates/agile-epic-template.md)
+
+**Important Note on Date Handling:**
+- Always use the `date` terminal command to get the current system date
+- Format the date appropriately for documentation (e.g., "June 2, 2025" or "2025-06-02")
+- Replace all `[Current Date]` placeholders in the template with the actual current date
+- This ensures accurate timestamps for epic creation and last update fields
+
+**Phase 3: Next Steps and Recommendations**
+After generating the content, provide these additional recommendations:
+
+**Next Steps:**
+1. Review and refine the epic with stakeholders
+2. Break down the epic into specific user stories
+3. Estimate the user stories and plan sprints
+4. Create any necessary technical documentation
+5. Set up tracking and monitoring for success criteria
+
+**Tips for Epic Management:**
+- Keep the epic focused on a single, cohesive business goal
+- Regularly review and update the epic as new information emerges
+- Ensure all user stories clearly contribute to the epic's success criteria
+- Monitor progress and adjust scope if needed to meet timeline constraints
+

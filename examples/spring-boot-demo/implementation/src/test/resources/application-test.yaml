@@ -1,0 +1,33 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+      
+  data:
+    jdbc:
+      repositories:
+        enabled: true
+        
+  # Disable database for basic tests
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConfiguration
+
+# Test-specific settings
+testcontainers:
+  reuse:
+    enable: true
+
+# Optimized logging for tests
+logging:
+  level:
+    org.springframework.boot.docker: WARN
+    org.springframework.data.jdbc: WARN
+    org.testcontainers: INFO
+    com.example.demo: DEBUG
+    
+# Disable unnecessary features for tests
+management:
+  endpoints:
+    enabled-by-default: false 

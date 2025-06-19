@@ -1,0 +1,39 @@
+spring:
+  docker:
+    compose:
+      enabled: true
+      file: compose.yaml
+      lifecycle-management: start_and_stop
+      readiness:
+        wait: ALWAYS
+        timeout: 2m
+
+  # Explicit database configuration for local development
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakila
+    username: sakila
+    password: sakila
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    jdbc:
+      repositories:
+        enabled: true
+
+# Enhanced logging for local development
+logging:
+  level:
+    org.springframework.boot.docker: DEBUG
+    org.springframework.data.jdbc: DEBUG
+    org.springframework.jdbc.core: DEBUG
+    com.example.demo: DEBUG
+    
+# Development-specific settings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always 

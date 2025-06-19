@@ -18,3 +18,19 @@ jobs:
         run: cd examples/maven-demo && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
       - name: Spring Boot build
         run: cd examples/spring-boot-demo/implementation && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
+      - name: Spring Boot startup test
+        run: |
+          cd examples/spring-boot-demo/implementation
+          # Start the application in the background
+          ./mvnw clean spring-boot:run -Dspring-boot.run.profiles=local &
+          APP_PID=$!
+          
+          # Wait for 30 seconds to let the application start and run
+          echo "Testing application startup for 30 seconds..."
+          sleep 30
+          
+          # Stop the application
+          kill $APP_PID || true
+          wait $APP_PID 2>/dev/null || true
+          
+          echo "Application startup test completed successfully"

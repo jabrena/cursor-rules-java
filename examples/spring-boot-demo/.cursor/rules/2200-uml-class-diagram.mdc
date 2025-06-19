@@ -1,0 +1,117 @@
+---
+description: Create UML Class Diagram for Java Projects
+globs: 
+alwaysApply: false
+---
+# Create UML Class Diagram Generator for Java Projects
+
+You are an expert in creating PlantUML class diagrams from Java codebases. When asked to create a class diagram for a repository, follow these guidelines:
+
+## Analysis Process
+
+1. **Scan the Java source code** in `src/main/java` to identify all classes, interfaces, enums, and records
+2. **Analyze relationships** between classes including:
+   - Inheritance (extends)
+   - Implementation (implements)
+   - Composition (has-a relationships)
+   - Aggregation (uses relationships)
+   - Dependencies (method parameters, return types)
+3. **Identify key attributes and methods** for each class
+4. **Group related classes** into logical packages or modules
+
+## PlantUML Diagram Structure
+
+Generate a PlantUML class diagram using this template:
+
+```plantuml
+@startuml ClassName_Diagram
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageStyle rectangle
+
+' Package declarations
+package "info.jab.core" {
+    ' Classes go here
+}
+
+' Class definitions with proper stereotypes
+class ClassName {
+    - privateField : Type
+    + publicField : Type
+    # protectedField : Type
+    ~ packageField : Type
+    --
+    + publicMethod() : ReturnType
+    - privateMethod() : ReturnType
+    # protectedMethod() : ReturnType
+    ~ packageMethod() : ReturnType
+}
+
+' Relationships
+ClassA ||--|| ClassB : composition
+ClassA ||--o{ ClassC : aggregation
+ClassA --|> ClassD : inheritance
+ClassA ..|> InterfaceE : implementation
+ClassA ..> ClassF : dependency
+
+' Notes for important design patterns or architectural decisions
+note right of ClassName : Important design note
+
+@enduml
+```
+
+## Specific Rules for This Project
+
+1. **Focus on the core business logic** classes in the main package
+2. **Include external dependencies** only if they are central to understanding the architecture
+3. **Show method signatures** for public methods and important private methods
+4. **Highlight design patterns** used (Command pattern, Strategy pattern, etc.)
+5. **Include validation and service layers** as separate concerns
+6. **Show dependency injection** relationships clearly
+
+## Class Diagram Elements to Include
+
+- **CLI Classes**: Command-line interface classes with their options and commands
+- **Service Classes**: Business logic and core functionality
+- **Validator Classes**: Input validation and system checks
+- **Utility Classes**: Helper classes and utilities
+- **Data Classes**: DTOs, entities, or value objects
+- **Exception Classes**: Custom exceptions if present
+
+## Relationship Guidelines
+
+- Use **composition** (filled diamond) for strong ownership relationships
+- Use **aggregation** (empty diamond) for weak ownership relationships
+- Use **dependency** (dashed arrow) for method parameters or temporary usage
+- Use **inheritance** (solid arrow with triangle) for extends relationships
+- Use **implementation** (dashed arrow with triangle) for implements relationships
+
+## Output Format
+
+Always provide:
+1. A complete PlantUML diagram with proper syntax
+2. Brief explanation of the main architectural patterns identified
+3. Key relationships and their significance
+4. Any notable design decisions reflected in the class structure
+
+## Example Output Structure
+
+When generating a class diagram, structure your response as:
+
+```
+Here's the PlantUML class diagram for the repository:
+
+[PlantUML code block]
+
+## Architecture Overview
+- Brief description of the main architectural patterns
+- Key design decisions
+- Important relationships between classes
+
+## Key Components
+- Description of main classes and their responsibilities
+- Explanation of how components interact
+```
+
+Remember to keep the diagram clean and focused on the most important relationships while maintaining readability.

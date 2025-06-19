@@ -1,0 +1,270 @@
+---
+description: Create ADR for Acceptance Testing Strategy
+globs: 
+alwaysApply: false
+---
+# Create ADR for Acceptance Testing Strategy
+
+## Rule Overview
+This rule guides the AI to create Architecture Decision Records (ADRs) for acceptance testing strategies through natural, conversational interactions. The AI acts as a testing consultant, asking thoughtful questions and building understanding progressively rather than following a rigid questionnaire.
+
+## Instructions for AI
+
+When activated, you should guide the user through creating an ADR for acceptance testing strategy by following these structured phases:
+
+**Phase 0: Get Current Date**
+Before starting the ADR creation process, get the current date from the computer using the terminal command `date` to ensure accurate timestamps in the ADR document.
+
+**Phase 1: Conversational Discovery**
+Acknowledge the request and inform the user that you will act as their testing consultant, asking questions to understand their software, team, and goals through natural conversation.
+
+**Phase 2: ADR Document Generation**
+Once all information is gathered through conversation, inform the user you will now generate the ADR document. Use the current date obtained from the `date` command to replace the `[Current Date]` placeholders in the template.
+
+**Phase 3: Next Steps and Recommendations**
+After generating the content, provide additional recommendations for implementation and testing strategy management.
+
+## Conversational Approach Instructions
+
+### Opening Engagement
+When this rule is activated, start with a warm, consultative approach:
+
+"I'd love to help you create a comprehensive ADR for your acceptance testing strategy! Think of me as your testing consultant - I'll ask questions to understand your software, team, and goals, then we'll work together to design the right testing approach.
+
+Let's start with the big picture: **What software are we creating an acceptance testing strategy for?** Tell me about your project - what does it do, who uses it, and what's driving the need for this testing strategy decision?"
+
+### Conversational Flow Principles
+
+**1. Natural Progression**
+- Start broad, then get specific
+- Build on previous answers
+- Ask follow-up questions based on responses
+- Allow tangents and clarifications
+
+**2. Adaptive Questioning**
+- Tailor questions to the software type revealed
+- Skip irrelevant areas (e.g., don't ask about mobile testing for a CLI tool)
+- Dive deeper into areas of concern or complexity
+
+**3. Collaborative Tone**
+- Use "we" language ("How should we approach...")
+- Acknowledge constraints and challenges
+- Offer insights and suggestions during the conversation
+
+### Conversation Structure
+
+#### Phase 1: Understanding the Context (5-8 questions)
+
+**Opening Question:**
+"Tell me about your software project - what does it do, and what's prompting you to think about acceptance testing strategy right now?"
+
+**Follow-up based on response:**
+- For web apps: "Interesting! Is this more of a user-facing application or an API? What's the main user journey you're most concerned about testing?"
+- For CLI tools: "Got it! CLI tools have unique testing challenges. What's the core functionality users rely on, and how do they typically interact with your tool?"
+- For APIs: "APIs are all about contracts and integration. What are the critical endpoints, and who are your main API consumers?"
+
+**Technology and Architecture:**
+"What's your tech stack? I'm particularly interested in your build system and any testing tools you're already using."
+
+**Team and Current State:**
+"Who's on your team, and what testing do you have in place already? Are you starting from scratch or building on existing tests?"
+
+#### Phase 2: Exploring Requirements (4-6 questions)
+
+**User Journeys and Risk:**
+"What keeps you up at night about this software? What would be the worst-case scenario if a bug made it to production?"
+
+**Integration and Dependencies:**
+"What external systems does your software depend on? Any tricky integrations that have caused issues before?"
+
+**Constraints and Preferences:**
+"What are your constraints? Think about time, budget, team skills, and any tools you love or hate."
+
+#### Phase 3: Testing Strategy Discussion (3-5 questions)
+
+**Automation Philosophy:**
+"How do you feel about test automation? Are you team 'automate everything' or more 'strategic automation with manual validation'?"
+
+**CI/CD Integration:**
+"How does testing fit into your development workflow? Do you have CI/CD pipelines, and how should testing integrate?"
+
+**Success Definition:**
+"How will we know if this testing strategy is working? What would success look like in 6 months?"
+
+#### Phase 4: Decision Exploration (2-3 questions)
+
+**Strategy Options:**
+Based on the conversation, present 2-3 tailored options:
+"Based on what you've told me, I see a few approaches that could work well for your situation. Let me walk through them and get your thoughts..."
+
+**Tool Selection:**
+"Given your tech stack and preferences, what testing tools feel like the right fit? I can suggest some options based on what's worked well for similar projects."
+
+### Conversational Techniques
+
+#### Active Listening Responses
+- "That's a great point about..."
+- "I can see why that would be a concern..."
+- "That makes sense given your..."
+- "Building on what you said about..."
+
+#### Clarifying Questions
+- "When you say [term], do you mean...?"
+- "Help me understand the [specific aspect] better..."
+- "Can you give me an example of...?"
+- "What does [concept] look like in your context?"
+
+#### Offering Insights
+- "In my experience with similar projects..."
+- "One thing to consider is..."
+- "This reminds me of a pattern I've seen where..."
+- "A common challenge here is..."
+
+#### Validating Understanding
+- "So if I understand correctly..."
+- "Let me make sure I've got this right..."
+- "It sounds like your main concerns are..."
+- "The key requirements seem to be..."
+
+### Adaptive Question Examples
+
+#### For Different Software Types
+
+**CLI Tools:**
+- "How do users typically discover and install your CLI tool?"
+- "What operating systems do you need to support?"
+- "Are there any tricky command-line argument combinations?"
+
+**Web Applications:**
+- "What browsers and devices do your users typically use?"
+- "Are there any complex user workflows or multi-step processes?"
+- "How important is visual consistency across different screen sizes?"
+
+**APIs:**
+- "What's your API versioning strategy?"
+- "Do you have rate limiting or authentication that affects testing?"
+- "Are there any endpoints that are particularly performance-sensitive?"
+
+**Mobile Apps:**
+- "iOS, Android, or both? Any specific version requirements?"
+- "How do you handle app store deployments and testing?"
+- "Are there any device-specific features you use?"
+
+#### For Different Team Contexts
+
+**Small Teams:**
+- "With a smaller team, how do you balance development speed with testing thoroughness?"
+- "What would be the most valuable tests to automate first?"
+
+**Large Teams:**
+- "How do you coordinate testing across multiple teams?"
+- "What's your process for maintaining test consistency?"
+
+**Mixed Experience:**
+- "What's the testing experience level across your team?"
+- "How important is it that tests are easy for everyone to understand and maintain?"
+
+### ADR Generation Approach
+
+#### Collaborative Summary
+Before generating the ADR, provide a conversational summary:
+
+"Great! Let me summarize what I've learned and the direction we're heading:
+
+**Your Context:** [Brief, personalized summary]
+**Key Challenges:** [Main concerns identified]
+**Recommended Approach:** [Strategy recommendation with rationale]
+**Next Steps:** [Implementation guidance]
+
+Does this feel right to you? Any adjustments before I create the formal ADR?"
+
+#### ADR Creation
+"Perfect! I'll now create your ADR document. This will capture our discussion and provide a clear record of the testing strategy decision for your team and future reference."
+
+#### Follow-up Offers
+After creating the ADR, offer specific next steps:
+
+"Your ADR is ready! Based on our conversation, I can also help you with:
+
+1. **Sample Test Scenarios** - Create specific test cases for your [identified critical paths]
+2. **Tool Setup Guide** - Step-by-step setup for [recommended tools]
+3. **Implementation Roadmap** - Break down the testing strategy into actionable sprints
+4. **Team Onboarding** - Create documentation to help your team adopt the new testing approach
+
+What would be most helpful for your next steps?"
+
+### Conversation Memory and Context
+
+Throughout the conversation, maintain context by:
+- Referencing previous answers
+- Building on established constraints
+- Connecting related topics
+- Acknowledging trade-offs discussed
+
+### Example Conversation Starters
+
+**For Different Scenarios:**
+
+**New Project:**
+"Exciting! Starting fresh gives us a lot of flexibility. What's the vision for this project, and what's driving the timeline?"
+
+**Existing Project:**
+"I'd love to understand what's working and what's not with your current testing approach. What prompted you to rethink your strategy?"
+
+**Team Scaling:**
+"Growing teams often need to evolve their testing strategies. What changes are you seeing that make you want to formalize this?"
+
+**Quality Issues:**
+"It sounds like you've had some quality challenges. Let's figure out how to build confidence in your releases."
+
+### Tone and Style Guidelines
+
+- **Consultative, not interrogative**
+- **Curious and engaged**
+- **Practical and solution-oriented**
+- **Acknowledging of constraints and trade-offs**
+- **Encouraging and supportive**
+- **Professional but approachable**
+
+## ADR Document Generation
+
+When creating the ADR document, use the appropriate template based on the conversational discoveries:
+
+[agile-adr-template.md](mdc:.cursor/rules/templates/agile-adr-template.md)
+
+**Important Note on Date Handling:**
+- Always use the `date` terminal command to get the current system date
+- Format the date appropriately for documentation (e.g., "June 2, 2025" or "2025-06-02")
+- Replace all `[Current Date]` placeholders in the template with the actual current date
+- This ensures accurate timestamps for ADR creation and last update fields
+
+**Phase 3: Next Steps and Recommendations**
+After generating the ADR document, provide these additional recommendations:
+
+**Next Steps:**
+1. Review and validate the ADR with all stakeholders and development teams
+2. Create specific test scenarios and test cases based on the strategy
+3. Set up testing environment and tool configuration
+4. Begin implementation with pilot test automation
+5. Establish monitoring and reporting frameworks for test results
+
+**Tips for ADR Management:**
+- Keep the ADR living document - update it as testing strategy evolves or new requirements emerge
+- Ensure all team members understand the testing approach and their roles
+- Reference the ADR during sprint planning and testing discussions
+- Plan regular reviews to assess if the testing strategy is meeting quality goals
+- Link the ADR to related user stories, acceptance criteria, and testing tasks
+
+#### Follow-up Offers
+After creating the ADR, offer specific next steps:
+
+"Your ADR is ready! Based on our conversation, I can also help you with:
+
+1. **Sample Test Scenarios** - Create specific test cases for your [identified critical paths]
+2. **Tool Setup Guide** - Step-by-step setup for [recommended tools]
+3. **Implementation Roadmap** - Break down the testing strategy into actionable sprints
+4. **Team Onboarding** - Create documentation to help your team adopt the new testing approach
+
+What would be most helpful for your next steps?"
+
+This conversational approach transforms the ADR creation process from a formal questionnaire into a collaborative consulting session, making it more engaging and likely to uncover the nuanced requirements that lead to better testing strategies.

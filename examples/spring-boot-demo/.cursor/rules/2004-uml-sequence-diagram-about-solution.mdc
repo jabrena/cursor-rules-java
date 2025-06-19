@@ -1,0 +1,133 @@
+---
+description: Create UML Sequence Diagrams from Agile Artifacts
+globs: 
+alwaysApply: false
+---
+# Create UML Sequence Diagrams from Agile Artifacts
+
+This rule guides the AI to analyze existing agile artifacts (epics, features, user stories, and technical documents) and generate comprehensive UML sequence diagrams in PlantUML format. The AI uses a conversational approach to understand the system interactions and create detailed sequence diagrams that illustrate the flow of processes described in the agile documentation.
+
+Instructions for the AI (Content of the Rule):
+
+"When activated, you should help the user generate UML sequence diagrams in PlantUML format based on existing agile artifacts by following these steps:
+
+Phase 1: Artifact Analysis and Information Gathering
+Start by acknowledging the request and gathering information about the source materials:
+
+**Source Artifacts Analysis:**
+1. Source Documents: "Please provide the paths to the agile artifacts you'd like to base the sequence diagram on (epics, features, user stories, technical specs), or paste their content if you prefer. You can provide multiple documents."
+2. Document Review: "I've reviewed the provided artifacts: [list document titles/names]. These describe [summarize key processes/interactions]. Is this the correct set of documents you want to work with?"
+3. Scope Definition: "Which specific process, workflow, or user journey from these artifacts should the sequence diagram focus on? (e.g., 'user login flow', 'order processing', 'data synchronization', etc.)"
+
+**System Context and Architecture:**
+4. System Components: "Based on the artifacts, I can identify these potential system components/actors: [list identified components]. Are there additional systems, services, or actors that should be included in the sequence diagram?"
+5. Actor Types: "Should the diagram include human actors (users, administrators), system actors (external APIs, databases), or both? Please specify which types of actors are most relevant."
+6. System Boundaries: "What are the system boundaries for this sequence diagram? Should it focus on internal system interactions, external integrations, or both?"
+
+**Interaction Details:**
+7. Process Flow: "From the artifacts, I understand the main process flow as: [summarize the flow]. Is this correct, and are there any steps or decision points I should emphasize or add?"
+8. Error Scenarios: "Should the sequence diagram include error handling scenarios or alternative flows mentioned in the artifacts? If so, which ones are most important?"
+9. Async Operations: "Are there any asynchronous operations, background processes, or delayed responses that should be represented in the sequence diagram?"
+
+**Technical Specifications:**
+10. Message Types: "What types of messages/interactions should be highlighted? (e.g., HTTP requests, database queries, API calls, user actions, system events)"
+11. Data Details: "Should the sequence diagram include specific data parameters, request/response formats, or focus on the high-level flow?"
+12. Technology Stack: "Are there specific technologies, protocols, or frameworks mentioned in the artifacts that should be reflected in the diagram? (e.g., REST APIs, message queues, databases)"
+
+**Diagram Preferences:**
+13. Diagram Complexity: "Do you prefer a high-level overview diagram or a detailed technical diagram with specific method calls and data?"
+14. Multiple Diagrams: "Would you like a single comprehensive diagram or multiple diagrams focusing on different aspects/scenarios?"
+15. PlantUML Features: "Should the diagram use specific PlantUML features like grouping (alt/opt/loop), activation boxes, notes, or colored participants?"
+
+**File Organization:**
+16. Diagram Filename: "What should be the filename for the PlantUML sequence diagram? (e.g., 'user_login_sequence.puml', 'order_processing_flow.plantuml')"
+17. Output Format: "Do you need just the PlantUML source code, or would you also like instructions for generating the visual diagram?"
+
+Phase 2: Sequence Diagram Generation
+Once all information is gathered, inform the user you will generate the PlantUML sequence diagram. Provide the content:
+
+**Content for PlantUML Sequence Diagram File: `[Diagram Filename From Input]`**
+```plantuml
+@startuml [Diagram Title Based on Scope]
+!theme plain
+title [Scope Definition From Input]
+
+' Actors and Participants
+[FOR EACH Actor/System Component DO
+participant "[Actor Name]" as [ActorAlias] [IF specific styling needed THEN #color ENDIF]
+ENDLOOP]
+
+' Optional: Add notes or grouping
+[IF System Boundaries specified THEN
+box "[Boundary Name]" #LightBlue
+  participant [Internal Components]
+end box
+ENDIF]
+
+' Main Sequence Flow
+[FOR EACH Step in Process Flow DO
+[ActorAlias] -> [TargetActorAlias] : [Message/Action Description]
+[IF Synchronous response THEN
+[TargetActorAlias] --> [ActorAlias] : [Response Description]
+ENDIF]
+[IF Activation needed THEN
+activate [TargetActorAlias]
+ENDIF]
+[IF Notes needed THEN
+note right of [ActorAlias] : [Note Text]
+ENDIF]
+ENDLOOP]
+
+[IF Error Scenarios included THEN
+' Error Handling Scenarios
+alt [Error Condition]
+  [Error Flow Steps]
+else [Alternative Condition]
+  [Alternative Flow Steps]
+end
+ENDIF]
+
+[IF Async Operations included THEN
+' Asynchronous Operations
+[ActorAlias] ->> [TargetActorAlias] : [Async Message]
+note right : [Async Note]
+ENDIF]
+
+[IF Loop scenarios exist THEN
+' Repetitive Operations
+loop [Loop Condition]
+  [Loop Steps]
+end
+ENDIF]
+
+' Deactivation if used
+[FOR EACH Activated Participant DO
+deactivate [ParticipantAlias]
+ENDLOOP]
+
+@enduml
+```
+
+After generating the content, provide these additional recommendations:
+
+**Next Steps:**
+1. Review the generated sequence diagram with technical stakeholders
+2. Validate the flow against actual system behavior or planned implementation
+3. Consider creating additional diagrams for different scenarios or error cases
+4. Update the diagram as user stories and technical specifications evolve
+5. Use the diagram for technical discussions, code reviews, and system documentation
+
+**Tips for Sequence Diagram Management:**
+- Keep diagrams focused on specific workflows to maintain clarity
+- Use PlantUML's grouping features (alt, opt, loop) to show complex logic
+- Include both happy path and error scenarios for comprehensive coverage
+- Consider creating both high-level and detailed versions for different audiences
+- Regularly sync diagrams with actual implementation and agile artifacts
+
+**PlantUML Best Practices:**
+- Use meaningful participant names and aliases
+- Add notes for complex business logic or technical details
+- Leverage PlantUML themes and styling for better visual presentation
+- Group related participants using boxes for system boundaries
+- Use different arrow types (-> for sync, ->> for async) to clarify interaction types
+

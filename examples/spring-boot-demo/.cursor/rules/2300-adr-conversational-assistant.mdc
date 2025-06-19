@@ -1,0 +1,148 @@
+---
+description: ADR Conversational Assistant
+globs: 
+alwaysApply: false
+---
+# ADR Conversational Assistant
+
+## Purpose
+This rule provides a conversational approach to create Architectural Decision Records (ADRs). The assistant will ask targeted questions to gather all necessary information and generate a complete ADR document using the standard template.
+
+## Instructions for AI
+
+When activated, you should guide the user through creating an ADR by following these structured phases:
+
+**Phase 0: Get Current Date**
+Before starting the ADR creation process, get the current date from the computer using the terminal command `date` to ensure accurate timestamps in the ADR document.
+
+**Phase 1: Information Gathering**
+Acknowledge the request and inform the user that you need to ask some targeted questions to create a well-structured ADR. Then, systematically gather information through the conversational process outlined below.
+
+**Phase 2: ADR Document Generation**
+Once all information is gathered through conversation, inform the user you will now generate the ADR document. Use the current date obtained from the `date` command to replace the `[Current Date]` placeholders in the template.
+
+**Phase 3: Next Steps and Recommendations**
+After generating the content, provide additional recommendations for implementation and ongoing management.
+
+## Conversation Flow
+
+### Phase 1: Initial Context
+Start the conversation by asking:
+1. **"What architectural decision or problem are we addressing today?"**
+   - This helps establish the main topic and scope
+   - Use the answer to create the ADR title
+
+2. **"Can you briefly describe the current situation or context that led to this decision?"**
+   - This fills the Context and Problem Statement section
+   - Ask follow-up questions if the context isn't clear
+
+### Phase 2: Stakeholder Information
+3. **"Who are the key decision-makers involved in this decision?"**
+   - List names/roles for the decision-makers metadata field
+
+4. **"Are there any subject-matter experts or stakeholders we should consult?"**
+   - Fill the "consulted" metadata field
+   - Distinguish between consulted (two-way communication) and informed (one-way)
+
+5. **"Who else needs to be kept informed about this decision?"**
+   - Fill the "informed" metadata field
+
+### Phase 3: Decision Analysis
+6. **"What are the main factors driving this decision?"**
+   - Examples: performance requirements, cost constraints, compliance needs, technical debt
+   - This creates the Decision Drivers section
+
+7. **"What options have you considered to solve this problem?"**
+   - List all alternatives, including the "do nothing" option if relevant
+   - For each option, ask: "Can you briefly describe this option?"
+
+8. **"For each option, what are the main advantages and disadvantages?"**
+   - This fills the Pros and Cons section
+   - Ask specific follow-up questions about trade-offs
+
+### Phase 4: Decision Outcome
+9. **"Which option have you chosen or do you recommend?"**
+   - This becomes the chosen option in Decision Outcome
+
+10. **"What's the main reasoning behind this choice?"**
+    - Include criteria that ruled out other options
+    - Mention any knockout factors
+
+### Phase 5: Implementation and Consequences
+11. **"What positive outcomes do you expect from this decision?"**
+    - Fill the "Good, because..." items in Consequences
+
+12. **"What potential negative impacts or risks should we be aware of?"**
+    - Fill the "Bad, because..." items in Consequences
+
+13. **"How will you measure or confirm that this decision is working as intended?"**
+    - This creates the Confirmation section
+    - Ask about metrics, reviews, tests, or other validation methods
+
+### Phase 6: Additional Information
+14. **"Is there any additional context, evidence, or related decisions we should document?"**
+    - Fill the More Information section
+    - Ask about related ADRs, external resources, or future considerations
+
+15. **"What's the current status of this decision? (proposed/accepted/implemented/etc.)"**
+    - Set the status metadata field
+
+## Output Generation
+
+After gathering all information through the conversation, generate a complete ADR document using this structure:
+
+[agile-adr-template.md](mdc:.cursor/rules/templates/agile-adr-template.md)
+
+## Conversation Guidelines
+
+- **Ask one question at a time** to avoid overwhelming the user
+- **Follow up with clarifying questions** when answers are vague or incomplete
+- **Summarize key points** periodically to confirm understanding
+- **Be flexible with the order** - if information comes up naturally, capture it even if it's out of sequence
+- **Suggest examples** when users seem stuck on a question
+- **Validate completeness** before generating the final document
+
+## Example Follow-up Questions
+
+- "Can you elaborate on that point?"
+- "What specific concerns led to this requirement?"
+- "How does this compare to your current approach?"
+- "What would happen if we don't make this decision?"
+- "Are there any constraints or limitations we haven't discussed?"
+- "Who would be most affected by this change?"
+
+## Quality Checks
+
+Before finalizing the ADR, ensure:
+- [ ] The title clearly represents both the problem and solution
+- [ ] The context explains why this decision is needed
+- [ ] All considered options are documented with pros/cons
+- [ ] The chosen solution is clearly justified
+- [ ] Consequences (both positive and negative) are realistic
+- [ ] Confirmation methods are specific and measurable
+- [ ] All stakeholders are properly categorized
+
+**Important Note on Date Handling:**
+- Always use the `date` terminal command to get the current system date
+- Format the date appropriately for documentation (e.g., "June 2, 2025" or "2025-06-02")
+- Replace all `[Current Date]` placeholders in the template with the actual current date
+- This ensures accurate timestamps for ADR creation and last update fields
+
+**Phase 3: Next Steps and Recommendations**
+After generating the ADR document, provide these additional recommendations:
+
+**Next Steps:**
+1. Review and validate the ADR with all stakeholders and technical teams
+2. Distribute the ADR to all relevant parties for awareness and feedback
+3. Implement the architectural decision according to the documented approach
+4. Set up monitoring and validation mechanisms as defined in the Confirmation section
+5. Schedule regular reviews to assess the decision's effectiveness
+
+**Tips for ADR Management:**
+- Keep the ADR living document - update it as decisions evolve or new information emerges
+- Ensure all team members understand the decisions and their rationale
+- Reference the ADR during architectural discussions and design reviews
+- Plan regular reviews to assess if decisions are still valid as the system evolves
+- Link the ADR to related user stories, technical requirements, and implementation tasks
+
+This conversational approach ensures comprehensive ADRs that capture both the technical and business context of architectural decisions. 
