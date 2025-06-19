@@ -39,16 +39,16 @@
   - [x] 2.8 Create acceptance test for "Invalid query parameter handling" scenario (HTTP 400)
   - [x] 2.9 **Verify all acceptance tests FAIL** (Red phase - Outside-in TDD strategy)
 
-- [ ] 3.0 **REST API Unit Tests Creation**
-  - [ ] 3.1 Create unit test for GET /api/v1/films endpoint without parameters
-  - [ ] 3.2 Create unit test for GET /api/v1/films?startsWith=A endpoint
-  - [ ] 3.3 Create unit tests for parameter validation (valid single letters)
-  - [ ] 3.4 Create unit tests for invalid parameter scenarios (empty, multiple chars, special chars)
-  - [ ] 3.5 Create unit tests for response format validation (JSON structure)
-  - [ ] 3.6 Create unit tests for HTTP status codes (200, 400)
-  - [ ] 3.7 Create unit tests for controller error handling integration
-  - [ ] 3.8 Create unit tests for OpenAPI annotations validation
-  - [ ] 3.9 **Verify REST API unit tests FAIL** (Red phase - TDD strategy)
+- [x] 3.0 **REST API Unit Tests Creation**
+  - [x] 3.1 Create unit test for GET /api/v1/films endpoint without parameters
+  - [x] 3.2 Create unit test for GET /api/v1/films?startsWith=A endpoint
+  - [x] 3.3 Create unit tests for parameter validation (valid single letters)
+  - [x] 3.4 Create unit tests for invalid parameter scenarios (empty, multiple chars, special chars)
+  - [x] 3.5 Create unit tests for response format validation (JSON structure)
+  - [x] 3.6 Create unit tests for HTTP status codes (200, 400)
+  - [x] 3.7 Create unit tests for controller error handling integration
+  - [x] 3.8 Create unit tests for OpenAPI annotations validation
+  - [x] 3.9 **Verify REST API unit tests FAIL** (Red phase - TDD strategy)
 
 - [ ] 4.0 **REST API Layer Implementation**
   - [ ] 4.1 Create FilmController class with @RestController annotation
@@ -174,7 +174,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `src/main/java/info/jab/ms/dto/FilmDTO.java` - Data transfer object for film data
 - `src/main/java/info/jab/ms/dto/FilmResponse.java` - Response DTO for API responses
 - `src/main/java/info/jab/ms/controller/GlobalExceptionHandler.java` - Global error handling with RFC 7807 ProblemDetail
-- `src/test/java/info/jab/ms/controller/FilmControllerTest.java` - REST Controller unit tests
+- `src/test/java/com/example/demo/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
 - `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Exception handler unit tests
 - `src/test/java/info/jab/ms/service/FilmServiceTest.java` - Business logic unit tests
 - `src/test/java/info/jab/ms/repository/FilmRepositoryTest.java` - Data access integration tests
