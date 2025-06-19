@@ -17,7 +17,7 @@
 ./mvnw clean package
 
 # Run integration tests
-./mvnw verify
+./mvnw clean verify
 
 # Check for dependency updates
 ./mvnw versions:display-property-updates

@@ -1,33 +1,50 @@
 spring:
+  application:
+    name: film-query-service-test
+  
+  # Disable Docker Compose for tests - use TestContainers instead
   docker:
     compose:
       enabled: false
-      
+
+  # Database configuration will be overridden by TestContainers via @ServiceConnection
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sakila
+    username: sakila
+    password: sakila
+    driver-class-name: org.postgresql.Driver
+
   data:
     jdbc:
       repositories:
         enabled: true
-        
-  # Disable database for basic tests
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConfiguration
 
-# Test-specific settings
+# TestContainers configuration for performance optimization
 testcontainers:
   reuse:
     enable: true
 
+# Disable OpenAPI in tests for faster startup
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+# Minimal management endpoints for tests
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 # Optimized logging for tests
 logging:
   level:
-    org.springframework.boot.docker: WARN
+    root: WARN
+    com.example.demo: INFO
+    org.springframework.boot: WARN
     org.springframework.data.jdbc: WARN
     org.testcontainers: INFO
-    com.example.demo: DEBUG
-    
-# Disable unnecessary features for tests
-management:
   endpoints:
     enabled-by-default: false 

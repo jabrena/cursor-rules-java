@@ -28,17 +28,16 @@
   - [x] 1.8 Set up Docker Compose with Sakila PostgreSQL database
   - [x] 1.9 Verify database connection and Sakila data availability
 
-- [ ] 2.0 **Acceptance Tests Implementation (TestRestTemplate-Based)**
-  - [ ] 2.1 Set up Spring Boot Test with @SpringBootTest and TestRestTemplate
-  - [ ] 2.2 Configure TestContainers for PostgreSQL in acceptance tests
-  - [ ] 2.3 Create acceptance test for "Successfully retrieve films starting with A" scenario (46 films expected)
-  - [ ] 2.4 Create acceptance test for "API endpoint responds correctly" scenario (HTTP 200, JSON format)
-  - [ ] 2.5 Create acceptance test for "Database query performance" scenario (< 2 seconds)
-  - [ ] 2.6 Create acceptance test for "Handle empty results gracefully" scenario
-  - [ ] 2.7 Create acceptance test for "Query films by different starting letters" scenario (parameterized)
-  - [ ] 2.8 Create acceptance test for "Invalid query parameter handling" scenario (HTTP 400)
-  - [ ] 2.9 Implement test data setup and teardown with TestContainers
-  - [ ] 2.10 **Verify all acceptance tests FAIL** (Red phase - Outside-in TDD strategy)
+- [x] 2.0 **Acceptance Tests Implementation (TestRestTemplate-Based)**
+  - [x] 2.1 Set up Spring Boot Test with @SpringBootTest and TestRestTemplate
+  - [x] 2.2 Configure TestContainers for PostgreSQL in acceptance tests
+  - [x] 2.3 Create acceptance test for "Successfully retrieve films starting with A" scenario (46 films expected)
+  - [x] 2.4 Create acceptance test for "API endpoint responds correctly" scenario (HTTP 200, JSON format)
+  - [x] 2.5 Create acceptance test for "Database query performance" scenario (< 2 seconds)
+  - [x] 2.6 Create acceptance test for "Handle empty results gracefully" scenario
+  - [x] 2.7 Create acceptance test for "Query films by different starting letters" scenario (parameterized)
+  - [x] 2.8 Create acceptance test for "Invalid query parameter handling" scenario (HTTP 400)
+  - [x] 2.9 **Verify all acceptance tests FAIL** (Red phase - Outside-in TDD strategy)
 
 - [ ] 3.0 **REST API Unit Tests Creation**
   - [ ] 3.1 Create unit test for GET /api/v1/films endpoint without parameters
@@ -180,7 +179,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `src/test/java/info/jab/ms/service/FilmServiceTest.java` - Business logic unit tests
 - `src/test/java/info/jab/ms/repository/FilmRepositoryTest.java` - Data access integration tests
 - `src/test/java/info/jab/ms/integration/FilmQueryIntegrationTest.java` - End-to-end integration tests
-- `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceTest.java` - TestRestTemplate-based acceptance tests
+- `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
 - `application.yaml` - Application configuration for database connection
 - `docker-compose.yml` - Docker Compose configuration for Sakila PostgreSQL database
 - `openapi-film-query.yaml` - OpenAPI 3.0 specification for the Film Query API
