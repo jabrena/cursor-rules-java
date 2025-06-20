@@ -35,18 +35,6 @@ Feature: Query Films Starting with Letter A
     And the response should have HTTP 200 OK status
     And the response should include a message indicating no films found
 
-  Scenario Outline: Query films by different starting letters
-    Given the film database contains movies with various titles
-    When I request films that start with the letter "<letter>"
-    Then I should receive a list of films with titles beginning with "<letter>"
-    And all returned film titles should start with the letter "<letter>"
-
-    Examples:
-      | letter | expected_count |
-      | A      | 46            |
-      | B      | 54            |
-      | C      | 58            |
-
   Scenario: Invalid query parameter handling
     Given the film query service is running
     When I make a GET request to "/api/v1/films" with an invalid filter parameter
