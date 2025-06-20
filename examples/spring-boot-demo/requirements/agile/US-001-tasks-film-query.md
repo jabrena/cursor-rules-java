@@ -97,38 +97,36 @@
   - [x] 7.8 Create integration tests for Spring Data JDBC configuration
   - [ ] 7.9 **Verify data access integration tests FAIL** (Red phase - TDD strategy)
 
-- [ ] 8.0 **Data Access Layer Implementation**
-  - [ ] 8.1 Create Film entity class with @Table annotation
-  - [ ] 8.2 Add entity fields (filmId, title) with proper annotations
-  - [ ] 8.3 Create FilmRepository interface extending CrudRepository
-  - [ ] 8.4 Implement findByTitleStartingWith(String prefix) method
-  - [ ] 8.5 Configure Spring Data JDBC with PostgreSQL
-  - [ ] 8.6 Set up database connection properties for Sakila DB
-  - [ ] 8.7 Add database query optimization (ensure proper indexing)
-  - [ ] 8.8 Implement repository error handling
-  - [ ] 8.9 **Verify data access integration tests PASS** (Green phase - TDD strategy)
-  - [ ] 8.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 8.11 **Test locally** - Ensure application works end-to-end with database integration (follow Local Testing Approach in Notes)
+- [x] 8.0 **Data Access Layer Implementation**
+  - [x] 8.1 Create Film entity class with @Table annotation
+  - [x] 8.2 Add entity fields (filmId, title) with proper annotations
+  - [x] 8.3 Create FilmRepository interface extending CrudRepository
+  - [x] 8.4 Implement findByTitleStartingWith(String prefix) method
+  - [x] 8.5 Configure Spring Data JDBC with PostgreSQL
+  - [x] 8.6 Set up database connection properties for Sakila DB
+  - [x] 8.7 Add database query optimization (ensure proper indexing)
+  - [x] 8.8 Implement repository error handling
+  - [x] 8.9 **Verify data access integration tests PASS** (Green phase - TDD strategy)
+  - [x] 8.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
+  - [x] 8.11 **Test locally** - Ensure application works end-to-end with database integration (follow Local Testing Approach in Notes)
 
 - [ ] 9.0 **Error Handling Unit Tests Creation**
   - [ ] 9.1 Create unit tests for GlobalExceptionHandler class
-  - [ ] 9.2 Create unit tests for IllegalArgumentException handling (400 Bad Request)
-  - [ ] 9.3 Create unit tests for RFC 7807 ProblemDetail response format
-  - [ ] 9.4 Create unit tests for invalid parameter error messages
-  - [ ] 9.5 Create unit tests for HTTP status code mapping
-  - [ ] 9.6 Create unit tests for error response JSON structure
-  - [ ] 9.7 **Verify error handling unit tests FAIL** (Red phase - TDD strategy)
+  - [ ] 9.2 Create unit tests for RFC 7807 ProblemDetail response format
+  - [ ] 9.3 Create unit tests for invalid parameter error messages
+  - [ ] 9.4 Create unit tests for HTTP status code mapping
+  - [ ] 9.5 Create unit tests for error response JSON structure
+  - [ ] 9.6 **Verify error handling unit tests FAIL** (Red phase - TDD strategy)
 
 - [ ] 10.0 **Error Handling and Global Exception Management**
   - [ ] 10.1 Create GlobalExceptionHandler class with @ControllerAdvice
-  - [ ] 10.2 Implement handleIllegalArgumentException method
-  - [ ] 10.3 Implement RFC 7807 ProblemDetail response format
-  - [ ] 10.4 Add proper HTTP status code mapping (400, 500)
-  - [ ] 10.5 Implement descriptive error messages for invalid parameters
-  - [ ] 10.6 Add request validation error handling
-  - [ ] 10.7 **Verify error handling unit tests PASS** (Green phase - TDD strategy)
-  - [ ] 10.8 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 10.9 **Test locally** - Ensure application handles errors gracefully end-to-end (follow Local Testing Approach in Notes)
+  - [ ] 10.2 Implement RFC 7807 ProblemDetail response format
+  - [ ] 10.3 Add proper HTTP status code mapping (400, 500)
+  - [ ] 10.4 Implement descriptive error messages for invalid parameters
+  - [ ] 10.5 Add request validation error handling
+  - [ ] 10.6 **Verify error handling unit tests PASS** (Green phase - TDD strategy)
+  - [ ] 10.7 **Verify acceptance tests PASS** (Outside-in TDD validation)
+  - [ ] 10.8 **Test locally** - Ensure application handles errors gracefully end-to-end (follow Local Testing Approach in Notes)
 
 - [ ] 11.0 **Integration Testing Implementation**
   - [ ] 11.1 Set up end-to-end integration test suite
@@ -168,7 +166,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `pom.xml` - Maven project configuration with Spring Boot, Data JDBC, TestContainers, JaCoCo, and OpenAPI dependencies
 - `src/main/java/info/jab/ms/FilmQueryApplication.java` - Spring Boot main application class
 - `src/main/java/info/jab/ms/controller/FilmController.java` - REST Controller for /api/v1/films endpoint with OpenAPI annotations
-- `src/main/java/com/example/demo/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, and DTO transformation
+- `src/main/java/com/example/demo/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, DTO transformation, and comprehensive repository error handling
 - `src/main/java/com/example/demo/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
 - `src/main/java/com/example/demo/entity/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
 - `src/main/java/com/example/demo/dto/FilmDTO.java` - Data transfer object for film data with entity conversion methods
