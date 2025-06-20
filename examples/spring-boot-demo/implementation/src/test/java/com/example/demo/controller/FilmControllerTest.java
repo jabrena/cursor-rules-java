@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.FilmService;
+import com.example.demo.entity.Film;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -55,7 +56,7 @@ class FilmControllerTest {
     void shouldGetFilmsWithoutParameters() throws Exception {
         // Given: No startsWith parameter provided
         // Mock service to return empty list when no filter applied
-        when(filmService.findFilmsByStartingLetter(null))
+        when(filmService.findFilmEntitiesByStartingLetter(null))
                 .thenReturn(Collections.emptyList());
 
         // When: GET /api/v1/films (without parameters)
@@ -100,15 +101,15 @@ class FilmControllerTest {
      */
     @Test
     void shouldGetFilmsStartingWithA() throws Exception {
-        // Given: Sample films starting with "A" from service layer
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR"),
-                Map.of("film_id", 2, "title", "ACE GOLDFINGER"),
-                Map.of("film_id", 3, "title", "ADAPTATION HOLES")
+        // Given: Sample Film entities starting with "A" from service layer
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR"),
+                new Film(2, "ACE GOLDFINGER"),
+                new Film(3, "ADAPTATION HOLES")
         );
         
-        // Mock service to return films when "A" filter applied
-        when(filmService.findFilmsByStartingLetter("A"))
+        // Mock service to return film entities when "A" filter applied
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=A
@@ -163,10 +164,10 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidUppercaseLetterA() throws Exception {
         // Given: Mock service response for uppercase A
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR")
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR")
         );
-        when(filmService.findFilmsByStartingLetter("A"))
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=A (uppercase)
@@ -183,10 +184,10 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidLowercaseLetterA() throws Exception {
         // Given: Mock service response for lowercase a (should be processed as uppercase)
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR")
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR")
         );
-        when(filmService.findFilmsByStartingLetter("a"))
+        when(filmService.findFilmEntitiesByStartingLetter("a"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=a (lowercase)
@@ -203,10 +204,10 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidUppercaseLetterZ() throws Exception {
         // Given: Mock service response for uppercase Z
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 999, "title", "ZORRO ADAPTATION")
+        List<Film> mockFilms = List.of(
+                new Film(999, "ZORRO ADAPTATION")
         );
-        when(filmService.findFilmsByStartingLetter("Z"))
+        when(filmService.findFilmEntitiesByStartingLetter("Z"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=Z (uppercase boundary test)
@@ -223,10 +224,10 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidLowercaseLetterZ() throws Exception {
         // Given: Mock service response for lowercase z
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 999, "title", "ZORRO ADAPTATION")
+        List<Film> mockFilms = List.of(
+                new Film(999, "ZORRO ADAPTATION")
         );
-        when(filmService.findFilmsByStartingLetter("z"))
+        when(filmService.findFilmEntitiesByStartingLetter("z"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=z (lowercase boundary test)
@@ -243,10 +244,10 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidMiddleAlphabetLetterM() throws Exception {
         // Given: Mock service response for letter M
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 500, "title", "MATRIX RELOADED")
+        List<Film> mockFilms = List.of(
+                new Film(500, "MATRIX RELOADED")
         );
-        when(filmService.findFilmsByStartingLetter("M"))
+        when(filmService.findFilmEntitiesByStartingLetter("M"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=M (middle alphabet test)  
@@ -263,11 +264,11 @@ class FilmControllerTest {
     @Test
     void shouldAcceptValidParameterAndCallServiceCorrectly() throws Exception {
         // Given: Mock service response for letter B
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 100, "title", "BATMAN BEGINS"),
-                Map.of("film_id", 101, "title", "BRAVE HEART")
+        List<Film> mockFilms = List.of(
+                new Film(100, "BATMAN BEGINS"),
+                new Film(101, "BRAVE HEART")
         );
-        when(filmService.findFilmsByStartingLetter("B"))
+        when(filmService.findFilmEntitiesByStartingLetter("B"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=B
@@ -438,11 +439,11 @@ class FilmControllerTest {
     @Test
     void shouldReturnCorrectJSONStructureForFilmsResponse() throws Exception {
         // Given: Mock service response with film data
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR"),
-                Map.of("film_id", 2, "title", "ACE GOLDFINGER")
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR"),
+                new Film(2, "ACE GOLDFINGER")
         );
-        when(filmService.findFilmsByStartingLetter("A"))
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=A
@@ -481,7 +482,7 @@ class FilmControllerTest {
     @Test
     void shouldReturnCorrectJSONStructureForEmptyResponse() throws Exception {
         // Given: Mock service returns empty list
-        when(filmService.findFilmsByStartingLetter("X"))
+        when(filmService.findFilmEntitiesByStartingLetter("X"))
                 .thenReturn(Collections.emptyList());
 
         // When: GET /api/v1/films?startsWith=X (letter with no films)
@@ -514,7 +515,7 @@ class FilmControllerTest {
     @Test
     void shouldReturnCorrectJSONStructureForNoParameterResponse() throws Exception {
         // Given: Mock service returns empty list for null parameter
-        when(filmService.findFilmsByStartingLetter(null))
+        when(filmService.findFilmEntitiesByStartingLetter(null))
                 .thenReturn(Collections.emptyList());
 
         // When: GET /api/v1/films (no parameters)
@@ -560,10 +561,10 @@ class FilmControllerTest {
     @Test
     void shouldReturn200ForValidRequest() throws Exception {
         // Given: Mock service response
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR")
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR")
         );
-        when(filmService.findFilmsByStartingLetter("A"))
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenReturn(mockFilms);
 
         // When: GET /api/v1/films?startsWith=A (valid request)
@@ -579,7 +580,7 @@ class FilmControllerTest {
     @Test
     void shouldReturn200ForValidRequestWithNoResults() throws Exception {
         // Given: Mock service returns empty list
-        when(filmService.findFilmsByStartingLetter("Q"))
+        when(filmService.findFilmEntitiesByStartingLetter("Q"))
                 .thenReturn(Collections.emptyList());
 
         // When: GET /api/v1/films?startsWith=Q (valid request, no results)
@@ -657,7 +658,7 @@ class FilmControllerTest {
     @Test
     void shouldHandleServiceLayerExceptionsProperly() throws Exception {
         // Given: Service layer throws exception
-        when(filmService.findFilmsByStartingLetter("A"))
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenThrow(new RuntimeException("Database connection failed"));
 
         // When: Request triggers service exception
@@ -727,11 +728,11 @@ class FilmControllerTest {
     @Test
     void shouldBehaviorMatchOpenAPIDocumentation() throws Exception {
         // Given: Mock service response matching OpenAPI documentation
-        List<Map<String, Object>> mockFilms = List.of(
-                Map.of("film_id", 1, "title", "ACADEMY DINOSAUR"),
-                Map.of("film_id", 2, "title", "ACE GOLDFINGER")
+        List<Film> mockFilms = List.of(
+                new Film(1, "ACADEMY DINOSAUR"),
+                new Film(2, "ACE GOLDFINGER")
         );
-        when(filmService.findFilmsByStartingLetter("A"))
+        when(filmService.findFilmEntitiesByStartingLetter("A"))
                 .thenReturn(mockFilms);
 
         // When: Request matches OpenAPI documentation
@@ -781,7 +782,7 @@ class FilmControllerTest {
         // When: Valid parameters (should match OpenAPI examples)
         String[] validParams = {"A", "Z", "a", "z", "M"};
         for (String validParam : validParams) {
-            when(filmService.findFilmsByStartingLetter(validParam))
+            when(filmService.findFilmEntitiesByStartingLetter(validParam))
                     .thenReturn(Collections.emptyList());
             
             mockMvc.perform(get("/api/v1/films")

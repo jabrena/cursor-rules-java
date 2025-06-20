@@ -63,7 +63,7 @@
   - [x] 4.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
   - [x] 4.11 **Test locally** - Ensure application starts and endpoints are accessible
 
-- [ ] 5.0 **Business Logic Unit Tests Creation**
+- [x] 5.0 **Business Logic Unit Tests Creation**
   - [x] 5.1 Create unit tests for FilmService.findFilmsByStartingLetter() method
   - [x] 5.2 Create unit tests for film filtering logic (case insensitive matching)
   - [x] 5.3 Create unit tests for DTO transformation (Entity to Response DTO)
@@ -71,20 +71,20 @@
   - [x] 5.5 Create unit tests for empty result handling logic
   - [x] 5.6 Create unit tests for error scenarios (invalid input, null handling)
   - [x] 5.7 Create unit tests for business rules (46 films for "A", etc.)
-  - [ ] 5.8 **Verify business logic unit tests FAIL** (Red phase - TDD strategy)
+  - [x] 5.8 **Verify business logic unit tests FAIL** (Red phase - TDD strategy)
 
-- [ ] 6.0 **Business Logic Layer Implementation**
-  - [ ] 6.1 Create FilmService class with @Service annotation
-  - [ ] 6.2 Implement findFilmsByStartingLetter(String letter) method
-  - [ ] 6.3 Add business validation for letter parameter (not null, single character)
-  - [ ] 6.4 Implement film filtering logic (case insensitive LIKE query)
-  - [ ] 6.5 Create Film entity class with proper annotations
-  - [ ] 6.6 Create FilmDTO for data transfer
-  - [ ] 6.7 Implement entity to DTO transformation logic
-  - [ ] 6.8 Add empty result handling with appropriate messaging
-  - [ ] 6.9 **Verify business logic unit tests PASS** (Green phase - TDD strategy)
-  - [ ] 6.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 6.11 **Test locally** - Ensure application works end-to-end with business logic
+- [x] 6.0 **Business Logic Layer Implementation**
+  - [x] 6.1 Create FilmService class with @Service annotation
+  - [x] 6.2 Implement findFilmsByStartingLetter(String letter) method
+  - [x] 6.3 Add business validation for letter parameter (not null, single character)
+  - [x] 6.4 Implement film filtering logic (case insensitive LIKE query)
+  - [x] 6.5 Create Film entity class with proper annotations
+  - [x] 6.6 Create FilmDTO for data transfer
+  - [x] 6.7 Implement entity to DTO transformation logic
+  - [x] 6.8 Add empty result handling with appropriate messaging
+  - [x] 6.9 **Verify business logic unit tests PASS** (Green phase - TDD strategy)
+  - [x] 6.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
+  - [x] 6.11 **Test locally** - Ensure application works end-to-end with business logic
 
 - [ ] 7.0 **Data Access Integration Tests Creation**
   - [ ] 7.1 Set up TestContainers PostgreSQL configuration for integration tests
@@ -108,7 +108,7 @@
   - [ ] 8.8 Implement repository error handling
   - [ ] 8.9 **Verify data access integration tests PASS** (Green phase - TDD strategy)
   - [ ] 8.10 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 8.11 **Test locally** - Ensure application works end-to-end with database integration
+  - [ ] 8.11 **Test locally** - Ensure application works end-to-end with database integration (follow Local Testing Approach in Notes)
 
 - [ ] 9.0 **Error Handling Unit Tests Creation**
   - [ ] 9.1 Create unit tests for GlobalExceptionHandler class
@@ -128,7 +128,7 @@
   - [ ] 10.6 Add request validation error handling
   - [ ] 10.7 **Verify error handling unit tests PASS** (Green phase - TDD strategy)
   - [ ] 10.8 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 10.9 **Test locally** - Ensure application handles errors gracefully end-to-end
+  - [ ] 10.9 **Test locally** - Ensure application handles errors gracefully end-to-end (follow Local Testing Approach in Notes)
 
 - [ ] 11.0 **Integration Testing Implementation**
   - [ ] 11.1 Set up end-to-end integration test suite
@@ -150,7 +150,7 @@
   - [ ] 12.5 Run final acceptance criteria validation
   - [ ] 12.6 Execute performance validation (< 2 seconds response time)
   - [ ] 12.7 Validate 46 films returned for letter "A"
-  - [ ] 12.8 **Final end-to-end testing and sign-off**
+  - [ ] 12.8 **Final end-to-end testing and sign-off** (follow Local Testing Approach in Notes)
 
 ## Acceptance Criteria Mapping
 
@@ -168,15 +168,15 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `pom.xml` - Maven project configuration with Spring Boot, Data JDBC, TestContainers, JaCoCo, and OpenAPI dependencies
 - `src/main/java/info/jab/ms/FilmQueryApplication.java` - Spring Boot main application class
 - `src/main/java/info/jab/ms/controller/FilmController.java` - REST Controller for /api/v1/films endpoint with OpenAPI annotations
-- `src/main/java/info/jab/ms/service/FilmService.java` - Business logic layer for film query operations
-- `src/main/java/info/jab/ms/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
-- `src/main/java/info/jab/ms/entity/Film.java` - Film entity class with database mapping
-- `src/main/java/info/jab/ms/dto/FilmDTO.java` - Data transfer object for film data
-- `src/main/java/info/jab/ms/dto/FilmResponse.java` - Response DTO for API responses
+- `src/main/java/com/example/demo/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, and DTO transformation
+- `src/main/java/com/example/demo/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
+- `src/main/java/com/example/demo/entity/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
+- `src/main/java/com/example/demo/dto/FilmDTO.java` - Data transfer object for film data with entity conversion methods
+- `src/main/java/com/example/demo/dto/FilmResponse.java` - Response DTO for API responses
 - `src/main/java/info/jab/ms/controller/GlobalExceptionHandler.java` - Global error handling with RFC 7807 ProblemDetail
 - `src/test/java/com/example/demo/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
 - `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Exception handler unit tests
-- `src/test/java/com/example/demo/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmsByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
+- `src/test/java/com/example/demo/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmEntitiesByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
 - `src/test/java/info/jab/ms/repository/FilmRepositoryTest.java` - Data access integration tests
 - `src/test/java/info/jab/ms/integration/FilmQueryIntegrationTest.java` - End-to-end integration tests
 - `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
@@ -193,6 +193,14 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - **TestContainers provide isolated testing environment** for database integration tests
 - **Database:** Using Sakila PostgreSQL database with Docker: `docker run -e POSTGRES_PASSWORD=sakila --rm --name sakiladb -p 5432:5432 -d "sakiladb/postgres"`
 - **Build command:** `./mvnw clean verify` to run all tests with coverage validation
+- **Local Testing Approach:** 
+  1. Start application: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local` (run in background)
+  2. Wait 20 seconds for startup
+  3. Test endpoints with curl:
+     - `curl -s "http://localhost:8080/api/v1/films?startsWith=A" | jq .`
+     - `curl -s "http://localhost:8080/api/v1/films?startsWith=B" | jq '{count: .count, filter: .filter}'`
+     - `curl -s "http://localhost:8080/api/v1/films?startsWith=ABC" | jq .` (test error handling)
+  4. Clean up: `pkill -f "spring-boot:run" && docker stop sakiladb-test && docker rm sakiladb-test`
 
 ---
 

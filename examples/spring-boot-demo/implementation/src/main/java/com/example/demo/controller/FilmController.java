@@ -9,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import com.example.demo.service.FilmService;
-import com.example.demo.dto.FilmResponse;
+import com.example.demo.dto.FilmDTO;
+import com.example.demo.entity.Film;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -92,7 +93,7 @@ public class FilmController {
             description = "Successfully retrieved films",
             content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = FilmResponse.class)
+                schema = @Schema(implementation = FilmDTO.class)
             )
         ),
         @ApiResponse(
@@ -131,18 +132,18 @@ public class FilmController {
             }
         }
         
-        // Call service layer to get films
-        List<Map<String, Object>> films = filmService.findFilmsByStartingLetter(startsWith);
+        // Call service layer to get films as entities
+        List<Film> films = filmService.findFilmEntitiesByStartingLetter(startsWith);
         
         // Task 4.6: Implement response formatting with films array, count, and filter
         // Build filter object
         Map<String, Object> filter = new HashMap<>();
-        if (startsWith != null && !startsWith.trim().isEmpty()) {
+        if (Objects.nonNull(startsWith) && !startsWith.trim().isEmpty()) {
             filter.put("startsWith", startsWith);
         }
         
-        // Create FilmResponse DTO (Task 4.5)
-        FilmResponse response = new FilmResponse(films, films.size(), filter);
+        // Create FilmDTO response (Task 6.6)
+        FilmDTO response = FilmDTO.fromEntities(films, filter);
         
         // Task 4.8: Implement proper HTTP status code handling
         return ResponseEntity.ok(response);

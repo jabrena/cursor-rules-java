@@ -33,19 +33,12 @@ public class FilmService {
     }
     
     /**
-     * Task 6.2: Implement findFilmsByStartingLetter(String letter) method ✅
-     * Task 6.3: Add business validation for letter parameter ✅ 
-     * Task 6.4: Implement film filtering logic (case insensitive LIKE query) ✅
-     * Task 6.7: Implement entity to DTO transformation logic ✅
-     * Task 6.8: Add empty result handling with appropriate messaging ✅
-     * 
-     * Retrieves films from the database that start with the specified letter.
-     * Handles both filtered queries (when letter is provided) and unfiltered queries.
+     * Get Film entities by starting letter (internal method for controller use)
      * 
      * @param letter Optional starting letter to filter films (A-Z, case insensitive)
-     * @return List of film maps with film_id and title, empty list if no matches
+     * @return List of Film entities, empty list if no matches
      */
-    public List<Map<String, Object>> findFilmsByStartingLetter(String letter) {
+    public List<Film> findFilmEntitiesByStartingLetter(String letter) {
         List<Film> films;
         
         // Task 6.3: Add business validation for letter parameter (already done in controller)
@@ -58,11 +51,8 @@ public class FilmService {
             films = filmRepository.findAllOrderByTitle();
         }
         
-        // Task 6.7: Implement entity to DTO transformation logic
-        // Transform Film entities to Map<String, Object> format expected by controller
-        return films.stream()
-                .map(this::filmToMap)
-                .toList();
+        // Task 6.8: Add empty result handling with appropriate messaging
+        return films; // Return entities directly for DTO transformation in controller
     }
     
     /**
