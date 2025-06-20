@@ -1,6 +1,6 @@
 ---
-description: Spring Boot native compilation
-globs: pom.xml
+description: 
+globs: 
 alwaysApply: false
 ---
 # Spring Boot Native Compilation

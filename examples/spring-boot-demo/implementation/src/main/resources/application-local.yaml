@@ -10,9 +10,9 @@ spring:
 
   # Explicit database configuration for local development
   datasource:
-    url: jdbc:postgresql://localhost:5432/sakila
-    username: sakila
-    password: sakila
+    url: jdbc:postgresql://localhost:5432/filmdb
+    username: filmuser
+    password: filmpass  
     driver-class-name: org.postgresql.Driver
 
   data:

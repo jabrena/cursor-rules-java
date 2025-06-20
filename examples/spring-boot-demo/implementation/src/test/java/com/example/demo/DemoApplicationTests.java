@@ -1,36 +1,40 @@
 package com.example.demo;
 
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import com.example.demo.common.PostgreSQLTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
+/**
+ * Basic integration tests for the Demo Application.
+ * 
+ * This class extends PostgreSQLTestBase to inherit the common TestContainer setup
+ * with Sakila schema and test data. It provides basic smoke tests to verify
+ * the Spring Boot application context loads correctly with the database.
+ */
 @SpringBootTest
-@Testcontainers
-@ActiveProfiles("test")
-class DemoApplicationTests {
+class DemoApplicationTests extends PostgreSQLTestBase {
 
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("sakila")
-            .withUsername("sakila")
-            .withPassword("sakila");
-            // Note: Database schema and init script will be added in subsequent tasks (2.2, 2.9)
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+    /**
+     * Basic smoke test to verify the Spring Boot application context loads
+     * successfully with the PostgreSQL TestContainer.
+     * 
+     * This test validates:
+     * - Spring Boot application context loads without errors
+     * - Database connection is established via @ServiceConnection
+     * - All auto-configuration works properly
+     */
+    @Test
+    void contextLoads() {
+        // This test will load the Spring context with the TestContainer database
+        // The @ServiceConnection annotation in the base class automatically configures
+        // the database connection properties, so no manual configuration is needed
+        
+        // Verify the container is running (inherited from base class)
+        assert getPostgresContainer().isRunning() : "PostgreSQL container should be running";
+        assert getPostgresContainer().getDatabaseName().equals("testdb") : "Database should be testdb";
+        
+        // Context loading success implies database connectivity is working
+        System.out.println("Spring Boot context loaded successfully with TestContainer database");
+        System.out.println("Database URL: " + getPostgresContainer().getJdbcUrl());
     }
-
-	@Test
-	void contextLoads() {
-		// This test will load the Spring context without requiring database connection
-	}
-
 }

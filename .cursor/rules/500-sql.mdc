@@ -1,6 +1,6 @@
 ---
-description: SQL Development Guidelines
-globs: **/*.sql
+description: 
+globs: 
 alwaysApply: false
 ---
 # SQL Development Guidelines

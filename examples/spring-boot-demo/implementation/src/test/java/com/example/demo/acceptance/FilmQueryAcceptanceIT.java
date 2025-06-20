@@ -1,29 +1,19 @@
 package com.example.demo.acceptance;
 
+import com.example.demo.common.PostgreSQLTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * FilmQueryAcceptanceTest - TestRestTemplate-based acceptance tests
@@ -36,47 +26,13 @@ import org.junit.jupiter.params.provider.CsvSource;
  * Task 2.3: Create acceptance test for "Successfully retrieve films starting with A" scenario ✅
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
-@ActiveProfiles("test")
-//@Sql("/init-sakila-test.sql")
-class FilmQueryAcceptanceIT {
+class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
 
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    /**
-     * Custom Docker image name for Sakila PostgreSQL database
-     * Declared as compatible substitute for standard PostgreSQL container
-     */
-    private static final DockerImageName SAKILA_POSTGRES_IMAGE = DockerImageName
-            .parse("frantiseks/postgres-sakila:latest")
-            .asCompatibleSubstituteFor("postgres");
-
-    /**
-     * PostgreSQL TestContainer configured with Sakila database
-     * 
-     * Features:
-     * - Uses same Sakila database image as compose.yaml (sakiladb/postgres:latest)
-     * - @ServiceConnection automatically configures datasource properties
-     * - Log-based wait strategy ensures database is ready before tests
-     * - Container reuse enabled for performance optimization
-     * - Temporary filesystem for faster I/O during tests
-     */
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(SAKILA_POSTGRES_IMAGE)
-            .withDatabaseName("sakila")
-            .withUsername("sakila")
-            .withPassword("sakila")
-            .withReuse(true)
-            .withTmpFs(Map.of("/var/lib/postgresql/data", "rw"))
-            .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 1))
-            .withStartupTimeout(Duration.ofMinutes(3));
-
-
 
     /**
      * Basic setup test to verify Spring Boot Test with TestRestTemplate is working
@@ -98,21 +54,46 @@ class FilmQueryAcceptanceIT {
         String baseUrl = "http://localhost:" + port;
         assert baseUrl.contains("localhost") : "Base URL should contain localhost";
         
-        // Verify PostgreSQL container is running
-        assert postgres.isRunning() : "PostgreSQL container should be running";
-        assert postgres.getDatabaseName().equals("sakila") : "Database name should be sakila";
-        assert postgres.getUsername().equals("sakila") : "Username should be sakila";
+        // Verify PostgreSQL container is running using the base class container
+        assert getPostgresContainer().isRunning() : "PostgreSQL container should be running";
+        assert getPostgresContainer().getDatabaseName().equals("testdb") : "Database name should be testdb";
+        assert getPostgresContainer().getUsername().equals("testuser") : "Username should be testuser";
         
         // Verify database connection details
-        String jdbcUrl = postgres.getJdbcUrl();
-        assert jdbcUrl.contains("sakila") : "JDBC URL should contain sakila database";
+        String jdbcUrl = getPostgresContainer().getJdbcUrl();
+        assert jdbcUrl.contains("testdb") : "JDBC URL should contain testdb database";
         assert jdbcUrl.startsWith("jdbc:postgresql://") : "Should be PostgreSQL JDBC URL";
+        
+        // Debug: Print connection details
+        System.out.println("Container JDBC URL: " + jdbcUrl);
+        System.out.println("Container Database: " + getPostgresContainer().getDatabaseName());
+        System.out.println("Container Username: " + getPostgresContainer().getUsername());
+        System.out.println("Container Password: " + getPostgresContainer().getPassword());
+        
+        // Test direct database connection via container (should show 51 films from test data)
+        try {
+            var result = getPostgresContainer().execInContainer("psql", "-U", "testuser", "-d", "testdb", "-c", "SELECT COUNT(*) FROM film;");
+            System.out.println("Direct container query stdout: " + result.getStdout());
+            System.out.println("Direct container query stderr: " + result.getStderr());
+            System.out.println("Direct container query exit code: " + result.getExitCode());
+            
+            // Also test basic connectivity and verify test data is loaded
+            var listTablesResult = getPostgresContainer().execInContainer("psql", "-U", "testuser", "-d", "testdb", "-c", "\\dt");
+            System.out.println("List tables stdout: " + listTablesResult.getStdout());
+            System.out.println("List tables stderr: " + listTablesResult.getStderr());
+            
+            // Verify we have the test data with 51 films
+            assert result.getExitCode() == 0 : "Direct container query should succeed. Error: " + result.getStderr();
+            assert result.getStdout().contains("51") : "Should have 51 films from the test data";
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to execute query in container", e);
+        }
     }
 
     /**
      * Task 2.3: Create acceptance test for "Successfully retrieve films starting with A" scenario (46 films expected)
      * 
-     * This test implements the Gherkin scenario:
+     * This test implements the Gherkin scenario using focused test data:
      * 
      * Scenario: Successfully retrieve films starting with "A"
      *   Given the film database contains movies with various titles
@@ -126,14 +107,14 @@ class FilmQueryAcceptanceIT {
      * - GET /api/v1/films?startsWith=A
      * - HTTP 200 OK response
      * - JSON response format
-     * - Exactly 46 films in results
+     * - Exactly 46 films in results (from the focused test dataset)
      * - Each film has film_id and title fields
      * - All titles start with "A" (case insensitive)
      */
     @Test
     void shouldRetrieveFilmsStartingWithA() {
-        // Given: the film database contains movies with various titles (Sakila test data)
-        // (Container setup provides the Sakila database with pre-loaded data)
+        // Given: the film database contains movies with various titles (focused test dataset)
+        // (Container setup provides test data with 51 films total, 46 starting with 'A')
         
         // When: I request films that start with the letter "A"
         String url = "/api/v1/films?startsWith=A";

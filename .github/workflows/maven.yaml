@@ -18,19 +18,14 @@ jobs:
         run: cd examples/maven-demo && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
       - name: Spring Boot build
         run: cd examples/spring-boot-demo/implementation && ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
-      - name: Spring Boot startup test
+      - name: Spring Boot startup and API test
         run: |
           cd examples/spring-boot-demo/implementation
-          # Start the application in the background
-          ./mvnw clean spring-boot:run -Dspring-boot.run.profiles=local &
-          APP_PID=$!
           
-          # Wait for 30 seconds to let the application start and run
-          echo "Testing application startup for 30 seconds..."
-          sleep 30
+          # Make sure the test script is executable
+          chmod +x test-api.sh
           
-          # Stop the application
-          kill $APP_PID || true
-          wait $APP_PID 2>/dev/null || true
-          
-          echo "Application startup test completed successfully"
+          # Run the comprehensive API test script
+          # Uses 'local' profile and default port 8080
+          # Set CLEANUP_LOGS=true to remove log files after execution
+          CLEANUP_LOGS=true ./test-api.sh local 8080

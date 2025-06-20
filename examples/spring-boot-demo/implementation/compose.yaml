@@ -1,31 +1,30 @@
 services:
   postgres:
-    image: 'sakiladb/postgres:latest'
-    container_name: sakila-postgres
+    image: 'postgres:15'
+    container_name: film-postgres
     environment:
-      POSTGRES_DB: sakila
-      POSTGRES_USER: sakila
-      POSTGRES_PASSWORD: sakila
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+      POSTGRES_DB: filmdb
+      POSTGRES_USER: filmuser
+      POSTGRES_PASSWORD: filmpass
     ports:
       - '5432:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U sakila -d sakila"]
+      test: ["CMD-SHELL", "pg_isready -U filmuser -d filmdb"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
     volumes:
-      - sakila_data:/var/lib/postgresql/data
-      - ./docker/postgres/setup-password.sh:/setup-password.sh
-    entrypoint: ["/setup-password.sh"]
+      - film_data:/var/lib/postgresql/data
+      - ./src/test/resources/1.1-postgress-sakila-schema-compatible.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./src/test/resources/2.1-postgres-sakila-film-data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
     networks:
-      - sakila-network
+      - film-network
 
 volumes:
-  sakila_data:
+  film_data:
     driver: local
 
 networks:
-  sakila-network:
+  film-network:
     driver: bridge 

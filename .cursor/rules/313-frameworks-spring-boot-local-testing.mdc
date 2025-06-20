@@ -1,6 +1,6 @@
 ---
-description: Spring Boot local testing
-globs: pom.xml
+description: 
+globs: 
 alwaysApply: false
 ---
 # Spring Boot Local Testing with Docker Compose

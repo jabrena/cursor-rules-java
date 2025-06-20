@@ -1,6 +1,6 @@
 ---
-description: Java General Guidelines
-globs: **/*.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Java General Guidelines

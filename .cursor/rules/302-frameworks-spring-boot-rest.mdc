@@ -1,6 +1,6 @@
 ---
-description: Java REST API Design Principles
-globs: **/*.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Java REST API Design Principles

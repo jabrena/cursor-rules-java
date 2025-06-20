@@ -1,6 +1,6 @@
 ---
-description: Update pom.xml to add Maven dependencies & plugins
-globs: pom.xml
+description: 
+globs: 
 alwaysApply: false
 ---
 # Update pom.xml to add Maven dependencies & plugins

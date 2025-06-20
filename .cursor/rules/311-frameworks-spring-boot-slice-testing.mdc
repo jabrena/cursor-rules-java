@@ -1,6 +1,6 @@
 ---
-description: Spring Boot slice testing
-globs: **/*Test.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Spring Boot Slice Testing

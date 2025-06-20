@@ -11,7 +11,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/sakila
     username: sakila
-    password: sakila
+    password: p_ssW0rd
     driver-class-name: org.postgresql.Driver
 
   data:

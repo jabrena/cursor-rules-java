@@ -1,6 +1,6 @@
 ---
-description: Java rules for Concurrency objects
-globs: **/*.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Java rules for Concurrency objects

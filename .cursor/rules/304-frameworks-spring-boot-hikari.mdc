@@ -1,5 +1,5 @@
 ---
-description: Spring Boot Hikari configuration
+description: 
 globs: 
 alwaysApply: false
 ---

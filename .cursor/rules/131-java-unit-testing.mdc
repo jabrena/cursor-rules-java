@@ -1,6 +1,6 @@
 ---
-description: Java Unit testing guidelines
-globs: **/*Test.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Java Unit testing guidelines

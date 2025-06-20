@@ -1,6 +1,6 @@
 ---
-description: Spring Data JDBC
-globs: **/*.java
+description: 
+globs: 
 alwaysApply: false
 ---
 # Spring Data JDBC with Records
