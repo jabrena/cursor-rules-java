@@ -87,14 +87,14 @@
   - [x] 6.11 **Test locally** - Ensure application works end-to-end with business logic
 
 - [ ] 7.0 **Data Access Integration Tests Creation**
-  - [ ] 7.1 Set up TestContainers PostgreSQL configuration for integration tests
-  - [ ] 7.2 Create integration tests for FilmRepository.findByTitleStartingWith() method
-  - [ ] 7.3 Create integration tests for exact count validation (46 films for "A")
-  - [ ] 7.4 Create integration tests for different starting letters (B, C, etc.)
-  - [ ] 7.5 Create integration tests for empty results (letters with no films)
-  - [ ] 7.6 Create integration tests for database performance (< 2 seconds)
-  - [ ] 7.7 Create integration tests for database error scenarios
-  - [ ] 7.8 Create integration tests for Spring Data JDBC configuration
+  - [x] 7.1 Set up TestContainers PostgreSQL configuration for integration tests
+  - [x] 7.2 Create integration tests for FilmRepository.findByTitleStartingWith() method
+  - [x] 7.3 Create integration tests for exact count validation (46 films for "A")
+  - [x] 7.4 Create integration tests for different starting letters (B, C, etc.)
+  - [x] 7.5 Create integration tests for empty results (letters with no films)
+  - [x] 7.6 Create integration tests for database performance (< 2 seconds)
+  - [x] 7.7 Create integration tests for database error scenarios
+  - [x] 7.8 Create integration tests for Spring Data JDBC configuration
   - [ ] 7.9 **Verify data access integration tests FAIL** (Red phase - TDD strategy)
 
 - [ ] 8.0 **Data Access Layer Implementation**
@@ -177,7 +177,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `src/test/java/com/example/demo/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
 - `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Exception handler unit tests
 - `src/test/java/com/example/demo/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmEntitiesByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
-- `src/test/java/info/jab/ms/repository/FilmRepositoryTest.java` - Data access integration tests
+- `src/test/java/com/example/demo/repository/FilmRepositoryIT.java` - Data access integration tests with TestContainers PostgreSQL configuration extending PostgreSQLTestBase
 - `src/test/java/info/jab/ms/integration/FilmQueryIntegrationTest.java` - End-to-end integration tests
 - `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
 - `application.yaml` - Application configuration for database connection
