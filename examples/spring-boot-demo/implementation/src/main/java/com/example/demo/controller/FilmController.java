@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import com.example.demo.service.FilmService;
 import com.example.demo.dto.FilmResponse;
 
@@ -18,7 +19,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.time.Instant;
 import java.util.Map;
+import java.util.Objects;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,8 +70,8 @@ public class FilmController {
      * Retrieves films from the Sakila database, optionally filtered by starting letter.
      * 
      * @param startsWith Optional parameter to filter films by starting letter (single character A-Z)
-     * @return JSON response containing films array, count, and filter information
-     * @throws IllegalArgumentException if startsWith parameter is invalid (not a single letter)
+     * @param request HttpServletRequest for building error responses
+     * @return JSON response containing films array, count, and filter information or error response
      */
     @Operation(
         summary = "Query films by starting letter",
@@ -78,8 +83,6 @@ public class FilmController {
             
             **Expected Results**:
             - Letter "A": 46 films
-            - Letter "B": 54 films  
-            - Letter "C": 58 films
             """,
         operationId = "getFilmsByStartingLetter"
     )
@@ -110,18 +113,22 @@ public class FilmController {
         )
     })
     @GetMapping("/films")
-    public ResponseEntity<FilmResponse> getFilms(
+    public ResponseEntity<?> getFilms(
             @Parameter(
                 name = "startsWith",
                 description = "Filter films by starting letter (case-insensitive, single character A-Z)",
                 example = "A",
                 schema = @Schema(type = "string", pattern = "^[A-Za-z]$")
             )
-            @RequestParam(required = false) String startsWith) {
+            @RequestParam(required = false) String startsWith,
+            HttpServletRequest request) {
         
         // Task 4.4: Implement parameter validation logic (single letter, not empty)
-        if (startsWith != null) {
-            validateStartsWithParameter(startsWith);
+        if (Objects.nonNull(startsWith)) {
+            ValidationResult validationResult = validateStartsWithParameter(startsWith);
+            if (!validationResult.valid()) {
+                return createErrorResponse(validationResult.errorMessage(), request);   
+            }
         }
         
         // Call service layer to get films
@@ -151,25 +158,55 @@ public class FilmController {
      * - Cannot be numeric or special characters
      * 
      * @param startsWith The parameter value to validate
-     * @throws IllegalArgumentException if the parameter is invalid
+     * @return ValidationResult containing validation status and error message if invalid
      */
-    private void validateStartsWithParameter(String startsWith) {
-        if (startsWith == null || startsWith.trim().isEmpty()) {
-            throw new IllegalArgumentException("Parameter 'startsWith' cannot be empty");
+    private ValidationResult validateStartsWithParameter(String startsWith) {
+        if (Objects.isNull(startsWith) || startsWith.trim().isEmpty()) {
+            return new ValidationResult(false, "Parameter 'startsWith' cannot be empty");
         }
         
         String trimmed = startsWith.trim();
         
         // Check if it's a single character
         if (trimmed.length() != 1) {
-            throw new IllegalArgumentException("Parameter 'startsWith' must be a single letter (A-Z)");
+            return new ValidationResult(false, "Parameter 'startsWith' must be a single letter (A-Z)");
         }
         
         char character = trimmed.charAt(0);
         
         // Check if it's a letter (A-Z, a-z)
         if (!Character.isLetter(character)) {
-            throw new IllegalArgumentException("Parameter 'startsWith' must be a single letter (A-Z)");
+            return new ValidationResult(false, "Parameter 'startsWith' must be a single letter (A-Z)");
         }
+        
+        return new ValidationResult(true, null);
     }
+    
+    /**
+     * Creates an error response matching the format from GlobalExceptionHandler
+     * 
+     * @param errorMessage The error message to include in the response
+     * @param request The HTTP request for building the error response
+     * @return ResponseEntity with ProblemDetail matching GlobalExceptionHandler format
+     */
+    private ResponseEntity<ProblemDetail> createErrorResponse(String errorMessage, HttpServletRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST, errorMessage
+        );
+        
+        problemDetail.setType(URI.create("https://example.com/problems/invalid-parameter"));
+        problemDetail.setTitle("Invalid Parameter");
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+        problemDetail.setProperty("timestamp", Instant.now());
+        
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+    
+    /**
+     * Record to hold validation result with validation status and error message
+     * 
+     * @param valid true if validation passed, false otherwise
+     * @param errorMessage error message if validation failed, null if valid
+     */
+    private record ValidationResult(boolean valid, String errorMessage) { }
 } 

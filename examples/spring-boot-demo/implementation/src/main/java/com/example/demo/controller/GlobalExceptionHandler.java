@@ -40,31 +40,7 @@ import java.util.UUID;
 public class GlobalExceptionHandler {
     
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    
-    /**
-     * Task 10.2: Implement handleIllegalArgumentException method
-     * 
-     * Handles IllegalArgumentException for parameter validation errors.
-     * Returns HTTP 400 Bad Request with RFC 7807 Problem Details format.
-     */
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ProblemDetail> handleIllegalArgumentException(
-            IllegalArgumentException ex, HttpServletRequest request) {
         
-        logger.warn("Invalid parameter request: {}", ex.getMessage());
-        
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-            HttpStatus.BAD_REQUEST, ex.getMessage()
-        );
-        
-        problemDetail.setType(URI.create("https://example.com/problems/invalid-parameter"));
-        problemDetail.setTitle("Invalid Parameter");
-        problemDetail.setInstance(URI.create(request.getRequestURI()));
-        problemDetail.setProperty("timestamp", Instant.now());
-        
-        return ResponseEntity.badRequest().body(problemDetail);
-    }
-    
     /**
      * Handle RuntimeException for unexpected errors.
      * Returns HTTP 500 Internal Server Error with RFC 7807 Problem Details format.

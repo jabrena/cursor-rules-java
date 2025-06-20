@@ -2,7 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Film;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * Task 8.4: Implement findByTitleStartingWith(String prefix) method ✅
  */
 @Repository
-public interface FilmRepository extends CrudRepository<Film, Integer> {
+public interface FilmRepository extends ListCrudRepository<Film, Integer> {
 
     /**
      * Task 8.4: Implement findByTitleStartingWith(String prefix) method

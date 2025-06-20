@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 /**
  * FilmService - Business Logic Layer for Film Query Operations
@@ -50,7 +50,7 @@ public class FilmService {
         
         // Task 6.3: Add business validation for letter parameter (already done in controller)
         // Task 6.4: Implement film filtering logic (case insensitive LIKE query)
-        if (letter != null && !letter.trim().isEmpty()) {
+        if (Objects.nonNull(letter) && !letter.trim().isEmpty()) {
             // Get films starting with the specified letter (case insensitive)
             films = filmRepository.findByTitleStartingWith(letter.trim());
         } else {
@@ -62,7 +62,7 @@ public class FilmService {
         // Transform Film entities to Map<String, Object> format expected by controller
         return films.stream()
                 .map(this::filmToMap)
-                .collect(Collectors.toList());
+                .toList();
     }
     
     /**
