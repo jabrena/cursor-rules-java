@@ -18,6 +18,7 @@
 
 # Run integration tests
 ./mvnw clean verify
+./mvnw clean verify -Pjacoco
 
 # Check for dependency updates
 ./mvnw versions:display-property-updates

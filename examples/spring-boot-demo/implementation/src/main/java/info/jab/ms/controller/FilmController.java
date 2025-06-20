@@ -1,44 +1,42 @@
 package info.jab.ms.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import info.jab.ms.service.FilmService;
 import info.jab.ms.dto.FilmDTO;
 import info.jab.ms.entity.Film;
-
+import info.jab.ms.service.FilmService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Instant;
-import java.util.Map;
-import java.util.Objects;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * FilmController - REST API Controller for Film Query Operations
- * 
+ *
  * This controller provides REST endpoints for querying films from the Sakila database.
  * It implements the Film Query API specification for retrieving films that start with
  * specific letters.
- * 
+ *
  * API Endpoints:
  * - GET /api/v1/films - Retrieve all films or filter by starting letter
  * - GET /api/v1/films?startsWith=A - Retrieve films starting with letter "A"
- * 
+ *
  * Task 4.1: Create FilmController class with @RestController annotation ✅
  * Task 4.2: Implement GET /api/v1/films endpoint with @GetMapping ✅
  * Task 4.3: Add startsWith parameter with @RequestParam validation ✅
@@ -67,9 +65,9 @@ public class FilmController {
      * Task 4.6: Implement response formatting with films array, count, and filter ✅
      * Task 4.7: Add OpenAPI @Operation, @Parameter, and @ApiResponse annotations ✅
      * Task 4.8: Implement proper HTTP status code handling ✅
-     * 
+     *
      * Retrieves films from the Sakila database, optionally filtered by starting letter.
-     * 
+     *
      * @param startsWith Optional parameter to filter films by starting letter (single character A-Z)
      * @param request HttpServletRequest for building error responses
      * @return JSON response containing films array, count, and filter information or error response
@@ -79,9 +77,9 @@ public class FilmController {
         description = """
             Retrieves films from the Sakila database that start with the specified letter.
             The query is case-insensitive and returns film ID and title for each matching film.
-            
+
             **Performance**: Query execution time is guaranteed to be under 2 seconds.
-            
+
             **Expected Results**:
             - Letter "A": 46 films
             """,
@@ -89,7 +87,7 @@ public class FilmController {
     )
     @ApiResponses(value = {
         @ApiResponse(
-            responseCode = "200", 
+            responseCode = "200",
             description = "Successfully retrieved films",
             content = @Content(
                 mediaType = "application/json",
@@ -97,7 +95,7 @@ public class FilmController {
             )
         ),
         @ApiResponse(
-            responseCode = "400", 
+            responseCode = "400",
             description = "Invalid parameter - startsWith must be a single letter (A-Z)",
             content = @Content(
                 mediaType = "application/json",
@@ -105,7 +103,7 @@ public class FilmController {
             )
         ),
         @ApiResponse(
-            responseCode = "500", 
+            responseCode = "500",
             description = "Internal server error",
             content = @Content(
                 mediaType = "application/json",
@@ -123,41 +121,41 @@ public class FilmController {
             )
             @RequestParam(required = false) String startsWith,
             HttpServletRequest request) {
-        
+
         // Task 4.4: Implement parameter validation logic (single letter, not empty)
         if (Objects.nonNull(startsWith)) {
             ValidationResult validationResult = validateStartsWithParameter(startsWith);
             if (!validationResult.valid()) {
-                return createErrorResponse(validationResult.errorMessage(), request);   
+                return createErrorResponse(validationResult.errorMessage(), request);
             }
         }
-        
+
         // Call service layer to get films as entities
         List<Film> films = filmService.findFilmEntitiesByStartingLetter(startsWith);
-        
+
         // Task 4.6: Implement response formatting with films array, count, and filter
         // Build filter object
         Map<String, Object> filter = new HashMap<>();
         if (Objects.nonNull(startsWith) && !startsWith.trim().isEmpty()) {
             filter.put("startsWith", startsWith);
         }
-        
+
         // Create FilmDTO response (Task 6.6)
         FilmDTO response = FilmDTO.fromEntities(films, filter);
-        
+
         // Task 4.8: Implement proper HTTP status code handling
         return ResponseEntity.ok(response);
     }
-    
+
     /**
      * Task 4.4: Implement parameter validation logic (single letter, not empty)
-     * 
+     *
      * Validates the startsWith parameter to ensure it meets the API requirements:
      * - Must be a single character
      * - Must be a letter (A-Z, a-z)
      * - Cannot be empty or whitespace
      * - Cannot be numeric or special characters
-     * 
+     *
      * @param startsWith The parameter value to validate
      * @return ValidationResult containing validation status and error message if invalid
      */
@@ -165,27 +163,27 @@ public class FilmController {
         if (Objects.isNull(startsWith) || startsWith.trim().isEmpty()) {
             return new ValidationResult(false, "Parameter 'startsWith' cannot be empty");
         }
-        
+
         String trimmed = startsWith.trim();
-        
+
         // Check if it's a single character
         if (trimmed.length() != 1) {
             return new ValidationResult(false, "Parameter 'startsWith' must be a single letter (A-Z)");
         }
-        
+
         char character = trimmed.charAt(0);
-        
+
         // Check if it's a letter (A-Z, a-z)
         if (!Character.isLetter(character)) {
             return new ValidationResult(false, "Parameter 'startsWith' must be a single letter (A-Z)");
         }
-        
+
         return new ValidationResult(true, null);
     }
-    
+
     /**
      * Creates an error response matching the format from GlobalExceptionHandler
-     * 
+     *
      * @param errorMessage The error message to include in the response
      * @param request The HTTP request for building the error response
      * @return ResponseEntity with ProblemDetail matching GlobalExceptionHandler format
@@ -194,14 +192,14 @@ public class FilmController {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
             HttpStatus.BAD_REQUEST, errorMessage
         );
-        
+
         problemDetail.setType(URI.create("https://example.com/problems/invalid-parameter"));
         problemDetail.setTitle("Invalid Parameter");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
         problemDetail.setProperty("timestamp", Instant.now());
-        
+
         return ResponseEntity.badRequest().body(problemDetail);
     }
-    
+
     private record ValidationResult(boolean valid, String errorMessage) { }
-} 
+}

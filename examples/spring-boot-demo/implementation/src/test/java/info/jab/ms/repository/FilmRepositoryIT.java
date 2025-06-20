@@ -2,31 +2,30 @@ package info.jab.ms.repository;
 
 import info.jab.ms.common.PostgreSQLTestBase;
 import info.jab.ms.entity.Film;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.List;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * FilmRepositoryIT - Integration Tests for FilmRepository Data Access Layer
- * 
+ *
  * This class implements integration tests for the FilmRepository using TestContainers
  * PostgreSQL configuration. It extends PostgreSQLTestBase to inherit the common
  * TestContainer setup with Sakila schema and test data.
- * 
+ *
  * Test Strategy:
  * - Uses @SpringBootTest for full Spring context integration testing
  * - TestContainers provides isolated PostgreSQL database
  * - Real database queries against Sakila schema
  * - Validates SQL queries and Spring Data JDBC configuration
- * 
+ *
  * Task 7.1: Set up TestContainers PostgreSQL configuration for integration tests ✅
  */
 class FilmRepositoryIT extends PostgreSQLTestBase {
@@ -36,7 +35,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.1: Verify TestContainers PostgreSQL configuration is working
-     * 
+     *
      * This test validates that:
      * - TestContainers PostgreSQL container is running
      * - Spring Data JDBC is configured correctly
@@ -93,7 +92,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
      * This test validates that the container can handle concurrent database operations
      * and maintains data consistency.
      */
-    @Test 
+    @Test
     void testContainerSupportsConcurrentDatabaseOperations() {
         // Execute multiple queries to verify container stability
         List<Film> allFilms = filmRepository.findAllOrderByTitle();
@@ -111,8 +110,8 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         int totalFilmsFromQueries = filmsA.size() + filmsB.size() + filmsC.size() + 2; // +2 for D and Z films
         assertThat(allFilms).hasSize(totalFilmsFromQueries);
 
-        System.out.println("Container successfully handled " + 
-                          (filmsA.size() + filmsB.size() + filmsC.size()) + 
+        System.out.println("Container successfully handled " +
+                          (filmsA.size() + filmsB.size() + filmsC.size()) +
                           " concurrent query results");
     }
 
@@ -120,7 +119,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.2: Create integration tests for FilmRepository.findByTitleStartingWith() method
-     * 
+     *
      * This test validates the core functionality of the findByTitleStartingWith method
      * with real database queries against the TestContainer PostgreSQL instance.
      */
@@ -147,7 +146,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         List<String> titles = films.stream()
                 .map(Film::title)
                 .toList();
-        
+
         // Note: Test data has correct alphabetical ordering (ALIEN CENTER comes before ALI FOREVER)
         assertThat(titles)
                 .as("Films should be ordered alphabetically by title")
@@ -180,7 +179,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.3: Create integration tests for exact count validation (46 films for "A")
-     * 
+     *
      * This test validates the specific business requirement that there should be
      * exactly 46 films starting with "A" in the test database.
      */
@@ -198,7 +197,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         // Verify all films actually start with "A"
         assertThat(films)
                 .as("All returned films should start with 'A'")
-                .allSatisfy(film -> 
+                .allSatisfy(film ->
                     assertThat(film.title())
                             .startsWithIgnoringCase("A")
                 );
@@ -207,7 +206,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         List<String> titles = films.stream()
                 .map(Film::title)
                 .toList();
-        
+
         assertThat(titles)
                 .as("Should not contain duplicate titles")
                 .doesNotHaveDuplicates();
@@ -242,7 +241,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.4: Create integration tests for different starting letters (B, C, etc.)
-     * 
+     *
      * This test validates that the repository works correctly with various starting letters
      * and returns the expected counts based on the test data.
      */
@@ -256,7 +255,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
                  // Then: Should return films matching the letter
          assertThat(films)
                  .as("Should return films starting with '" + letter + "'")
-                 .allSatisfy(film -> 
+                 .allSatisfy(film ->
                      assertThat(film.title())
                              .startsWithIgnoringCase(letter)
                  );
@@ -313,8 +312,8 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
                 .as("Total films from different letters should equal total in database")
                 .isEqualTo(51);
 
-        System.out.println("Task 7.4: Multiple letter validation passed - A:" + filmsA.size() + 
-                          ", B:" + filmsB.size() + ", C:" + filmsC.size() + 
+        System.out.println("Task 7.4: Multiple letter validation passed - A:" + filmsA.size() +
+                          ", B:" + filmsB.size() + ", C:" + filmsC.size() +
                           ", D:" + filmsD.size() + ", Z:" + filmsZ.size());
     }
 
@@ -322,7 +321,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.5: Create integration tests for empty results (letters with no films)
-     * 
+     *
      * This test validates that the repository handles queries for letters that have no
      * matching films in the database.
      */
@@ -363,17 +362,17 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         assertThat(space)
                 .as("Space should return empty results")
                 .isEmpty();
-        
+
         assertThat(number)
                 .as("Number should return empty results")
                 .isEmpty();
-        
+
         assertThat(specialChar)
                 .as("Special character should return empty results")
                 .isEmpty();
 
-        System.out.println("Task 7.5: Edge case validation passed - empty:" + emptyString.size() + 
-                          ", space:" + space.size() + ", number:" + number.size() + 
+        System.out.println("Task 7.5: Edge case validation passed - empty:" + emptyString.size() +
+                          ", space:" + space.size() + ", number:" + number.size() +
                           ", special:" + specialChar.size());
     }
 
@@ -381,7 +380,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.6: Create integration tests for database performance (< 2 seconds)
-     * 
+     *
      * This test validates that database queries execute within acceptable performance
      * thresholds as specified in the acceptance criteria.
      */
@@ -392,7 +391,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         Instant start = Instant.now();
         List<Film> films = filmRepository.findByTitleStartingWith("A");
         Instant end = Instant.now();
-        
+
         Duration executionTime = Duration.between(start, end);
 
         // Then: Should complete within 2 seconds
@@ -416,12 +415,12 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
     void multipleConcurrentQueriesShouldMaintainPerformance() {
         // When: Execute multiple queries concurrently
         Instant start = Instant.now();
-        
+
         List<Film> filmsA = filmRepository.findByTitleStartingWith("A");
         List<Film> filmsB = filmRepository.findByTitleStartingWith("B");
         List<Film> filmsC = filmRepository.findByTitleStartingWith("C");
         List<Film> allFilms = filmRepository.findAllOrderByTitle();
-        
+
         Instant end = Instant.now();
         Duration totalExecutionTime = Duration.between(start, end);
 
@@ -443,7 +442,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.7: Create integration tests for database error scenarios
-     * 
+     *
      * This test validates that the repository handles various error scenarios gracefully
      * and that proper exceptions are thrown or handled.
      */
@@ -452,7 +451,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
     void shouldHandleNullParameterGracefully() {
         // When: Pass null parameter to repository method
         List<Film> films = filmRepository.findByTitleStartingWith(null);
-        
+
         // Then: Spring Data JDBC handles null gracefully by returning empty list
         // (null parameter in SQL query with LIKE results in no matches)
         assertThat(films)
@@ -471,7 +470,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         // When: Execute many queries to test connection stability
         for (int i = 0; i < 10; i++) {
             List<Film> films = filmRepository.findByTitleStartingWith("A");
-            
+
             // Then: Each query should succeed
             assertThat(films)
                     .as("Query " + (i + 1) + " should succeed")
@@ -485,7 +484,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
 
     /**
      * Task 7.8: Create integration tests for Spring Data JDBC configuration
-     * 
+     *
      * This test validates that Spring Data JDBC is properly configured and working
      * with the PostgreSQL TestContainer.
      */
@@ -495,7 +494,7 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
         // When: Execute various Spring Data JDBC operations
         List<Film> allFilms = filmRepository.findAllOrderByTitle();
         List<Film> filteredFilms = filmRepository.findByTitleStartingWith("A");
-        
+
                  // Then: Should work without configuration issues
          assertThat(allFilms)
                  .as("findAllOrderByTitle should work with Spring Data JDBC")
@@ -547,8 +546,8 @@ class FilmRepositoryIT extends PostgreSQLTestBase {
                  .containsSequence("ACADEMY DINOSAUR", "ACE GOLDFINGER") // Verify first films are in order
                  .contains("ALIEN CENTER", "ALI FOREVER"); // Verify key films are present (correct alphabetical order)
 
-        System.out.println("Task 7.8: Custom SQL queries validated - " + 
-                          customQueryResults.size() + " filtered, " + 
+        System.out.println("Task 7.8: Custom SQL queries validated - " +
+                          customQueryResults.size() + " filtered, " +
                           customOrderedResults.size() + " ordered");
     }
-} 
+}

@@ -6,10 +6,10 @@ import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Film Entity - Database mapping for the film table
- * 
+ *
  * This entity represents a film record from the Sakila database.
  * It uses Spring Data JDBC annotations for database mapping.
- * 
+ *
  * Task 8.1: Create Film entity class with @Table annotation ✅
  * Task 8.2: Add entity fields (filmId, title) with proper annotations ✅
  */
@@ -17,4 +17,4 @@ import org.springframework.data.relational.core.mapping.Table;
 public record Film(
     @Id @Column("film_id") Integer filmId,
     @Column("title") String title
-) {} 
+) {}

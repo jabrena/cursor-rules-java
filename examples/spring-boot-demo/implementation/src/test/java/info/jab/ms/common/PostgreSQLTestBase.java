@@ -1,7 +1,6 @@
 package info.jab.ms.common;
 
 import java.time.Duration;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -11,10 +10,10 @@ import org.testcontainers.utility.MountableFile;
 
 /**
  * PostgreSQLTestBase - Base class for integration tests with PostgreSQL TestContainer
- * 
+ *
  * This class provides common setup for all integration tests that need
  * PostgreSQL database connectivity using TestContainers.
- * 
+ *
  * Features:
  * - Shared PostgreSQL TestContainer for all test classes
  * - Pre-loaded with Sakila schema and data
@@ -32,11 +31,11 @@ public abstract class PostgreSQLTestBase {
             .withUsername("testuser")
             .withPassword("testpass")
             .withCopyFileToContainer(
-                MountableFile.forClasspathResource("1.1-postgress-sakila-schema-compatible.sql"), 
+                MountableFile.forClasspathResource("1.1-postgress-sakila-schema-compatible.sql"),
                 "/docker-entrypoint-initdb.d/01-schema.sql"
             )
             .withCopyFileToContainer(
-                MountableFile.forClasspathResource("2.1-postgres-sakila-film-data.sql"), 
+                MountableFile.forClasspathResource("2.1-postgres-sakila-film-data.sql"),
                 "/docker-entrypoint-initdb.d/02-data.sql"
             )
             .withStartupTimeout(Duration.ofMinutes(2))
@@ -47,4 +46,4 @@ public abstract class PostgreSQLTestBase {
     protected static PostgreSQLContainer<?> getPostgresContainer() {
         return postgres;
     }
-} 
+}

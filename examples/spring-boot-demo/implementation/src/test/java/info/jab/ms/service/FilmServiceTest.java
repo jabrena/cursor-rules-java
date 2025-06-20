@@ -2,29 +2,32 @@ package info.jab.ms.service;
 
 import info.jab.ms.entity.Film;
 import info.jab.ms.repository.FilmRepository;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
  * FilmServiceTest - Complete Unit Test Suite for FilmService Business Logic
- * 
+ *
  * This test class implements all test requirements from tasks 5.1-5.7:
  * - Task 5.1: Create unit tests for FilmService.findFilmEntitiesByStartingLetter() method
  * - Task 5.2: Create unit tests for film filtering logic (case insensitive matching)
@@ -61,8 +64,8 @@ class FilmServiceTest {
 
         mockFilmsStartingWithA = Arrays.asList(mockFilm1, mockFilm2, mockFilm3);
         mockAllFilms = Arrays.asList(
-                mockFilm1, 
-                mockFilm2, 
+                mockFilm1,
+                mockFilm2,
                 mockFilm3,
                 new Film(4, "BEAST HUNCHBACK"),
                 new Film(5, "CHOCOLATE DUCK")
@@ -258,10 +261,107 @@ class FilmServiceTest {
         });
     }
 
+    @Nested
+    @DisplayName("Task 5.6: Exception Handling Scenarios")
+    class ExceptionHandlingScenarios {
+
+        @Test
+        @DisplayName("Should handle EmptyResultDataAccessException gracefully")
+        void shouldHandleEmptyResultDataAccessExceptionGracefully() {
+            // Given
+            String letter = "A";
+            when(filmRepository.findByTitleStartingWith(letter))
+                    .thenThrow(new EmptyResultDataAccessException("No data found", 1));
+
+            // When
+            List<Film> result = filmService.findFilmEntitiesByStartingLetter(letter);
+
+            // Then
+            assertThat(result).isNotNull();
+            assertThat(result).isEmpty();
+            verify(filmRepository).findByTitleStartingWith(letter);
+        }
+
+        @Test
+        @DisplayName("Should handle DataIntegrityViolationException with appropriate error")
+        void shouldHandleDataIntegrityViolationExceptionWithAppropriateError() {
+            // Given
+            String letter = "A";
+            when(filmRepository.findByTitleStartingWith(letter))
+                    .thenThrow(new DataIntegrityViolationException("Data integrity violation"));
+
+            // When & Then
+            RuntimeException exception = assertThrows(RuntimeException.class,
+                    () -> filmService.findFilmEntitiesByStartingLetter(letter));
+
+            assertThat(exception.getMessage())
+                    .contains("Database integrity error occurred while searching films");
+            assertThat(exception.getCause())
+                    .isInstanceOf(DataIntegrityViolationException.class);
+            verify(filmRepository).findByTitleStartingWith(letter);
+        }
+
+        @Test
+        @DisplayName("Should handle DataAccessException with appropriate error")
+        void shouldHandleDataAccessExceptionWithAppropriateError() {
+            // Given
+            String letter = "A";
+            when(filmRepository.findByTitleStartingWith(letter))
+                    .thenThrow(new DataAccessException("Database connection error") {});
+
+            // When & Then
+            RuntimeException exception = assertThrows(RuntimeException.class,
+                    () -> filmService.findFilmEntitiesByStartingLetter(letter));
+
+            assertThat(exception.getMessage())
+                    .contains("Database error occurred while searching films. Please try again later.");
+            assertThat(exception.getCause())
+                    .isInstanceOf(DataAccessException.class);
+            verify(filmRepository).findByTitleStartingWith(letter);
+        }
+
+        @Test
+        @DisplayName("Should handle generic Exception with appropriate error")
+        void shouldHandleGenericExceptionWithAppropriateError() {
+            // Given
+            String letter = "A";
+            when(filmRepository.findByTitleStartingWith(letter))
+                    .thenThrow(new RuntimeException("Unexpected error"));
+
+            // When & Then
+            RuntimeException exception = assertThrows(RuntimeException.class,
+                    () -> filmService.findFilmEntitiesByStartingLetter(letter));
+
+            assertThat(exception.getMessage())
+                    .contains("An unexpected error occurred while searching films");
+            assertThat(exception.getCause())
+                    .isInstanceOf(RuntimeException.class);
+            verify(filmRepository).findByTitleStartingWith(letter);
+        }
+
+        @Test
+        @DisplayName("Should handle exceptions in findAllOrderByTitle path")
+        void shouldHandleExceptionsInFindAllOrderByTitlePath() {
+            // Given
+            when(filmRepository.findAllOrderByTitle())
+                    .thenThrow(new DataAccessException("Database connection error") {});
+
+            // When & Then
+            RuntimeException exception = assertThrows(RuntimeException.class,
+                    () -> filmService.findFilmEntitiesByStartingLetter(null));
+
+            assertThat(exception.getMessage())
+                    .contains("Database error occurred while searching films. Please try again later.");
+            assertThat(exception.getCause())
+                    .isInstanceOf(DataAccessException.class);
+            verify(filmRepository).findAllOrderByTitle();
+        }
+    }
+
     // Helper methods for test data creation
     private List<Film> createMockFilmsStartingWithA(int count) {
         return java.util.stream.IntStream.range(1, count + 1)
                 .mapToObj(i -> new Film(i, "A-FILM-" + String.format("%02d", i)))
                 .toList();
     }
-} 
+}
