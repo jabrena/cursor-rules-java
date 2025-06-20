@@ -111,22 +111,18 @@
   - [x] 8.11 **Test locally** - Ensure application works end-to-end with database integration (follow Local Testing Approach in Notes)
 
 - [ ] 9.0 **Error Handling Unit Tests Creation**
-  - [ ] 9.1 Create unit tests for GlobalExceptionHandler class
-  - [ ] 9.2 Create unit tests for RFC 7807 ProblemDetail response format
-  - [ ] 9.3 Create unit tests for invalid parameter error messages
-  - [ ] 9.4 Create unit tests for HTTP status code mapping
-  - [ ] 9.5 Create unit tests for error response JSON structure
-  - [ ] 9.6 **Verify error handling unit tests FAIL** (Red phase - TDD strategy)
+  - [x] 9.1 Create unit tests for GlobalExceptionHandler class
+  - [x] 9.2 Create unit tests for HTTP status code mapping
+  - [x] 9.3 Create unit tests for error response JSON structure
+  - [ ] 9.4 **Verify error handling unit tests FAIL** (Red phase - TDD strategy)
 
 - [ ] 10.0 **Error Handling and Global Exception Management**
-  - [ ] 10.1 Create GlobalExceptionHandler class with @ControllerAdvice
-  - [ ] 10.2 Implement RFC 7807 ProblemDetail response format
-  - [ ] 10.3 Add proper HTTP status code mapping (400, 500)
-  - [ ] 10.4 Implement descriptive error messages for invalid parameters
-  - [ ] 10.5 Add request validation error handling
-  - [ ] 10.6 **Verify error handling unit tests PASS** (Green phase - TDD strategy)
-  - [ ] 10.7 **Verify acceptance tests PASS** (Outside-in TDD validation)
-  - [ ] 10.8 **Test locally** - Ensure application handles errors gracefully end-to-end (follow Local Testing Approach in Notes)
+  - [x] 10.1 Create GlobalExceptionHandler class with @ControllerAdvice
+  - [x] 10.2 Implement RFC 7807 ProblemDetail response format
+  - [x] 10.3 Add proper HTTP status code mapping (500)
+  - [x] 10.4 **Verify error handling unit tests PASS** (Green phase - TDD strategy)
+  - [x] 10.5 **Verify acceptance tests PASS** (Outside-in TDD validation)
+  - [x] 10.6 **Test locally** - Ensure application handles errors gracefully end-to-end (follow Local Testing Approach in Notes)
 
 - [ ] 11.0 **Integration Testing Implementation**
   - [ ] 11.1 Set up end-to-end integration test suite
@@ -164,20 +160,20 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 ## Relevant Files
 
 - `pom.xml` - Maven project configuration with Spring Boot, Data JDBC, TestContainers, JaCoCo, and OpenAPI dependencies
-- `src/main/java/info/jab/ms/FilmQueryApplication.java` - Spring Boot main application class
+- `src/main/java/info/jab/ms/DemoApplication.java` - Spring Boot main application class
 - `src/main/java/info/jab/ms/controller/FilmController.java` - REST Controller for /api/v1/films endpoint with OpenAPI annotations
-- `src/main/java/com/example/demo/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, DTO transformation, and comprehensive repository error handling
-- `src/main/java/com/example/demo/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
-- `src/main/java/com/example/demo/entity/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
-- `src/main/java/com/example/demo/dto/FilmDTO.java` - Data transfer object for film data with entity conversion methods
-- `src/main/java/com/example/demo/dto/FilmResponse.java` - Response DTO for API responses
+- `src/main/java/info/jab/ms/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, DTO transformation, and comprehensive repository error handling
+- `src/main/java/info/jab/ms/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
+- `src/main/java/info/jab/ms/entity/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
+- `src/main/java/info/jab/ms/dto/FilmDTO.java` - Data transfer object for film data with entity conversion methods
 - `src/main/java/info/jab/ms/controller/GlobalExceptionHandler.java` - Global error handling with RFC 7807 ProblemDetail
-- `src/test/java/com/example/demo/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
-- `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Exception handler unit tests
-- `src/test/java/com/example/demo/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmEntitiesByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
-- `src/test/java/com/example/demo/repository/FilmRepositoryIT.java` - Data access integration tests with TestContainers PostgreSQL configuration extending PostgreSQLTestBase
-- `src/test/java/info/jab/ms/integration/FilmQueryIntegrationTest.java` - End-to-end integration tests
+- `src/test/java/info/jab/ms/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
+- `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Unit tests for GlobalExceptionHandler class with comprehensive coverage: RuntimeException handling, generic Exception handling, RFC 7807 ProblemDetail format validation, unique error ID generation, request URI handling, error response structure consistency, HTTP status code mapping validation with 500 status code testing, status code consistency checks, proper server error range validation, and complete RFC 7807 JSON structure testing with field type validation, custom properties validation, URI validation, timestamp validation, error message validation, and JSON structure consistency across exception types
+- `src/test/java/info/jab/ms/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmEntitiesByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
+- `src/test/java/info/jab/ms/repository/FilmRepositoryIT.java` - Data access integration tests with TestContainers PostgreSQL configuration extending PostgreSQLTestBase
+- `src/test/java/info/jab/ms/common/PostgreSQLTestBase.java` - Base class for integration tests with PostgreSQL TestContainer setup
 - `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
+- `src/test/java/info/jab/ms/DemoApplicationTests.java` - Basic integration tests for the Demo Application
 - `application.yaml` - Application configuration for database connection
 - `docker-compose.yml` - Docker Compose configuration for Sakila PostgreSQL database
 - `openapi-film-query.yaml` - OpenAPI 3.0 specification for the Film Query API
