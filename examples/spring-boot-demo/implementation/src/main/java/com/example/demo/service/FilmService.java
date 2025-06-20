@@ -76,8 +76,8 @@ public class FilmService {
      */
     private Map<String, Object> filmToMap(Film film) {
         Map<String, Object> filmMap = new HashMap<>();
-        filmMap.put("film_id", film.getFilmId());
-        filmMap.put("title", film.getTitle());
+        filmMap.put("film_id", film.filmId());
+        filmMap.put("title", film.title());
         return filmMap;
     }
 } 
