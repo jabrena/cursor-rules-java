@@ -64,13 +64,13 @@
   - [x] 4.11 **Test locally** - Ensure application starts and endpoints are accessible
 
 - [ ] 5.0 **Business Logic Unit Tests Creation**
-  - [ ] 5.1 Create unit tests for FilmService.findFilmsByStartingLetter() method
-  - [ ] 5.2 Create unit tests for film filtering logic (case insensitive matching)
-  - [ ] 5.3 Create unit tests for DTO transformation (Entity to Response DTO)
-  - [ ] 5.4 Create unit tests for business validation (letter parameter validation)
-  - [ ] 5.5 Create unit tests for empty result handling logic
-  - [ ] 5.6 Create unit tests for error scenarios (invalid input, null handling)
-  - [ ] 5.7 Create unit tests for business rules (46 films for "A", etc.)
+  - [x] 5.1 Create unit tests for FilmService.findFilmsByStartingLetter() method
+  - [x] 5.2 Create unit tests for film filtering logic (case insensitive matching)
+  - [x] 5.3 Create unit tests for DTO transformation (Entity to Response DTO)
+  - [x] 5.4 Create unit tests for business validation (letter parameter validation)
+  - [x] 5.5 Create unit tests for empty result handling logic
+  - [x] 5.6 Create unit tests for error scenarios (invalid input, null handling)
+  - [x] 5.7 Create unit tests for business rules (46 films for "A", etc.)
   - [ ] 5.8 **Verify business logic unit tests FAIL** (Red phase - TDD strategy)
 
 - [ ] 6.0 **Business Logic Layer Implementation**
@@ -176,7 +176,7 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 - `src/main/java/info/jab/ms/controller/GlobalExceptionHandler.java` - Global error handling with RFC 7807 ProblemDetail
 - `src/test/java/com/example/demo/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
 - `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Exception handler unit tests
-- `src/test/java/info/jab/ms/service/FilmServiceTest.java` - Business logic unit tests
+- `src/test/java/com/example/demo/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmsByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
 - `src/test/java/info/jab/ms/repository/FilmRepositoryTest.java` - Data access integration tests
 - `src/test/java/info/jab/ms/integration/FilmQueryIntegrationTest.java` - End-to-end integration tests
 - `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
