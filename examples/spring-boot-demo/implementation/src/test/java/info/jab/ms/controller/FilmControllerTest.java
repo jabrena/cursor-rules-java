@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package info.jab.ms.controller;
 
-import com.example.demo.service.FilmService;
-import com.example.demo.entity.Film;
+import info.jab.ms.service.FilmService;
+import info.jab.ms.entity.Film;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

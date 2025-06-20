@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package info.jab.ms.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;

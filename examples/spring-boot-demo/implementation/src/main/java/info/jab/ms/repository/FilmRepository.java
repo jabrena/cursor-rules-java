@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package info.jab.ms.repository;
 
-import com.example.demo.entity.Film;
+import info.jab.ms.entity.Film;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;

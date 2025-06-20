@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package info.jab.ms.service;
 
-import com.example.demo.entity.Film;
-import com.example.demo.repository.FilmRepository;
+import info.jab.ms.entity.Film;
+import info.jab.ms.repository.FilmRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

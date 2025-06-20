@@ -1,10 +1,9 @@
-package com.example.demo.repository;
+package info.jab.ms.repository;
 
-import com.example.demo.common.PostgreSQLTestBase;
-import com.example.demo.entity.Film;
+import info.jab.ms.common.PostgreSQLTestBase;
+import info.jab.ms.entity.Film;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,7 +13,6 @@ import java.time.Duration;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * FilmRepositoryIT - Integration Tests for FilmRepository Data Access Layer
@@ -24,14 +22,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * TestContainer setup with Sakila schema and test data.
  * 
  * Test Strategy:
- * - Uses @DataJdbcTest for focused Spring Data JDBC testing
+ * - Uses @SpringBootTest for full Spring context integration testing
  * - TestContainers provides isolated PostgreSQL database
  * - Real database queries against Sakila schema
  * - Validates SQL queries and Spring Data JDBC configuration
  * 
  * Task 7.1: Set up TestContainers PostgreSQL configuration for integration tests ✅
  */
-@DataJdbcTest
 class FilmRepositoryIT extends PostgreSQLTestBase {
 
     @Autowired

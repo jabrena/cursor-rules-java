@@ -1,6 +1,6 @@
-package com.example.demo.acceptance;
+package info.jab.ms.acceptance;
 
-import com.example.demo.common.PostgreSQLTestBase;
+import info.jab.ms.common.PostgreSQLTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

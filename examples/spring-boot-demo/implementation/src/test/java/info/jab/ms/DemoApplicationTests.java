@@ -1,6 +1,6 @@
-package com.example.demo;
+package info.jab.ms;
 
-import com.example.demo.common.PostgreSQLTestBase;
+import info.jab.ms.common.PostgreSQLTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,4 +37,4 @@ class DemoApplicationTests extends PostgreSQLTestBase {
         System.out.println("Spring Boot context loaded successfully with TestContainer database");
         System.out.println("Database URL: " + getPostgresContainer().getJdbcUrl());
     }
-}
+} 

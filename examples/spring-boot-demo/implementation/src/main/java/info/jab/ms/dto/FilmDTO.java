@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package info.jab.ms.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -45,7 +45,7 @@ public record FilmDTO(
          * @param entity The Film entity to convert
          * @return Film record with mapped data
          */
-        public static Film fromEntity(com.example.demo.entity.Film entity) {
+        public static Film fromEntity(info.jab.ms.entity.Film entity) {
             return new Film(entity.filmId(), entity.title());
         }
         
@@ -69,7 +69,7 @@ public record FilmDTO(
      * @param filterMap Map containing filter parameters
      * @return FilmDTO instance with complete response structure
      */
-    public static FilmDTO fromEntities(List<com.example.demo.entity.Film> entities, Map<String, Object> filterMap) {
+    public static FilmDTO fromEntities(List<info.jab.ms.entity.Film> entities, Map<String, Object> filterMap) {
         List<Film> films = entities.stream()
                 .map(Film::fromEntity)
                 .toList();

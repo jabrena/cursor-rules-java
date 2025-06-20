@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package info.jab.ms.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
-import com.example.demo.service.FilmService;
-import com.example.demo.dto.FilmDTO;
-import com.example.demo.entity.Film;
+import info.jab.ms.service.FilmService;
+import info.jab.ms.dto.FilmDTO;
+import info.jab.ms.entity.Film;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -203,11 +203,5 @@ public class FilmController {
         return ResponseEntity.badRequest().body(problemDetail);
     }
     
-    /**
-     * Record to hold validation result with validation status and error message
-     * 
-     * @param valid true if validation passed, false otherwise
-     * @param errorMessage error message if validation failed, null if valid
-     */
     private record ValidationResult(boolean valid, String errorMessage) { }
 } 
