@@ -1,6 +1,7 @@
 package info.jab.ms.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import java.util.Map;
  * FilmDTO - Comprehensive Data Transfer Object for Film Query API
  *
  * Task 6.6: Create FilmDTO for data transfer ✅
+ * Task 12.1: Complete OpenAPI documentation with proper descriptions ✅
  *
  * This DTO represents the complete film query response, replacing FilmResponse.
  * It provides a clean separation between entity and response formats.
@@ -26,17 +28,76 @@ import java.util.Map;
  *   }
  * }
  */
+@Schema(
+    name = "FilmQueryResponse",
+    description = "Response structure for film query operations containing films array, result count, and applied filters",
+    example = """
+        {
+          "films": [
+            {
+              "film_id": 1,
+              "title": "ACADEMY DINOSAUR"
+            },
+            {
+              "film_id": 8,
+              "title": "AIRPORT POLLOCK"
+            }
+          ],
+          "count": 46,
+          "filter": {
+            "startsWith": "A"
+          }
+        }
+        """
+)
 public record FilmDTO(
+    @Schema(
+        description = "Array of films matching the query criteria, ordered by film ID",
+        example = "[{\"film_id\": 1, \"title\": \"ACADEMY DINOSAUR\"}, {\"film_id\": 8, \"title\": \"AIRPORT POLLOCK\"}]"
+    )
     @JsonProperty("films") List<Film> films,
+
+    @Schema(
+        description = "Total number of films returned in the response",
+        example = "46",
+        minimum = "0"
+    )
     @JsonProperty("count") int count,
+
+    @Schema(
+        description = "Filter parameters applied to the query",
+        example = "{\"startsWith\": \"A\"}",
+        nullable = true
+    )
     @JsonProperty("filter") Map<String, Object> filter
 ) {
 
     /**
      * Individual Film record for the films array
      */
+    @Schema(
+        name = "Film",
+        description = "Individual film information with ID and title",
+        example = """
+            {
+              "film_id": 1,
+              "title": "ACADEMY DINOSAUR"
+            }
+            """
+    )
     public record Film(
+        @Schema(
+            description = "Unique identifier for the film from the Sakila database",
+            example = "1",
+            minimum = "1"
+        )
         @JsonProperty("film_id") Integer filmId,
+
+        @Schema(
+            description = "Title of the film in uppercase format as stored in the database",
+            example = "ACADEMY DINOSAUR",
+            maxLength = 255
+        )
         @JsonProperty("title") String title
     ) {
         /**
