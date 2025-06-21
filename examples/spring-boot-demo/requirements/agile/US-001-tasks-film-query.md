@@ -154,27 +154,27 @@ Based on the Gherkin scenarios from `US-001-film-query.feature`:
 ## Relevant Files
 
 - `pom.xml` - Maven project configuration with Spring Boot, Data JDBC, TestContainers, JaCoCo, and OpenAPI dependencies
-- `src/main/java/info/jab/ms/DemoApplication.java` - Spring Boot main application class
+- `src/main/java/info/jab/ms/MainApplication.java` - Spring Boot main application class
 - `src/main/java/info/jab/ms/controller/FilmController.java` - REST Controller for /api/v1/films endpoint with OpenAPI annotations
+- `src/main/java/info/jab/ms/controller/FilmControllerApi.java` - API interface definition with comprehensive OpenAPI documentation including 15+ detailed examples covering multiple success/error scenarios, case-insensitive behavior, empty results, and complete RFC 7807 error responses
 - `src/main/java/info/jab/ms/service/FilmService.java` - Business logic layer for film query operations with @Service annotation, parameter validation, filtering logic, DTO transformation, and comprehensive repository error handling
 - `src/main/java/info/jab/ms/repository/FilmRepository.java` - Data access layer with Spring Data JDBC
-- `src/main/java/info/jab/ms/entity/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
-- `src/main/java/info/jab/ms/dto/FilmDTO.java` - Data transfer object for film data with entity conversion methods
+- `src/main/java/info/jab/ms/repository/Film.java` - Film entity class with proper Spring Data JDBC annotations (@Table, @Id, @Column)
+- `src/main/java/info/jab/ms/controller/FilmDTO.java` - Data transfer object for film data with entity conversion methods and comprehensive OpenAPI @Schema annotations for complete API documentation
 - `src/main/java/info/jab/ms/controller/GlobalExceptionHandler.java` - Global error handling with RFC 7807 ProblemDetail
+- `src/main/java/info/jab/ms/config/OpenApiConfig.java` - Comprehensive OpenAPI configuration with API info, contact, license, servers, and enhanced documentation structure
+- `src/main/java/info/jab/ms/config/NativeHintsConfig.java` - Native compilation hints configuration for GraalVM
 - `src/test/java/info/jab/ms/controller/FilmControllerTest.java` - REST Controller unit tests with tasks 3.1, 3.2, and 3.3 implementation
+- `src/test/java/info/jab/ms/controller/FilmDTOTest.java` - Unit tests for FilmDTO with comprehensive validation and transformation testing
 - `src/test/java/info/jab/ms/controller/GlobalExceptionHandlerTest.java` - Unit tests for GlobalExceptionHandler class with comprehensive coverage: RuntimeException handling, generic Exception handling, RFC 7807 ProblemDetail format validation, unique error ID generation, request URI handling, error response structure consistency, HTTP status code mapping validation with 500 status code testing, status code consistency checks, proper server error range validation, and complete RFC 7807 JSON structure testing with field type validation, custom properties validation, URI validation, timestamp validation, error message validation, and JSON structure consistency across exception types
 - `src/test/java/info/jab/ms/service/FilmServiceTest.java` - Complete unit test suite for FilmService.findFilmEntitiesByStartingLetter() with comprehensive coverage: method testing, case insensitive matching, DTO transformation, business validation, empty result handling, error scenarios, and business rules (46 films for "A")
 - `src/test/java/info/jab/ms/repository/FilmRepositoryIT.java` - Data access integration tests with TestContainers PostgreSQL configuration extending PostgreSQLTestBase
 - `src/test/java/info/jab/ms/common/PostgreSQLTestBase.java` - Base class for integration tests with PostgreSQL TestContainer setup
-- `src/test/java/info/jab/ms/acceptance/FilmQueryAcceptanceIT.java` - TestRestTemplate-based acceptance tests
-- `src/test/java/info/jab/ms/DemoApplicationTests.java` - Basic integration tests for the Demo Application
-- `src/test/java/info/jab/ms/integration/EndToEndIntegrationTestSuite.java` - Comprehensive end-to-end integration test suite with 8 ordered test scenarios covering infrastructure validation, database schema integrity, core API functionality, multiple parameter scenarios, error handling, performance requirements, data consistency, and complete user workflow simulation
+- `src/test/java/info/jab/ms/MainApplicaitonAcceptanceIT.java` - TestRestTemplate-based acceptance tests
+- `src/test/java/info/jab/ms/MainApplicationTests.java` - Basic integration tests for the Main Application
 - `application.yaml` - Application configuration for database connection
 - `docker-compose.yml` - Docker Compose configuration for Sakila PostgreSQL database
 - `openapi-film-query.yaml` - OpenAPI 3.0 specification for the Film Query API
-- `src/main/java/info/jab/ms/config/OpenApiConfig.java` - Comprehensive OpenAPI configuration with API info, contact, license, servers, and enhanced documentation structure
-- `src/main/java/info/jab/ms/dto/FilmDTO.java` - Enhanced with comprehensive OpenAPI @Schema annotations for complete API documentation
-- `src/main/java/info/jab/ms/controller/FilmController.java` - Enhanced with comprehensive OpenAPI documentation including 15+ detailed examples covering multiple success/error scenarios, case-insensitive behavior, empty results, and complete RFC 7807 error responses
 
 ## Notes
 

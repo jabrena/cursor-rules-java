@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This test class implements unit testing for the FilmController REST API endpoints
  * following TDD approach. Tests focus on controller behavior, parameter handling,
  * and response formatting without database dependencies.
- *
- * Task 3.1: Create unit test for GET /api/v1/films endpoint without parameters ✅
- * Task 3.2: Create unit test for GET /api/v1/films?startsWith=A endpoint ✅
  */
 @WebMvcTest(FilmController.class)
 class FilmControllerTest {
@@ -35,8 +32,6 @@ class FilmControllerTest {
     private FilmService filmService;
 
     /**
-     * Task 3.1: Create unit test for GET /api/v1/films endpoint without parameters
-     *
      * This test verifies the behavior when calling GET /api/v1/films without
      * the startsWith parameter. The controller should handle this case and
      * potentially return all films or an appropriate default response.
@@ -81,8 +76,6 @@ class FilmControllerTest {
     }
 
     /**
-     * Task 3.2: Create unit test for GET /api/v1/films?startsWith=A endpoint
-     *
      * This test verifies the behavior when calling GET /api/v1/films with
      * the startsWith=A parameter. The controller should handle this case and
      * return films starting with the letter "A".
@@ -143,8 +136,6 @@ class FilmControllerTest {
     }
 
     /**
-     * Task 3.3: Create unit tests for parameter validation (valid single letters)
-     *
      * These tests verify that the controller properly accepts valid single letter parameters.
      * Valid parameters include:
      * - Uppercase letters A-Z
@@ -284,13 +275,7 @@ class FilmControllerTest {
                 .andExpect(jsonPath("$.films[1].title").value("BRAVE HEART"));
     }
 
-    // ========================================================================
-    // Task 3.4: Create unit tests for invalid parameter scenarios
-    // ========================================================================
-
     /**
-     * Task 3.4: Create unit tests for invalid parameter scenarios (empty, multiple chars, special chars)
-     *
      * These tests verify that the controller properly rejects invalid parameters and returns
      * appropriate HTTP 400 Bad Request responses with error messages.
      *
@@ -363,13 +348,7 @@ class FilmControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    // ========================================================================
-    // Task 3.5: Create unit tests for response format validation (JSON structure)
-    // ========================================================================
-
     /**
-     * Task 3.5: Create unit tests for response format validation (JSON structure)
-     *
      * These tests verify that the controller returns responses in the expected JSON format
      * with the correct structure, field names, and data types.
      *
@@ -497,13 +476,7 @@ class FilmControllerTest {
                 .andExpect(jsonPath("$.filter").isEmpty());
     }
 
-    // ========================================================================
-    // Task 3.6: Create unit tests for HTTP status codes (200, 400)
-    // ========================================================================
-
     /**
-     * Task 3.6: Create unit tests for HTTP status codes (200, 400)
-     *
      * These tests verify that the controller returns appropriate HTTP status codes
      * for different scenarios:
      * - 200 OK for successful requests
@@ -570,13 +543,7 @@ class FilmControllerTest {
                 .andExpect(status().is(400));
     }
 
-    // ========================================================================
-    // Task 3.7: Create unit tests for controller error handling integration
-    // ========================================================================
-
     /**
-     * Task 3.7: Create unit tests for controller error handling integration
-     *
      * These tests verify that the controller properly integrates with global error handling
      * and returns consistent error responses following RFC 7807 Problem Details format.
      *
@@ -641,13 +608,7 @@ class FilmControllerTest {
         }
     }
 
-    // ========================================================================
-    // Task 3.8: Create unit tests for OpenAPI annotations validation
-    // ========================================================================
-
     /**
-     * Task 3.8: Create unit tests for OpenAPI annotations validation
-     *
      * These tests verify that the controller has proper OpenAPI annotations for documentation.
      * While unit tests can't directly test annotation presence, they can verify that the
      * controller behaves according to the documented API contract.

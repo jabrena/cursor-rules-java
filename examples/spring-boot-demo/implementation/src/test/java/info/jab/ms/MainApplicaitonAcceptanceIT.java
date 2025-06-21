@@ -1,4 +1,4 @@
-package info.jab.ms.controller;
+package info.jab.ms;
 
 import info.jab.ms.common.PostgreSQLTestBase;
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
+class MainApplicaitonAcceptanceIT extends PostgreSQLTestBase {
 
     @LocalServerPort
     private int port;
