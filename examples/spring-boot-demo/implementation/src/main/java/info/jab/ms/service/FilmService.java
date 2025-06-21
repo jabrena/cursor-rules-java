@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * FilmService - Business Logic Layer for Film Query Operations
@@ -17,8 +18,13 @@ import org.springframework.stereotype.Service;
  * This service implements the business logic for querying films from the Sakila database.
  * It handles parameter validation, repository integration, data transformation, and error handling.
  *
+ * Following Spring Data JDBC best practices:
+ * - @Transactional(readOnly = true) for read operations to optimize performance
+ * - Constructor injection for better testability
+ * - Proper exception handling and logging
  */
 @Service
+@Transactional(readOnly = true)
 public class FilmService {
 
     private static final Logger logger = LoggerFactory.getLogger(FilmService.class);
@@ -32,8 +38,8 @@ public class FilmService {
     /**
      * Get Film entities by starting letter (internal method for controller use)
      *
-     * Task 8.8: Repository error handling implemented
-     * Handles database connection errors, SQL exceptions, and data access exceptions
+     * Handles database connection errors, SQL exceptions, and data access exceptions.
+     * Uses read-only transaction for optimal performance.
      *
      * @param letter Optional starting letter to filter films (A-Z, case insensitive)
      * @return List of Film entities, empty list if no matches
@@ -43,8 +49,6 @@ public class FilmService {
         try {
             List<Film> films;
 
-            // Task 6.3: Add business validation for letter parameter (already done in controller)
-            // Task 6.4: Implement film filtering logic (case insensitive LIKE query)
             if (Objects.nonNull(letter) && !letter.trim().isEmpty()) {
                 logger.debug("Searching for films starting with letter: {}", letter);
                 // Get films starting with the specified letter (case insensitive)
@@ -57,9 +61,7 @@ public class FilmService {
                 logger.debug("Found {} total films", films.size());
             }
 
-            // Task 6.8: Add empty result handling with appropriate messaging
-            return films; // Return entities directly for DTO transformation in controller
-
+            return films;
         } catch (EmptyResultDataAccessException e) {
             // Handle case where no results are found (though this shouldn't happen with List return type)
             logger.info("No films found for search criteria: {}", letter);

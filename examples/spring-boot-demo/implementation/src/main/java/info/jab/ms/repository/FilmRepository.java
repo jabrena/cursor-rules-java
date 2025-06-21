@@ -12,16 +12,16 @@ import org.springframework.stereotype.Repository;
  * This repository provides database access methods for querying films from
  * the Sakila database using Spring Data JDBC.
  *
- * Task 8.3: Create FilmRepository interface extending CrudRepository ✅
- * Task 8.4: Implement findByTitleStartingWith(String prefix) method ✅
+ * Following Spring Data JDBC best practices:
+ * - Extends ListCrudRepository for optimal List return types
+ * - Uses @Query for custom operations with proper parameter binding
+ * - Provides clean, simple queries without unnecessary complexity
  */
 @Repository
 public interface FilmRepository extends ListCrudRepository<Film, Integer> {
 
     //TDDO: Remove collate
     /**
-     * Task 8.4: Implement findByTitleStartingWith(String prefix) method
-     *
      * Finds all films where the title starts with the specified prefix.
      * The query is case-insensitive to match the API requirements.
      *

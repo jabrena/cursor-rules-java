@@ -52,19 +52,6 @@ These guidelines are built upon the following core principles:
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <image>
-                    <builder>paketobuildpacks/builder:tiny</builder>
-                    <env>
-                        <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                    </env>
-                </image>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.graalvm.buildtools</groupId>
-            <artifactId>native-maven-plugin</artifactId>
-            <version>${native.maven.plugin.version}</version>
         </plugin>
     </plugins>
 </build>

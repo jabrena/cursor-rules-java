@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,17 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
  * FilmController - REST API Controller Implementation for Film Query Operations
  *
  * This controller implements the FilmControllerApi interface and provides the business logic
- * for querying films from the Sakila database. It focuses on the implementation details
- * while the API contract and documentation are defined in the interface.
+ * for querying films from the Sakila database. Following Spring Data JDBC and Spring Boot
+ * best practices:
  *
- * The controller implements endpoints for retrieving films that start with specific letters,
- * with proper validation, error handling, and response formatting.
+ * - Constructor-based dependency injection for better testability
+ * - Separation of API contract (interface) from implementation
+ * - Clean validation with functional predicates
+ * - Proper error handling and response formatting
+ * - Stateless design with immutable operations
+ *
+ * The controller focuses on HTTP concerns while delegating business logic to the service layer.
  */
 @RestController
 @RequestMapping("/api/v1")
 public class FilmController implements FilmControllerApi {
 
     private final FilmService filmService;
+
+    // Predicate to validate that startsWith parameter is exactly one letter
+    private static final Predicate<String> IS_VALID_STARTS_WITH = startsWith ->
+            Objects.nonNull(startsWith) && startsWith.trim().matches("^[a-zA-Z]$");
 
     public FilmController(FilmService filmService) {
         this.filmService = filmService;
@@ -33,45 +43,39 @@ public class FilmController implements FilmControllerApi {
     /**
      * Implementation of the getFilms method defined in FilmControllerApi.
      *
-     * This method contains the business logic for retrieving films from the Sakila database,
-     * with parameter validation, service layer calls, and response formatting.
-     * All API documentation is defined in the interface.
+     * This method handles the HTTP layer concerns:
+     * - Request parameter validation
+     * - Service layer delegation
+     * - Response formatting and mapping
+     * - HTTP status code handling
+     *
+     * Business logic is delegated to the service layer following separation of concerns.
+     * All API documentation is defined in the FilmControllerApi interface.
+     *
+     * @param startsWith Optional parameter to filter films by starting letter
+     * @return ResponseEntity with FilmDTO containing films, count, and filter information
      */
     @Override
     public ResponseEntity<FilmDTO> getFilms(String startsWith) {
+        // Validate input parameter using functional predicate
         if (Objects.nonNull(startsWith)) {
-            if (!isValidStartsWithParameter(startsWith)) {
+            if (!IS_VALID_STARTS_WITH.test(startsWith)) {
                 return ResponseEntity.badRequest().build();
             }
         }
 
+        // Delegate business logic to service layer
         List<Film> films = filmService.findFilmEntitiesByStartingLetter(startsWith);
 
+        // Build filter map for response metadata
         Map<String, Object> filter = new HashMap<>();
         if (Objects.nonNull(startsWith) && !startsWith.trim().isEmpty()) {
             filter.put("startsWith", startsWith);
         }
 
+        // Create response DTO using factory method
         FilmDTO response = FilmDTO.fromEntities(films, filter);
 
         return ResponseEntity.ok(response);
-    }
-
-    private boolean isValidStartsWithParameter(String startsWith) {
-        if (Objects.isNull(startsWith) || startsWith.trim().isEmpty()) {
-            return false;
-        }
-
-        String trimmed = startsWith.trim();
-
-        // Check if it's a single character
-        if (trimmed.length() != 1) {
-            return false;
-        }
-
-        char character = trimmed.charAt(0);
-
-        // Check if it's a letter (A-Z, a-z)
-        return Character.isLetter(character);
     }
 }

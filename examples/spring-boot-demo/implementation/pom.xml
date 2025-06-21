@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.2</version>
+		<version>3.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>info.jab.ms</groupId>
@@ -17,12 +17,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<springdoc.version>2.8.9</springdoc.version>
+
 		<!-- Plugin versions -->
 		<maven-plugin-compiler.version>3.14.0</maven-plugin-compiler.version>
 		<maven-plugin-surefire.version>3.5.3</maven-plugin-surefire.version>
+		<maven-plugin-enforcer.version>3.5.0</maven-plugin-enforcer.version>
+		<extra-enforcer-rules.version>1.10.0</extra-enforcer-rules.version>
 		<maven-plugin-failsafe.version>3.5.3</maven-plugin-failsafe.version>
 		<maven-plugin-jacoco.version>0.8.13</maven-plugin-jacoco.version>
 		<maven-plugin-spotless.version>2.44.5</maven-plugin-spotless.version>
+		<native.maven.plugin.version>0.10.6</native.maven.plugin.version>
 
 		<!-- Quality thresholds -->
 		<coverage.level>80</coverage.level>
@@ -56,7 +61,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.7.0</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 
 		<!-- Docker Compose support for local testing -->
@@ -117,11 +122,61 @@
 				</configuration>
 			</plugin>
 
+			<!-- Maven Enforcer Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-plugin-enforcer.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>extra-enforcer-rules</artifactId>
+						<version>${extra-enforcer-rules.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>enforce</id>
+						<configuration>
+							<rules>
+								<banCircularDependencies/>
+								<dependencyConvergence />
+								<banDuplicatePomDependencyVersions />
+								<requireMavenVersion>
+									<version>${maven.version}</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>${java.version}</version>
+								</requireJavaVersion>
+								<bannedDependencies>
+									<excludes>
+										<exclude>org.projectlombok:lombok</exclude>
+									</excludes>
+								</bannedDependencies>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Maven Surefire Plugin for unit tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-plugin-surefire.version}</version>
+				<configuration>
+					<skipAfterFailureCount>1</skipAfterFailureCount>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 
 			<!-- Maven Failsafe Plugin for integration tests -->
@@ -129,15 +184,24 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven-plugin-failsafe.version}</version>
+				<configuration>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>integration-test</goal>
-							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+
+
 
 			<!-- Spotless Maven Plugin for code formatting -->
 			<plugin>
@@ -172,6 +236,61 @@
 	</build>
 
 	<profiles>
+		<!-- Native Compilation Profile -->
+		<profile>
+			<id>native</id>
+			<build>
+				<plugins>
+					<!-- Spring Boot Maven Plugin -->
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>process-aot</id>
+								<goals>
+									<goal>process-aot</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>add-reachability-metadata</id>
+								<goals>
+									<goal>add-reachability-metadata</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>build-native</id>
+								<goals>
+									<goal>compile-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<fallback>false</fallback>
+							<verbose>true</verbose>
+							<buildArgs>
+								<buildArg>--no-fallback</buildArg>
+								<buildArg>--enable-http</buildArg>
+								<buildArg>--enable-https</buildArg>
+								<buildArg>--install-exit-handlers</buildArg>
+								<buildArg>-H:+ReportExceptionStackTraces</buildArg>
+								<buildArg>-H:+AddAllCharsets</buildArg>
+								<buildArg>-H:IncludeResources=.*\.properties$</buildArg>
+								<buildArg>-H:IncludeResources=.*\.yaml$</buildArg>
+								<buildArg>-H:IncludeResources=.*\.yml$</buildArg>
+							</buildArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 		<!-- JaCoCo Code Coverage Profile -->
 		<profile>
 			<id>jacoco</id>

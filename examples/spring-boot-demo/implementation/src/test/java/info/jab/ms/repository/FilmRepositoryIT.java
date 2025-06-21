@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -26,10 +28,17 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * TestContainer setup with Sakila schema and test data.
  *
  * Test Strategy:
- * - Uses @SpringBootTest for full Spring context integration testing
+ * - Uses @DataJdbcTest for focused Spring Data JDBC repository layer testing
  * - TestContainers provides isolated PostgreSQL database
  * - Real database queries against Sakila schema
  * - Validates SQL queries and Spring Data JDBC configuration
+ * - @ActiveProfiles("test") for test-specific configuration
+ *
+ * Following Spring Boot Slice Testing Guidelines:
+ * - @DataJdbcTest loads only Spring Data JDBC-related components
+ * - Focused testing on repository layer in isolation
+ * - Fast execution with minimal Spring context loading
+ * - TestContainer configuration maintained for PostgreSQL integration
  *
  * Following Java Unit Testing Guidelines:
  * - Given-When-Then structure
@@ -39,6 +48,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * - Parameterized tests for data variations
  * - Comprehensive boundary testing (CORRECT)
  */
+@DataJdbcTest
+@ActiveProfiles("test")
 @DisplayName("FilmRepository Integration Tests")
 class FilmRepositoryIT extends PostgreSQLTestBase {
 

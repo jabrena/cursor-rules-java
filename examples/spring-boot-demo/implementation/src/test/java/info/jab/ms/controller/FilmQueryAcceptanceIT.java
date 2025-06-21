@@ -19,9 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This class implements the acceptance test foundation for the Film Query API
  * using TestRestTemplate and TestContainers following Outside-in TDD strategy.
  *
- * Task 2.1: Set up Spring Boot Test with @SpringBootTest and TestRestTemplate ✅
- * Task 2.2: Configure TestContainers for PostgreSQL in acceptance tests ✅
- * Task 2.3: Create acceptance test for "Successfully retrieve films starting with A" scenario ✅
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FilmQueryAcceptanceIT extends PostgreSQLTestBase {

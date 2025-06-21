@@ -1,0 +1,61 @@
+# Native-specific configuration for GraalVM native image
+spring:
+  # Database configuration optimized for native
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
+  # SQL initialization
+  sql:
+    init:
+      mode: never
+  
+  # Disable development tools in native
+  devtools:
+    enabled: false
+  
+  # Docker compose disabled for native
+  docker:
+    compose:
+      enabled: false
+
+# Logging optimization for native
+logging:
+  level:
+    root: WARN
+    info.jab.ms: INFO
+    org.springframework: INFO
+    org.springframework.boot: INFO
+    org.springframework.web: INFO
+    org.hibernate: WARN
+    org.testcontainers: OFF
+
+# Management endpoints optimization
+management:
+  endpoint:
+    beans:
+      enabled: false
+    configprops:
+      enabled: false
+    env:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  metrics:
+    export:
+      simple:
+        enabled: true
+
+# Server optimization for native
+server:
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 50
+      min-spare: 2 

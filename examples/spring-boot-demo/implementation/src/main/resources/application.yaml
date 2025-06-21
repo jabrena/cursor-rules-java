@@ -45,3 +45,6 @@ logging:
   level:
     org.springframework.boot.docker: INFO
     org.springframework.data.jdbc: INFO 
+
+server:
+  shutdown: graceful

@@ -1,7 +1,6 @@
 package info.jab.ms.common;
 
 import java.time.Duration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -19,9 +18,9 @@ import org.testcontainers.utility.MountableFile;
  * - Pre-loaded with Sakila schema and data
  * - Automatic Spring Boot configuration via @ServiceConnection
  * - Proper startup and shutdown lifecycle management
+ * - Works with Spring Boot slice testing (@JdbcTest, @WebMvcTest, etc.)
  */
 @Testcontainers
-@SpringBootTest
 public abstract class PostgreSQLTestBase {
 
     @Container

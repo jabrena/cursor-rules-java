@@ -8,9 +8,6 @@ import java.util.Map;
 /**
  * FilmDTO - Comprehensive Data Transfer Object for Film Query API
  *
- * Task 6.6: Create FilmDTO for data transfer ✅
- * Task 12.1: Complete OpenAPI documentation with proper descriptions ✅
- *
  * This DTO represents the complete film query response, replacing FilmResponse.
  * It provides a clean separation between entity and response formats.
  *
