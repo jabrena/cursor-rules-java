@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Configuration;
 /**
  * OpenAPI Configuration for Film Query Service
  *
- * Task 12.1: Complete OpenAPI documentation with proper descriptions ✅
- *
  * This configuration provides comprehensive API documentation including:
  * - API information, version, and description
  * - Contact information and license
@@ -70,13 +68,7 @@ public class OpenApiConfig {
                 .servers(List.of(
                         new Server()
                                 .url("http://localhost:8080")
-                                .description("Local development server"),
-                        new Server()
-                                .url("https://api-staging.example.com")
-                                .description("Staging environment"),
-                        new Server()
-                                .url("https://api.example.com")
-                                .description("Production environment")))
+                                .description("Local development server")))
                 .tags(List.of(
                         new Tag()
                                 .name("Films")

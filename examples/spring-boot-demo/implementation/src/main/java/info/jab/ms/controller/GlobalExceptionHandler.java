@@ -15,19 +15,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 /**
  * GlobalExceptionHandler - Centralized exception handling for Film Query API
  *
- * Task 4.8: Implement proper HTTP status code handling
- * Task 10.1: Create GlobalExceptionHandler class with @ControllerAdvice
- * Task 10.2: Implement handleIllegalArgumentException method
- * Task 10.3: Implement RFC 7807 ProblemDetail response format
- * Task 10.4: Add proper HTTP status code mapping (400, 500)
- * Task 10.5: Implement descriptive error messages for invalid parameters
- *
  * This class provides centralized exception handling following RFC 7807 Problem Details
  * for HTTP APIs. It ensures consistent error responses across all endpoints.
  *
  * Error Response Format (RFC 7807):
  * {
- *   "type": "https://example.com/problems/invalid-parameter",
  *   "title": "Invalid Parameter",
  *   "status": 400,
  *   "detail": "Parameter 'startsWith' must be a single letter (A-Z)",
@@ -58,7 +50,6 @@ public class GlobalExceptionHandler {
             "An unexpected error occurred while processing the request"
         );
 
-        problemDetail.setType(URI.create("https://example.com/problems/internal-error"));
         problemDetail.setTitle("Internal Server Error");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
         problemDetail.setProperty("timestamp", Instant.now());
@@ -83,7 +74,6 @@ public class GlobalExceptionHandler {
             "An unexpected error occurred while processing the request"
         );
 
-        problemDetail.setType(URI.create("https://example.com/problems/internal-error"));
         problemDetail.setTitle("Internal Server Error");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
         problemDetail.setProperty("timestamp", Instant.now());

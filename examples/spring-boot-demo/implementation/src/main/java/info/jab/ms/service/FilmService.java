@@ -1,12 +1,11 @@
 package info.jab.ms.service;
 
-import info.jab.ms.entity.Film;
+import info.jab.ms.repository.Film;
 import info.jab.ms.repository.FilmRepository;
 import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,21 +17,14 @@ import org.springframework.stereotype.Service;
  * This service implements the business logic for querying films from the Sakila database.
  * It handles parameter validation, repository integration, data transformation, and error handling.
  *
- * Task 6.1: Create FilmService class with @Service annotation ✅
- * Task 6.2: Implement findFilmsByStartingLetter(String letter) method ✅
- * Task 6.3: Add business validation for letter parameter ✅
- * Task 6.4: Implement film filtering logic (case insensitive LIKE query) ✅
- * Task 6.7: Implement entity to DTO transformation logic ✅
- * Task 6.8: Add empty result handling with appropriate messaging ✅
- * Task 8.8: Implement repository error handling ✅
  */
 @Service
 public class FilmService {
 
     private static final Logger logger = LoggerFactory.getLogger(FilmService.class);
+
     private final FilmRepository filmRepository;
 
-    @Autowired
     public FilmService(FilmRepository filmRepository) {
         this.filmRepository = filmRepository;
     }

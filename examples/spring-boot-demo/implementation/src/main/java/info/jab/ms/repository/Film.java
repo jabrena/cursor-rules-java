@@ -1,4 +1,4 @@
-package info.jab.ms.entity;
+package info.jab.ms.repository;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -10,8 +10,6 @@ import org.springframework.data.relational.core.mapping.Table;
  * This entity represents a film record from the Sakila database.
  * It uses Spring Data JDBC annotations for database mapping.
  *
- * Task 8.1: Create Film entity class with @Table annotation ✅
- * Task 8.2: Add entity fields (filmId, title) with proper annotations ✅
  */
 @Table("film")
 public record Film(

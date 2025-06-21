@@ -1,6 +1,6 @@
 package info.jab.ms.service;
 
-import info.jab.ms.entity.Film;
+import info.jab.ms.repository.Film;
 import info.jab.ms.repository.FilmRepository;
 import java.util.Arrays;
 import java.util.Collections;

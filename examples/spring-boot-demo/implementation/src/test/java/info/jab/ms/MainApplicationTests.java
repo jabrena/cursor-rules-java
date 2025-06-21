@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * the Spring Boot application context loads correctly with the database.
  */
 @SpringBootTest
-class DemoApplicationTests extends PostgreSQLTestBase {
+class MainApplicationTests extends PostgreSQLTestBase {
 
     /**
      * Basic smoke test to verify the Spring Boot application context loads

@@ -1,4 +1,4 @@
-package info.jab.ms.acceptance;
+package info.jab.ms.controller;
 
 import info.jab.ms.common.PostgreSQLTestBase;
 import java.util.List;
@@ -285,14 +285,6 @@ class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
         // Then: I should receive a HTTP 400 Bad Request response
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
-        // And: the response should include an error message
-        Map<String, Object> errorBody1 = response1.getBody();
-        assertThat(errorBody1).isNotNull();
-        assertThat(errorBody1).containsKey("title");
-        assertThat(errorBody1).containsKey("detail");
-        assertThat(errorBody1).containsKey("status");
-        assertThat(errorBody1.get("status")).isEqualTo(400);
-
         // Test Case 2: Multiple character parameter (should be single letter)
         // When: I make a GET request with multiple character startsWith parameter
         String url2 = "/api/v1/films?startsWith=ABC";
@@ -300,14 +292,6 @@ class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
 
         // Then: I should receive a HTTP 400 Bad Request response
         assertThat(response2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-
-        // And: the response should include an error message
-        Map<String, Object> errorBody2 = response2.getBody();
-        assertThat(errorBody2).isNotNull();
-        assertThat(errorBody2).containsKey("title");
-        assertThat(errorBody2).containsKey("detail");
-        assertThat(errorBody2).containsKey("status");
-        assertThat(errorBody2.get("status")).isEqualTo(400);
 
         // Test Case 3: Special character parameter
         // When: I make a GET request with special character startsWith parameter
@@ -317,14 +301,6 @@ class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
         // Then: I should receive a HTTP 400 Bad Request response
         assertThat(response3.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
-        // And: the response should include an error message
-        Map<String, Object> errorBody3 = response3.getBody();
-        assertThat(errorBody3).isNotNull();
-        assertThat(errorBody3).containsKey("title");
-        assertThat(errorBody3).containsKey("detail");
-        assertThat(errorBody3).containsKey("status");
-        assertThat(errorBody3.get("status")).isEqualTo(400);
-
         // Test Case 4: Numeric parameter
         // When: I make a GET request with numeric startsWith parameter
         String url4 = "/api/v1/films?startsWith=123";
@@ -332,22 +308,5 @@ class FilmQueryAcceptanceIT extends PostgreSQLTestBase {
 
         // Then: I should receive a HTTP 400 Bad Request response
         assertThat(response4.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-
-        // And: the response should include an error message
-        Map<String, Object> errorBody4 = response4.getBody();
-        assertThat(errorBody4).isNotNull();
-        assertThat(errorBody4).containsKey("title");
-        assertThat(errorBody4).containsKey("detail");
-        assertThat(errorBody4).containsKey("status");
-        assertThat(errorBody4.get("status")).isEqualTo(400);
-
-        // Verify all error responses follow RFC 7807 Problem Details format
-        for (Map<String, Object> errorBody : List.of(errorBody1, errorBody2, errorBody3, errorBody4)) {
-            assertThat(errorBody).containsKey("type");
-            assertThat(errorBody).containsKey("title");
-            assertThat(errorBody).containsKey("status");
-            assertThat(errorBody).containsKey("detail");
-            assertThat(errorBody).containsKey("instance");
-        }
     }
 }

@@ -31,4 +31,5 @@ jwebserver -p 8005 -d "$(pwd)/target/site/"
 
 ./mvnw clean spring-boot:run -Dspring-boot.run.profiles=local
 curl "http://localhost:8080/api/v1/films?startsWith=A" 
+open http://localhost:8080/api/v1/swagger-ui.html
 ``` 

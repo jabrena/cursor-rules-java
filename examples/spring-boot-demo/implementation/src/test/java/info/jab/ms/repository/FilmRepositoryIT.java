@@ -1,7 +1,6 @@
 package info.jab.ms.repository;
 
 import info.jab.ms.common.PostgreSQLTestBase;
-import info.jab.ms.entity.Film;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
