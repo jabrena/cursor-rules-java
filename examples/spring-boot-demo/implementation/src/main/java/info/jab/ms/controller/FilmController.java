@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class FilmController implements FilmControllerApi {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilmController.class);
 
     private final FilmService filmService;
 
@@ -65,6 +69,7 @@ public class FilmController implements FilmControllerApi {
         }
 
         // Delegate business logic to service layer
+        logger.debug("Fetching films starting with letter: {}", startsWith);
         List<Film> films = filmService.findFilmEntitiesByStartingLetter(startsWith);
 
         // Build filter map for response metadata
