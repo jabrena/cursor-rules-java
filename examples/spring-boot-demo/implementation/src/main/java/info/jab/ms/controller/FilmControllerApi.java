@@ -33,7 +33,6 @@ public interface FilmControllerApi {
      * Retrieves films from the Sakila database, optionally filtered by starting letter.
      *
      * @param startsWith Optional parameter to filter films by starting letter (single character A-Z)
-     * @param request HttpServletRequest for building error responses
      * @return JSON response containing films array, count, and filter information or error response
      */
     @Operation(
