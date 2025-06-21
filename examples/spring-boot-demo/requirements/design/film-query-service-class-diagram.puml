@@ -1,0 +1,137 @@
+@startuml Film_Query_Service_Class_Diagram
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageStyle rectangle
+
+title Film Query Service - Class Diagram
+
+' Package declarations
+package "info.jab.ms" {
+    class MainApplication {
+        + main(args: String[]) : void
+    }
+}
+
+package "info.jab.ms.config" {
+    class OpenApiConfig {
+        + filmQueryOpenAPI() : OpenAPI
+    }
+}
+
+package "info.jab.ms.controller" {
+    interface FilmControllerApi {
+        + getFilms(startsWith: String) : ResponseEntity<FilmDTO>
+    }
+    
+    class FilmController {
+        - filmService : FilmService
+        --
+        + FilmController(filmService: FilmService)
+        + getFilms(startsWith: String) : ResponseEntity<FilmDTO>
+        - isValidStartsWithParameter(startsWith: String) : boolean
+    }
+    
+    class FilmDTO {
+        + films : List<Film>
+        + count : int
+        + filter : Map<String, Object>
+        --
+        + fromEntities(entities: List<Film>, filterMap: Map<String, Object>) : FilmDTO
+        + fromMaps(filmMaps: List<Map<String, Object>>, filterMap: Map<String, Object>) : FilmDTO
+    }
+    
+    class "FilmDTO.Film" as FilmDTOFilm {
+        + filmId : Integer
+        + title : String
+        --
+        + fromEntity(entity: Film) : Film
+        + toMap() : Map<String, Object>
+    }
+    
+    class GlobalExceptionHandler {
+        - logger : Logger
+        --
+        + handleRuntimeException(ex: RuntimeException, request: HttpServletRequest) : ResponseEntity<ProblemDetail>
+        + handleGenericException(ex: Exception, request: HttpServletRequest) : ResponseEntity<ProblemDetail>
+    }
+}
+
+package "info.jab.ms.service" {
+    class FilmService {
+        - logger : Logger
+        - filmRepository : FilmRepository
+        --
+        + FilmService(filmRepository: FilmRepository)
+        + findFilmEntitiesByStartingLetter(letter: String) : List<Film>
+    }
+}
+
+package "info.jab.ms.repository" {
+    class Film {
+        + filmId : Integer
+        + title : String
+    }
+    
+    interface FilmRepository {
+        + findByTitleStartingWith(prefix: String) : List<Film>
+        + findAllOrderByTitle() : List<Film>
+    }
+}
+
+package "External Dependencies" {
+    class ResponseEntity<T> <<Spring>> {
+    }
+    
+    class ProblemDetail <<Spring>> {
+    }
+    
+    interface ListCrudRepository<T,ID> <<Spring Data>> {
+    }
+    
+    class SpringApplication <<Spring Boot>> {
+    }
+    
+    class OpenAPI <<SpringDoc>> {
+    }
+}
+
+' Relationships
+FilmController ..|> FilmControllerApi : implements
+FilmController --> FilmService : uses
+FilmController --> FilmDTO : creates
+FilmService --> FilmRepository : uses
+FilmService --> Film : returns
+FilmRepository --|> ListCrudRepository : extends
+FilmRepository --> Film : manages
+FilmDTO *-- FilmDTOFilm : contains
+FilmDTOFilm ..> Film : converts from
+MainApplication --> SpringApplication : uses
+OpenApiConfig --> OpenAPI : creates
+GlobalExceptionHandler --> ProblemDetail : creates
+
+' Annotations and Stereotypes
+note right of MainApplication : @SpringBootApplication\nApplication Entry Point
+note right of OpenApiConfig : @Configuration\n@Bean
+note right of FilmController : @RestController\n@RequestMapping("/api/v1")
+note right of FilmService : @Service\nBusiness Logic Layer
+note right of FilmRepository : @Repository\nData Access Layer
+note right of GlobalExceptionHandler : @ControllerAdvice\nCentralized Exception Handling
+note right of Film : @Table("film")\n@Id, @Column annotations
+note right of FilmDTO : Record class\nData Transfer Object
+
+' Design Pattern Notes
+note top of FilmControllerApi : "API Contract Pattern\nSeparates interface from implementation"
+note bottom of FilmService : "Service Layer Pattern\nContains business logic"
+note bottom of FilmRepository : "Repository Pattern\nData access abstraction"
+
+' Architectural Layers
+note as N1
+    **Layered Architecture**
+    - Controller Layer: REST endpoints
+    - Service Layer: Business logic
+    - Repository Layer: Data access
+    - Entity Layer: Data models
+end note
+
+@enduml 
