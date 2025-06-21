@@ -404,6 +404,26 @@ Update the pom.xml with this profile to run jacoco:
                                                 <value>COVEREDRATIO</value>
                                                 <minimum>${coverage.level}%</minimum>
                                             </limit>
+                                            <limit>
+                                                <counter>METHOD</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>CLASS</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>INSTRUCTION</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>COMPLEXITY</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.level}%</minimum>
+                                            </limit>
                                         </limits>
                                     </rule>
                                 </rules>
