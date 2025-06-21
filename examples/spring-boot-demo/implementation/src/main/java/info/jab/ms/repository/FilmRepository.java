@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FilmRepository extends ListCrudRepository<Film, Integer> {
 
+    //TDDO: Remove collate
     /**
      * Task 8.4: Implement findByTitleStartingWith(String prefix) method
      *
@@ -27,14 +28,15 @@ public interface FilmRepository extends ListCrudRepository<Film, Integer> {
      * @param prefix The starting letters to search for (case-insensitive)
      * @return List of films with titles starting with the prefix
      */
-    @Query("SELECT film_id, title FROM film WHERE UPPER(title) LIKE UPPER(:prefix || '%') ORDER BY title")
+    @Query("SELECT film_id, title FROM film WHERE UPPER(title) LIKE UPPER(:prefix || '%') ORDER BY title COLLATE \"C\"")
     List<Film> findByTitleStartingWith(@Param("prefix") String prefix);
 
+    //TDDO: Remove collate
     /**
      * Alternative method to find all films (for when no filter is applied)
      *
      * @return List of all films ordered by title
      */
-    @Query("SELECT film_id, title FROM film ORDER BY title")
+    @Query("SELECT film_id, title FROM film ORDER BY title COLLATE \"C\"")
     List<Film> findAllOrderByTitle();
 }

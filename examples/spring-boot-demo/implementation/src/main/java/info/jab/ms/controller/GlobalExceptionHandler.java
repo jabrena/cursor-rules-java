@@ -51,7 +51,11 @@ public class GlobalExceptionHandler {
         );
 
         problemDetail.setTitle("Internal Server Error");
-        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        // Handle null request URI gracefully
+        String requestUri = request.getRequestURI();
+        problemDetail.setInstance(URI.create(requestUri != null ? requestUri : "/unknown"));
+
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errorId", errorId);
 
@@ -75,7 +79,11 @@ public class GlobalExceptionHandler {
         );
 
         problemDetail.setTitle("Internal Server Error");
-        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        // Handle null request URI gracefully
+        String requestUri = request.getRequestURI();
+        problemDetail.setInstance(URI.create(requestUri != null ? requestUri : "/unknown"));
+
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errorId", errorId);
 

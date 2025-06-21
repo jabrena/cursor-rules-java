@@ -8,8 +8,8 @@
 		<version>3.5.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>info.jab.ms</groupId>
+	<artifactId>sakila-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<java.version>24</java.version>
