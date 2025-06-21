@@ -672,7 +672,7 @@ public class ProblemDetailsExceptionHandler {
         logger.error("Internal server error with ID: {}", 
             problemDetail.getProperties().get("errorId"), ex);
         
-        return ResponseEntity.of(problemDetail).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -688,7 +688,7 @@ public class ProblemDetailsExceptionHandler {
         problemDetail.setInstance(URI.create(request.getRequestURI()));
         problemDetail.setProperty("timestamp", Instant.now());
         
-        return ResponseEntity.of(problemDetail).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -705,7 +705,7 @@ public class ProblemDetailsExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("violations", ex.getViolations());
         
-        return ResponseEntity.of(problemDetail).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
 }
 
