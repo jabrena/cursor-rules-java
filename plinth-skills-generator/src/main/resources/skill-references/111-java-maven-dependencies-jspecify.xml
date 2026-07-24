@@ -29,29 +29,25 @@ Configure nullness analysis only when selected by the user. This reference owns 
 
     <steps>
         <step number="1">
-            <step-title>Add selected version properties</step-title>
+            <step-title>Add JSpecify dependency with the Maven dependency plugin</step-title>
             <step-content><![CDATA[
-Add only the properties needed by the user's selections:
-
-```xml
-<jspecify.version>1.0.0</jspecify.version>
-<error-prone.version>2.35.1</error-prone.version>
-<nullaway.version>0.12.0</nullaway.version>
+```bash
+./mvnw org.apache.maven.plugins:maven-dependency-plugin:3.11.0:add -Dgav=org.jspecify:jspecify:1.0.0 -Dscope=provided -DuseProperty=true -DpropertyName=jspecify.version
 ```
+
+Invoking the plugin with an explicit `groupId:artifactId:version:goal` coordinate pins the version for this one invocation without adding a permanent `pluginManagement` entry to the POM — versions before 3.11.0 do not have the `add` goal. This adds the dependency directly to `pom.xml` with `provided` scope and creates a matching `jspecify.version` property. `-DuseProperty=true` is required — `align` auto-detection does not reliably create the property even when the project already follows a `${x.version}` convention.
 
 
 ]]></step-content>
         </step>
         <step number="2">
-            <step-title>Add JSpecify dependency when selected</step-title>
+            <step-title>Add Error Prone + NullAway version properties when selected</step-title>
             <step-content><![CDATA[
+Add these properties only when enhanced compiler analysis was selected. `error-prone.version` and `nullaway.version` configure `annotationProcessorPaths` entries inside the compiler plugin, not a top-level dependency, so `dependency:add` does not manage them — add them by hand:
+
 ```xml
-<dependency>
-    <groupId>org.jspecify</groupId>
-    <artifactId>jspecify</artifactId>
-    <version>${jspecify.version}</version>
-    <scope>provided</scope>
-</dependency>
+<error-prone.version>2.35.1</error-prone.version>
+<nullaway.version>0.12.0</nullaway.version>
 ```
 
 

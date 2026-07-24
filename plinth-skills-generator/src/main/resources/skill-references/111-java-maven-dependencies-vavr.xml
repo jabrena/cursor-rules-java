@@ -27,30 +27,18 @@ Add VAVR only when the user selects functional programming support in the SKILL.
 
     <steps>
         <step number="1">
-            <step-title>Add selected version property</step-title>
+            <step-title>Add VAVR dependency with the Maven dependency plugin</step-title>
             <step-content><![CDATA[
-```xml
-<vavr.version>0.10.6</vavr.version>
+```bash
+./mvnw org.apache.maven.plugins:maven-dependency-plugin:3.11.0:add -Dgav=io.vavr:vavr:0.10.6 -DuseProperty=true -DpropertyName=vavr.version
 ```
+
+Invoking the plugin with an explicit `groupId:artifactId:version:goal` coordinate pins the version for this one invocation without adding a permanent `pluginManagement` entry to the POM — versions before 3.11.0 do not have the `add` goal. This adds the dependency directly to `pom.xml` using default compile scope and creates a matching `vavr.version` property. `-DuseProperty=true` is required — `align` auto-detection does not reliably create the property even when the project already follows a `${x.version}` convention.
 
 
 ]]></step-content>
         </step>
         <step number="2">
-            <step-title>Add VAVR dependency</step-title>
-            <step-content><![CDATA[
-```xml
-<dependency>
-    <groupId>io.vavr</groupId>
-    <artifactId>vavr</artifactId>
-    <version>${vavr.version}</version>
-</dependency>
-```
-
-
-]]></step-content>
-        </step>
-        <step number="3">
             <step-title>Report common usage</step-title>
             <step-content><![CDATA[
 Mention VAVR is useful for `Try`, `Either`, and immutable collections. Recommend adding examples only if the user asks or if the change introduces VAVR into existing code.

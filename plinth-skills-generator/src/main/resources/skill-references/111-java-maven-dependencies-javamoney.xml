@@ -32,51 +32,26 @@ JavaMoney reference: https://javamoney.github.io/
 
     <steps>
         <step number="1">
-            <step-title>Add selected version property</step-title>
+            <step-title>Add JavaMoney dependency with the Maven dependency plugin</step-title>
             <step-content><![CDATA[
-For application modules that need a JSR 354 implementation, add:
+For application modules, add Moneta, the JSR 354 reference implementation (`pom` type):
 
-```xml
-<javamoney-moneta.version>1.4.5</javamoney-moneta.version>
+```bash
+./mvnw org.apache.maven.plugins:maven-dependency-plugin:3.11.0:add -Dgav=org.javamoney:moneta:pom:1.4.5 -DuseProperty=true -DpropertyName=javamoney-moneta.version
 ```
 
-For API-only modules, add `money-api.version` only when the module should compile against the JSR 354 API without providing a runtime implementation:
+For API-only modules, add the API dependency instead, only when the module should compile against the JSR 354 API without providing a runtime implementation:
 
-```xml
-<money-api.version>1.1</money-api.version>
+```bash
+./mvnw org.apache.maven.plugins:maven-dependency-plugin:3.11.0:add -Dgav=javax.money:money-api:1.1 -DuseProperty=true -DpropertyName=money-api.version
 ```
+
+Invoking the plugin with an explicit `groupId:artifactId:version:goal` coordinate pins the version for this one invocation without adding a permanent `pluginManagement` entry to the POM — versions before 3.11.0 do not have the `add` goal. Each command adds the dependency directly to `pom.xml` and creates a matching version property (`javamoney-moneta.version` or `money-api.version`). `-DuseProperty=true` is required — `align` auto-detection does not reliably create the property even when the project already follows a `${x.version}` convention. `-DpropertyName` is required for the Moneta command — without it, the property name is derived from the artifactId (`moneta.version`) instead of the conventional `javamoney-moneta.version`.
 
 
 ]]></step-content>
         </step>
         <step number="2">
-            <step-title>Add JavaMoney dependency</step-title>
-            <step-content><![CDATA[
-For application modules, add Moneta, the JSR 354 reference implementation:
-
-```xml
-<dependency>
-    <groupId>org.javamoney</groupId>
-    <artifactId>moneta</artifactId>
-    <version>${javamoney-moneta.version}</version>
-    <type>pom</type>
-</dependency>
-```
-
-For API-only modules, add the API dependency instead:
-
-```xml
-<dependency>
-    <groupId>javax.money</groupId>
-    <artifactId>money-api</artifactId>
-    <version>${money-api.version}</version>
-</dependency>
-```
-
-
-]]></step-content>
-        </step>
-        <step number="3">
             <step-title>Report domain-modeling trade-offs</step-title>
             <step-content><![CDATA[
 Mention JavaMoney provides the Java Money and Currency API (JSR 354) and Moneta reference implementation. Recommend JavaMoney when the project needs monetary amounts, currencies, formatting, currency conversion, or precision-safe calculations.

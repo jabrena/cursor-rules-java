@@ -28,31 +28,18 @@ Add ArchUnit only when the user selects architecture testing support in the SKIL
 
     <steps>
         <step number="1">
-            <step-title>Add selected version property</step-title>
+            <step-title>Add ArchUnit JUnit 5 dependency with the Maven dependency plugin</step-title>
             <step-content><![CDATA[
-```xml
-<archunit.version>1.4.1</archunit.version>
+```bash
+./mvnw org.apache.maven.plugins:maven-dependency-plugin:3.11.0:add -Dgav=com.tngtech.archunit:archunit-junit5:1.4.1 -Dscope=test -DuseProperty=true -DpropertyName=archunit.version
 ```
+
+Invoking the plugin with an explicit `groupId:artifactId:version:goal` coordinate pins the version for this one invocation without adding a permanent `pluginManagement` entry to the POM — versions before 3.11.0 do not have the `add` goal. This adds the dependency directly to `pom.xml` with `test` scope and creates a matching `archunit.version` property. `-DuseProperty=true` is required — `align` auto-detection does not reliably create the property even when the project already follows a `${x.version}` convention. `-DpropertyName=archunit.version` is required — without it, the property name is derived from the artifactId (`archunit-junit5.version`) instead of the shorter conventional name.
 
 
 ]]></step-content>
         </step>
         <step number="2">
-            <step-title>Add ArchUnit JUnit 5 dependency</step-title>
-            <step-content><![CDATA[
-```xml
-<dependency>
-    <groupId>com.tngtech.archunit</groupId>
-    <artifactId>archunit-junit5</artifactId>
-    <version>${archunit.version}</version>
-    <scope>test</scope>
-</dependency>
-```
-
-
-]]></step-content>
-        </step>
-        <step number="3">
             <step-title>Validate architecture tests</step-title>
             <step-content><![CDATA[
 After adding ArchUnit, recommend running:
