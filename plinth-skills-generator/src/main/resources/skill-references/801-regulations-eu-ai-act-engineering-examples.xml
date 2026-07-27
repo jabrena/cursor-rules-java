@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xi="http://www.w3.org/2001/XInclude"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.8.0/pml.xsd">
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml.xsd">
 
     <metadata>
-        <author>Juan Antonio Breña Moral</author>
+        <authors>
+            <author>Juan Antonio Breña Moral</author>
+        </authors>
         <version>0.18.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>EU AI Act Regulation for Java Enterprise Development with AI Systems and AI Agents</title>
