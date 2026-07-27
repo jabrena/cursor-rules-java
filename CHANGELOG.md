@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **PML & generators**:
   - Extracted `plinth-commands-generator` and `plinth-agents-generator` as standalone modules (mirroring `plinth-skills-generator`), each with its own XSD schema (`commands.xsd`, `agents.xsd`), manifest, and propagation/bridge tests; renamed the parent Maven artifact to `plinth` (#1035, #1036, #1037, #1038, #992, #993, #1042)
 
+### Removed
+
+- **Skills**:
+  - Removed the `034-architecture-design-exploration` skill; its steps were absorbed directly into the `/explore-design` command now that the command runs after `/create-spec` instead of standing in as the first design step (#1024, #1026, #1028)
+
 ## [0.17.0] 2026-07-13
 
 ### Added

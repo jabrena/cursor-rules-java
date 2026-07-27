@@ -20,9 +20,9 @@
 
 ## 项目概览
 
-- 11 Commands
+- 13 Commands
 - 9 Agents
-- 119 Skills
+- 125 Skills
 - ~226 开发小时
 
 ## 最新动态
@@ -80,6 +80,13 @@ Analysis & Design
       @044-planning-jira
       @045-planning-azure-devops
       @014-agile-user-story
+  /explore-problem
+    @robot-business-analyst
+      @021-problem-framing
+      @022-root-cause-analysis
+      @023-assumption-analysis
+      @024-context-mapping
+      @025-quality-attribute-discovery
   /create-adr
     @robot-architect
       @030-architecture-adr-general
@@ -90,21 +97,22 @@ Analysis & Design
       @033-architecture-diagrams
 
   /create-spec
-    @robot-tech-lead
+    @robot-architect
       @042-planning-openspec
+  /explore-design
+    @robot-architect
       @051-design-two-steps-methods
       @052-design-hamburger-method
       @053-design-simple-rules
       @054-design-tdd
       @055-design-parallel-change
       @056-design-avoid-breaking-changes
+      @057-design-feature-toggles
+      @059-design-atdd
       @121-java-object-oriented-design
       @122-java-type-design
       @123-java-design-patterns
       @130-java-testing-strategies
-  /explore-design
-    @robot-architect
-      @034-architecture-design-exploration
 
 Build
   /implement-spec

@@ -4,7 +4,7 @@ description: Default implementation specialist for non-Java projects. Use when a
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.18.0-SNAPSHOT
+  version: 0.18.0
 model: inherit
 ---
 

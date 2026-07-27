@@ -2,8 +2,6 @@
 
 <a href="https://trendshift.io/repositories/15013" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15013" alt="jabrena%2Fcursor-rules-java | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[![Stargazers over time](https://starchart.cc/jabrena/plinth.svg?variant=adaptive)](https://starchart.cc/jabrena/plinth)
-
 [![CI Builds](https://github.com/jabrena/plinth/actions/workflows/maven.yaml/badge.svg)](https://github.com/jabrena/plinth/actions/workflows/maven.yaml)
 
 > **Languages:** [Español](./README_ES.md) · [中文](./README_ZH.md)
@@ -20,10 +18,9 @@ An opinionated AI-native workflow for evolving modern Java Enterprise `SDLC` pra
 
 ## Project at a glance
 
-- 11 Commands
+- 13 Commands
 - 9 Agents
-- 119 Skills
-- ~226 development hours
+- 125 Skills
 
 ## Latest Updates
 
@@ -76,6 +73,8 @@ Commands compose the workflow by routing work to the right agent and skill set:
 
 Turn an idea into an actionable change with user stories, GitHub Issues or Jira, ADRs, diagrams, AI plan mode, and OpenSpec.
 
+**Functional Specification:**
+
 ```text
 /update-issue
 @robot-business-analyst
@@ -83,31 +82,49 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
     @044-planning-jira
     @045-planning-azure-devops
     @014-agile-user-story
+
+/explore-problem
+@robot-business-analyst
+    @021-problem-framing
+    @022-root-cause-analysis
+    @023-assumption-analysis
+    @024-context-mapping
+    @025-quality-attribute-discovery
+
+/create-acceptance-criteria
+@robot-business-analyst
+    @058-design-bdd
+```
+
+**Technical Specification:**
+
+```
 /create-adr
 @robot-architect
     @030-architecture-adr-general
-    @031-architecture-adr-functional-requirements
-    @032-architecture-adr-non-functional-requirements
+
 /create-diagram
 @robot-architect
     @033-architecture-diagrams
 
 /create-spec
-@robot-tech-lead
+@robot-architect
     @042-planning-openspec
+
+/explore-design
+@robot-architect
     @051-design-two-steps-methods
     @052-design-hamburger-method
     @053-design-simple-rules
     @054-design-tdd
     @055-design-parallel-change
     @056-design-avoid-breaking-changes
+    @057-design-feature-toggles
+    @059-design-atdd
     @121-java-object-oriented-design
     @122-java-type-design
     @123-java-design-patterns
     @130-java-testing-strategies
-/explore-design
-@robot-architect
-    @034-architecture-design-exploration
 
 MCP Servers
     Jbang-Quarkus-JDBC
