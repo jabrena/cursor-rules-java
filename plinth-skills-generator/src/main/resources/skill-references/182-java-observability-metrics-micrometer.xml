@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Java Metrics Observability with Micrometer</title>
         <description>Use when you need to implement or improve Java metrics observability with Micrometer — including meter design, naming/tag conventions, cardinality control, timers/counters/gauges/distribution summaries, percentiles/histograms, Actuator/Prometheus integration, and metrics validation through tests.</description>

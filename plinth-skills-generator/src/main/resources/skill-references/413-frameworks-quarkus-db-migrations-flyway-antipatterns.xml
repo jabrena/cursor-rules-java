@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Quarkus — Database migrations (Flyway)</title>
         <description>Review Quarkus Flyway migrations for data loss, data reinterpretation, repeatable migration surprises, and branch-ordering risks before recommending SQL changes.</description>

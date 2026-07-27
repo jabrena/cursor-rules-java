@@ -4,7 +4,7 @@
       id="400-frameworks-quarkus-create-project">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to create a new Maven-based Quarkus 3.x project using SDKMAN-managed Java and Quarkus CLI tooling. This should trigger for requests such as Create a Quarkus Maven project; Bootstrap Quarkus project with SDKMAN; Generate a new Quarkus service; Create Quarkus 3 Maven project; Scaffold Quarkus service with Java 25.</description>
   </metadata>

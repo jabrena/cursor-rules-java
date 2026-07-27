@@ -4,7 +4,7 @@
       id="515-frameworks-micronaut-mongodb">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need MongoDB persistence in Micronaut — including @MongoRepository design, document modeling, indexes, query patterns, and error handling. This should trigger for requests such as Add MongoDB in Micronaut; Review Micronaut Data Mongo design; Improve error handling for Micronaut Mongo operations; Model MongoDB documents for a Micronaut service; Configure Micronaut MongoDB codecs indexes or transactions.</description>
   </metadata>

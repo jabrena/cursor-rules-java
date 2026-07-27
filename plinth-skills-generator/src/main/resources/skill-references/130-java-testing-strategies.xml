@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Java testing strategies</title>
         <description>Use when you need to apply testing strategies for Java code — including RIGHT-BICEP to guide test creation, A-TRIP for test quality characteristics, or CORRECT for verifying boundary conditions. Focused on conceptual frameworks rather than framework-specific annotations.</description>

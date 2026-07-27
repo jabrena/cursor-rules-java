@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>robot-architect</title>
         <description>Java architecture specialist. Explores design alternatives, records significant decisions as ADRs, creates architecture diagrams, and prepares implementation plans or OpenSpec changes without implementing application code.</description>

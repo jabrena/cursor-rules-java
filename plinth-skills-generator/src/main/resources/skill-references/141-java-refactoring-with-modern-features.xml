@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Modern Java Development Guidelines (Java 8+)</title>
         <description>Use when you need to refactor Java code to adopt modern Java features (Java 8+) including lambda expressions, Stream API, Optional, java.time API, collection factory methods, text blocks, var inference, and Java 25 flexible constructor bodies and module import declarations.</description>

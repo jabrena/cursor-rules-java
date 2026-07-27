@@ -4,7 +4,7 @@
       id="415-frameworks-quarkus-mongodb">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need MongoDB persistence in Quarkus — including Panache Mongo entities/repositories, document design, indexes, transactions where applicable, and error handling. This should trigger for requests such as Add MongoDB in Quarkus; Review Quarkus Mongo Panache design; Improve Mongo error handling in Quarkus services; Model MongoDB documents for a Quarkus service; Configure Quarkus MongoDB clients codecs or transactions.</description>
   </metadata>

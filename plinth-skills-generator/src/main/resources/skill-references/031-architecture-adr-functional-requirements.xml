@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Create ADRs for Functional Requirements (CLI and/or REST API)</title>
         <description>Use when the user wants to document CLI and/or REST API architecture, capture functional requirements in an ADR, create ADRs for command-line tools or HTTP services, or design interfaces with documented decisions.</description>

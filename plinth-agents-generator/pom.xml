@@ -7,7 +7,7 @@
     <parent>
         <groupId>info.jab</groupId>
         <artifactId>plinth</artifactId>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

@@ -4,7 +4,7 @@
       id="706-technologies-containers-docker">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need framework-agnostic Docker and container image guidance for Java projects - Dockerfile design, multi-stage Maven builds, jlink custom runtimes, micro runtime distributions such as Alpaquita, JVM container ergonomics, non-root execution, image metadata, .dockerignore, reproducible builds, vulnerability scanning, SBOM awareness, and production-safe container defaults. This should trigger for requests such as Review Java Dockerfile; Improve Docker image security; Add jlink runtime to a Java container; Add containerization to a Java project; Optimize Java container image size; Review Docker build reproducibility.</description>
   </metadata>

@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Micronaut Integration Testing</title>
         <description>Use when you need to write or improve integration tests for Micronaut — including @MicronautTest with full or partial context, HttpClient against EmbeddedServer, Testcontainers with TestPropertyProvider for JDBC and brokers, data isolation, @MicronautTest(transactional = true) rollback where appropriate, and Maven Surefire/Failsafe splits for *Test, *Tests, *IT, and *AT.</description>

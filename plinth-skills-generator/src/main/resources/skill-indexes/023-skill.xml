@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when a framed and root-caused problem needs its assumptions made explicit before design or planning begins — explicit Assumptions, Unknowns, and a Validation plan. This should trigger when an issue's Assumption Analysis point of view needs evaluation, or when a maintainer directly asks to surface hidden assumptions and unknowns before committing to an approach.</description>
   </metadata>

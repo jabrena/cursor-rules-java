@@ -8,7 +8,7 @@
       <author>Juan Antonio Breña Moral</author>
       <author>Sangwon Park</author>
     </authors>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when designing, implementing, reviewing, testing, or cleaning up feature toggles, feature flags, kill switches, runtime configuration gates, canary controls, staged rollouts, experiments, or temporary compatibility switches in Java enterprise systems. This should trigger for requests such as Design a feature toggle strategy; Review this feature flag; Add a kill switch safely; Test toggle on and off paths; Clean up an expired feature toggle; Plan controlled rollout and rollback behavior.</description>
   </metadata>

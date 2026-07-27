@@ -4,7 +4,7 @@
       id="516-frameworks-micronaut-mongodb-migrations-mongock">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to add or review Mongock MongoDB data migrations in a Micronaut application — including Mongock runner/driver selection, Micronaut bean wiring, migration scan packages, @ChangeUnit classes, lock/transaction settings, and Testcontainers verification. This should trigger for requests such as Add Mongock migrations in Micronaut; Review Micronaut MongoDB data migrations; Configure Mongock change units with Micronaut Data MongoDB; Create Mongock change units for Micronaut MongoDB; Review Mongock migration ordering in a Micronaut service.</description>
   </metadata>

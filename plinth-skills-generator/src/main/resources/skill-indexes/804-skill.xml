@@ -4,7 +4,7 @@
       id="804-regulations-eu-nis2">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing, designing, or modifying Java enterprise systems that may support essential or important entities, critical-sector services, managed service providers, supply-chain dependencies, or cybersecurity incident escalation obligations under NIS2. This should trigger for requests such as Review a Java platform for NIS2 cybersecurity controls; Design operational evidence for critical-sector services; Add incident detection, escalation, continuity, or supply-chain security controls; Assess cybersecurity risk management before production release.</description>
   </metadata>

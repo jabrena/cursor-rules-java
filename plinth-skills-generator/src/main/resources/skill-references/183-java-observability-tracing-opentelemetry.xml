@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Java Distributed Tracing with OpenTelemetry</title>
         <description>Use when you need to implement or improve distributed tracing with OpenTelemetry in Java — including trace/span modeling, context propagation, semantic conventions, span attributes/events/status, sampling strategy, baggage usage, privacy safeguards, and backend integration with OTLP collectors.</description>

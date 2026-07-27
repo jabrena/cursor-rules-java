@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>NIS2 Regulation for Java Enterprise Cybersecurity Risk Management</title>
         <description>Use as a chapter-by-chapter and article-by-article summary of Directive (EU) 2022/2555 to enrich Java enterprise cybersecurity and operational-resilience reviews with NIS2 context.</description>

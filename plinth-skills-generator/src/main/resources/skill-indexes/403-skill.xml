@@ -4,7 +4,7 @@
       id="403-frameworks-quarkus-validation">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to design, review, or improve validation in Quarkus applications — including Bean Validation on JAX-RS resources, @Valid on parameters and CDI beans, constraint groups, @ConfigMapping validation, custom constraints, nested DTO validation, and ExceptionMapper-based error mapping. This should trigger for requests such as Add validation support in Quarkus; Review Quarkus validation rules; Improve request validation in Quarkus REST APIs; Add custom validation constraints in Quarkus; Validate Quarkus @ConfigMapping properties.</description>
   </metadata>

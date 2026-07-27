@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>MiFID II Regulation for Java Enterprise Investment Service Controls</title>
         <description>Use as Java-focused MiFID II engineering examples for investment-service scope triage, client classification, suitability, appropriateness, order-handling evidence, best-execution evidence, algorithmic-trading governance controls, record keeping, monitoring, and compliance evidence handoff.</description>

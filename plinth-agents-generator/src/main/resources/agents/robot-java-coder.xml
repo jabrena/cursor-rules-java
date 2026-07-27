@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>robot-java-coder</title>
         <description>Implementation specialist for Java projects. Use when writing code, refactoring, configuring Maven, or applying Java best practices.</description>

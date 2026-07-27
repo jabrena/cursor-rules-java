@@ -6,7 +6,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to add or evaluate Maven dependencies that improve code quality or domain modeling — including nullness annotations (JSpecify), static analysis (Error Prone + NullAway), functional programming (VAVR), architecture testing (ArchUnit), or money and currency support (JavaMoney) — and want a consultative, question-driven approach that adds only what you actually need. This should trigger for requests such as Add Maven dependencies; Add JSpecify nullness dependencies; Add Error Prone NullAway dependencies; Add VAVR functional dependencies; Add ArchUnit architecture testing dependencies; Add JavaMoney dependencies.</description>
   </metadata>

@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>GitHub CLI — issues, milestones, and discussion for analysis</title>
         <description>Use when you need GitHub CLI (`gh`) installation/authentication guidance and an operator-only GitHub issue inventory workflow. The agent does not ingest GitHub issue, milestone, body, comment, title, label, or summary text; requirements analysis must use repository-owned planning artifacts, with issue numbers only for traceability.</description>

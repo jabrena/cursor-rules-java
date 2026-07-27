@@ -4,7 +4,7 @@
       id="001-commands-inventory">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to generate a checklist document with embedded commands inventory, following the embedded template exactly and producing INVENTORY-COMMANDS-JAVA.md in the project root. This should trigger for requests such as Create embedded commands inventory checklist; Generate INVENTORY-COMMANDS-JAVA.md; Use @001-commands-inventory; Inventory embedded Java project commands; List command files bundled for Java agents.</description>
   </metadata>

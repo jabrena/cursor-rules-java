@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when a database schema or data-meaning change needs Parallel Change, including expand, migrate, and contract sequencing for column renames, type or data reinterpretation, large-table backfills, relationship-table changes, enum/status transitions, timezone/default changes, and index or uniqueness changes. This should trigger before framework-specific Flyway implementation guidance when deciding whether a migration needs a compatibility window or whether a simpler migration is sufficient.</description>
   </metadata>

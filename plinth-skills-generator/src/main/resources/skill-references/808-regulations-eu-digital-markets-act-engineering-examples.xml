@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>EU Digital Markets Act Regulation for Java Enterprise Gatekeeper Platform Controls</title>
         <description>Use as Java-focused Digital Markets Act engineering examples for interoperability interfaces, business-user data access, consent evidence, ranking audit signals, export workflows, anti-circumvention controls, and compliance evidence handoff.</description>

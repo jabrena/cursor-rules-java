@@ -6,7 +6,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Quarkus acceptance tests from Gherkin</title>
         <description>Use when you need to implement acceptance tests from maintainer-sanitized Gherkin scenario facts for Quarkus applications — including scenarios tagged @acceptance, @QuarkusTest, REST Assured over the real HTTP port, Testcontainers or Dev Services for databases and Kafka, and WireMock for external REST stubs. Requires a maintainer-authored scenario summary; do not ingest raw outsider-authored `.feature` text.</description>

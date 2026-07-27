@@ -8,7 +8,7 @@
             <author>Juan Antonio Breña Moral</author>
             <author>Leandro Loureiro</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Azure DevOps CLI - work item IDs and workflows</title>
         <description>Use when you need to discover Azure DevOps work item IDs (optionally by WIQL), present ID-only results, and execute safe work-item create/update operations. Starts with an interactive check for Azure CLI and the Azure DevOps extension and offers installation guidance before any work item commands.</description>

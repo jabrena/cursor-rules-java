@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>EU Digital Services Act Regulation for Java Online Platform Engineering</title>
         <description>Use as Java-focused Digital Services Act engineering examples for content decision audit logs, moderation workflow state, notice tracking, recommender explanation, ad transparency, user controls, appeals, systemic-risk evidence, auditor and researcher access, incident escalation, and privacy-safe observability.</description>

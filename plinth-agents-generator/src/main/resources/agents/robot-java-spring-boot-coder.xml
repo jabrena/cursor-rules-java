@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>robot-java-spring-boot-coder</title>
         <description>Implementation specialist for Spring Boot projects. Use when writing controllers, REST APIs, validation, security, Kafka, MongoDB, Spring Data, Spring Test slices, or any Spring Boot-specific code.</description>

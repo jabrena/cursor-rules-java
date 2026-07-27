@@ -4,7 +4,7 @@
       id="181-java-observability-logging">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to implement or improve Java logging and observability — including selecting SLF4J with Logback/Log4j2, applying proper log levels (ERROR, WARN, INFO, DEBUG, TRACE), parameterized logging, correlation context, secure logging without sensitive data exposure, environment-specific configuration, log aggregation, monitoring, and alerting. This should trigger for requests such as Improve logging; Apply logging; Refactor logging; Add logging support; Review SLF4J structured logging in Java code.</description>
   </metadata>

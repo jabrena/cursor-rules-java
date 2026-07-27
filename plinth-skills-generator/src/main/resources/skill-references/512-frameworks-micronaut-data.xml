@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Micronaut Data Guidelines</title>
         <description>Use when you need data access with Micronaut Data — including JDBC (and JPA where applicable) repositories, @MappedEntity design, CrudRepository and custom @Query methods, pagination with Pageable, transactions with @Transactional, immutable-friendly entities and DTO projections, optimistic locking, compile-time query validation, and test setup with @MicronautTest and TestPropertyProvider. For hand-written java.sql repositories and maximum SQL control, use `@511-frameworks-micronaut-jdbc`. For Flyway-backed DDL and versioned schema changes, use `@513-frameworks-micronaut-db-migrations-flyway`.</description>

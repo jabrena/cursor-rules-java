@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Assumption Analysis</title>
         <description>Make explicit Assumptions, list Unknowns, and define a Validation plan for a problem under exploration, before design or planning commits to an approach.</description>

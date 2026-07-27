@@ -4,7 +4,7 @@
       id="131-java-testing-unit-testing">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to review, improve, or write Java unit tests — including migrating from JUnit 4 to JUnit 5, adopting AssertJ for fluent assertions, structuring tests with Given-When-Then, ensuring test independence, applying parameterized tests, mocking dependencies with Mockito, verifying boundary conditions (RIGHT-BICEP, CORRECT, A-TRIP), leveraging JSpecify null-safety annotations, or eliminating testing anti-patterns such as reflection-based tests or shared mutable state. This should trigger for requests such as Review Java code for unit tests; Apply best practices for unit tests in Java code; Write fast JUnit unit tests for Java code; Improve Mockito-based Java unit tests; Refactor Java tests to isolate collaborators.</description>
   </metadata>

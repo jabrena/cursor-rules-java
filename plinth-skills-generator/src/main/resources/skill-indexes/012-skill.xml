@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Guides the creation of agile epics with comprehensive definition including business value, success criteria, and breakdown into user stories. Use when the user wants to create an agile epic, define large bodies of work, break down features into user stories, or document strategic initiatives. This should trigger for requests such as Create an agile epic; Write an epic; I need to create an epic; Define an epic; Epic definition.</description>
   </metadata>

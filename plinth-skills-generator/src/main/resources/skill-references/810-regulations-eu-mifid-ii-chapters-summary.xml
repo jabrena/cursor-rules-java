@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>MiFID II Regulation for Java Enterprise Investment Service Controls</title>
         <description>Use as a title-by-title and article-group summary of Directive 2014/65/EU to enrich Java enterprise investment-service reviews with MiFID II context.</description>

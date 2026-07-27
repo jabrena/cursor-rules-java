@@ -4,7 +4,7 @@
       id="322-frameworks-spring-boot-testing-integration-tests">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to write or improve integration tests — including Testcontainers with @ServiceConnection, @DataJdbcTest persistence slices, TestRestTemplate or MockMvcTester for HTTP, data isolation, and container lifecycle management for Spring Boot 4.0.x. This should trigger for requests such as Review Java code for Spring Boot integration tests; Apply best practices for Spring Boot integration tests in Java code; Write @SpringBootTest integration tests with Testcontainers; Configure dynamic properties for Spring integration tests; Review Spring Boot integration test profiles.</description>
   </metadata>
