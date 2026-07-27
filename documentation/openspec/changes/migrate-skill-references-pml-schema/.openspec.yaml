@@ -1,0 +1,13 @@
+version: 1
+change:
+  name: migrate-skill-references-pml-schema
+  status: proposed
+  links:
+    - title: GitHub Issue #1022
+      url: https://github.com/jabrena/plinth/issues/1022
+    - title: Issue #1022 Functional Specification comment
+      url: https://github.com/jabrena/plinth/issues/1022#issuecomment-5083323522
+    - title: Issue #1022 Acceptance Criteria comment
+      url: https://github.com/jabrena/plinth/issues/1022#issuecomment-5090741509
+specs:
+  - specs/pml-skill-references-schema/spec.md

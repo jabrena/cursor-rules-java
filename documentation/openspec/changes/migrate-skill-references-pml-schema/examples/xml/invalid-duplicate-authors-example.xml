@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml.xsd">
+    <metadata>
+        <authors>
+            <author>Juan Antonio Breña Moral</author>
+            <author>Juan Antonio Breña Moral</author>
+        </authors>
+        <version>0.18.0-SNAPSHOT</version>
+        <license>Apache-2.0</license>
+        <title>Duplicate author value negative example</title>
+        <description>Representative invalid example: two author children inside the same authors element share the identical value. The PML schema itself does not reject this (no uniqueness constraint on sibling author text); rejection must come from a repository-owned content check, not xmllint/schema validation.</description>
+    </metadata>
+    <goal>Demonstrate that two identical author values inside one authors element are schema-valid but must be rejected by a repository-owned uniqueness check.</goal>
+</prompt>
