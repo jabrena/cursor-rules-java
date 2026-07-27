@@ -99,11 +99,11 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
 **Technical Specification:**
 
 ```
-/create-adr
+/create-adr (Optional)
 @robot-architect
     @030-architecture-adr-general
 
-/create-diagram
+/create-diagram (Optional)
 @robot-architect
     @033-architecture-diagrams
 
@@ -154,6 +154,9 @@ MCP Servers
     MongoDB
     JavaDocs
     Serena-LSP
+
+/close-spec
+@robot-architect
 ```
 
 ### Operate

@@ -2,8 +2,6 @@
 
 <a href="https://trendshift.io/repositories/15013" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15013" alt="jabrena%2Fcursor-rules-java | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[![Stargazers over time](https://starchart.cc/jabrena/plinth.svg?variant=adaptive)](https://starchart.cc/jabrena/plinth)
-
 [![CI Builds](https://github.com/jabrena/plinth/actions/workflows/maven.yaml/badge.svg)](https://github.com/jabrena/plinth/actions/workflows/maven.yaml)
 
 > **Idiomas:** [English](./README.md) · [中文](./README_ZH.md)
@@ -23,7 +21,6 @@ Un flujo de trabajo nativo de IA, con criterio propio, para evolucionar las prá
 - 13 Commands
 - 9 Agents
 - 125 Skills
-- ~226 horas de desarrollo
 
 ## Últimas actualizaciones
 
@@ -72,117 +69,118 @@ Los `System prompts/rules` actuales están deprecados y se eliminarán en `v0.18
 
 Los commands componen el flujo de trabajo dirigiendo cada tarea al agente y al conjunto de skills adecuados:
 
-```text
-Analysis & Design
-  /update-issue
-    @robot-business-analyst
-      @043-planning-github-issues
-      @044-planning-jira
-      @045-planning-azure-devops
-      @014-agile-user-story
-  /explore-problem
-    @robot-business-analyst
-      @021-problem-framing
-      @022-root-cause-analysis
-      @023-assumption-analysis
-      @024-context-mapping
-      @025-quality-attribute-discovery
-  /create-adr
-    @robot-architect
-      @030-architecture-adr-general
-      @031-architecture-adr-functional-requirements
-      @032-architecture-adr-non-functional-requirements
-  /create-diagram
-    @robot-architect
-      @033-architecture-diagrams
-
-  /create-spec
-    @robot-architect
-      @042-planning-openspec
-  /explore-design
-    @robot-architect
-      @051-design-two-steps-methods
-      @052-design-hamburger-method
-      @053-design-simple-rules
-      @054-design-tdd
-      @055-design-parallel-change
-      @056-design-avoid-breaking-changes
-      @057-design-feature-toggles
-      @059-design-atdd
-      @121-java-object-oriented-design
-      @122-java-type-design
-      @123-java-design-patterns
-      @130-java-testing-strategies
-
-Build
-  /implement-spec
-      @robot-tech-lead
-      /create-feature-branch
-      /create-worktree
-      @robot-java-coder
-      @robot-java-spring-boot-coder
-      @robot-java-quarkus-coder
-      @robot-java-micronaut-coder
-      @robot-no-java
-
-  MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-
-Operate
-  /profile
-    @robot-java-performance
-      @161-java-profiling-detect
-      @162-java-profiling-analyze
-      @163-java-profiling-refactor
-      @164-java-profiling-verify
-  /benchmark
-    @robot-java-performance
-      @151-java-performance-jmeter
-      @152-java-performance-gatling
-
-MCP Servers
-  Jbang-Quarkus-JDBC
-  MongoDB
-  JavaDocs
-  Serena-LSP
-  Grafana
-```
-
 ### Análisis y diseño
 
 Convierte una idea en un cambio accionable mediante user stories, GitHub Issues o Jira, ADRs, diagramas, AI plan mode y OpenSpec.
 
-| Recurso | Opciones disponibles |
-| --- | --- |
-| **Commands** | [`/update-issue`](./.cursor/commands/update-issue.md) · `/create-adr` · `/create-diagram` · `/create-spec` · `/explore-design` |
-| **Agents** | `@robot-business-analyst` · `@robot-architect` · `@robot-tech-lead` |
-| **Skills** | [014-agile-user-story](https://www.skills.sh/jabrena/plinth/014-agile-user-story) · [030-architecture-adr-general](https://www.skills.sh/jabrena/plinth/030-architecture-adr-general) · [031-architecture-adr-functional-requirements](https://www.skills.sh/jabrena/plinth/031-architecture-adr-functional-requirements) · [032-architecture-adr-non-functional-requirements](https://www.skills.sh/jabrena/plinth/032-architecture-adr-non-functional-requirements) · [033-architecture-diagrams](https://www.skills.sh/jabrena/plinth/033-architecture-diagrams) · [034-architecture-design-exploration](https://www.skills.sh/jabrena/plinth/034-architecture-design-exploration) · [041-planning-plan-mode](https://www.skills.sh/jabrena/plinth/041-planning-plan-mode) · [042-planning-openspec](https://www.skills.sh/jabrena/plinth/042-planning-openspec) · [043-planning-github-issues](https://www.skills.sh/jabrena/plinth/043-planning-github-issues) · [044-planning-jira](https://www.skills.sh/jabrena/plinth/044-planning-jira) · [051-design-two-steps-methods](https://www.skills.sh/jabrena/plinth/051-design-two-steps-methods) · [052-design-hamburger-method](https://www.skills.sh/jabrena/plinth/052-design-hamburger-method) · [053-design-simple-rules](https://www.skills.sh/jabrena/plinth/053-design-simple-rules) · [056-design-avoid-breaking-changes](https://www.skills.sh/jabrena/plinth/056-design-avoid-breaking-changes) · [200-agents-md](https://www.skills.sh/jabrena/plinth/200-agents-md) |
-| **MCP Servers** | [Jbang-Quarkus-JDBC](https://github.com/quarkiverse/quarkus-mcp-servers/blob/main/jdbc/README.md) · [MongoDB](https://github.com/mongodb-js/mongodb-mcp-server) · [Serena-LSP](https://oraios.github.io/serena/01-about/000_intro.html) |
+**Especificación funcional:**
+
+```text
+/update-issue
+@robot-business-analyst
+    @043-planning-github-issues
+    @044-planning-jira
+    @045-planning-azure-devops
+    @014-agile-user-story
+
+/explore-problem
+@robot-business-analyst
+    @021-problem-framing
+    @022-root-cause-analysis
+    @023-assumption-analysis
+    @024-context-mapping
+    @025-quality-attribute-discovery
+
+/create-acceptance-criteria
+@robot-business-analyst
+    @058-design-bdd
+```
+
+**Especificación técnica:**
+
+```
+/create-adr (Opcional)
+@robot-architect
+    @030-architecture-adr-general
+
+/create-diagram (Opcional)
+@robot-architect
+    @033-architecture-diagrams
+
+/create-spec
+@robot-architect
+    @042-planning-openspec
+
+/explore-design
+@robot-architect
+    @051-design-two-steps-methods
+    @052-design-hamburger-method
+    @053-design-simple-rules
+    @054-design-tdd
+    @055-design-parallel-change
+    @056-design-avoid-breaking-changes
+    @057-design-feature-toggles
+    @059-design-atdd
+    @121-java-object-oriented-design
+    @122-java-type-design
+    @123-java-design-patterns
+    @130-java-testing-strategies
+
+MCP Servers
+    Jbang-Quarkus-JDBC
+    MongoDB
+    JavaDocs
+    Serena-LSP
+    Grafana
+```
 
 ### Construir
 
 Implementa y mejora aplicaciones Java con orientación sobre Maven, diseño, programación, pruebas, seguridad, documentación, Spring Boot, Quarkus, Micronaut, OpenAPI y WireMock.
 
-| Recurso | Opciones disponibles |
-| --- | --- |
-| **Commands** | [`/create-feature-branch`](./.cursor/commands/create-feature-branch.md) · [`/create-worktree`](./.cursor/commands/create-worktree.md) · [`/implement-spec`](./.cursor/commands/implement-spec.md) |
-| **Agents** | `@robot-tech-lead` · `@robot-no-java` · `@robot-java-coder` · `@robot-java-spring-boot-coder` · `@robot-java-quarkus-coder` · `@robot-java-micronaut-coder` |
-| **Skills** | [110-java-maven-best-practices](https://www.skills.sh/jabrena/plinth/110-java-maven-best-practices) · [111-java-maven-dependencies](https://www.skills.sh/jabrena/plinth/111-java-maven-dependencies) · [121-java-object-oriented-design](https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design) · [124-java-secure-coding](https://www.skills.sh/jabrena/plinth/124-java-secure-coding) · [143-java-functional-exception-handling](https://www.skills.sh/jabrena/plinth/143-java-functional-exception-handling) |
-| **MCP Servers** | [Jbang-Quarkus-JDBC](https://github.com/quarkiverse/quarkus-mcp-servers/blob/main/jdbc/README.md) · [MongoDB](https://github.com/mongodb-js/mongodb-mcp-server) · [JavaDocs](https://www.javadocs.dev/mcp) · [Serena-LSP](https://oraios.github.io/serena/01-about/000_intro.html) |
+```text
+/implement-spec
+@robot-tech-lead
+    /create-feature-branch
+    /create-worktree
+    @robot-java-coder
+    @robot-java-spring-boot-coder
+    @robot-java-quarkus-coder
+    @robot-java-micronaut-coder
+    @robot-no-java
+
+MCP Servers
+    Jbang-Quarkus-JDBC
+    MongoDB
+    JavaDocs
+    Serena-LSP
+
+/close-spec
+@robot-architect
+```
 
 ### Operar
 
 Mide y mejora el comportamiento en producción mediante observabilidad, profiling, benchmarking y pruebas de rendimiento.
 
-| Recurso | Opciones disponibles |
-| --- | --- |
-| **Commands** | [`/profile`](./.cursor/commands/profile.md) · [`/benchmark`](./.cursor/commands/benchmark.md) |
-| **Agents** | `@robot-java-performance` |
-| **Skills** | [151-java-performance-jmeter](https://www.skills.sh/jabrena/plinth/151-java-performance-jmeter) · [161-java-profiling-detect](https://www.skills.sh/jabrena/plinth/161-java-profiling-detect) · [162-java-profiling-analyze](https://www.skills.sh/jabrena/plinth/162-java-profiling-analyze) · [163-java-profiling-refactor](https://www.skills.sh/jabrena/plinth/163-java-profiling-refactor) · [164-java-profiling-verify](https://www.skills.sh/jabrena/plinth/164-java-profiling-verify) |
-| **MCP Servers** | [Jbang-Quarkus-JDBC](https://github.com/quarkiverse/quarkus-mcp-servers/blob/main/jdbc/README.md) · [MongoDB](https://github.com/mongodb-js/mongodb-mcp-server) · [Serena-LSP](https://oraios.github.io/serena/01-about/000_intro.html) · [Grafana](https://grafana.com/docs/grafana/latest/developer-resources/mcp/) |
+```text
+/profile
+@robot-java-performance
+    @161-java-profiling-detect
+    @162-java-profiling-analyze
+    @163-java-profiling-refactor
+    @164-java-profiling-verify
+/benchmark
+@robot-java-performance
+    @151-java-performance-jmeter
+    @152-java-performance-gatling
+
+MCP Servers
+    Jbang-Quarkus-JDBC
+    MongoDB
+    Serena-LSP
+    Grafana
+```
 
 ### Cumplimiento (Alpha)
 
