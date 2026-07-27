@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>What 54 Benchmark Runs Reveal About Feeding AI Agents More Context - Plinth</title>
+  <meta name="author" content="" />
+  <meta name="description" content="">
+  <link rel="alternate" type="application/atom+xml" href="../../../feed.xml" title="Plinth"/>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../css/bootstrap-social.css" />
+  <link rel="stylesheet" href="../../../css/main.css" />
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+
+  <link rel="stylesheet" href="../../../css/asciidoctor.css">
+  <link rel="stylesheet" href="../../../css/prettify.css">
+  <link rel="icon" type="image/png" href="../../../images/java-icon.png">
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class="container-fluid">
+
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+  <span class="sr-only">Toggle navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="../../../index.html">Plinth</a>
+</div>
+
+<div class="collapse navbar-collapse" id="main-navbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><a href="https://forms.gle/TpNXENjmu45wuXoi6" target="_blank">Share feedback</a></li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Conferences</a>
+    <div class="navlinks-children">
+      <a href="https://jabrena.github.io/plinth/codemotion-madrid-2026/index.html" target="_blank">Codemotion Madrid 2026</a>
+      <a href="https://jabrena.github.io/plinth/dvbe25/index.html" target="_blank">Devoxx BE 2025</a>
+      <a href="https://jabrena.github.io/101-cursor/" target="_blank">WJAX-2025</a>
+    </div>
+  </li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Courses</a>
+    <div class="navlinks-children">
+      <a href="../../../courses/system-prompts-java/index.html">System prompts for Java</a>
+      <a href="../../../courses/java-generics/index.html">Java Generics</a>
+      <a href="../../../courses/profile-memory-leak/index.html">Memory Leak Profiling</a>
+    </div>
+  </li>
+  <li><a href="../../../archive.html">Archive</a></li>
+  <li><a href="https://jabrena-github-io.translate.goog/cursor-rules-java/?_x_tr_sl=en&_x_tr_tl=cn&_x_tr_hl=en-US&_x_tr_pto=wapp">Translate</a></li>
+</ul>
+</div>
+
+
+
+</div>
+</nav>
+
+
+
+<header class="header-section">
+
+
+<div class="intro-header no-img">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="post-heading">
+<h1>What 54 Benchmark Runs Reveal About Feeding AI Agents More Context</h1>
+<span class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-07-27
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    MyRobot
+</span>
+<span class="blog-tags">
+  &nbsp;
+  <i class="fa fa-tags"></i>
+    <a href="../../../tags/blog.html">blog</a>
+    <a href="../../../tags/agents.html">agents</a>
+    <a href="../../../tags/skills.html">skills</a>
+    <a href="../../../tags/openspec.html">openspec</a>
+    <a href="../../../tags/performance.html">performance</a>
+    <a href="../../../tags/java.html">java</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role="main" class="blog-post">
+<h2>The question behind the benchmark</h2>
+<p>Does giving an AI coding agent more context — a fuller spec, a technical plan, a delegation workflow — actually make it more likely to ship correct code? Or does it just make the run more expensive?</p>
+<p>This project runs a small reproducible benchmark to find out (issue <a href="https://github.com/jabrena/plinth/issues/1012">#1012</a>). The harness under <a href="https://github.com/jabrena/plinth/tree/main/benchmarks"><code>benchmarks/</code></a> asks different agent tools to solve the same problem — a &quot;God Analysis API&quot; — four times, each time with more structure available:</p>
+<table>
+<thead>
+<tr><th>Scenario</th><th>What the agent gets</th></tr>
+</thead>
+<tbody>
+<tr><td><code>scenario1</code></td><td>A minimal README only — baseline, sparsest possible brief</td></tr>
+<tr><td><code>scenario2</code></td><td>A full functional-requirements package: user story, Gherkin, OpenAPI, ADRs</td></tr>
+<tr><td><code>scenario3</code></td><td>An OpenSpec technical plan, plus the bundled <code>openspec-propose</code> skill</td></tr>
+<tr><td><code>scenario4</code></td><td>The same OpenSpec plan, wired to <code>@robot-tech-lead</code> → <code>@robot-java-spring-boot-coder</code> via <code>/implement-spec</code></td></tr>
+</tbody>
+</table>
+<p>Every completed run is logged as a JSON record under <code>scenarioN/results/</code>, validated against <a href="https://github.com/jabrena/plinth/blob/main/benchmarks/metrics-v1.schema.json"><code>metrics-v1.schema.json</code></a>, capturing efficiency (wall clock, tokens, cost), outcome quality (pass/fail, rework turns), and how much of the Plinth skill/command/agent library got used along the way.</p>
+<p>I pulled every result file currently checked in — 54 completed runs across four tools (<code>cursor</code>, <code>codex</code>, <code>claude-code</code>, <code>copilot</code>/<code>github-copilot</code>) and several models — and looked for patterns.</p>
+<h2>The headline numbers, per scenario</h2>
+<table>
+<thead>
+<tr><th>Scenario</th><th>Runs</th><th>Pass rate</th><th>Avg rework turns</th><th>Zero-rework runs</th><th>Avg skills / commands / agents used</th></tr>
+</thead>
+<tbody>
+<tr><td><code>scenario1</code> (README only)</td><td>14</td><td>13/14 (93%)</td><td>1.36</td><td>29%</td><td>0.64 / 0.00 / 0.00</td></tr>
+<tr><td><code>scenario2</code> (full functional spec)</td><td>8</td><td>8/8 (100%)</td><td>0.88</td><td>50%</td><td>1.00 / 0.00 / 0.00</td></tr>
+<tr><td><code>scenario3</code> (OpenSpec + propose skill)</td><td>8</td><td>7/8 (88%)</td><td>2.62</td><td>25%</td><td>0.88 / 0.12 / 0.00</td></tr>
+<tr><td><code>scenario4</code> (OpenSpec + agent delegation)</td><td>24</td><td>22/24 (92%)</td><td>0.71</td><td>67%</td><td>5.00 / 1.08 / 1.75</td></tr>
+</tbody>
+</table>
+<p>The first thing that jumps out: pass rate does <strong>not</strong> climb steadily with richness. It's 93%, 100%, 88%, 92% — every scenario clears at least 88%, and the dip at <code>scenario3</code> is real, not noise (more on that below). If the hypothesis was &quot;more context monotonically improves correctness,&quot; this dataset doesn't support it.</p>
+<p>What <em>does</em> move cleanly is rework burden and library usage. <code>scenario4</code> — the only scenario with an actual agent-delegation workflow, not just more documents to read — has both the lowest average rework (0.71 turns) and by far the highest fraction of runs that needed zero rework at all (67%, vs. 25–50% everywhere else). It also pulls in dramatically more of the skill library autonomously: an average of 5 skills, 1 command, and nearly 2 agents per run, against essentially none of that in <code>scenario1</code> and <code>scenario2</code>. That's the <code>@robot-tech-lead</code> → <code>@robot-java-spring-boot-coder</code> handoff doing its job — reading Spring Boot core/REST/validation/testing/security/OpenAPI/WireMock skills on its own initiative because the workflow is there to trigger it, not because the spec told it to.</p>
+<p><code>scenario3</code> is the interesting exception: nominally the same OpenSpec change as <code>scenario4</code> (see below for a caveat on that), but without the agent-delegation wiring — just the <code>openspec-propose</code> skill available bare. It has the <em>highest</em> average rework (2.62 turns) and the <em>lowest</em> pass rate (88%) in the whole ladder. Read together with <code>scenario4</code>, this suggests the OpenSpec artifacts alone are not what helps — agents that get a technical plan but no defined workflow to execute it seem to spend more turns figuring out how to act on it, not fewer.</p>
+<h2>Same tool, same model, across the whole ladder</h2>
+<p>The benchmark's own ranking rules say to prefer same-tool/same-model comparisons across the richness ladder over pooling everything together. Four tool/model pairs have a result at every scenario, so here's the direct comparison:</p>
+<table>
+<thead>
+<tr><th>Tool / model</th><th>Scenario</th><th>Wall clock</th><th>Tokens (total)</th><th>Cost</th><th>Rework turns</th><th>Pass?</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="4"><code>claude-code</code> / <code>claude-sonnet-5</code></td><td>1</td><td>620s</td><td>21,000</td><td>$0.15</td><td>0</td><td>✅</td></tr>
+<tr><td>2</td><td>660s</td><td>146,000</td><td>$1.75</td><td>0</td><td>✅</td></tr>
+<tr><td>3</td><td>1,500s</td><td>174,000</td><td>$0.66</td><td>0</td><td>✅</td></tr>
+<tr><td>4</td><td>1,375s</td><td>640,000</td><td>$3.00</td><td>0</td><td>✅</td></tr>
+<tr><td rowspan="4"><code>codex</code> / <code>gpt-5</code></td><td>1</td><td>300s</td><td>n/r</td><td>n/r</td><td>1</td><td>❌ (0.95 coverage)</td></tr>
+<tr><td>2</td><td>780s</td><td>102,000</td><td>n/r</td><td>2</td><td>✅</td></tr>
+<tr><td>3</td><td>930s</td><td>n/r</td><td>n/r</td><td>2</td><td>❌ (0.95 coverage)</td></tr>
+<tr><td>4</td><td>930s</td><td>n/r</td><td>n/r</td><td>4</td><td>✅</td></tr>
+<tr><td rowspan="4"><code>copilot</code> / <code>claude-sonnet-4.5</code></td><td>1</td><td>250s</td><td>76,889</td><td>$0.27</td><td>2</td><td>✅</td></tr>
+<tr><td>2</td><td>420s</td><td>9,000</td><td>$0.25</td><td>0</td><td>✅</td></tr>
+<tr><td>3</td><td>900s</td><td>117,000</td><td>$0.50</td><td>8</td><td>✅</td></tr>
+<tr><td>4</td><td>240s</td><td>6,000</td><td>$0.18</td><td>0</td><td>✅</td></tr>
+<tr><td rowspan="4"><code>cursor</code> / <code>composer-2.5-fast</code></td><td>1</td><td>180s</td><td>103,000</td><td>n/r</td><td>1</td><td>✅</td></tr>
+<tr><td>2</td><td>180s</td><td>107,000</td><td>n/r</td><td>1</td><td>✅</td></tr>
+<tr><td>3</td><td>420s</td><td>145,000</td><td>n/r</td><td>2</td><td>✅</td></tr>
+<tr><td>4</td><td>180s</td><td>n/r</td><td>n/r</td><td>0</td><td>✅</td></tr>
+</tbody>
+</table>
+<p><em>(n/r = not reported in the source record — see the caveat below on telemetry gaps. The <code>copilot</code> row merges the <code>copilot</code> and <code>github-copilot</code> tool labels, which appear to refer to the same tool under inconsistent naming across runs.)</em></p>
+<p>Four distinct stories come out of this:</p>
+<ul>
+<li><strong><code>claude-code</code> / <code>claude-sonnet-5</code> is the clean scaling case.</strong> It passed all four scenarios with zero rework every time, and its token/cost footprint climbed almost monotonically with richness — 21k tokens and $0.15 in <code>scenario1</code>, up to 640k tokens and $3.00 in <code>scenario4</code>. For this pairing, richness bought a smoother ride at a real, escalating price, not a correctness fix — it was never at risk.</li>
+<li><strong><code>codex</code> / <code>gpt-5</code> is the counter-example.</strong> It failed <code>scenario1</code> and <code>scenario3</code> with the <em>identical</em> 0.95 acceptance coverage both times, and its rework turns climbed with richness (1 → 2 → 2 → 4) rather than falling. It only converted to a pass once <code>scenario4</code>'s delegation workflow was present. More prose to read didn't close this gap; a defined workflow did.</li>
+<li><strong><code>copilot</code> / <code>claude-sonnet-4.5</code> had its roughest ride in the middle of the ladder, not the start.</strong> <code>scenario3</code> shows 8 rework turns — the single highest rework count anywhere in the dataset — despite still passing. <code>scenario4</code>, by contrast, is its fastest and cheapest run of the four.</li>
+<li><strong><code>cursor</code> / <code>composer-2.5-fast</code> is the steadiest performer overall.</strong> It passed every scenario, at zero or one rework turn until a small bump in <code>scenario3</code>, and it's one of only two pairings with a run at every rung of the ladder without a single failure.</li>
+</ul>
+<p>Zooming out from these four pairings: <code>cursor</code> passed all 23 of its runs in the full dataset, <code>claude-code</code> passed 8 of 10, <code>codex</code> 10 of 12, and <code>copilot</code>/<code>github-copilot</code> combined passed all 9. The four failures overall are spread across <code>scenario1</code>, <code>scenario3</code> (twice), and <code>scenario4</code> — not clustered at the sparse end, which again argues against &quot;richer input reliably prevents failure&quot; as a simple story.</p>
+<h2>One scaffolding per scenario</h2>
+<p>The pass/fail and cost numbers are only half the picture. Every run also snapshots the resulting demo project as a directory tree (<code>solution_snapshot.tree_b64</code>, base64-encoded, captured before the folder resets for the next run). Decoding every tree in the dataset turns the aggregate numbers into something you can actually look at — and it shows the same problem taking visibly different shapes at each rung.</p>
+<p>Holding the tool constant (<code>codex</code> / <code>gpt-5</code>) and pruning to source files only:</p>
+<p><strong><code>scenario1</code></strong> — flat, single package, no layering at all:</p>
+<pre><code class="language-text">info/jab/gods/
+├── GodAnalysisApplication.java
+├── GodSource.java
+├── GodSourceClient.java
+├── GodStatsController.java
+├── GodStatsService.java
+└── HttpGodSourceClient.java
+</code></pre>
+<p><strong><code>scenario2</code></strong> — a <code>config</code> package appears, and explicit exception types show up now that Gherkin scenarios spell out error cases:</p>
+<pre><code class="language-text">info/jab/ms/
+├── GodAnalysisApplication.java
+├── config/
+│   ├── GodSourceConfig.java
+│   └── GodSourceProperties.java
+└── gods/
+    ├── ApiExceptionHandler.java
+    ├── BadRequestException.java
+    ├── GodSourceClient.java
+    ├── GodStatsController.java
+    ├── GodStatsResponse.java
+    ├── GodStatsService.java
+    └── Source.java
+</code></pre>
+<p><strong><code>scenario3</code></strong> — flat again (the <code>config</code> split collapses back into one <code>gods</code> package), but an OpenAPI contract file shows up for the first time, pulled straight from the OpenSpec input:</p>
+<pre><code class="language-text">info/jab/ms/
+├── GodAnalysisApplication.java
+└── gods/
+    ├── GodAnalysisProperties.java
+    ├── GodSourceClient.java
+    ├── GodStatsController.java
+    ├── GodStatsExceptionHandler.java
+    ├── GodStatsService.java
+    ├── InvalidGodStatsRequestException.java
+    ├── RestClientConfig.java
+    ├── RestGodSourceClient.java
+    ├── SourceKey.java
+    └── SumResponse.java
+resources/openapi/god-analysis-api.yaml
+</code></pre>
+<p><strong><code>scenario4</code></strong> — full ports-and-adapters, with a dedicated architecture-boundary test:</p>
+<pre><code class="language-text">info/jab/ms/
+├── GodAnalysisApplication.java
+├── adapter/
+│   ├── in/rest/
+│   │   ├── GlobalExceptionHandler.java
+│   │   └── GodStatsController.java
+│   └── out/http/
+│       ├── GodAnalysisProperties.java
+│       ├── RestClientConfig.java
+│       └── RestGodSourceClient.java
+├── application/
+│   ├── GodStatsUseCase.java
+│   └── port/
+│       ├── in/QueryGodStats.java
+│       └── out/GodSourceClient.java
+└── domain/
+    ├── GodNameFilter.java
+    ├── GodStatsAggregator.java
+    ├── PantheonSource.java
+    └── UnicodeNameConverter.java
+
+test/.../architecture/HexagonalArchitectureTest.java
+</code></pre>
+<p>A driving REST adapter, a driven HTTP adapter, an application layer with explicit inbound/outbound ports, a framework-free domain package, and a <code>HexagonalArchitectureTest</code> — an ArchUnit-style boundary test that fails the build if <code>domain</code> or <code>application</code> ever import an adapter type.</p>
+<p>This isn't one lucky tool. Grepping every decoded tree in the dataset for hexagonal markers (<code>adapter/</code>, <code>port/</code>, <code>domain/</code> as sibling packages) turns up <strong>zero hits across all 14 <code>scenario1</code> runs, all 7 <code>scenario2</code> runs, and all 7 <code>scenario3</code> runs</strong> — and <strong>14 of 22 <code>scenario4</code> runs</strong> (roughly two-thirds), spread across <code>cursor</code>, <code>codex</code>, <code>claude-code</code>, and <code>copilot</code> alike. <code>scenario3</code> runs stay flat or add a shallow <code>config</code>/<code>controller</code>/<code>service</code> split at most — never the driving/driven port distinction.</p>
+<p>There's a second, quieter form of &quot;mess&quot; underneath this: base package naming. <code>scenario1</code> alone produces six different naming schemes across 14 runs for the identical problem — <code>info.jab.ms</code>, <code>info.jab.gods</code>, <code>com.example.gods</code>, <code>info.jab.benchmark.godanalysis</code>, <code>info.jab.benchmarks.godanalysis</code>, and one run with no package at all. From <code>scenario2</code> onward that collapses to essentially two schemes (<code>info.jab.ms</code> dominant, plus one tool's own habitual <code>info.jab.benchmark...</code>), because <code>scenario2</code>'s functional-requirements package includes an ADR (<code>ADR-003-God-Analysis-API-Technology-Stack.md</code>) that states outright: &quot;Use <code>info.jab.ms</code> as the base package.&quot; Once that decision exists anywhere in the input, almost every tool follows it — the naming chaos in <code>scenario1</code> is a direct, traceable consequence of nobody having written the decision down.</p>
+<h2>Where the hexagonal shape actually comes from</h2>
+<p>It's tempting to read the <code>scenario4</code> result as &quot;agents reach for hexagonal architecture once given enough room to think.&quot; The source documents tell a more specific story. <code>scenario3</code> and <code>scenario4</code> start from the same <code>add-god-analysis-api</code> OpenSpec change, but <code>scenario4</code>'s <code>design.md</code> is not byte-for-byte the same as <code>scenario3</code>'s — it carries an explicit refinement on top, added at the design layer before any coding agent was involved:</p>
+<pre><code class="language-text">## Design status
+
+Design direction: Spring Boot 4.1.0 servlet application with a small
+Hexagonal architecture (adapter.in.rest → application ports/use cases →
+domain, with adapter.out.http implementing outbound source ports)...
+
+This document refines the initial OpenSpec from /create-spec; it does not
+replace proposal or spec authority.
+</code></pre>
+<p>Further down, an alternatives table explicitly rejects a classic controller→service→domain split in favor of ports-and-adapters, and a Success Criterion ties the decision to enforcement:</p>
+<pre><code class="language-text">| Classic controller → services → domain | Rejected for this benchmark case.
+  ...does not make inbound/outbound ports and adapter dependency direction
+  explicit enough for Hexagonal architecture evaluation. |
+| Small package-level Hexagonal architecture (SELECTED) | Use one Maven module
+  with domain, application, application.port.in, application.port.out,
+  adapter.in.rest, and adapter.out.http. |
+
+- ArchUnit boundary tests fail when domain or application depends on
+  adapters or framework APIs, or when driving and driven adapters depend on
+  each other.
+</code></pre>
+<p>So the hexagonal scaffold isn't an emergent agent preference — it's a decision already written into the technical design document, upstream of any generated code, consistent with having been produced by an <code>/explore-design</code> pass over <code>scenario3</code>'s original proposal. <code>scenario4</code>'s delegation chain (<code>@robot-tech-lead</code> → <code>@robot-java-spring-boot-coder</code>) is what reliably <em>executes</em> that decision — pulling in the <code>707-technologies-hexagonal-architecture</code> skill along the way — but the architectural choice itself predates the coder agent.</p>
+<p>This is worth flagging against the harness's own framing: <a href="https://github.com/jabrena/plinth/blob/main/benchmarks/README.md"><code>benchmarks/README.md</code></a> describes <code>scenario3</code> and <code>scenario4</code> as sharing &quot;the same OpenSpec input shape,&quot; which is accurate at the level of <em>which documents exist</em> (proposal, design, spec, tasks) but not at the level of <code>design.md</code> <em>content</em> — <code>scenario4</code>'s copy is a materially more opinionated revision of <code>scenario3</code>'s. Anyone comparing those two scenarios' rework or pass-rate numbers should treat that as a second variable sitting alongside the delegation-workflow difference, not a controlled toggle of delegation alone.</p>
+<h2>What this suggests</h2>
+<p>Putting the per-scenario view and the same-tool ladders together:</p>
+<ul>
+<li><strong>Spec richness alone is not what drives pass/fail here.</strong> Every scenario cleared at least 88%, and the roughest scenario for both aggregate rework (<code>scenario3</code>, 2.62 avg) and one individual run (<code>copilot</code>, 8 rework turns) sits in the <em>middle</em> of the ladder, not the start.</li>
+<li><strong>A written decision beats an implicit one.</strong> Package-naming chaos (six schemes across 14 <code>scenario1</code> runs) collapses to essentially one dominant scheme the moment <code>scenario2</code>'s ADR states the base package explicitly. The lesson generalizes past package names: undecided questions get decided arbitrarily and differently by every run; decided questions get followed.</li>
+<li><strong>The hexagonal scaffold in <code>scenario4</code> is a design decision executed, not an emergent agent preference.</strong> <code>scenario4</code>'s <code>design.md</code> explicitly mandates ports-and-adapters and ArchUnit boundary enforcement — content <code>scenario3</code>'s copy of the same OpenSpec change doesn't have. What <code>scenario4</code>'s delegation workflow adds on top is <em>reliable execution</em> of that decision (14 of 22 runs actually produced it, pulling in the matching skill), not the decision itself.</li>
+<li><strong>What richness reliably buys, more generally, is lower rework and much deeper autonomous use of the skill/agent library — but only once it's paired with an actual delegation workflow.</strong> <code>scenario4</code>'s only structural difference from <code>scenario3</code> is the <code>@robot-tech-lead</code> → <code>@robot-java-spring-boot-coder</code> handoff (plus the design refinement above), and that's exactly where rework drops and skill/agent usage jumps.</li>
+<li><strong>Richness has a real, escalating cost for at least one clean same-tool comparison.</strong> <code>claude-code</code> / <code>claude-sonnet-5</code> went from $0.15 to $3.00 across the ladder while passing every time — the correctness outcome didn't change, but the bill did.</li>
+<li><strong>Tool choice interacts with richness rather than being dominated by it.</strong> <code>codex</code> needed the full <code>scenario4</code> scaffolding to close a persistent gap that neither a bare README nor an OpenSpec plan alone could close; <code>cursor</code> barely needed any of it.</li>
+</ul>
+<h2>Caveats before you read too much into this</h2>
+<p>This is a running benchmark, not a controlled experiment, and a few gaps are worth naming explicitly rather than smoothing over:</p>
+<ul>
+<li><strong>Telemetry is incomplete.</strong> Only about half of the 54 runs report non-zero token totals, and even fewer report cost — mostly a gap in <code>cursor</code> and <code>codex</code> runs, whose tooling doesn't expose these numbers as readily as <code>claude-code</code> and <code>copilot</code> do. Reported zeros in this dataset generally mean &quot;not measured,&quot; not &quot;free,&quot; so token/cost figures above should be read as directional, not exhaustive.</li>
+<li><strong>Sample sizes per cell are small.</strong> Some tool/scenario combinations have exactly one run; the harness's own ranking rules exist precisely to guard against over-reading small cells, which is why this analysis leans on same-tool/model ladders rather than a single leaderboard.</li>
+<li><strong>Tool labels aren't fully normalized.</strong> <code>copilot</code> and <code>github-copilot</code> appear to be the same tool recorded under two different <code>protocol_labels.tool</code> strings across runs — a data-hygiene item worth fixing in the harness before drawing firmer conclusions from that cohort.</li>
+<li><strong><code>bundled-openspec-propose</code> has one run total</strong> (<code>scenario3</code>, and it's the sole 0.95-coverage failure in that <code>plinth_config</code>), which is not enough to say anything about that configuration specifically.</li>
+<li><strong>Human intervention is essentially absent from this dataset</strong> — only 2 of 54 runs report any (<code>human_intervention_min &gt; 0</code>, both <code>scenario4</code>, 2 minutes each) — so these numbers mostly reflect unattended agent behavior, not human-in-the-loop correction.</li>
+</ul>
+<h2>Add your own runs</h2>
+<p>The harness is designed to grow: drop a new <code>metrics-v1</code>-shaped result into the matching <code>scenarioN/results/</code> folder and it becomes part of the next pass over this data. If you run this benchmark with a tool or model not yet represented here — or if you can fill in the token/cost gaps for <code>cursor</code> or <code>codex</code> — that's exactly the kind of contribution that would sharpen the same-tool ladders in the next update.</p>
+<p>Share findings or raise questions about the harness itself on <a href="https://github.com/jabrena/plinth/discussions">GitHub Discussions</a>.</p>
+
+</article>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="container beautiful-jekyll-footer">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+    <li>
+    <a href="https://twitter.com/juanantoniobm" title="Twitter">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/jabrena/plinth" title="GitHub">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="../../../feed.xml" title="RSS">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+</ul>
+<p class="copyright text-muted">
+&copy; Juan Antonio Breña Moral, 2026 |
+Baked with <a href="http://jbake.org">JBake v2.7.0</a>
+</p>
+<p class="theme-by text-muted">
+  Theme by <a href="https://github.com/Yamane/beautiful-jbake/" target="_blank">beautiful-jbake</a>
+  adapted from <a href="http://deanattali.com/beautiful-jekyll/" target="_blank">beautiful-jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="../../../js/jquery-1.11.2.min.js"></script>
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/prettify.js"></script>
+<script src="../../../js/run_prettify.js"></script>
+<script src="../../../js/main.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-13CV90H4J4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-13CV90H4J4');
+</script>
+
+</body>
+</html>

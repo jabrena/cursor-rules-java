@@ -114,6 +114,68 @@
 <div class="posts-section">
 <h2 class="section-title"><i class="fa fa-rss"></i> Latest Posts</h2>
 <article class="post-preview">
+<h3 class="post-title"><a href="blog/2026/07/why-functional-and-technical-specifications-matter.html">Why Functional and Technical Specifications Matter for AI-Assisted Development</a></h3>
+
+<p class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-07-27
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    MyRobot
+  <span class="blog-tags">
+    &nbsp;
+    <i class="fa fa-tags"></i>
+      <a href="tags/blog.html">blog</a>
+      <a href="tags/skills.html">skills</a>
+      <a href="tags/agents.html">agents</a>
+      <a href="tags/design.html">design</a>
+      <a href="tags/software-engineering.html">software-engineering</a>
+      <a href="tags/openspec.html">openspec</a>
+  </span>
+</p>
+
+<div class="post-entry-container">
+  <div class="post-entry">
+    The gap AI agents fall into
+Ask an AI agent to &quot;add rate limiting to the API&quot; and it will produce something. It might even compile, pass a quick test, and look complete in the diff.
+But what does &quot;rate limiting&quot; mean here? Per user, per API key, per IP? What happens when the limit is hit — a 429, a queue, a silent drop? Is this a business rule with a specific number attached to ...
+    <p></p>
+    <a href="blog/2026/07/why-functional-and-technical-specifications-matter.html" class="post-read-more">[Read More]</a>
+  </div>
+</div>
+</article>
+<article class="post-preview">
+<h3 class="post-title"><a href="blog/2026/07/what-benchmark-runs-reveal-about-spec-richness.html">What 54 Benchmark Runs Reveal About Feeding AI Agents More Context</a></h3>
+
+<p class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-07-27
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    MyRobot
+  <span class="blog-tags">
+    &nbsp;
+    <i class="fa fa-tags"></i>
+      <a href="tags/blog.html">blog</a>
+      <a href="tags/agents.html">agents</a>
+      <a href="tags/skills.html">skills</a>
+      <a href="tags/openspec.html">openspec</a>
+      <a href="tags/performance.html">performance</a>
+      <a href="tags/java.html">java</a>
+  </span>
+</p>
+
+<div class="post-entry-container">
+  <div class="post-entry">
+    The question behind the benchmark
+Does giving an AI coding agent more context — a fuller spec, a technical plan, a delegation workflow — actually make it more likely to ship correct code? Or does it just make the run more expensive?
+This project runs a small reproducible benchmark to find out (issue #1012). The harness under benchmarks/ asks different agent tools to solve the same problem — a &quot...
+    <p></p>
+    <a href="blog/2026/07/what-benchmark-runs-reveal-about-spec-richness.html" class="post-read-more">[Read More]</a>
+  </div>
+</div>
+</article>
+<article class="post-preview">
 <h3 class="post-title"><a href="blog/2026/07/release-0.17.0.html">What&apos;s new in Plinth 0.17.0?</a></h3>
 
 <p class="post-meta">
@@ -205,68 +267,6 @@ The first article introduced the EU regulatory skill family and focused on broad
 This second article explains the remaining regulation and ISO skills added for the future 0.17.0 release, and connects them to a more specialized idea:...
     <p></p>
     <a href="blog/2026/07/introduction-to-eu-regulations-part-ii.html" class="post-read-more">[Read More]</a>
-  </div>
-</div>
-</article>
-<article class="post-preview">
-<h3 class="post-title"><a href="blog/2026/06/from-code-generation-to-software-engineering.html">From Code Generation to Software Engineering: Why AI Agents Need Design Skills</a></h3>
-
-<p class="post-meta">
-  <i class="fa fa-calendar-o"></i>
-  2026-06-30
-    &nbsp;
-    <i class="fa fa-pencil"></i>
-    MyRobot
-  <span class="blog-tags">
-    &nbsp;
-    <i class="fa fa-tags"></i>
-      <a href="tags/blog.html">blog</a>
-      <a href="tags/skills.html">skills</a>
-      <a href="tags/agents.html">agents</a>
-      <a href="tags/design.html">design</a>
-      <a href="tags/software-engineering.html">software-engineering</a>
-  </span>
-</p>
-
-<div class="post-entry-container">
-  <div class="post-entry">
-    The shift from generation to engineering
-The first wave of AI-assisted development was mostly about speed. Ask the model for a class, a test, a migration, a controller, a README section, or a refactoring, then review what came back.
-That capability is useful, but it is not the same as software engineering.
-Software engineering is not only the ability to produce code. It is the ability to change a s...
-    <p></p>
-    <a href="blog/2026/06/from-code-generation-to-software-engineering.html" class="post-read-more">[Read More]</a>
-  </div>
-</div>
-</article>
-<article class="post-preview">
-<h3 class="post-title"><a href="blog/2026/06/release-0.16.0.html">What&apos;s new in Cursor rules for Java 0.16.0?</a></h3>
-
-<p class="post-meta">
-  <i class="fa fa-calendar-o"></i>
-  2026-06-22
-    &nbsp;
-    <i class="fa fa-pencil"></i>
-    Juan Antonio Breña Moral
-  <span class="blog-tags">
-    &nbsp;
-    <i class="fa fa-tags"></i>
-      <a href="tags/blog.html">blog</a>
-      <a href="tags/skills.html">skills</a>
-      <a href="tags/java.html">java</a>
-      <a href="tags/agents.html">agents</a>
-      <a href="tags/regulations.html">regulations</a>
-      <a href="tags/commands.html">commands</a>
-  </span>
-</p>
-
-<div class="post-entry-container">
-  <div class="post-entry">
-    What is the purpose?
-An opinionated, AI-native development workflow for Java Enterprise: reusable Skills, Agents, Commands, and third-party MCP servers combined with a human-in-the-loop model to modernize real-world SDLC practices.
-Starting with this release, the project introduces a simple way to describe any SDLC action through three phases: Plan, Build, and Operate. Software engineers can use th...
-    <p></p>
-    <a href="blog/2026/06/release-0.16.0.html" class="post-read-more">[Read More]</a>
   </div>
 </div>
 </article>
