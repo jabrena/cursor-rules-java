@@ -4,7 +4,7 @@
       id="043-planning-github-issues">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need GitHub CLI (`gh`) installation/authentication guidance and an operator-only GitHub issue inventory workflow. The agent does not ingest GitHub issue, milestone, body, comment, title, label, or summary text; requirements analysis must use repository-owned planning artifacts, with issue numbers only for traceability. This should trigger for requests such as GitHub issue inventory workflow; GitHub CLI setup for issues; Prepare issue traceability lists; Analyze repository planning artifacts linked to GitHub issues.</description>
   </metadata>

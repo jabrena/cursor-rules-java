@@ -4,7 +4,7 @@
       id="312-frameworks-spring-data-jdbc">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to use Spring Data JDBC with Java records — including entity design with records, repository pattern, immutable updates, aggregate relationships, custom queries, transaction management, and avoiding N+1 problems. This should trigger for requests such as Review Java code for Spring Data JDBC; Apply best practices for Spring Data JDBC in Java code; Model Spring Data JDBC aggregates with Java records; Review Spring Data JDBC repositories and aggregate boundaries; Improve optimistic locking or domain events in Spring Data JDBC.</description>
   </metadata>

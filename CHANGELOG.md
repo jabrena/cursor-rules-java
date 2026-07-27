@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.0] 2026-07-27
+
+### Added
+
+- **Benchmark**:
+  - Project benchmark harness under `benchmarks/` with reproducible scenario scorecards, including result samples generated with GitHub Copilot, Claude Sonnet 4.5, and Opus (#1012, #1052, #1057, #1068)
+
+- **Skills**:
+  - Five-lens problem exploration skills — problem framing, root cause analysis, assumption analysis, context mapping, and quality attribute discovery (`@021-problem-framing`, `@022-root-cause-analysis`, `@023-assumption-analysis`, `@024-context-mapping`, `@025-quality-attribute-discovery`) (#1071)
+  - BDD design skill (`@058-design-bdd`) (#1060)
+  - ATDD alignment review skill for classifying and reporting alignment between OpenSpec goals, acceptance criteria, and implementation/verification tasks (`@059-design-atdd`) (#1062)
+
+- **Agents & commands**:
+  - `/explore-problem` command to analyze an issue through five lenses and post a Functional Specification (#1043, #1071, #1076)
+  - Generated YAML frontmatter metadata for all commands (#1075, #1081)
+  - `create-spec` now reads complete issue context before drafting specs (#1078)
+  - Moved planning ownership from Tech Lead to the Architect agent; decoupled `/explore-design` from `create-spec` (#1024, #1026, #1028)
+  - Added an `implement-spec` readiness gate (#1080)
+  - `/close-spec` command to archive a completed OpenSpec change (#1041)
+
+- **PML & generators**:
+  - Extracted `plinth-commands-generator` and `plinth-agents-generator` as standalone modules (mirroring `plinth-skills-generator`), each with its own XSD schema (`commands.xsd`, `agents.xsd`), manifest, and propagation/bridge tests; renamed the parent Maven artifact to `plinth` (#1035, #1036, #1037, #1038, #992, #993, #1042)
+
+### Removed
+
+- **Skills**:
+  - Removed the `034-architecture-design-exploration` skill; its steps were absorbed directly into the `/explore-design` command now that the command runs after `/create-spec` instead of standing in as the first design step (#1024, #1026, #1028)
+
 ## [0.17.0] 2026-07-13
 
 ### Added

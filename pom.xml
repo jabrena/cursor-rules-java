@@ -7,7 +7,7 @@
 
     <groupId>info.jab</groupId>
     <artifactId>plinth</artifactId>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <packaging>pom</packaging>
     <name>plinth</name>
     <description>An opinionated AI-native workflow for evolving modern Java Enterprise SDLC practices through reusable Skills, Agents, Commands &amp; MCP servers.</description>

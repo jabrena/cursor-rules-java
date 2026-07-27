@@ -4,7 +4,7 @@
       id="811-regulations-eu-market-abuse-regulation">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing, designing, or modifying Java enterprise systems that may support EU Market Abuse Regulation concerns, market surveillance, suspicious order and transaction reports, insider dealing controls, unlawful disclosure controls, market manipulation detection, inside information disclosure workflows, insider-list evidence, PDMR transaction notifications, alert explainability, model or rule provenance, reviewer decisions, or compliance escalation. This should trigger for requests such as Review a Java trading surveillance system for MAR controls; Design suspicious order and transaction monitoring evidence; Add alert explainability and reviewer-decision audit trails; Assess AI-assisted market-abuse detection before production release.</description>
   </metadata>

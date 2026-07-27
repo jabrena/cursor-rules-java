@@ -4,7 +4,7 @@ description: Implementation specialist for Quarkus projects. Use when writing re
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.18.0-SNAPSHOT
+  version: 0.18.0
 model: inherit
 ---
 

@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Quarkus - MongoDB migrations (Mongock)</title>
         <description>Use when you need to add or review Mongock MongoDB data migrations in a Quarkus application - including the Quarkiverse Mongock extension, Quarkus MongoDB client configuration, `quarkus.mongock.*` settings, `@ChangeUnit` classes, lock and transaction behavior, and Quarkus test validation. For general Quarkus MongoDB persistence use `@415-frameworks-quarkus-mongodb`.</description>

@@ -4,7 +4,7 @@
       id="162-java-profiling-analyze">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to analyze Java profiling data collected during the detection phase — including interpreting flamegraphs, memory allocation patterns, CPU hotspots, threading issues, systematic problem categorization, evidence documentation with profiling-problem-analysis and profiling-solutions markdown files, or prioritizing fixes using Impact/Effort scoring. This should trigger for requests such as Analyze JFR profile; Analyze the profile; Analyze the performance; Analyze the memory; Analyze the threading; Analyze GC logs from profiling; Prioritize Java profiling bottlenecks by impact.</description>
   </metadata>

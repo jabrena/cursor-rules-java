@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>EU Digital Services Act Regulation for Java Online Platform Engineering</title>
         <description>Use as a chapter-by-chapter and article-by-article summary of Regulation (EU) 2022/2065 to enrich Java online platform, moderation, transparency, recommender, advertising, and systemic-risk engineering reviews with Digital Services Act context.</description>

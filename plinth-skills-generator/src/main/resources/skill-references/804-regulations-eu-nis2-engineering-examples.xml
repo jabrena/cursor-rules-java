@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>NIS2 Regulation for Java Enterprise Cybersecurity Risk Management</title>
         <description>Use as Java-focused NIS2 engineering examples for asset inventory, incident escalation, vulnerability evidence, continuity, supply-chain security, and secure release gates.</description>

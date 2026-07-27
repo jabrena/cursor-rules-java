@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when a large feature, story, plan, or spec idea needs to be split into small vertical slices with the Hamburger Method. This should trigger for requests such as Split this oversized story; Find the smallest useful slice; Break this feature into vertical slices; Apply the Hamburger Method; Turn this broad plan into tracked slices.</description>
   </metadata>

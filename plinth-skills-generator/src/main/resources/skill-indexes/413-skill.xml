@@ -4,7 +4,7 @@
       id="413-frameworks-quarkus-db-migrations-flyway">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to add or review Flyway database migrations in a Quarkus application — quarkus-flyway extension, db/migration scripts, quarkus.flyway.* configuration, migrate-at-start, and alignment with JDBC or Panache. This should trigger for requests such as Add or review Flyway migrations in a Quarkus project; Configure quarkus-flyway or db/migration layout; Add versioned Flyway SQL migrations for Quarkus; Review Quarkus database migration ordering; Configure Flyway clean migrate or baselines in Quarkus.</description>
   </metadata>

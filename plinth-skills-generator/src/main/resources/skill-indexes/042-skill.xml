@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when creating or updating OpenSpec change artifacts from an issue, implementation plan, approved design, ADRs, existing OpenSpec artifacts, or a valid combination. The workflow assesses whether the scope is one change or multiple changes, records sources and derivation direction, and prevents silent synchronization. This should trigger for requests such as Create an OpenSpec change from an issue; Convert a plan into OpenSpec; Update an existing OpenSpec change; Split broad requirements into reviewable OpenSpec changes.</description>
   </metadata>

@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when a framed problem needs root-cause investigation rather than a symptom-level fix, applying Five Whys, Fishbone (Ishikawa), Current Reality Tree, and constraint identification. This should trigger when an issue's Root Cause Analysis point of view needs evaluation, or when a maintainer directly asks to find the root cause of a problem before proposing a fix.</description>
   </metadata>

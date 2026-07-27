@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Create Spring Boot Maven Project</title>
         <description>Use when creating a new Maven-based Spring Boot 4.0.x project with SDKMAN-managed Java and Spring Boot CLI tooling.</description>

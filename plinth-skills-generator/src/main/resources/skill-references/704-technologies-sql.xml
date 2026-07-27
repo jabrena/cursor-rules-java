@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>SQL best practices</title>
         <description>Use when you need framework-agnostic SQL guidance — schema naming, relational table design, query readability, indexes, transactions, database security, migrations, testing, and monitoring — without choosing Spring Boot, Quarkus, or Micronaut.</description>

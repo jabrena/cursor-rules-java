@@ -4,7 +4,7 @@
       id="125-java-concurrency">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to apply Java concurrency best practices — including thread safety fundamentals, ExecutorService thread pool management, concurrent design patterns like Producer-Consumer, asynchronous programming with CompletableFuture, immutability and safe publication, deadlock avoidance, virtual threads, structured concurrency, scoped values, backpressure, cancellation discipline, and observability for concurrent systems. This should trigger for requests such as Review Java code for concurrency; Review Java code for thread safety; Fix race conditions in Java concurrency code; Choose ExecutorService or virtual threads in Java; Improve synchronization and shared mutable state handling; Apply structured concurrency for related Java subtasks.</description>
   </metadata>

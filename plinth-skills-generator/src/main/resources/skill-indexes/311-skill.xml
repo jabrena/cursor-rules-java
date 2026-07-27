@@ -4,7 +4,7 @@
       id="311-frameworks-spring-jdbc">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to write or review programmatic JDBC with Spring — including JdbcClient (Spring Framework 7+) as the default API, JdbcTemplate only where batch/streaming APIs require JdbcOperations, NamedParameterJdbcTemplate for legacy named-param code, parameterized SQL, RowMapper mapping to records, batch operations, transactions, safe handling of generated keys, DataAccessException handling, read-only transactions, streaming large result sets, and @JdbcTest slice testing. This should trigger for requests such as Review Java code for Spring JDBC (JdbcTemplate, JdbcClient, NamedParameterJdbcTemplate); Apply best practices for Spring JDBC data access in Java code; Detect and fix SQL injection risks in JDBC code; Improve transaction boundaries or exception handling for JDBC operations; Review JdbcClient usage in Spring Framework 7.</description>
   </metadata>

@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>ISO/IEC 42001 AI Management System Guidance for GenAI Java Engineering</title>
         <description>Use as an ISO/IEC 42001 AI management system summary to enrich GenAI-oriented Java engineering reviews with lifecycle governance, evidence, risk treatment, and owner-handoff context.</description>

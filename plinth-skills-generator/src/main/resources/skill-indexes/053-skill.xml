@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when Java design, refactoring, or implementation tradeoffs should be evaluated with Kent Beck's simple design rules, including passes the tests, reveals intention, has no duplication, and has the fewest elements. This should trigger for requests such as Apply simple design rules; Review this design with Beck's rules; Choose between these refactoring options; Keep this Java design simple.</description>
   </metadata>

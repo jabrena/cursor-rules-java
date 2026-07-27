@@ -4,7 +4,7 @@
       id="813-regulations-iso-42001">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing, designing, or modifying Java enterprise systems that use GenAI, LLMs, AI-assisted coding, RAG, AI agents, generated code, generated dependencies, prompt workflows, external model providers, or AI-enabled business logic and need ISO/IEC 42001 AI management system-aware engineering guidance.</description>
   </metadata>

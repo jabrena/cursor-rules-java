@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>EU AI Act Regulation for Java Enterprise Development with AI Systems and AI Agents</title>
         <description>Use as Java-focused EU AI Act engineering examples for AI capability classification, agent tool gates, audit evidence, RAG governance, release readiness, and incident routing.</description>

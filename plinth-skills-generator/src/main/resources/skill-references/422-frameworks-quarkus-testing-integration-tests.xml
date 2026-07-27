@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Quarkus Integration Testing</title>
         <description>Use when you need to write or improve integration tests for Quarkus — including @QuarkusTest, Dev Services for databases and messaging, Testcontainers when Dev Services are insufficient, @QuarkusIntegrationTest for black-box tests, REST Assured against @TestHTTPManager, persistence with @Transactional rollback, and clear separation of *IT tests in Failsafe.</description>

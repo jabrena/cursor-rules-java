@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Java rules for High Performance</title>
         <description>Use when you need to improve Java hot-path code shape — including lambdas, API return conventions, parsing syntax, I/O/storage strategy, concurrency, and control-flow patterns.</description>

@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Maven version workflow router</title>
         <description>Guides interpretation of project-local Versions Maven Plugin report output and local resolver evidence for dependencies, build plugins, and Maven property version updates in the user’s own pom.xml.</description>

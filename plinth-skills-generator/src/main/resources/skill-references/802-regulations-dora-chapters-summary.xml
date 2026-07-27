@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>DORA Regulation for Java Enterprise Digital Operational Resilience</title>
         <description>Use as a chapter-by-chapter and article-by-article summary of Regulation (EU) 2022/2554 to enrich Java enterprise operational-resilience reviews with DORA context.</description>

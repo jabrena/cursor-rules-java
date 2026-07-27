@@ -4,7 +4,7 @@
       id="707-technologies-hexagonal-architecture">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need framework-agnostic Hexagonal architecture guidance for Java projects - ports and adapters boundaries, application core independence, driving and driven adapters, dependency direction, infrastructure leakage detection, optional architecture tests, and evidence-backed remediation. This should trigger for requests such as Review Hexagonal architecture; Review ports and adapters boundaries; Enforce dependency direction; Add ArchUnit architecture tests; Detect infrastructure leakage in domain code; Improve ports and adapters boundaries.</description>
   </metadata>

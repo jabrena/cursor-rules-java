@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Create Quarkus Maven Project</title>
         <description>Use when creating a new Maven-based Quarkus 3.x project with SDKMAN-managed Java and Quarkus CLI tooling.</description>

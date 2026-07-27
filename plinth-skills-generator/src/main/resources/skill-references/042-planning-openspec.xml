@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Composable OpenSpec Change Planning</title>
         <description>Use when creating or updating OpenSpec change artifacts from an issue, implementation plan, approved design, ADRs, existing OpenSpec artifacts, or a valid combination.</description>

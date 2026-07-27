@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Micronaut — MongoDB</title>
         <description>Use when you need MongoDB persistence in Micronaut — including Maven dependency, @MappedEntity document design, @MongoRepository with typed finders and @MongoFindQuery, @Singleton service boundaries, optional @Transactional use where MongoDB transaction support is configured, and explicit error handling for MongoWriteException and DataAccessException. This should trigger for requests such as Add MongoDB in Micronaut; Review Micronaut Data Mongo entities; Improve error handling for Micronaut Mongo operations.</description>

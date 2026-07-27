@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when Java implementation work should be guided by Test-Driven Development, including maintaining a test list, choosing the next behavior, writing a failing test first, implementing only enough production code to pass, and refactoring while keeping tests green. This should trigger for requests such as Apply TDD; Use test-driven development; Drive this Java change with tests; Write the failing test first; Red-green-refactor this feature.</description>
   </metadata>

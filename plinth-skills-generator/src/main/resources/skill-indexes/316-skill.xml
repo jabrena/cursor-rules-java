@@ -4,7 +4,7 @@
       id="316-frameworks-spring-mongodb-migrations-mongock">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to add or review Mongock MongoDB data migrations in a Spring Boot application — including Maven coordinates, Spring Data MongoDB drivers, migration scan packages, @ChangeUnit classes, lock/transaction settings, and optional policy-approved MongoDB integration verification. This should trigger for requests such as Add Mongock migrations in Spring Boot; Review Spring MongoDB data migrations; Configure Mongock change units for Spring Data MongoDB; Create Mongock change units for Spring Boot MongoDB; Review Mongock migration ordering in a Spring service.</description>
   </metadata>

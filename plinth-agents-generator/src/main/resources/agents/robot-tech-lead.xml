@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>robot-tech-lead</title>
         <description>Tech lead for Java Enterprise Development. Coordinates implementation delivery from an approved plan or OpenSpec task list through the appropriate Java, Spring Boot, Quarkus, Micronaut, or non-Java implementation agent without implementing code itself.</description>

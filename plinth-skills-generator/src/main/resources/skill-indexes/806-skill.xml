@@ -4,7 +4,7 @@
       id="806-regulations-eu-data-act">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing, designing, or modifying Java enterprise systems that expose, exchange, store, process, export, or port data across users, businesses, connected products, cloud providers, APIs, event streams, AI data pipelines, data spaces, or SaaS platforms and need EU Data Act engineering controls. This should trigger for requests such as Review a Java platform for EU Data Act controls; Design data access and portability evidence; Add data-sharing request workflows, export formats, interoperability, metadata, audit logs, cloud-switching support, non-personal data safeguards, or trade-secret handoffs; Assess Data Act engineering readiness before production release.</description>
   </metadata>

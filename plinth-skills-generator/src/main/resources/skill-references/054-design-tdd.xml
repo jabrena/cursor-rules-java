@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0-SNAPSHOT</version>
+        <version>0.18.0</version>
         <license>Apache-2.0</license>
         <title>Test-Driven Development Design</title>
         <description>Use when Java implementation work should be driven by a selected failing test, the smallest passing production code, and refactoring while tests stay green.</description>

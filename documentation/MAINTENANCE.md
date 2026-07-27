@@ -8,11 +8,11 @@ Some **User prompts** designed to help in the maintenance of this repository.
 
 ```bash
 # Maven command to update the maven version to next minor version
-./mvnw versions:set -DnewVersion=0.18.0-SNAPSHOT
+./mvnw versions:set -DnewVersion=0.19.0-SNAPSHOT
 ./mvnw versions:commit
 
 #Bump to a new snapshot
-@skill-resources/src/main/resources/ update version to 0.18.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator
+@skill-resources/src/main/resources/ update version to 0.19.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
 
 #Update the XML Schema to latest version
 @skill-resources/src/main/resources/ update all XML Schema with XSD Configuration pointing to PML 0.8.0 and regenerate local skills with ./mvnw clean install -pl plinth-skills-generator
@@ -31,10 +31,10 @@ Can you analyze the last Java version, Java 26 from @All-JEPS.md if exist some J
 Review that the list doesn´t any broken link to @/.cursor with .md files
 
 # Prompt to provide a release changelog
-Can you update the current changelog for 0.17.0 comparing git commits in relation to 0.16.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
+Can you update the current changelog for 0.18.0 comparing git commits in relation to 0.17.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
 
 #Bump to a new snapshot
-@resources/ update version to 0.17.0 and pom.xml, maven modules and finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator
+Update version to 0.18.0 for all XML files and pom.xml in all maven modules and finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
 
 ```
 
@@ -77,30 +77,17 @@ cd target && npx skills add jabrena/plinth --all --agent cursor && cd ..
 Can you update the current changelog for 0.14.0 comparing git commits in relation to 0.13.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
 
 # Maven command to update the maven version to next minor version
-./mvnw versions:set -DnewVersion=0.17.0
+./mvnw versions:set -DnewVersion=0.18.0
 ./mvnw versions:commit
 
 # Prompt to update the project to a new version
-Update xml files from @resources/ and update the version to 0.17.0 removing Snapshot.
-Update @pom.xml with the new version 0.15.0-SNAPSHOT Regenerate local skills with ./mvnw clean install -pl plinth-skills-generator. If preparing release output, refresh skills/ with ./mvnw clean install -pl plinth-skills-generator -P release
-
-Update md files from @resources/ and update the version to 0.15.0 removing Snapshot.
-Update @pom.xml with the new version 0.15.0-SNAPSHOT Regenerate local skills with ./mvnw clean install -pl plinth-skills-generator. If preparing release output, refresh skills/ with ./mvnw clean install -pl plinth-skills-generator -P release
-
-## Note: Refactor a bit more to include all pom.xml
+Update xml files from @resources/ and update the version to 0.18.0 removing Snapshot.
+./mvnw clean verify -pl plinth-skills-generator -am
 
 ## Tagging process
 git tag --list
-git tag 0.16.0
+git tag 0.18.0
 git push --tags
-```
-
----
-
-## Add a new Skills
-
-```bash
-review if exist a new id in @plinth-skills-generator/src/main/resources/skills.xml to review compare with the content of @plinth-skills-generator/src/main/resources/skill-indexes and if exist add a new skill summary in @plinth-skills-generator/src/main/resources/skill-indexes. to elaborate the skill, review the `reference-list/reference` relation declared for that id in @plinth-skills-generator/src/main/resources/skills.xml. when finish, validate local generation with ./mvnw clean install -pl plinth-skills-generator and validate release skills with npx skill-check skills after running ./mvnw clean install -pl plinth-skills-generator -P release
 ```
 
 ## Improve skills

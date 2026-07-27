@@ -4,7 +4,7 @@
       id="300-frameworks-spring-boot-create-project">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0-SNAPSHOT</version>
+    <version>0.18.0</version>
     <license>Apache-2.0</license>
     <description>Use when you need to create a new Maven-based Spring Boot 4.0.x project using SDKMAN-managed Java and Spring Boot CLI tooling. This should trigger for requests such as Create a Spring Boot Maven project; Bootstrap Spring Boot project with SDKMAN; Generate a new Spring Boot service; Create Spring Boot 4 Maven project; Scaffold Spring Boot service with Java 25.</description>
   </metadata>
