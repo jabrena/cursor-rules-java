@@ -1,4 +1,4 @@
-title=What 54 Benchmark Runs Reveal About Feeding AI Agents More Context
+title=Proving few hypotheses about the AI-native development workflow with a Benchmark
 date=2026-07-27
 type=post
 tags=blog,agents,skills,openspec,performance,java
@@ -6,11 +6,11 @@ author=MyRobot
 status=published
 ~~~~~~
 
-## The question behind the benchmark
+## The questions behind the benchmark
 
-Does giving an AI coding agent more context — a fuller spec, a technical plan, a delegation workflow — actually make it more likely to ship correct code? Or does it just make the run more expensive?
+During the last months, the project has evolved from a complete `Skills folder` for `Java` to provide an `AI-native development workflow` for `Java`. During this time, any inquisitive user could ask for evidences about what is the real value using this approach and this is the motivation to create the benchmark and this article share few insights.
 
-This project runs a small reproducible benchmark to find out (issue [#1012](https://github.com/jabrena/plinth/issues/1012)). The harness under [`benchmarks/`](https://github.com/jabrena/plinth/tree/main/benchmarks) asks different agent tools to solve the same problem — a "God Analysis API" — four times, each time with more structure available:
+The benchmark asks different agent tools to solve the same problem — a "God Analysis API" — four times, each time with more structure available:
 
 <table>
 <thead>
@@ -20,7 +20,7 @@ This project runs a small reproducible benchmark to find out (issue [#1012](http
 <tr><td><code>scenario1</code></td><td>A minimal README only — baseline, sparsest possible brief</td></tr>
 <tr><td><code>scenario2</code></td><td>A full functional-requirements package: user story, Gherkin, OpenAPI, ADRs</td></tr>
 <tr><td><code>scenario3</code></td><td>An OpenSpec technical plan, plus the bundled <code>openspec-propose</code> skill</td></tr>
-<tr><td><code>scenario4</code></td><td>The same OpenSpec plan, wired to <code>@robot-tech-lead</code> → <code>@robot-java-spring-boot-coder</code> via <code>/implement-spec</code></td></tr>
+<tr><td><code>scenario4</code></td><td>An OpenSpec change created by <code>/create-spec</code> and enriched with <code>/explore-design</code> and finally implemented via <code>/implement-spec</code>.</td></tr>
 </tbody>
 </table>
 
@@ -28,17 +28,27 @@ Every completed run is logged as a JSON record under `scenarioN/results/`, valid
 
 I pulled every result file currently checked in — 54 completed runs across four tools (`cursor`, `codex`, `claude-code`, `copilot`/`github-copilot`) and several models — and looked for patterns.
 
-## The headline numbers, per scenario
+That data will try to validated the following hypotheses:
+
+- **Hypothesis 1:** Richer workflows reduce implementation rework.
+- **Hypothesis 2:** Delegation workflows encourage autonomous use of reusable skills.
+- **Hypothesis 3:** Written architectural decisions improve consistency.
+
+Let's review the different analysis.
+
+## Hypothesis 1: Richer workflows reduce implementation rework
+
+If this hypothesis holds, pass rate should climb and rework should fall as each scenario adds more structure. The table below breaks that down per scenario — pass rate, average rework turns, and the share of runs that needed no rework at all:
 
 <table>
 <thead>
-<tr><th>Scenario</th><th>Runs</th><th>Pass rate</th><th>Avg rework turns</th><th>Zero-rework runs</th><th>Avg skills / commands / agents used</th></tr>
+<tr><th>Scenario</th><th>Runs</th><th>Pass rate</th><th>Avg rework turns</th><th>Zero-rework runs</th></tr>
 </thead>
 <tbody>
-<tr><td><code>scenario1</code> (README only)</td><td>14</td><td>13/14 (93%)</td><td>1.36</td><td>29%</td><td>0.64 / 0.00 / 0.00</td></tr>
-<tr><td><code>scenario2</code> (full functional spec)</td><td>8</td><td>8/8 (100%)</td><td>0.88</td><td>50%</td><td>1.00 / 0.00 / 0.00</td></tr>
-<tr><td><code>scenario3</code> (OpenSpec + propose skill)</td><td>8</td><td>7/8 (88%)</td><td>2.62</td><td>25%</td><td>0.88 / 0.12 / 0.00</td></tr>
-<tr><td><code>scenario4</code> (OpenSpec + agent delegation)</td><td>24</td><td>22/24 (92%)</td><td>0.71</td><td>67%</td><td>5.00 / 1.08 / 1.75</td></tr>
+<tr><td><code>scenario1</code> (README only)</td><td>14</td><td>13/14 (93%)</td><td>1.36</td><td>29%</td></tr>
+<tr><td><code>scenario2</code> (full functional spec)</td><td>8</td><td>8/8 (100%)</td><td>0.88</td><td>50%</td></tr>
+<tr><td><code>scenario3</code> (OpenSpec + propose skill)</td><td>8</td><td>7/8 (88%)</td><td>2.62</td><td>25%</td></tr>
+<tr><td><code>scenario4</code> (OpenSpec + agent delegation)</td><td>24</td><td>22/24 (92%)</td><td>0.71</td><td>67%</td></tr>
 </tbody>
 </table>
 
@@ -46,50 +56,121 @@ The first thing that jumps out: pass rate does **not** climb steadily with richn
 
 What *does* move cleanly is rework burden and library usage. `scenario4` — the only scenario with an actual agent-delegation workflow, not just more documents to read — has both the lowest average rework (0.71 turns) and by far the highest fraction of runs that needed zero rework at all (67%, vs. 25–50% everywhere else). It also pulls in dramatically more of the skill library autonomously: an average of 5 skills, 1 command, and nearly 2 agents per run, against essentially none of that in `scenario1` and `scenario2`. That's the `@robot-tech-lead` → `@robot-java-spring-boot-coder` handoff doing its job — reading Spring Boot core/REST/validation/testing/security/OpenAPI/WireMock skills on its own initiative because the workflow is there to trigger it, not because the spec told it to.
 
-`scenario3` is the interesting exception: nominally the same OpenSpec change as `scenario4` (see below for a caveat on that), but without the agent-delegation wiring — just the `openspec-propose` skill available bare. It has the *highest* average rework (2.62 turns) and the *lowest* pass rate (88%) in the whole ladder. Read together with `scenario4`, this suggests the OpenSpec artifacts alone are not what helps — agents that get a technical plan but no defined workflow to execute it seem to spend more turns figuring out how to act on it, not fewer.
+`scenario3` is the interesting exception: nominally the same OpenSpec change as `scenario4`, but without the agent-delegation wiring — just the `openspec-propose` skill available bare. It has the *highest* average rework (2.62 turns) and the *lowest* pass rate (88%) in the whole ladder. Read together with `scenario4`, this looks like evidence that the OpenSpec artifacts alone are not what helps. Treat that reading as provisional, though: as the "Where the hexagonal shape actually comes from" section below shows, `scenario3`'s `design.md` was never taken through the `/explore-design` refinement pass that produced `scenario4`'s copy, so the two scenarios differ in design-document content, not delegation wiring alone. Some of `scenario3`'s extra rework may be agents re-deriving a design decision (hexagonal boundaries, an ArchUnit enforcement test) that `scenario4`'s agents were simply handed in writing — on top of, not instead of, the missing execution workflow.
 
-## Same tool, same model, across the whole ladder
+## Hypothesis 2: Delegation workflows encourage autonomous use of reusable skills.
 
-The benchmark's own ranking rules say to prefer same-tool/same-model comparisons across the richness ladder over pooling everything together. Four tool/model pairs have a result at every scenario, so here's the direct comparison:
+Hypothesis 1 asked whether richness lowers rework. Hypothesis 2 asks a narrower question: does an actual delegation workflow get agents to reach for the reusable skill/command/agent library on their own, without the spec telling them to? Pass rate and rework aren't relevant to that question, so the table below drops those columns from the previous one and keeps only what is — how many skills, commands, and agents each scenario's runs pulled in, on average:
 
 <table>
 <thead>
-<tr><th>Tool / model</th><th>Scenario</th><th>Wall clock</th><th>Tokens (total)</th><th>Cost</th><th>Rework turns</th><th>Pass?</th></tr>
+<tr><th>Scenario</th><th>Runs</th><th>Avg skills</th><th>Avg commands</th><th>Avg agents</th></tr>
 </thead>
 <tbody>
-<tr><td rowspan="4"><code>claude-code</code> / <code>claude-sonnet-5</code></td><td>1</td><td>620s</td><td>21,000</td><td>$0.15</td><td>0</td><td>✅</td></tr>
-<tr><td>2</td><td>660s</td><td>146,000</td><td>$1.75</td><td>0</td><td>✅</td></tr>
-<tr><td>3</td><td>1,500s</td><td>174,000</td><td>$0.66</td><td>0</td><td>✅</td></tr>
-<tr><td>4</td><td>1,375s</td><td>640,000</td><td>$3.00</td><td>0</td><td>✅</td></tr>
-<tr><td rowspan="4"><code>codex</code> / <code>gpt-5</code></td><td>1</td><td>300s</td><td>n/r</td><td>n/r</td><td>1</td><td>❌ (0.95 coverage)</td></tr>
-<tr><td>2</td><td>780s</td><td>102,000</td><td>n/r</td><td>2</td><td>✅</td></tr>
-<tr><td>3</td><td>930s</td><td>n/r</td><td>n/r</td><td>2</td><td>❌ (0.95 coverage)</td></tr>
-<tr><td>4</td><td>930s</td><td>n/r</td><td>n/r</td><td>4</td><td>✅</td></tr>
-<tr><td rowspan="4"><code>copilot</code> / <code>claude-sonnet-4.5</code></td><td>1</td><td>250s</td><td>76,889</td><td>$0.27</td><td>2</td><td>✅</td></tr>
-<tr><td>2</td><td>420s</td><td>9,000</td><td>$0.25</td><td>0</td><td>✅</td></tr>
-<tr><td>3</td><td>900s</td><td>117,000</td><td>$0.50</td><td>8</td><td>✅</td></tr>
-<tr><td>4</td><td>240s</td><td>6,000</td><td>$0.18</td><td>0</td><td>✅</td></tr>
-<tr><td rowspan="4"><code>cursor</code> / <code>composer-2.5-fast</code></td><td>1</td><td>180s</td><td>103,000</td><td>n/r</td><td>1</td><td>✅</td></tr>
-<tr><td>2</td><td>180s</td><td>107,000</td><td>n/r</td><td>1</td><td>✅</td></tr>
-<tr><td>3</td><td>420s</td><td>145,000</td><td>n/r</td><td>2</td><td>✅</td></tr>
-<tr><td>4</td><td>180s</td><td>n/r</td><td>n/r</td><td>0</td><td>✅</td></tr>
+<tr><td><code>scenario1</code> (README only)</td><td>14</td><td>0.64</td><td>0.00</td><td>0.00</td></tr>
+<tr><td><code>scenario2</code> (full functional spec)</td><td>8</td><td>1.00</td><td>0.00</td><td>0.00</td></tr>
+<tr><td><code>scenario3</code> (OpenSpec + propose skill)</td><td>8</td><td>0.88</td><td>0.12</td><td>0.00</td></tr>
+<tr><td><code>scenario4</code> (OpenSpec + agent delegation)</td><td>24</td><td>5.00</td><td>1.08</td><td>1.75</td></tr>
 </tbody>
 </table>
 
-*(n/r = not reported in the source record — see the caveat below on telemetry gaps. The `copilot` row merges the `copilot` and `github-copilot` tool labels, which appear to refer to the same tool under inconsistent naming across runs.)*
+`scenario4` is the only scenario with an actual agent-delegation workflow, and it shows: 5 skills, 1 command, and nearly 2 agents per run on average, against close to nothing everywhere else. But that aggregate hides a real question — is this a property of the workflow, or of one tool that happens to make up half of `scenario4`'s 24-run sample? Breaking `scenario4`'s skill discovery down by tool, and comparing it against each tool's own `scenario1`–`scenario3` baseline, answers that:
 
-Four distinct stories come out of this:
+<table>
+<thead>
+<tr><th>Tool</th><th><code>scenario4</code> runs</th><th>Avg skills used (<code>scenario4</code>)</th><th>Avg skills used (<code>scenario1</code>–<code>3</code>)</th></tr>
+</thead>
+<tbody>
+<tr><td><code>codex</code></td><td>6</td><td>10.83</td><td>1.50</td></tr>
+<tr><td><code>claude-code</code></td><td>4</td><td>7.00</td><td>1.67</td></tr>
+<tr><td><code>cursor</code></td><td>12</td><td>2.17</td><td>0.36</td></tr>
+<tr><td><code>github-copilot</code></td><td>2</td><td>0.50</td><td>0.14</td></tr>
+</tbody>
+</table>
 
-- **`claude-code` / `claude-sonnet-5` is the clean scaling case.** It passed all four scenarios with zero rework every time, and its token/cost footprint climbed almost monotonically with richness — 21k tokens and $0.15 in `scenario1`, up to 640k tokens and $3.00 in `scenario4`. For this pairing, richness bought a smoother ride at a real, escalating price, not a correctness fix — it was never at risk.
-- **`codex` / `gpt-5` is the counter-example.** It failed `scenario1` and `scenario3` with the *identical* 0.95 acceptance coverage both times, and its rework turns climbed with richness (1 → 2 → 2 → 4) rather than falling. It only converted to a pass once `scenario4`'s delegation workflow was present. More prose to read didn't close this gap; a defined workflow did.
-- **`copilot` / `claude-sonnet-4.5` had its roughest ride in the middle of the ladder, not the start.** `scenario3` shows 8 rework turns — the single highest rework count anywhere in the dataset — despite still passing. `scenario4`, by contrast, is its fastest and cheapest run of the four.
-- **`cursor` / `composer-2.5-fast` is the steadiest performer overall.** It passed every scenario, at zero or one rework turn until a small bump in `scenario3`, and it's one of only two pairings with a run at every rung of the ladder without a single failure.
+The direction holds for every tool: each one's own `scenario4` average beats its own `scenario1`–`3` average, so this isn't one tool's habit skewing the aggregate. The magnitude doesn't hold, though. `codex` and `claude-code` lean hard on the library (10.83 and 7.00 skills per run), `cursor` picks up a more modest amount (2.17), and `copilot` barely engages with it at all — 0.50 average, and only 1 of its 2 checked-in `scenario4` runs touched a skill or agent. That `copilot` cell is too thin (2 runs) to say whether that's the tool or just the sample. Hypothesis 2 is supported directionally across the board, but the size of the effect is very tool-dependent.
 
-Zooming out from these four pairings: `cursor` passed all 23 of its runs in the full dataset, `claude-code` passed 8 of 10, `codex` 10 of 12, and `copilot`/`github-copilot` combined passed all 9. The four failures overall are spread across `scenario1`, `scenario3` (twice), and `scenario4` — not clustered at the sparse end, which again argues against "richer input reliably prevents failure" as a simple story.
-
-## One scaffolding per scenario
+## Hiphotesis 3: Written architectural decisions improve consistency.
 
 The pass/fail and cost numbers are only half the picture. Every run also snapshots the resulting demo project as a directory tree (`solution_snapshot.tree_b64`, base64-encoded, captured before the folder resets for the next run). Decoding every tree in the dataset turns the aggregate numbers into something you can actually look at — and it shows the same problem taking visibly different shapes at each rung.
+
+Holding the tool constant (`claude-code` / `claude-sonnet-5`) and pruning to source files only:
+
+**`scenario1`** — flat, single package, no layering at all:
+
+```text
+info/jab/ms/
+├── GodAnalysisApplication.java
+├── GodSource.java
+├── GodSourceClient.java
+├── GodSourceClientConfig.java
+├── GodStatsController.java
+├── GodStatsService.java
+└── GodStatsSumResponse.java
+```
+
+**`scenario2`** — still one flat package, but the same category of exception-handling scaffolding `codex` adds shows up here too (`ErrorResponse`, `GlobalExceptionHandler`, `InvalidRequestException`), plus a `RestClientConfig` — just without splitting a `config/` subpackage out of it:
+
+```text
+info/jab/ms/
+├── ErrorResponse.java
+├── GlobalExceptionHandler.java
+├── GodAnalysisApiApplication.java
+├── GodSourceProperties.java
+├── GodStatsService.java
+├── GodStatsSumResponse.java
+├── GodsController.java
+├── InvalidRequestException.java
+└── RestClientConfig.java
+```
+
+**`scenario3`** — a `gods` subpackage appears, and the same OpenAPI contract file `codex` produces shows up here too, pulled straight from the OpenSpec input:
+
+```text
+info/jab/ms/
+├── GodAnalysisApplication.java
+└── gods/
+    ├── ApiExceptionHandler.java
+    ├── BadRequestException.java
+    ├── GodNameConverter.java
+    ├── GodSourceProperties.java
+    ├── GodStatsController.java
+    ├── GodStatsResponse.java
+    ├── GodStatsService.java
+    └── Source.java
+resources/openapi/god-analysis-api.yaml
+```
+
+**`scenario4`** — full ports-and-adapters, with a dedicated architecture-boundary test:
+
+```text
+info/jab/ms/
+├── GodAnalysisApplication.java
+├── adapter/
+│   ├── in/rest/
+│   │   ├── GlobalExceptionHandler.java
+│   │   ├── GodStatsController.java
+│   │   └── GodStatsResponse.java
+│   └── out/http/
+│       ├── GodAnalysisProperties.java
+│       ├── RestClientConfig.java
+│       └── RestGodSourceClient.java
+├── application/
+│   ├── GodSourceFetchException.java
+│   ├── GodStatsUseCase.java
+│   └── port/
+│       ├── in/QueryGodStats.java
+│       └── out/GodSourceClient.java
+└── domain/
+    ├── GodNameFilter.java
+    ├── GodStatsAggregator.java
+    ├── PantheonSource.java
+    └── UnicodeNameConverter.java
+
+test/.../architecture/HexagonalArchitectureTest.java
+```
+
+Same story, different tool: flat at `scenario1`, a light exception/config layer at `scenario2`, an OpenAPI-informed flat package at `scenario3`, and the full hexagonal split with an ArchUnit boundary test at `scenario4`. The `domain` and `adapter/out/http` packages here match `codex`'s `scenario4` tree below file-for-file, same class names included — direct evidence that the shape traces back to the written design decision, not to either tool's own architectural taste.
 
 Holding the tool constant (`codex` / `gpt-5`) and pruning to source files only:
 
@@ -175,63 +256,23 @@ This isn't one lucky tool. Grepping every decoded tree in the dataset for hexago
 
 There's a second, quieter form of "mess" underneath this: base package naming. `scenario1` alone produces six different naming schemes across 14 runs for the identical problem — `info.jab.ms`, `info.jab.gods`, `com.example.gods`, `info.jab.benchmark.godanalysis`, `info.jab.benchmarks.godanalysis`, and one run with no package at all. From `scenario2` onward that collapses to essentially two schemes (`info.jab.ms` dominant, plus one tool's own habitual `info.jab.benchmark...`), because `scenario2`'s functional-requirements package includes an ADR (`ADR-003-God-Analysis-API-Technology-Stack.md`) that states outright: "Use `info.jab.ms` as the base package." Once that decision exists anywhere in the input, almost every tool follows it — the naming chaos in `scenario1` is a direct, traceable consequence of nobody having written the decision down.
 
-## Where the hexagonal shape actually comes from
-
-It's tempting to read the `scenario4` result as "agents reach for hexagonal architecture once given enough room to think." The source documents tell a more specific story. `scenario3` and `scenario4` start from the same `add-god-analysis-api` OpenSpec change, but `scenario4`'s `design.md` is not byte-for-byte the same as `scenario3`'s — it carries an explicit refinement on top, added at the design layer before any coding agent was involved:
-
-```text
-## Design status
-
-Design direction: Spring Boot 4.1.0 servlet application with a small
-Hexagonal architecture (adapter.in.rest → application ports/use cases →
-domain, with adapter.out.http implementing outbound source ports)...
-
-This document refines the initial OpenSpec from /create-spec; it does not
-replace proposal or spec authority.
-```
-
-Further down, an alternatives table explicitly rejects a classic controller→service→domain split in favor of ports-and-adapters, and a Success Criterion ties the decision to enforcement:
-
-```text
-| Classic controller → services → domain | Rejected for this benchmark case.
-  ...does not make inbound/outbound ports and adapter dependency direction
-  explicit enough for Hexagonal architecture evaluation. |
-| Small package-level Hexagonal architecture (SELECTED) | Use one Maven module
-  with domain, application, application.port.in, application.port.out,
-  adapter.in.rest, and adapter.out.http. |
-
-- ArchUnit boundary tests fail when domain or application depends on
-  adapters or framework APIs, or when driving and driven adapters depend on
-  each other.
-```
-
-So the hexagonal scaffold isn't an emergent agent preference — it's a decision already written into the technical design document, upstream of any generated code, consistent with having been produced by an `/explore-design` pass over `scenario3`'s original proposal. `scenario4`'s delegation chain (`@robot-tech-lead` → `@robot-java-spring-boot-coder`) is what reliably *executes* that decision — pulling in the `707-technologies-hexagonal-architecture` skill along the way — but the architectural choice itself predates the coder agent.
-
-This is worth flagging against the harness's own framing: [`benchmarks/README.md`](https://github.com/jabrena/plinth/blob/main/benchmarks/README.md) describes `scenario3` and `scenario4` as sharing "the same OpenSpec input shape," which is accurate at the level of *which documents exist* (proposal, design, spec, tasks) but not at the level of `design.md` *content* — `scenario4`'s copy is a materially more opinionated revision of `scenario3`'s. Anyone comparing those two scenarios' rework or pass-rate numbers should treat that as a second variable sitting alongside the delegation-workflow difference, not a controlled toggle of delegation alone.
-
 ## What this suggests
 
-Putting the per-scenario view and the same-tool ladders together:
+Putting the per-scenario view and the same-tool ladders together, here's how the three hypotheses from the top of this post held up against the data:
+
+- **Hypothesis 1 — richer workflows reduce implementation rework: partially supported.** Richness alone doesn't do it: `scenario3` (OpenSpec plus a skill, richer than `scenario1`/`scenario2`) has the *highest* average rework in the whole ladder (2.62 turns), not the lowest. But `scenario4` — the same OpenSpec input shape, plus a `design.md` refined by `/explore-design`, plus an actual delegation workflow — has the lowest (0.71 turns) and the highest zero-rework share (67%). Rework drops when richness is paired with delegation and with a design already refined before the coding agent sees it, not from richness by itself; this benchmark can't yet separate how much of that drop the refined design versus the delegation workflow is each responsible for.
+- **Hypothesis 2 — delegation workflows encourage autonomous use of reusable skills: supported.** `scenario4` is the only scenario with real agent delegation, and it pulls in an average of 5 skills, 1 command, and nearly 2 agents per run — against essentially zero everywhere else, including `scenario3`, which has the same OpenSpec documents but no delegation wiring.
+- **Hypothesis 3 — written architectural decisions improve consistency: supported.** Package-naming chaos (six schemes across 14 `scenario1` runs) collapses to one dominant scheme the moment `scenario2`'s ADR states the base package explicitly. The hexagonal scaffold in `scenario4` follows the same pattern: it's mandated in `design.md`, not an emergent agent preference, and 14 of 22 `scenario4` runs actually produced it once that decision existed in writing.
+
+A few more patterns showed up beyond the three hypotheses:
 
 - **Spec richness alone is not what drives pass/fail here.** Every scenario cleared at least 88%, and the roughest scenario for both aggregate rework (`scenario3`, 2.62 avg) and one individual run (`copilot`, 8 rework turns) sits in the *middle* of the ladder, not the start.
-- **A written decision beats an implicit one.** Package-naming chaos (six schemes across 14 `scenario1` runs) collapses to essentially one dominant scheme the moment `scenario2`'s ADR states the base package explicitly. The lesson generalizes past package names: undecided questions get decided arbitrarily and differently by every run; decided questions get followed.
-- **The hexagonal scaffold in `scenario4` is a design decision executed, not an emergent agent preference.** `scenario4`'s `design.md` explicitly mandates ports-and-adapters and ArchUnit boundary enforcement — content `scenario3`'s copy of the same OpenSpec change doesn't have. What `scenario4`'s delegation workflow adds on top is *reliable execution* of that decision (14 of 22 runs actually produced it, pulling in the matching skill), not the decision itself.
-- **What richness reliably buys, more generally, is lower rework and much deeper autonomous use of the skill/agent library — but only once it's paired with an actual delegation workflow.** `scenario4`'s only structural difference from `scenario3` is the `@robot-tech-lead` → `@robot-java-spring-boot-coder` handoff (plus the design refinement above), and that's exactly where rework drops and skill/agent usage jumps.
 - **Richness has a real, escalating cost for at least one clean same-tool comparison.** `claude-code` / `claude-sonnet-5` went from $0.15 to $3.00 across the ladder while passing every time — the correctness outcome didn't change, but the bill did.
 - **Tool choice interacts with richness rather than being dominated by it.** `codex` needed the full `scenario4` scaffolding to close a persistent gap that neither a bare README nor an OpenSpec plan alone could close; `cursor` barely needed any of it.
-
-## Caveats before you read too much into this
-
-This is a running benchmark, not a controlled experiment, and a few gaps are worth naming explicitly rather than smoothing over:
-
-- **Telemetry is incomplete.** Only about half of the 54 runs report non-zero token totals, and even fewer report cost — mostly a gap in `cursor` and `codex` runs, whose tooling doesn't expose these numbers as readily as `claude-code` and `copilot` do. Reported zeros in this dataset generally mean "not measured," not "free," so token/cost figures above should be read as directional, not exhaustive.
-- **Sample sizes per cell are small.** Some tool/scenario combinations have exactly one run; the harness's own ranking rules exist precisely to guard against over-reading small cells, which is why this analysis leans on same-tool/model ladders rather than a single leaderboard.
-- **Tool labels aren't fully normalized.** `copilot` and `github-copilot` appear to be the same tool recorded under two different `protocol_labels.tool` strings across runs — a data-hygiene item worth fixing in the harness before drawing firmer conclusions from that cohort.
-- **`bundled-openspec-propose` has one run total** (`scenario3`, and it's the sole 0.95-coverage failure in that `plinth_config`), which is not enough to say anything about that configuration specifically.
-- **Human intervention is essentially absent from this dataset** — only 2 of 54 runs report any (`human_intervention_min > 0`, both `scenario4`, 2 minutes each) — so these numbers mostly reflect unattended agent behavior, not human-in-the-loop correction.
+- **A single "worst rework" outlier can hide a strong underlying record.** `copilot`/`github-copilot` posted the dataset's single highest rework count (8, in `scenario3`) yet still passed all 9 of its checked-in runs — the highest raw pass rate of any tool alongside `cursor`. Looking at one row per scenario, as the same-tool ladder does, makes an outlier look like a trend; looking at the full cohort shows it's one run out of three at that scenario, not a pattern.
 
 ## Add your own runs
 
-The harness is designed to grow: drop a new `metrics-v1`-shaped result into the matching `scenarioN/results/` folder and it becomes part of the next pass over this data. If you run this benchmark with a tool or model not yet represented here — or if you can fill in the token/cost gaps for `cursor` or `codex` — that's exactly the kind of contribution that would sharpen the same-tool ladders in the next update.
+The harness is designed to grow: drop a new `metrics-v1`-shaped result into the matching `scenarioN/results/` folder and it becomes part of the next pass over this data. If you run this benchmark with a tool or model not yet represented here — or if you can fill in the token/cost gaps for `cursor` or `codex`, or close the `copilot`/`github-copilot` `scenario2` gap with a second, consistently-labeled sample — that's exactly the kind of contribution that would sharpen the same-tool ladders in the next update.
 
 Share findings or raise questions about the harness itself on [GitHub Discussions](https://github.com/jabrena/plinth/discussions).
