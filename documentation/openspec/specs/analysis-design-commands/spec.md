@@ -5,7 +5,7 @@ TBD - created by archiving change add-analysis-design-commands. Update Purpose a
 ## Requirements
 ### Requirement: Analysis and design command bundle
 
-The repository SHALL provide embedded command assets for `/create-worktree`, `/explore-design`, `/create-adr`, `/create-diagram`, and `/create-spec` through the `plinth-commands-generator` module. The generator MUST NOT install or advertise `/review-breaking-changes`; breaking-change review is owned by `@056-design-avoid-breaking-changes`. The generator MUST NOT install or advertise `/review-alignment`; that command is retired and its read-only review responsibility remains with `robot-business-analyst` without a dedicated command contract.
+The repository SHALL provide embedded command assets for `/create-worktree`, `/explore-design`, `/create-adr`, `/create-diagram`, and `/create-spec` through the `plinth-commands-generator` module. The generator MUST NOT install or advertise `/review-breaking-changes`; breaking-change review is owned by `@056-design-avoid-breaking-changes`. The generator MUST NOT install or advertise `/review-alignment`; that command is retired and its read-only review responsibility remains with `plinth-business-analyst` without a dedicated command contract.
 
 #### Scenario: Install the command bundle without the retired breaking-change command
 
@@ -62,7 +62,7 @@ Each analysis/design command MUST document its purpose, accepted inputs, owning 
 - **AND** the command does not retrieve or ingest raw issue descriptions or comments
 - **AND** it records the sanitized artifact as source context and reports conflicts or unclear requirements without inventing resolutions
 - **AND** it stops and reports the failure when complete sanitized context is unavailable
-- **AND** it routes OpenSpec creation through `@robot-architect` using only `042-planning-openspec`
+- **AND** it routes OpenSpec creation through `@plinth-architect` using only `042-planning-openspec`
 - **AND** it does not apply design skills `051`–`057`, `121`–`123`, `130`, or `034-architecture-design-exploration`
 - **AND** it creates or updates OpenSpec artifacts only under `documentation/openspec` when edits are requested
 - **AND** it validates OpenSpec structure before claiming the change is ready
@@ -116,12 +116,12 @@ The existing `/create-feature-branch` command SHALL support the optional transit
 
 ### Requirement: Design exploration command routing
 
-`/explore-design` SHALL route design refinement to `robot-architect` using design skills `051`–`057`, `121`–`123`, and `130` after initial specification, and MUST apply `059-design-atdd` as the final alignment gate when reviewable OpenSpec artifacts are provided, without implementing application code.
+`/explore-design` SHALL route design refinement to `plinth-architect` using design skills `051`–`057`, `121`–`123`, and `130` after initial specification, and MUST apply `059-design-atdd` as the final alignment gate when reviewable OpenSpec artifacts are provided, without implementing application code.
 
 #### Scenario: Refine an OpenSpec change after create-spec
 
 - **WHEN** a project user invokes `/explore-design` with an OpenSpec change that has unresolved technical approaches or design gaps
-- **THEN** the command routes design refinement through `@robot-architect`
+- **THEN** the command routes design refinement through `@plinth-architect`
 - **AND** it applies design skills `051-design-two-steps-methods`, `052-design-hamburger-method`, `053-design-simple-rules`, `054-design-tdd`, `055-design-parallel-change`, `056-design-avoid-breaking-changes`, `057-design-feature-toggles`, `121-java-object-oriented-design`, `122-java-type-design`, `123-java-design-patterns`, and `130-java-testing-strategies` when refining the approach
 - **AND** it applies `059-design-atdd` after approved refinements are reflected in the reviewable OpenSpec artifacts and before requesting final design approval
 - **AND** it reports the ATDD goal-to-criteria-to-task alignment outcome with evidence

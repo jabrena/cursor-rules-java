@@ -16,7 +16,7 @@ The project SHALL document the analysis/design lifecycle across README and getti
 
 ### Requirement: Agent migration documentation
 
-The project MUST explain migration from `robot-coordinator` to `robot-tech-lead` in every affected language and inventory.
+The project MUST explain migration from `robot-coordinator` to `plinth-tech-lead` in every affected language and inventory.
 
 #### Scenario: Existing user upgrades the agent bundle
 
