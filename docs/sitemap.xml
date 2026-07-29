@@ -5,6 +5,14 @@
         <lastmod>2015-02-01</lastmod>
     </url>
     <url>
+        <loc>https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html</loc>
+        <lastmod>2026-07-30</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/blog/2026/07/what-benchmark-runs-reveal-about-spec-richness.html</loc>
+        <lastmod>2026-07-28</lastmod>
+    </url>
+    <url>
         <loc>https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html</loc>
         <lastmod>2026-07-13</lastmod>
     </url>
@@ -77,18 +85,6 @@
         <lastmod>2025-07-12</lastmod>
     </url>
     <url>
-        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/index.html</loc>
-        <lastmod>2025-09-17</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-7-advanced-patterns.html</loc>
-        <lastmod>2025-09-17</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/profile-memory-leak/module-5-validation.html</loc>
-        <lastmod>2025-09-17</lastmod>
-    </url>
-    <url>
         <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-6-documentation.html</loc>
         <lastmod>2025-09-17</lastmod>
     </url>
@@ -133,15 +129,19 @@
         <lastmod>2025-09-17</lastmod>
     </url>
     <url>
+        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/index.html</loc>
+        <lastmod>2025-09-17</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-7-advanced-patterns.html</loc>
+        <lastmod>2025-09-17</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/profile-memory-leak/module-5-validation.html</loc>
+        <lastmod>2025-09-17</lastmod>
+    </url>
+    <url>
         <loc>https://jabrena.github.io/plinth/courses/java-generics/index.html</loc>
-        <lastmod>2025-09-13</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-4-realworld.html</loc>
-        <lastmod>2025-09-13</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-3-advanced.html</loc>
         <lastmod>2025-09-13</lastmod>
     </url>
     <url>
@@ -154,6 +154,14 @@
     </url>
     <url>
         <loc>https://jabrena.github.io/plinth/courses/java-generics/module-5-assessment.html</loc>
+        <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-4-realworld.html</loc>
+        <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-3-advanced.html</loc>
         <lastmod>2025-09-13</lastmod>
     </url>
 </urlset>
