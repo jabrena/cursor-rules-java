@@ -18,10 +18,11 @@ class AgentSkillPropagationTest {
         String reference = output.referenceMds().get("005-agents-installation");
         assertThat(reference)
             .contains("assets/agents/")
-            .contains("](../assets/agents/robot-business-analyst.md)")
-            .contains("](../assets/agents/robot-java-spring-boot-coder.md)")
-            .doesNotContain("name: robot-business-analyst")
-            .doesNotContain("name: robot-java-spring-boot-coder");
+            .contains("](../assets/agents/plinth-business-analyst.md)")
+            .contains("](../assets/agents/plinth-java-spring-boot-coder.md)")
+            .doesNotContain("robot" + "-")
+            .doesNotContain("name: plinth-business-analyst")
+            .doesNotContain("name: plinth-java-spring-boot-coder");
 
         AgentIndexes.agentFiles().forEach(agentFile -> {
             String assetPath = "assets/agents/" + agentFile;
@@ -30,6 +31,9 @@ class AgentSkillPropagationTest {
             assertThat(output.resourceFiles())
                 .withFailMessage("Generated 005 missing asset %s", assetPath)
                 .containsKey(assetPath);
+            assertThat(loadBridgedAgent(agentFile))
+                .withFailMessage("Generated 005 asset uses a legacy agent identifier: %s", assetPath)
+                .doesNotContain("robot" + "-");
             assertThat(reference)
                 .withFailMessage("Generated 005 reference missing link to %s", assetPath)
                 .contains("](../" + assetPath + ")");
@@ -54,7 +58,9 @@ class AgentSkillPropagationTest {
             .containsEntry(templateAssetPath, template);
         assertThat(reference)
             .contains("](../" + templateAssetPath + ")")
+            .doesNotContain("robot" + "-")
             .doesNotContain("# Embedded Agents Inventory");
+        assertThat(template).doesNotContain("robot" + "-");
 
         AgentIndexes.agentFiles().forEach(agentFile -> {
             String agentName = agentFile.substring(0, agentFile.length() - ".md".length());

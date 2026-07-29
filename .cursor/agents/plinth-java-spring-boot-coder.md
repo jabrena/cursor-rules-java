@@ -1,5 +1,5 @@
 ---
-name: robot-java-spring-boot-coder
+name: plinth-java-spring-boot-coder
 description: Implementation specialist for Spring Boot projects. Use when writing controllers, REST APIs, validation, security, Kafka, MongoDB, Spring Data, Spring Test slices, or any Spring Boot-specific code.
 license: Apache-2.0
 metadata:

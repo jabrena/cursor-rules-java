@@ -20,7 +20,7 @@ Scenario: Refine a newly created OpenSpec change by calling design skills during
   And the command applies only "042-planning-openspec" when creating the initial OpenSpec change
   And "openspec validate --all" is run from "examples/openspec/god-analysis-api" after the initial change is created
   When the explore-design command is applied to the request "/explore-design examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
-  Then the command routes design refinement through "@robot-architect"
+  Then the command routes design refinement through "@plinth-architect"
   And the command identifies the design source, problem, constraints, stakeholders, options, trade-offs, and recommendation criteria
   And the command calls "051-design-two-steps-methods" to separate behavior-preserving preparation from behavior-changing refinement in the improved approach
   And the command calls "052-design-hamburger-method" when scope needs smallest-useful vertical slices during elaboration

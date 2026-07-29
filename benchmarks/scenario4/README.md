@@ -29,7 +29,7 @@ Do **not** provide:
 
 ## Purpose
 
-Measure how agents perform when implementation input is OpenSpec technical requirements that are explicitly derived from and linked to co-located functional requirements — the canonical reference run for the richest step, executing `/implement-spec` with `@robot-tech-lead` delegation, `@robot-java-spring-boot-coder` implementation, and the Case 4 Spring Boot skill-discovery set from `.agents/skills/` or `skills/` (starting with `@042-planning-openspec`).
+Measure how agents perform when implementation input is OpenSpec technical requirements that are explicitly derived from and linked to co-located functional requirements — the canonical reference run for the richest step, executing `/implement-spec` with `@plinth-tech-lead` delegation, `@plinth-java-spring-boot-coder` implementation, and the Case 4 Spring Boot skill-discovery set from `.agents/skills/` or `skills/` (starting with `@042-planning-openspec`).
 
 Use the canonical execution prompt only; do not prepend `/create-worktree` or other commands that bypass `/implement-spec` orchestration unless the user explicitly overrides the Case 4 protocol.
 

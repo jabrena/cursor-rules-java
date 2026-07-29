@@ -7,7 +7,7 @@
         <description>Create or update OpenSpec artifacts from approved source material.</description>
         <argument-hint>[issue-url]</argument-hint>
         <model>inherit</model>
-        <agent>robot-architect</agent>
+        <agent>plinth-architect</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -37,7 +37,7 @@ Create or update one or more OpenSpec changes from the available issue, design, 
 
 ## Owning Agent
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Associated Skills
 

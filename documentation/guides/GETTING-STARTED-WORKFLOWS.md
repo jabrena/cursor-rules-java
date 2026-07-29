@@ -10,8 +10,8 @@ Analysis and design are composable. Start from the authoritative artifacts alrea
 4. Run `/explore-design` when material technical alternatives remain unresolved.
 5. Run `/create-adr` for durable decisions and `/create-diagram` for useful architecture views.
 6. Run `/create-spec` from an issue, approved design, ADRs, existing plan, existing OpenSpec, or a valid combination.
-7. Ask `@robot-tech-lead` to deliver the selected plan or OpenSpec `tasks.md`.
-8. Use `/profile` or `/benchmark` with `@robot-java-performance` when post-implementation performance evidence is needed.
+7. Ask `@plinth-tech-lead` to deliver the selected plan or OpenSpec `tasks.md`.
+8. Use `/profile` or `/benchmark` with `@plinth-java-performance` when post-implementation performance evidence is needed.
 
 Common paths include issue to plan, issue to OpenSpec, plan to OpenSpec, and existing OpenSpec to plan. `/create-spec` may propose multiple OpenSpec changes when outcomes have independent value, ownership, release, risk, rollback, or deployment boundaries. The user approves that change map before creation.
 
@@ -25,7 +25,7 @@ Common paths include issue to plan, issue to OpenSpec, plan to OpenSpec, and exi
 | Implementation plan | Technical delivery strategy, sequence, dependencies, and verification |
 | Selected OpenSpec `tasks.md` | Execution tracking when that workflow is selected |
 
-Derivation is one-way and recorded. A derived artifact never silently rewrites its sources. When artifacts conflict, ask `@robot-business-analyst` to review the conflicting artifacts, decide which authoritative concern must change, update it explicitly, regenerate affected derivatives, and review alignment again.
+Derivation is one-way and recorded. A derived artifact never silently rewrites its sources. When artifacts conflict, ask `@plinth-business-analyst` to review the conflicting artifacts, decide which authoritative concern must change, update it explicitly, regenerate affected derivatives, and review alignment again.
 
 ## Parallel Delivery
 

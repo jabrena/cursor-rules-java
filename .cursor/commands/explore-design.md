@@ -2,7 +2,7 @@
 description: 'Refine the technical design of an issue or OpenSpec change before implementation.'
 argument-hint: '[openspec-change]'
 model: 'inherit'
-agent: 'robot-architect'
+agent: 'plinth-architect'
 tools:
   - 'Read'
   - 'Write'
@@ -29,7 +29,7 @@ Improve and refine the technical approach for an issue or OpenSpec change after 
 
 ## Owning Agent
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Associated Skills
 

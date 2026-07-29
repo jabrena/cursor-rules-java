@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<agent id="robot-business-analyst"
+<agent id="plinth-business-analyst"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../agents.xsd">
 
@@ -9,7 +9,7 @@
         </authors>
         <version>0.18.0</version>
         <license>Apache-2.0</license>
-        <title>robot-business-analyst</title>
+        <title>plinth-business-analyst</title>
         <description>Business analyst. Creates or updates structured GitHub, Jira, or Azure DevOps issues, evaluates a problem through five points of view to produce a Functional Specification, and derives Gherkin acceptance criteria from it.</description>
         <model>inherit</model>
     </metadata>

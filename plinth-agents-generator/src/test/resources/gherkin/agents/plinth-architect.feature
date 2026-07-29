@@ -1,7 +1,7 @@
-Feature: Validate robot-architect agent
+Feature: Validate plinth-architect agent
 
 Background:
-  Given the agent prompt file ".cursor/agents/robot-architect.md"
+  Given the agent prompt file ".cursor/agents/plinth-architect.md"
   And the OpenSpec project path "examples/openspec/god-analysis-api"
   And the folder "examples/openspec/god-analysis-api/requirements/problem1" has no git changes
   And the folder "examples/openspec/god-analysis-api/openspec" has no git changes
@@ -11,11 +11,11 @@ Scenario: Create an initial OpenSpec change using composable planning workflow
   Remark: Acceptance execution verifies the OpenSpec authoring step with `042-planning-openspec` only.
   Given the user request is "/create-spec examples/openspec/god-analysis-api/requirements/problem1"
   And the functional requirements folder "examples/openspec/god-analysis-api/requirements/problem1" contains ADRs, a user story, Gherkin acceptance criteria, and OpenAPI files
-  And the agent prompt source ".cursor/agents/robot-architect.md" is read before execution
+  And the agent prompt source ".cursor/agents/plinth-architect.md" is read before execution
   And the requested OpenSpec change path is "examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
   And any existing OpenSpec change at the requested change path is removed before execution
   And application code implementation is explicitly out of scope
-  When the agent "robot-architect" is applied to the request
+  When the agent "plinth-architect" is applied to the request
   Then the agent reads trusted planning inputs and establishes source artifact authority
   And the agent assesses whether the scope fits one reviewable OpenSpec change
   And the agent records source artifact paths, concern authority, and derivation direction in the OpenSpec proposal
@@ -27,22 +27,22 @@ Scenario: Create an initial OpenSpec change using composable planning workflow
   And the agent does not modify ADRs, user stories, Gherkin files, or OpenAPI files under "examples/openspec/god-analysis-api/requirements/problem1"
   And the folder "examples/openspec/god-analysis-api/requirements/problem1" has no git changes
   And "openspec validate --all" is run from "examples/openspec/god-analysis-api" after approved artifact changes
-  And the agent reports source artifacts, authority, derivation direction, validation evidence, unresolved questions, and handoff details for robot-tech-lead
+  And the agent reports source artifacts, authority, derivation direction, validation evidence, unresolved questions, and handoff details for plinth-tech-lead
   And any git changes produced under "examples/openspec/god-analysis-api/openspec" during agent execution and verification are reset
 
 @acceptance-test
 Scenario: Improve an initial OpenSpec change by calling design skills during elaboration
   Remark: Acceptance execution first creates the initial OpenSpec change through `/create-spec`, then improves it through `/explore-design`.
   Given the functional requirements folder "examples/openspec/god-analysis-api/requirements/problem1" contains ADRs, a user story, Gherkin acceptance criteria, and OpenAPI files
-  And the agent prompt source ".cursor/agents/robot-architect.md" is read before execution
+  And the agent prompt source ".cursor/agents/plinth-architect.md" is read before execution
   And the requested OpenSpec change path is "examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
   And any existing OpenSpec change at the requested change path is removed before execution
   And application code implementation is explicitly out of scope
-  When the agent "robot-architect" is applied to the request "/create-spec examples/openspec/god-analysis-api/requirements/problem1"
+  When the agent "plinth-architect" is applied to the request "/create-spec examples/openspec/god-analysis-api/requirements/problem1"
   Then the agent creates the OpenSpec change "add-god-analysis-api" containing "proposal.md", "design.md", "tasks.md", and capability specification deltas under "specs/"
   And the agent applies only "042-planning-openspec" when creating the initial OpenSpec change
   And "openspec validate --all" is run from "examples/openspec/god-analysis-api" after the initial change is created
-  When the agent "robot-architect" is applied to the request "/explore-design examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
+  When the agent "plinth-architect" is applied to the request "/explore-design examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
   Then the agent identifies the design source, problem, constraints, stakeholders, options, trade-offs, and recommendation criteria
   And the agent calls "051-design-two-steps-methods" to separate behavior-preserving preparation from behavior-changing refinement in the improved approach
   And the agent calls "052-design-hamburger-method" when scope needs smallest-useful vertical slices during elaboration

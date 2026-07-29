@@ -7,7 +7,7 @@
         <description>Create a repository ADR for an approved architectural decision.</description>
         <argument-hint>[decision-source] [adr-type]</argument-hint>
         <model>inherit</model>
-        <agent>robot-architect</agent>
+        <agent>plinth-architect</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -34,7 +34,7 @@ Record an important architectural decision, its context, alternatives, and conse
 
 ## Owning Agent
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Associated Skills
 

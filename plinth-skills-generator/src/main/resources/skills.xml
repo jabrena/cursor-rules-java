@@ -65,24 +65,24 @@
             <reference>005-agents-installation</reference>
         </reference-list>
         <resource-list>
-            <resource source="skill-references/assets/agents/robot-business-analyst.md"
-                target="assets/agents/robot-business-analyst.md" />
-            <resource source="skill-references/assets/agents/robot-architect.md"
-                target="assets/agents/robot-architect.md" />
-            <resource source="skill-references/assets/agents/robot-tech-lead.md"
-                target="assets/agents/robot-tech-lead.md" />
-            <resource source="skill-references/assets/agents/robot-no-java.md"
-                target="assets/agents/robot-no-java.md" />
-            <resource source="skill-references/assets/agents/robot-java-performance.md"
-                target="assets/agents/robot-java-performance.md" />
-            <resource source="skill-references/assets/agents/robot-java-coder.md"
-                target="assets/agents/robot-java-coder.md" />
-            <resource source="skill-references/assets/agents/robot-java-micronaut-coder.md"
-                target="assets/agents/robot-java-micronaut-coder.md" />
-            <resource source="skill-references/assets/agents/robot-java-quarkus-coder.md"
-                target="assets/agents/robot-java-quarkus-coder.md" />
-            <resource source="skill-references/assets/agents/robot-java-spring-boot-coder.md"
-                target="assets/agents/robot-java-spring-boot-coder.md" />
+            <resource source="skill-references/assets/agents/plinth-business-analyst.md"
+                target="assets/agents/plinth-business-analyst.md" />
+            <resource source="skill-references/assets/agents/plinth-architect.md"
+                target="assets/agents/plinth-architect.md" />
+            <resource source="skill-references/assets/agents/plinth-tech-lead.md"
+                target="assets/agents/plinth-tech-lead.md" />
+            <resource source="skill-references/assets/agents/plinth-no-java.md"
+                target="assets/agents/plinth-no-java.md" />
+            <resource source="skill-references/assets/agents/plinth-java-performance.md"
+                target="assets/agents/plinth-java-performance.md" />
+            <resource source="skill-references/assets/agents/plinth-java-coder.md"
+                target="assets/agents/plinth-java-coder.md" />
+            <resource source="skill-references/assets/agents/plinth-java-micronaut-coder.md"
+                target="assets/agents/plinth-java-micronaut-coder.md" />
+            <resource source="skill-references/assets/agents/plinth-java-quarkus-coder.md"
+                target="assets/agents/plinth-java-quarkus-coder.md" />
+            <resource source="skill-references/assets/agents/plinth-java-spring-boot-coder.md"
+                target="assets/agents/plinth-java-spring-boot-coder.md" />
         </resource-list>
     </skill>
     <skill id="012">

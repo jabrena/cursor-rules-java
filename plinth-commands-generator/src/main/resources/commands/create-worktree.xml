@@ -7,7 +7,7 @@
         <description>Create an isolated Git worktree on a new conventionally named branch.</description>
         <argument-hint>[issue-or-change|type description] [target-path] [base-reference]</argument-hint>
         <model>inherit</model>
-        <agent>robot-tech-lead</agent>
+        <agent>plinth-tech-lead</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -36,7 +36,7 @@ Always create a new branch and linked Git worktree for isolated or parallel work
 
 ## Owning Agent
 
-`@robot-tech-lead`
+`@plinth-tech-lead`
 
 ## Associated Capabilities
 

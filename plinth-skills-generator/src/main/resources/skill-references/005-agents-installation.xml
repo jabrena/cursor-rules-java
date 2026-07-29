@@ -50,15 +50,15 @@
             <step-content>
                 Copy these exact source files from the skill `assets/agents/` directory into the chosen destination directory:
 
-                - [robot-business-analyst.md](../assets/agents/robot-business-analyst.md)
-                - [robot-architect.md](../assets/agents/robot-architect.md)
-                - [robot-tech-lead.md](../assets/agents/robot-tech-lead.md)
-                - [robot-no-java.md](../assets/agents/robot-no-java.md)
-                - [robot-java-performance.md](../assets/agents/robot-java-performance.md)
-                - [robot-java-coder.md](../assets/agents/robot-java-coder.md)
-                - [robot-java-micronaut-coder.md](../assets/agents/robot-java-micronaut-coder.md)
-                - [robot-java-quarkus-coder.md](../assets/agents/robot-java-quarkus-coder.md)
-                - [robot-java-spring-boot-coder.md](../assets/agents/robot-java-spring-boot-coder.md)
+                - [plinth-business-analyst.md](../assets/agents/plinth-business-analyst.md)
+                - [plinth-architect.md](../assets/agents/plinth-architect.md)
+                - [plinth-tech-lead.md](../assets/agents/plinth-tech-lead.md)
+                - [plinth-no-java.md](../assets/agents/plinth-no-java.md)
+                - [plinth-java-performance.md](../assets/agents/plinth-java-performance.md)
+                - [plinth-java-coder.md](../assets/agents/plinth-java-coder.md)
+                - [plinth-java-micronaut-coder.md](../assets/agents/plinth-java-micronaut-coder.md)
+                - [plinth-java-quarkus-coder.md](../assets/agents/plinth-java-quarkus-coder.md)
+                - [plinth-java-spring-boot-coder.md](../assets/agents/plinth-java-spring-boot-coder.md)
 
                 Create the destination directory if it does not exist.
 

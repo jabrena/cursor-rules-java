@@ -1,7 +1,7 @@
-Feature: Validate robot-tech-lead agent
+Feature: Validate plinth-tech-lead agent
 
 Background:
-  Given the agent prompt file ".cursor/agents/robot-tech-lead.md"
+  Given the agent prompt file ".cursor/agents/plinth-tech-lead.md"
   And the OpenSpec project path "examples/openspec/god-analysis-api"
   And the OpenSpec change path "examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api"
   And the implementation target directory "examples/openspec/god-analysis-api/demo"
@@ -44,9 +44,9 @@ Scenario: Coordinate God Analysis API implementation from a validated OpenSpec c
   Given the OpenSpec change "add-god-analysis-api" contains "proposal.md", "design.md", "tasks.md", and "specs/god-analysis-api/spec.md"
   And the OpenSpec change is validated with "openspec validate --all" from "examples/openspec/god-analysis-api"
   And the user request is "Coordinate implementation for examples/openspec/god-analysis-api/openspec/changes/add-god-analysis-api and implement in examples/openspec/god-analysis-api/demo"
-  And the agent prompt source ".cursor/agents/robot-tech-lead.md" is read before execution
+  And the agent prompt source ".cursor/agents/plinth-tech-lead.md" is read before execution
   And the implementation target directory starts empty except for ".gitkeep"
-  When the agent "robot-tech-lead" is applied to the request
+  When the agent "plinth-tech-lead" is applied to the request
   Then the agent loads the selected OpenSpec "tasks.md" as the execution contract
   And the agent reads the proposal, design, and affected specs as bounded read-only skill-discovery context
   And the agent reviews the available skill catalog without recursively reading every skill body
@@ -54,7 +54,7 @@ Scenario: Coordinate God Analysis API implementation from a validated OpenSpec c
   And the agent confirms the selected OpenSpec change is current, validated, and internally consistent
   And the agent identifies the implementation as a Spring Boot MVC Java service from the OpenSpec design and technology constraints
   And the agent reads the complete 042-planning-openspec SKILL.md and its required reference before delegating
-  And the agent delegates every implementation, test, and verification step to "@robot-java-spring-boot-coder"
+  And the agent delegates every implementation, test, and verification step to "@plinth-java-spring-boot-coder"
   And every implementation handoff requires the complete SKILL.md and every task-relevant referenced resource to be read before editing
   And the Spring Boot coder treats delegated candidates as a baseline and owns final framework-specific skill discovery
   And the agent does not implement code, edit tests, or run the build as a substitute for developers

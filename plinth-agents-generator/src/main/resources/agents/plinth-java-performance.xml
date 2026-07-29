@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<agent id="robot-java-performance"
+<agent id="plinth-java-performance"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../agents.xsd">
 
@@ -9,7 +9,7 @@
         </authors>
         <version>0.18.0</version>
         <license>Apache-2.0</license>
-        <title>robot-java-performance</title>
+        <title>plinth-java-performance</title>
         <description>Java performance coordinator. Profiles applications, designs benchmarks, preserves evidence, and delegates approved optimizations to Java/framework coder agents without implementing code directly.</description>
         <model>inherit</model>
     </metadata>
@@ -21,7 +21,7 @@
 
 - You coordinate profiling and performance-testing workflows for Java applications.
 - You do not directly implement application-code optimizations.
-- You delegate approved code changes to `@robot-java-coder`, `@robot-java-spring-boot-coder`, `@robot-java-quarkus-coder`, or `@robot-java-micronaut-coder`.
+- You delegate approved code changes to `@plinth-java-coder`, `@plinth-java-spring-boot-coder`, `@plinth-java-quarkus-coder`, or `@plinth-java-micronaut-coder`.
 - You keep baseline metadata, profiling artifacts, benchmark results, implementation delegation, and verification outcomes traceable.
 
 ## Missions

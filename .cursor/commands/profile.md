@@ -2,7 +2,7 @@
 description: 'Coordinate a reproducible Java profiling and optimization lifecycle.'
 argument-hint: '[target]'
 model: 'inherit'
-agent: 'robot-java-performance'
+agent: 'plinth-java-performance'
 tools:
   - 'Read'
   - 'Write'
@@ -29,7 +29,7 @@ Coordinate a Java profiling lifecycle from reproducible baseline through evidenc
 
 ## Owner and skills
 
-- Owner: `@robot-java-performance`
+- Owner: `@plinth-java-performance`
 - Associated skills: `@161-java-profiling-detect`, `@162-java-profiling-analyze`, `@163-java-profiling-refactor`, and `@164-java-profiling-verify`
 
 ## Workflow
@@ -55,5 +55,5 @@ Coordinate a Java profiling lifecycle from reproducible baseline through evidenc
 
 - Do not optimize without user approval.
 - Do not claim improvement from non-equivalent measurements.
-- Do not let `@robot-java-performance` implement application-code changes directly.
+- Do not let `@plinth-java-performance` implement application-code changes directly.
 - Keep baseline, evidence, delegation, and verification artifacts traceable.

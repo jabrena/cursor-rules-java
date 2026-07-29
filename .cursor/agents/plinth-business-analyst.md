@@ -1,5 +1,5 @@
 ---
-name: robot-business-analyst
+name: plinth-business-analyst
 description: Business analyst. Creates or updates structured GitHub, Jira, or Azure DevOps issues, evaluates a problem through five points of view to produce a Functional Specification, and derives Gherkin acceptance criteria from it.
 license: Apache-2.0
 metadata:

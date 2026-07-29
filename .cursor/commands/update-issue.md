@@ -2,7 +2,7 @@
 description: 'Update an issue description with structured, evidence-backed content.'
 argument-hint: '[issue-url]'
 model: 'inherit'
-agent: 'robot-business-analyst'
+agent: 'plinth-business-analyst'
 tools:
   - 'Read'
   - 'Bash'
@@ -26,7 +26,7 @@ Update an existing project issue description with structured, evidence-backed co
 
 ## Owning Agent
 
-`@robot-business-analyst`
+`@plinth-business-analyst`
 
 ## Associated Skills
 

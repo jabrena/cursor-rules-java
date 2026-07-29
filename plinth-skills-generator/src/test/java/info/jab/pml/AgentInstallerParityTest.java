@@ -11,10 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AgentInstallerParityTest {
 
     private static final List<String> CODER_AGENTS = List.of(
-        "robot-java-coder.md",
-        "robot-java-spring-boot-coder.md",
-        "robot-java-quarkus-coder.md",
-        "robot-java-micronaut-coder.md"
+        "plinth-java-coder.md",
+        "plinth-java-spring-boot-coder.md",
+        "plinth-java-quarkus-coder.md",
+        "plinth-java-micronaut-coder.md"
     );
 
     @Test
@@ -41,10 +41,10 @@ class AgentInstallerParityTest {
         String installer = loadClasspathResource("skill-references/005-agents-installation.xml");
 
         assertThat(installer)
-            .contains("](../assets/agents/robot-architect.md)")
-            .contains("](../assets/agents/robot-tech-lead.md)")
-            .contains("](../assets/agents/robot-no-java.md)")
-            .contains("](../assets/agents/robot-java-performance.md)")
+            .contains("](../assets/agents/plinth-architect.md)")
+            .contains("](../assets/agents/plinth-tech-lead.md)")
+            .contains("](../assets/agents/plinth-no-java.md)")
+            .contains("](../assets/agents/plinth-java-performance.md)")
             .doesNotContain("robot-coordinator.md");
     }
 
@@ -62,7 +62,7 @@ class AgentInstallerParityTest {
         String installer = loadClasspathResource("skill-references/005-agents-installation.xml");
 
         assertThat(installer)
-            .contains("robot-no-java.md")
+            .contains("plinth-no-java.md")
             .contains("all nine agents")
             .contains("assets/agents/");
     }

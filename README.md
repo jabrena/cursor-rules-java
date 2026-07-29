@@ -77,14 +77,14 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
 
 ```text
 /update-issue
-@robot-business-analyst
+@plinth-business-analyst
     @043-planning-github-issues
     @044-planning-jira
     @045-planning-azure-devops
     @014-agile-user-story
 
 /explore-problem
-@robot-business-analyst
+@plinth-business-analyst
     @021-problem-framing
     @022-root-cause-analysis
     @023-assumption-analysis
@@ -92,7 +92,7 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
     @025-quality-attribute-discovery
 
 /create-acceptance-criteria
-@robot-business-analyst
+@plinth-business-analyst
     @058-design-bdd
 ```
 
@@ -100,19 +100,19 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
 
 ```
 /create-adr (Optional)
-@robot-architect
+@plinth-architect
     @030-architecture-adr-general
 
 /create-diagram (Optional)
-@robot-architect
+@plinth-architect
     @033-architecture-diagrams
 
 /create-spec
-@robot-architect
+@plinth-architect
     @042-planning-openspec
 
 /explore-design
-@robot-architect
+@plinth-architect
     @051-design-two-steps-methods
     @052-design-hamburger-method
     @053-design-simple-rules
@@ -140,14 +140,14 @@ Implement and improve Java applications with Maven, design, coding, testing, sec
 
 ```text
 /implement-spec
-@robot-tech-lead
+@plinth-tech-lead
     /create-feature-branch
     /create-worktree
-    @robot-java-coder
-    @robot-java-spring-boot-coder
-    @robot-java-quarkus-coder
-    @robot-java-micronaut-coder
-    @robot-no-java
+    @plinth-java-coder
+    @plinth-java-spring-boot-coder
+    @plinth-java-quarkus-coder
+    @plinth-java-micronaut-coder
+    @plinth-no-java
 
 MCP Servers
     Jbang-Quarkus-JDBC
@@ -156,7 +156,7 @@ MCP Servers
     Serena-LSP
 
 /close-spec
-@robot-architect
+@plinth-architect
 ```
 
 ### Operate
@@ -165,13 +165,13 @@ Measure and improve production behavior through observability, profiling, benchm
 
 ```text
 /profile
-@robot-java-performance
+@plinth-java-performance
     @161-java-profiling-detect
     @162-java-profiling-analyze
     @163-java-profiling-refactor
     @164-java-profiling-verify
 /benchmark
-@robot-java-performance
+@plinth-java-performance
     @151-java-performance-jmeter
     @152-java-performance-gatling
 

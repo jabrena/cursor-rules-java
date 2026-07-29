@@ -20,15 +20,15 @@ Scenario: Generate embedded agents inventory with every agent asset
   And the generated inventory file includes the installation targets ".cursor/agents" and ".claude/agents"
   And the generated inventory file includes exactly one row for each embedded agent asset:
     | assetFile                        | agentName                      |
-    | robot-business-analyst.md        | robot-business-analyst         |
-    | robot-architect.md               | robot-architect                |
-    | robot-tech-lead.md               | robot-tech-lead                |
-    | robot-no-java.md                 | robot-no-java                  |
-    | robot-java-performance.md        | robot-java-performance         |
-    | robot-java-coder.md              | robot-java-coder               |
-    | robot-java-micronaut-coder.md    | robot-java-micronaut-coder     |
-    | robot-java-quarkus-coder.md      | robot-java-quarkus-coder       |
-    | robot-java-spring-boot-coder.md  | robot-java-spring-boot-coder   |
+    | plinth-business-analyst.md        | plinth-business-analyst         |
+    | plinth-architect.md               | plinth-architect                |
+    | plinth-tech-lead.md               | plinth-tech-lead                |
+    | plinth-no-java.md                 | plinth-no-java                  |
+    | plinth-java-performance.md        | plinth-java-performance         |
+    | plinth-java-coder.md              | plinth-java-coder               |
+    | plinth-java-micronaut-coder.md    | plinth-java-micronaut-coder     |
+    | plinth-java-quarkus-coder.md      | plinth-java-quarkus-coder       |
+    | plinth-java-spring-boot-coder.md  | plinth-java-spring-boot-coder   |
   And every agent row in the generated file corresponds to a same-named agent listed in "assets/java-agents-inventory-template.md"
   And no agent listed in "assets/java-agents-inventory-template.md" is missing from the generated inventory
   And the generated inventory file does not include agent rows outside the embedded inventory template

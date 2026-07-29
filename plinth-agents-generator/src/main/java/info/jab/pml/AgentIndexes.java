@@ -13,9 +13,9 @@ import org.w3c.dom.NodeList;
  * Inventory of embedded agent assets, loaded from {@code agents.xml}.
  *
  * <p>Inventory {@code @file} entries reference XML sources (for example
- * {@code robot-architect.xml}). {@link #agentFiles()} exposes the generated
+ * {@code plinth-architect.xml}). {@link #agentFiles()} exposes the generated
  * Markdown asset names installers and the skills bridge consume
- * ({@code robot-architect.md}).
+ * ({@code plinth-architect.md}).
  */
 public final class AgentIndexes {
 
@@ -26,7 +26,7 @@ public final class AgentIndexes {
     /**
      * Returns generated agent Markdown asset file names in installation order.
      *
-     * @return stream of agent file names, for example {@code robot-architect.md}
+     * @return stream of agent file names, for example {@code plinth-architect.md}
      */
     public static Stream<String> agentFiles() {
         return loadInventorySources().stream().map(AgentIndexes::toMarkdownFileName);
@@ -35,7 +35,7 @@ public final class AgentIndexes {
     /**
      * Returns agent XML source file names in installation order.
      *
-     * @return stream of agent source file names, for example {@code robot-architect.xml}
+     * @return stream of agent source file names, for example {@code plinth-architect.xml}
      */
     public static Stream<String> agentSources() {
         return loadInventorySources().stream();

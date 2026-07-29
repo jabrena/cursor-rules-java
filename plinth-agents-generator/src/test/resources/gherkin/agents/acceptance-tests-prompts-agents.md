@@ -1,57 +1,57 @@
 # Acceptance Test Prompts for Agents
 
-## robot-architect
+## plinth-architect
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-architect.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-architect.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-tech-lead
+## plinth-tech-lead
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-tech-lead.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-tech-lead.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-java-coder
+## plinth-java-coder
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-java-coder.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-java-coder.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-java-spring-boot-coder
+## plinth-java-spring-boot-coder
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-java-spring-boot-coder.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-java-spring-boot-coder.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-java-quarkus-coder
+## plinth-java-quarkus-coder
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-java-quarkus-coder.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-java-quarkus-coder.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-java-micronaut-coder
+## plinth-java-micronaut-coder
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-java-micronaut-coder.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-java-micronaut-coder.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-no-java
+## plinth-no-java
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-no-java.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-no-java.feature
 and verify that acceptance-tests passes.
 ```
 
-## robot-java-performance
+## plinth-java-performance
 
 ```bash
-execute @plinth-agents-generator/src/test/resources/gherkin/agents/robot-java-performance.feature
+execute @plinth-agents-generator/src/test/resources/gherkin/agents/plinth-java-performance.feature
 and verify that acceptance-tests passes.
 ```

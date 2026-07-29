@@ -111,15 +111,15 @@
 <p>Starting with this release, the project introduces a simple way to describe any <code>SDLC</code> action through three phases: <code>Plan</code>, <code>Build</code>, and <code>Operate</code>. <code>Software engineers</code> can use this structure when writing a <code>User prompt</code> in an AI user interface or terminal.</p>
 <pre><code class="language-bash">Build
   /implement-issue
-    @robot-tech-lead
+    @plinth-tech-lead
       /create-feature-branch
       /create-worktree
       /review-alignment
-      @robot-java-coder
-      @robot-java-spring-boot-coder
-      @robot-java-quarkus-coder
-      @robot-java-micronaut-coder
-      @robot-no-java
+      @plinth-java-coder
+      @plinth-java-spring-boot-coder
+      @plinth-java-quarkus-coder
+      @plinth-java-micronaut-coder
+      @plinth-no-java
 </code></pre>
 <p>We will go into more detail later, but first, let's review the most interesting features added in this release:</p>
 <ul>
@@ -144,48 +144,48 @@
 <pre><code class="language-text">Plan
   /create-issue
   /update-issue
-    @robot-business-analyst
+    @plinth-business-analyst
       @043-planning-github-issues
       @044-planning-jira
       @014-agile-user-story
   /create-adr
-    @robot-architect
+    @plinth-architect
       @030-architecture-adr-general
       @031-architecture-adr-functional-requirements
       @032-architecture-adr-non-functional-requirements
   /create-diagram
-    @robot-architect
+    @plinth-architect
       @033-architecture-diagrams
   /create-spec
-    @robot-tech-lead
+    @plinth-tech-lead
       @042-planning-openspec
   /explore-design
-    @robot-architect
+    @plinth-architect
       @034-architecture-design-exploration
   /review-alignment
-    @robot-business-analyst
+    @plinth-business-analyst
 
 Build
   /implement-issue
-    @robot-tech-lead
+    @plinth-tech-lead
       /create-feature-branch
       /create-worktree
       /review-alignment
-      @robot-java-coder
-      @robot-java-spring-boot-coder
-      @robot-java-quarkus-coder
-      @robot-java-micronaut-coder
-      @robot-no-java
+      @plinth-java-coder
+      @plinth-java-spring-boot-coder
+      @plinth-java-quarkus-coder
+      @plinth-java-micronaut-coder
+      @plinth-no-java
 
 Operate
   /profile
-    @robot-java-performance
+    @plinth-java-performance
       @161-java-profiling-detect
       @162-java-profiling-analyze
       @163-java-profiling-refactor
       @164-java-profiling-verify
   /benchmark
-    @robot-java-performance
+    @plinth-java-performance
       @151-java-performance-jmeter
       @152-java-performance-gatling
 </code></pre>
@@ -334,7 +334,7 @@ Scenario: Implement God Analysis API from a validated OpenSpec change
   Then the command loads the selected OpenSpec &quot;tasks.md&quot; as the execution contract
   And the command confirms the selected OpenSpec change is current, validated, and internally consistent
   And the command identifies the implementation as a Spring Boot MVC Java service from the OpenSpec design and technology constraints
-  And the command routes implementation work through &quot;@robot-tech-lead&quot; and the appropriate Java Spring Boot implementation agent
+  And the command routes implementation work through &quot;@plinth-tech-lead&quot; and the appropriate Java Spring Boot implementation agent
   And the command reports using the current branch as the isolation strategy before implementation starts
   And all generated implementation files are created under &quot;examples/openspec/god-analysis-api/demo&quot;
   And the implementation provides &quot;GET /api/v1/gods/stats/sum&quot;
@@ -350,17 +350,17 @@ Scenario: Implement God Analysis API from a validated OpenSpec change
 <p>When the prompt is executed, under the hood the <code>Gherkin</code> file triggers the agents and skills:</p>
 <pre><code>Build
   /implement-issue
-    @robot-tech-lead
+    @plinth-tech-lead
       /create-feature-branch
       /create-worktree
       /review-alignment
-      @robot-java-coder
-      @robot-java-spring-boot-coder
-      @robot-java-quarkus-coder
-      @robot-java-micronaut-coder
-      @robot-no-java
+      @plinth-java-coder
+      @plinth-java-spring-boot-coder
+      @plinth-java-quarkus-coder
+      @plinth-java-micronaut-coder
+      @plinth-no-java
 </code></pre>
-<p>In this case, the command internally uses the agent <code>@robot-tech-lead</code>, which redirects to the specific agent <code>@robot-java-spring-boot-coder</code> based on the analysis of the specification. That agent handles specific <code>Java skills</code> and specific <code>Spring Boot skills</code>. This is the result for a <code>Spring Boot</code> implementation:</p>
+<p>In this case, the command internally uses the agent <code>@plinth-tech-lead</code>, which redirects to the specific agent <code>@plinth-java-spring-boot-coder</code> based on the analysis of the specification. That agent handles specific <code>Java skills</code> and specific <code>Spring Boot skills</code>. This is the result for a <code>Spring Boot</code> implementation:</p>
 <p><a href="https://asciinema.org/a/1257803"><img src="https://asciinema.org/a/1257803.svg" alt="asciicast" /></a></p>
 <p><em>Running the test with Codex CLI for the Spring Boot variant</em></p>
 <p><img src="/plinth/images/2026/6/vscode-codex.png" alt="" /></p>
@@ -370,10 +370,10 @@ Scenario: Implement God Analysis API from a validated OpenSpec change
 and verify that acceptance-tests pass.
 Implement it using Quarkus, not Spring Boot, as the default requirement.
 </code></pre>
-<p>In this case, the agent <code>@robot-tech-lead</code> redirects the workload to the specific agent <code>@robot-java-quarkus-coder</code>, which handles specific <code>Java skills</code> and specific <code>Quarkus skills</code>. This is the result for a <code>Quarkus</code> implementation:</p>
+<p>In this case, the agent <code>@plinth-tech-lead</code> redirects the workload to the specific agent <code>@plinth-java-quarkus-coder</code>, which handles specific <code>Java skills</code> and specific <code>Quarkus skills</code>. This is the result for a <code>Quarkus</code> implementation:</p>
 <p><a href="https://asciinema.org/a/1257861"><img src="https://asciinema.org/a/1257861.svg" alt="asciicast" /></a></p>
 <p><em>Running the test with Codex CLI for the Quarkus variant</em></p>
-<p>Or, if required, the agent <code>@robot-tech-lead</code> redirects to the specific agent <code>@robot-java-micronaut-coder</code>, which handles specific <code>Java skills</code> and specific <code>Micronaut skills</code>. This is the result for a <code>Micronaut</code> implementation:</p>
+<p>Or, if required, the agent <code>@plinth-tech-lead</code> redirects to the specific agent <code>@plinth-java-micronaut-coder</code>, which handles specific <code>Java skills</code> and specific <code>Micronaut skills</code>. This is the result for a <code>Micronaut</code> implementation:</p>
 <pre><code class="language-bash">execute @plinth-skills-generator/src/test/resources/gherkin/commands/implement-issue.feature
 and verify that acceptance-tests pass.
 Implement it using Micronaut, not Spring Boot, as the default requirement.

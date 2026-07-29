@@ -2,7 +2,7 @@
 description: 'Create an architecture or design diagram from selected source artifacts.'
 argument-hint: '[source-artifact] [diagram-type]'
 model: 'inherit'
-agent: 'robot-architect'
+agent: 'plinth-architect'
 tools:
   - 'Read'
   - 'Write'
@@ -27,7 +27,7 @@ Create an architecture or design diagram that explains a selected system view.
 
 ## Owning Agent
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Associated Skill
 

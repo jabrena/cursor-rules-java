@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<agent id="robot-java-spring-boot-coder"
+<agent id="plinth-java-spring-boot-coder"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../agents.xsd">
 
@@ -9,7 +9,7 @@
         </authors>
         <version>0.18.0</version>
         <license>Apache-2.0</license>
-        <title>robot-java-spring-boot-coder</title>
+        <title>plinth-java-spring-boot-coder</title>
         <description>Implementation specialist for Spring Boot projects. Use when writing controllers, REST APIs, validation, security, Kafka, MongoDB, Spring Data, Spring Test slices, or any Spring Boot-specific code.</description>
         <model>inherit</model>
     </metadata>

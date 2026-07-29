@@ -1,14 +1,14 @@
-Feature: Validate robot-java-performance agent
+Feature: Validate plinth-java-performance agent
 
 Background:
-  Given the agent prompt file ".cursor/agents/robot-java-performance.md"
+  Given the agent prompt file ".cursor/agents/plinth-java-performance.md"
   And the folder "examples" has no git changes
 
 @acceptance-test
 Scenario: Coordinate profiling and benchmarking with reproducible evidence
   Given the user request is "Profile a Java service and recommend evidence-backed performance work"
-  And the agent prompt source ".cursor/agents/robot-java-performance.md" is read before execution
-  When the agent "robot-java-performance" is applied to the request
+  And the agent prompt source ".cursor/agents/plinth-java-performance.md" is read before execution
+  When the agent "plinth-java-performance" is applied to the request
   Then the agent establishes a reproducible baseline with runtime, environment, workload, command, and artifact metadata
   And the agent separates profiling, benchmark design, analysis, optimization delegation, and verification outcomes
   And the agent uses profiling and performance skills for detection, analysis, refactoring guidance, verification, JMeter, or Gatling when relevant

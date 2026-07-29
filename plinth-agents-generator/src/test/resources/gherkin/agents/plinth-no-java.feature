@@ -1,14 +1,14 @@
-Feature: Validate robot-no-java agent
+Feature: Validate plinth-no-java agent
 
 Background:
-  Given the agent prompt file ".cursor/agents/robot-no-java.md"
+  Given the agent prompt file ".cursor/agents/plinth-no-java.md"
   And the folder "examples" has no git changes
 
 @acceptance-test
 Scenario: Implement non-Java work without claiming Java expertise
   Given the user request is "Implement a non-Java repository task using existing project tooling"
-  And the agent prompt source ".cursor/agents/robot-no-java.md" is read before execution
-  When the agent "robot-no-java" is applied to the request
+  And the agent prompt source ".cursor/agents/plinth-no-java.md" is read before execution
+  When the agent "plinth-no-java" is applied to the request
   Then the agent identifies the target stack from repository evidence before making changes
   And for every applied skill the agent reads the complete SKILL.md and every task-relevant referenced resource before editing
   And the agent follows existing project scripts, tests, linters, formatters, dependency files, and conventions

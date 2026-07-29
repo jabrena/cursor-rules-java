@@ -2,7 +2,7 @@
 description: 'Analyze an issue through five lenses and post a Functional Specification.'
 argument-hint: '[issue-url]'
 model: 'inherit'
-agent: 'robot-business-analyst'
+agent: 'plinth-business-analyst'
 tools:
   - 'Read'
   - 'Bash'
@@ -24,7 +24,7 @@ Evaluate an issue through five points of view — problem framing, root cause an
 
 ## Owning Agent
 
-`@robot-business-analyst`
+`@plinth-business-analyst`
 
 ## Associated Skills
 
