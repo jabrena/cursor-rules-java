@@ -62,3 +62,5 @@ The change does not include: any new agent capability, role, or delegation contr
 - Generated output: `.agents/skills/`, `.cursor/agents/*.md`, and any other installer target produced from the agent bundle.
 - Documentation: `documentation/guides/*`, `README.md`/`README_ES.md`/`README_ZH.md`, `CHANGELOG.md`, `site-generator/content/blog/` (with corresponding `docs/` regeneration).
 - OpenSpec: 7 living capability specs listed above; `documentation/openspec/changes/archive/` is explicitly out of scope and unchanged.
+- `benchmarks/metrics-v1.schema.json`: an illustrative `robot-tech-lead` example string, updated to `plinth-tech-lead` (scope addition confirmed during the `/explore-design` pass, 2026-07-29).
+- Explicitly out of scope: the public `skills/` release output (deferred to a later `-P release` promotion, not this change) and `benchmarks/scenario4/results/*.json` (23 historical benchmark run records, left unchanged as historical evidence).

@@ -19,6 +19,7 @@
 ## 3. PML schema examples (pml-agents-schema)
 
 - [ ] 3.1 Rename `examples/xml/robot-*.xml` OpenSpec schema examples to `examples/xml/plinth-*.xml` under this change, mirroring the renamed agent XML shape.
+- [ ] 3.2 Validate each renamed example with `xmllint --noout examples/xml/plinth-*.xml` per `CLAUDE.md`'s XML validation rule.
 
 ## 4. Generated output and skills bridge
 
@@ -38,19 +39,20 @@
 
 ## 6. Documentation
 
-- [ ] 6.1 Update `documentation/guides/*` (getting-started guides, inventories) that name agents by their `robot-` identifier, including `_ES`/`_ZH` variants where they exist.
+- [ ] 6.1 Update `documentation/guides/*` (getting-started guides, inventories) that name agents by their `robot-` identifier, including `_ES`/`_ZH` variants where they exist. This includes `GETTING-STARTED-AGENTS.md`, `GETTING-STARTED-AGENTS_ES.md`, and `GETTING-STARTED-AGENTS_ZH.md`, which document the `robot-coordinator` -> `robot-tech-lead` migration: rename only the migration *target* to `plinth-tech-lead`; leave the retired source name `robot-coordinator` unchanged, since it is historical and never receives a `plinth-` counterpart (per `specs/analysis-design-lifecycle-documentation/spec.md` and `design.md`'s Scope boundary).
 - [ ] 6.2 Update `README.md`, `README_ES.md`, and `README_ZH.md` agent references in the same change.
-- [ ] 6.3 Update `CHANGELOG.md` only for the entry documenting this rename; do not rewrite past released-version entries.
+- [ ] 6.3 Update `CHANGELOG.md` only for the entry documenting this rename; do not rewrite past released-version entries. `CHANGELOG.md` also mentions `robot-coordinator` in a past released-version entry — leave that historical entry unchanged, consistent with 6.1's exception.
 - [ ] 6.4 Update blog posts under `site-generator/content/blog/` that name agents by their `robot-` identifier, then run `./mvnw clean generate-resources -pl site-generator -P site-update` and review the resulting `docs/` diff.
 - [ ] 6.5 Confirm `documentation/openspec/changes/archive/**` is left unchanged (no edits expected).
+- [ ] 6.6 Update the illustrative `robot-tech-lead` example string in `benchmarks/metrics-v1.schema.json:199` to `plinth-tech-lead` (approved scope addition from the `/explore-design` read-only investigation in `design.md`; doc-string only, no runtime consumer parses it as a contract).
 
 ## 7. Compatibility verification (open questions from design.md)
 
-- [ ] 7.1 Grep `.github/workflows/` and any `skill-scanner`/`skill-check` policy configuration for a hardcoded literal `robot-` agent name; fix if found before promoting.
-- [ ] 7.2 Check the public `skills/` release output and published guides for any instruction that tells consumers to invoke agents by the literal `robot-` name; fix if found before the `release` profile promotion.
+- [ ] 7.1 Grep `.github/workflows/` and any `skill-scanner`/`skill-check` policy configuration for a hardcoded literal `robot-` agent name; fix if found before promoting. (Re-run as a regression check: the `/explore-design` read-only investigation in `design.md` found no hits as of 2026-07-29.)
+- [ ] 7.2 The public `skills/` release output (`skills/002-agents-inventory`, `004-commands-installation`, `005-agents-installation`) currently contains literal `robot-*` references, confirmed by the `/explore-design` investigation in `design.md`. **Decision, recorded here per maintainer approval:** refreshing `skills/` via the `-P release` profile is deferred to a separate, later release-promotion step and is explicitly **not** part of this change's closeout — this is normal release-cadence lag per `CLAUDE.md`'s local-vs-release skill generation split, not a compatibility gap this change must close. Task 8.2's verification grep excludes `skills/` accordingly.
 
 ## 8. Closeout
 
 - [ ] 8.1 Run `./mvnw clean verify` (full reactor) and confirm it passes.
-- [ ] 8.2 Confirm no active (non-archived) source, generated output, or documentation file contains a `robot-` agent identifier: `grep -rl "robot-" --exclude-dir=archive --exclude-dir=target --exclude-dir=.git .` limited to agent-identifier hits (cross-check against unrelated matches such as unrelated words before treating as a failure).
+- [ ] 8.2 Confirm no active (non-archived) source, generated output, or documentation file contains a `robot-` agent identifier: `grep -rl "robot-" --exclude-dir=archive --exclude-dir=target --exclude-dir=.git --exclude-dir=skills .` limited to agent-identifier hits (cross-check against unrelated matches such as unrelated words before treating as a failure). Expected, approved remaining hits that are **not** failures: the public `skills/` release output (excluded above; deferred per task 7.2), the historical `robot-coordinator` mentions preserved by tasks 6.1/6.3, and `benchmarks/scenario4/results/*.json` (23 timestamped historical benchmark run records recording which agent identifier was actually invoked at that point in time — out of scope, left unchanged, per the same historical-record rationale as archived OpenSpec records and past `CHANGELOG.md` entries; approved scope decision from the `/explore-design` investigation in `design.md`).
 - [ ] 8.3 Run `openspec validate --all` from `documentation/` and resolve any reported issues.
