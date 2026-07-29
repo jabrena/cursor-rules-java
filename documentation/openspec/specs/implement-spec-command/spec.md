@@ -5,7 +5,7 @@ Define the controlled implementation command for approved plans and validated Op
 ## Requirements
 ### Requirement: Spec implementation command
 
-The command bundle SHALL provide `/implement-spec`, and the command MUST use `@robot-tech-lead` to coordinate delivery through the existing Java, Spring Boot, Quarkus, Micronaut, or non-Java coder agent.
+The command bundle SHALL provide `/implement-spec`, and the command MUST use `@plinth-tech-lead` to coordinate delivery through the existing Java, Spring Boot, Quarkus, Micronaut, or non-Java coder agent.
 
 #### Scenario: Install the implementation command
 
@@ -21,12 +21,12 @@ The command bundle SHALL provide `/implement-spec`, and the command MUST use `@r
 #### Scenario: Implement from an approved plan
 
 - **WHEN** a user invokes `/implement-spec` with an approved implementation plan
-- **THEN** `@robot-tech-lead` delegates implementation against the plan milestones and verification steps
+- **THEN** `@plinth-tech-lead` delegates implementation against the plan milestones and verification steps
 
 #### Scenario: Implement from an OpenSpec change
 
 - **WHEN** a user invokes `/implement-spec` with an OpenSpec change containing validated incomplete tasks
-- **THEN** `@robot-tech-lead` delegates implementation against those tasks
+- **THEN** `@plinth-tech-lead` delegates implementation against those tasks
 - **AND** marks tasks complete only after acceptance criteria and focused checks pass
 
 #### Scenario: Referenced issue has no executable artifact
@@ -42,14 +42,14 @@ The command bundle SHALL provide `/implement-spec`, and the command MUST use `@r
 #### Scenario: Delegate independent task groups
 
 - **WHEN** the execution artifact contains independent groups without dependency or file-ownership conflicts
-- **THEN** `@robot-tech-lead` may delegate them concurrently to the selected specialized coder
+- **THEN** `@plinth-tech-lead` may delegate them concurrently to the selected specialized coder
 - **AND** integrates their results before final checks
 
 #### Scenario: Stop on artifact conflict
 
 - **WHEN** authoritative issue, ADR, specification, or plan content conflicts materially
 - **THEN** implementation stops
-- **AND** the conflict is routed to `robot-business-analyst` for manual assessment, since the `/review-alignment` command is retired
+- **AND** the conflict is routed to `plinth-business-analyst` for manual assessment, since the `/review-alignment` command is retired
 
 #### Scenario: Complete implementation workflow
 

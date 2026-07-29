@@ -38,15 +38,15 @@ The agents module MUST preserve the embedded agent bundle declared by `agents.xm
 - **AND** agent file names are unique
 - **AND** installation order matches `agents.xml`
 - **AND** the bundle contains exactly nine agents:
-  - `robot-business-analyst.md`
-  - `robot-architect.md`
-  - `robot-tech-lead.md`
-  - `robot-no-java.md`
-  - `robot-java-performance.md`
-  - `robot-java-coder.md`
-  - `robot-java-micronaut-coder.md`
-  - `robot-java-quarkus-coder.md`
-  - `robot-java-spring-boot-coder.md`
+  - `plinth-business-analyst.md`
+  - `plinth-architect.md`
+  - `plinth-tech-lead.md`
+  - `plinth-no-java.md`
+  - `plinth-java-performance.md`
+  - `plinth-java-coder.md`
+  - `plinth-java-micronaut-coder.md`
+  - `plinth-java-quarkus-coder.md`
+  - `plinth-java-spring-boot-coder.md`
 
 #### Scenario: Preserve per-agent routing and delegation contracts
 
@@ -103,7 +103,7 @@ The build MUST prove that bridged agent assets from `plinth-agents-generator` re
 - **GIVEN** `./mvnw clean install -pl plinth-skills-generator -am` has been executed
 - **WHEN** generated output under `.agents/skills/005-agents-installation` is inspected
 - **THEN** `references/005-agents-installation.md` embeds full agent bodies sourced from bridged `plinth-agents-generator` assets through XInclude expansion
-- **AND** identifiable markers from agents listed in `agents.xml` are present inline (for example `name: robot-architect`, `name: robot-tech-lead`, `name: robot-no-java`, `name: robot-java-performance`)
+- **AND** identifiable markers from agents listed in `agents.xml` are present inline (for example `name: plinth-architect`, `name: plinth-tech-lead`, `name: plinth-no-java`, `name: plinth-java-performance`)
 - **AND** the generated `005` skill does not rely on a separate `assets/agents/` resource list in `skills.xml` (embed-first model preserved)
 
 #### Scenario: Generated 002 skill embeds the inventory template
