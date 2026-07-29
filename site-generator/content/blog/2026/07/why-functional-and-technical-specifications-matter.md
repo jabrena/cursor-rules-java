@@ -8,7 +8,7 @@ status=published
 
 ## The gap AI agents fall into
 
-Ask an AI agent to "add rate limiting to the API" and it will produce something. It might even compile, pass a quick test, and look complete in the diff.
+When you ask an AI agent to "add rate limiting to the API" and it will produce something. It might even compile, pass a quick test, and look complete in the diff.
 
 But what does "rate limiting" mean here? Per user, per API key, per IP? What happens when the limit is hit — a 429, a queue, a silent drop? Is this a business rule with a specific number attached to a contract, or an infrastructure concern with an operational default? Should it be configurable per tenant?
 
@@ -18,7 +18,7 @@ This is why this project treats specification as its own phase, not a formality 
 
 <table>
 <thead>
-<tr><th>Issue tracker</th><th>Technical Specification</th><th>Implementation</th></tr>
+<tr><th style="width: 25%;">Issue tracker</th><th>Functional Specification</th><th>Technical Specification</th><th>Implementation</th></tr>
 </thead>
 <tbody>
 <tr>
@@ -27,13 +27,12 @@ GitHub Issues<br>
 Jira<br>
 Azure DevOps
 </td>
-<td>OpenSpec</td>
-<td>Agents + Skills</td>
+<td>Functional Specification + Acceptance criteria</td>
+<td>OpenSpec enhanced</td>
+<td>Commands + Agents + Skills</td>
 </tr>
 </tbody>
 </table>
-
-The first stage is the issue tracker that captures the problem before OpenSpec turns it into a specification. This project uses GitHub Issues, but the same pipeline works with any tracker that can hold a problem statement and a URL an agent can fetch — Jira and Azure DevOps work items play the same role, provided there's an adapter step to fetch the issue before `/explore-problem` can evaluate it.
 
 Two different kinds of specification sit inside that middle step, and they answer two different questions.
 
@@ -47,7 +46,6 @@ In this project, the process starts with `/update-issue`: it takes the raw issue
 > to update issue description using `User Story` format 
 > from `@.agents/skills/014-agile-user-story/`
 > and update the issue description and not make questions
-
 
 Only once the issue itself is in shape does `/explore-problem` produce the functional specification, evaluating it through five fixed lenses, in order:
 
@@ -104,9 +102,7 @@ AND the draft contains a Problem Framing section with ...
 
 Every requirement is falsifiable. "Rate limiting should work correctly" is not a technical specification; "given 101 requests in 60 seconds from one API key, the 101st request receives a 429 with a Retry-After header" is. The second version can be checked by a human reviewer, tested by an agent, and diffed against a future change to see exactly what moved.
 
-Technical specification is also where compatibility and migration strategy get decided *before* code exists — for example, this project's own `@055-design-parallel-change` and `@056-design-avoid-breaking-changes` skills, which force an explicit expand/migrate/contract plan instead of a big-bang rename. That decision belongs in the spec, not discovered mid-implementation.
-
-`/create-spec` produces the first draft of that structured change, but a first draft isn't always ready for implementation — some changes need their design pressure-tested before an agent starts writing code. That's what `/explore-design` is for: run after `/create-spec` rather than in place of it. Given an issue or an OpenSpec change with an unresolved technical approach, it compares feasible alternatives and their trade-offs, recommends a direction with rationale, and works out components, boundaries, data flow, failure handling, and the testing strategy needed before implementation starts — the same discipline that produces the `055`/`056` compatibility decision above. When the OpenSpec change already has a proposal, confirmed acceptance criteria, and a task checklist, `/explore-design` finishes with `059-design-atdd`, a read-only alignment gate that checks whether those three artifacts still agree with each other and reports `ready` or `changes-requested`. Either way, the command will not report a design as approved until a human confirms it — a recommendation is not a decision.
+`/create-spec` produces the first draft of that structured change, but a first draft isn't always ready for implementation — some changes need their design pressure-tested before an agent starts writing code. That's what `/explore-design` is for: run after `/create-spec` rather than in place of it. Given an issue or an OpenSpec change with an unresolved technical approach, it compares feasible alternatives and their trade-offs (`@053-design-simple-rules`), recommends a direction with rationale, and works out components, boundaries, data flow, failure handling, and the testing strategy needed before implementation starts — sequencing preparatory work, behavior change, and verification (`@051-design-two-steps-methods`), splitting broad scope into the smallest useful vertical slices when needed (`@052-design-hamburger-method`), sequencing tests before the behavior they verify (`@054-design-tdd`), working out rollout, rollback, and compatibility-window controls (`@057-design-feature-toggles`), and deciding compatibility and migration strategy *before* code exists rather than discovering it mid-implementation (`@055-design-parallel-change` and `@056-design-avoid-breaking-changes`, which force an explicit expand/migrate/contract plan instead of a big-bang rename). When the OpenSpec change already has a proposal, confirmed acceptance criteria, and a task checklist, `/explore-design` finishes with `059-design-atdd`, a read-only alignment gate that checks whether those three artifacts still agree with each other and reports `ready` or `changes-requested`. Either way, the command will not report a design as approved until a human confirms it — a recommendation is not a decision.
 
 ## Why the order matters
 
