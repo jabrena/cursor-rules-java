@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <agent-inventory>
-    <agent file="robot-business-analyst.xml"/>
-    <agent file="robot-architect.xml"/>
-    <agent file="robot-tech-lead.xml"/>
-    <agent file="robot-no-java.xml"/>
-    <agent file="robot-java-performance.xml"/>
-    <agent file="robot-java-coder.xml"/>
-    <agent file="robot-java-micronaut-coder.xml"/>
-    <agent file="robot-java-quarkus-coder.xml"/>
-    <agent file="robot-java-spring-boot-coder.xml"/>
+    <agent file="plinth-business-analyst.xml"/>
+    <agent file="plinth-architect.xml"/>
+    <agent file="plinth-tech-lead.xml"/>
+    <agent file="plinth-no-java.xml"/>
+    <agent file="plinth-java-performance.xml"/>
+    <agent file="plinth-java-coder.xml"/>
+    <agent file="plinth-java-micronaut-coder.xml"/>
+    <agent file="plinth-java-quarkus-coder.xml"/>
+    <agent file="plinth-java-spring-boot-coder.xml"/>
 </agent-inventory>

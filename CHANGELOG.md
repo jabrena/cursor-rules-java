@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Moved planning ownership from Tech Lead to the Architect agent; decoupled `/explore-design` from `create-spec` (#1024, #1026, #1028)
   - Added an `implement-spec` readiness gate (#1080)
   - `/close-spec` command to archive a completed OpenSpec change (#1041)
+  - Renamed all active embedded agent identifiers from the `robot-` prefix to `plinth-` (#1094)
 
 - **PML & generators**:
   - Extracted `plinth-commands-generator` and `plinth-agents-generator` as standalone modules (mirroring `plinth-skills-generator`), each with its own XSD schema (`commands.xsd`, `agents.xsd`), manifest, and propagation/bridge tests; renamed the parent Maven artifact to `plinth` (#1035, #1036, #1037, #1038, #992, #993, #1042)

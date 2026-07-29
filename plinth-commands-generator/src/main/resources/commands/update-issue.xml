@@ -7,7 +7,7 @@
         <description>Update an issue description with structured, evidence-backed content.</description>
         <argument-hint>[issue-url]</argument-hint>
         <model>inherit</model>
-        <agent>robot-business-analyst</agent>
+        <agent>plinth-business-analyst</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -33,7 +33,7 @@ Update an existing project issue description with structured, evidence-backed co
 
 ## Owning Agent
 
-`@robot-business-analyst`
+`@plinth-business-analyst`
 
 ## Associated Skills
 

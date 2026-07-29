@@ -129,39 +129,39 @@ class CommandFrontmatterTest {
 
     private static Map<String, String> legacyBodyHashes() {
         Map<String, String> hashes = new LinkedHashMap<>();
-        hashes.put("benchmark.md", "b5efb1f94fb883a495267ee8263e75012a29b49d1c74d7725120e69347fabef0");
-        hashes.put("close-spec.md", "54832426a9211ed0382c3416d134487f84a2e4a8cc8f0d25ad566956fbb7475c");
-        hashes.put("create-acceptance-criteria.md", "a7c712ff5e6ee58a6749929be852a9262dcb3058f66b2beb133f3499b1297121");
-        hashes.put("create-adr.md", "cb963c08544fbd51736b9ddf54d726d6af2195c0c8e85008b5e250444c14fd65");
-        hashes.put("create-diagram.md", "b82650b24c655922d990e695124a8ca6d6cc6c4a2556aa276c989d5ca0796d5c");
-        hashes.put("create-feature-branch.md", "6114d012e3c6d5140231831aa2907adb53dbcfc5c2ec6ef5fe4e5710ee0d7e20");
-        hashes.put("create-spec.md", "c9409cfa88a30ae8ff613834f22890c26eb9a47edea497f10ed57bf124fb4cf0");
-        hashes.put("create-worktree.md", "2f744fa6ded845ca31be3ecdf0df1cbd3cb6c90e03dae910535d9cf8ee5f9f25");
-        hashes.put("explore-design.md", "192d877d65ea77c76645e1371666ac8a9bd2a78d44faaf58cf30aa6d625adc7c");
-        hashes.put("explore-problem.md", "bf0b8c1acd2f79b79c5958124c06297a62d5faecbaa0933541808fdd49213cf2");
-        hashes.put("implement-spec.md", "242cc4b809d108cffa02783bbf96afd6cc32f734b1e2a8fa8c04f0bd5cac7026");
-        hashes.put("profile.md", "98e107c4a577b9c745ca0639b4929b5e223b04668e78ff00138fd0f07657c060");
-        hashes.put("update-issue.md", "7766e1ae872b034570b1c183b2a2695722ab64a4bfbecefcc0567f540333ef41");
+        hashes.put("benchmark.md", "2b87f52d7647bf4a71b4532058471c27aa7cfa8b77224211e5067c4eb19abcdd");
+        hashes.put("close-spec.md", "6c1ee4cf686ba3d9b6e729bf26840863416184be83a15620e5141d7c9edc82cb");
+        hashes.put("create-acceptance-criteria.md", "12e068cbc9910416da8acb767d41e27dbeee91083274ccc1469c855f3e08c708");
+        hashes.put("create-adr.md", "6e83c791ab01fe24d69c2333c766dbad250c63a08f2338a289f608086689e59d");
+        hashes.put("create-diagram.md", "5153ad922dc4312b02ea9eb25c5ff577ef7fb449b6fc20cf9cab7b6d852311c4");
+        hashes.put("create-feature-branch.md", "54303fafa8f4cf6a382d4261eba12d01fc00674ed7cc4817061c23c687d0a748");
+        hashes.put("create-spec.md", "777b885de2d6869ee94959a4c24058ebb257c135b6babe69607cf3e02244bedd");
+        hashes.put("create-worktree.md", "4820d69aa31318cf32a891e41a7d436ee1623bee410c33b4f42876e8b62253a3");
+        hashes.put("explore-design.md", "7a8860875168d89032d64bf42c6ec2b85c17a32a5ca58318ae37d3344354fd2b");
+        hashes.put("explore-problem.md", "473f875921df4b54007a28cc07dde73519f0658e2a4fbfd52062e01015f09300");
+        hashes.put("implement-spec.md", "f91e9d4183965454f39fc998123fcd0ef377e3dd4b4d3ba0b9dc147224a52d6e");
+        hashes.put("profile.md", "103066f8d47f4b46753e301e11607b5f2a72d7e78357e1061ad6465a9a3b497f");
+        hashes.put("update-issue.md", "6b034e24a43adad78e061fd755dd1a967c23bf50032644e4369d8669b28b8fc7");
         return Map.copyOf(hashes);
     }
 
     private static Map<String, ExpectedMetadata> approvedMetadata() {
         Map<String, ExpectedMetadata> metadata = new LinkedHashMap<>();
-        metadata.put("benchmark", expected("robot-java-performance",
+        metadata.put("benchmark", expected("plinth-java-performance",
             "Design and coordinate a reproducible Java performance test.",
             "[target]", "Read", "Write", "Edit", "Bash"));
-        metadata.put("close-spec", expected("robot-architect", "Archive a completed OpenSpec change by name.", "[openspec-change]", "Read", "Bash"));
-        metadata.put("create-acceptance-criteria", expected("robot-business-analyst", "Derive and post confirmed Gherkin acceptance criteria for an issue.", "[issue-url]", "Read", "Bash"));
-        metadata.put("create-adr", expected("robot-architect", "Create a repository ADR for an approved architectural decision.", "[decision-source] [adr-type]", "Read", "Write", "Edit"));
-        metadata.put("create-diagram", expected("robot-architect", "Create an architecture or design diagram from selected source artifacts.", "[source-artifact] [diagram-type]", "Read", "Write", "Edit"));
-        metadata.put("create-feature-branch", expected("robot-tech-lead", "Create and switch to a conventionally named feature branch.", "[issue-or-change|type description] [base-reference]", "Read", "Bash"));
-        metadata.put("create-spec", expected("robot-architect", "Create or update OpenSpec artifacts from approved source material.", "[issue-url]", "Read", "Write", "Edit", "Bash"));
-        metadata.put("create-worktree", expected("robot-tech-lead", "Create an isolated Git worktree on a new conventionally named branch.", "[issue-or-change|type description] [target-path] [base-reference]", "Read", "Bash"));
-        metadata.put("explore-design", expected("robot-architect", "Refine the technical design of an issue or OpenSpec change before implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
-        metadata.put("explore-problem", expected("robot-business-analyst", "Analyze an issue through five lenses and post a Functional Specification.", "[issue-url]", "Read", "Bash"));
-        metadata.put("implement-spec", expected("robot-tech-lead", "Deliver an approved plan or OpenSpec change through controlled implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
-        metadata.put("profile", expected("robot-java-performance", "Coordinate a reproducible Java profiling and optimization lifecycle.", "[target]", "Read", "Write", "Edit", "Bash"));
-        metadata.put("update-issue", expected("robot-business-analyst", "Update an issue description with structured, evidence-backed content.", "[issue-url]", "Read", "Bash"));
+        metadata.put("close-spec", expected("plinth-architect", "Archive a completed OpenSpec change by name.", "[openspec-change]", "Read", "Bash"));
+        metadata.put("create-acceptance-criteria", expected("plinth-business-analyst", "Derive and post confirmed Gherkin acceptance criteria for an issue.", "[issue-url]", "Read", "Bash"));
+        metadata.put("create-adr", expected("plinth-architect", "Create a repository ADR for an approved architectural decision.", "[decision-source] [adr-type]", "Read", "Write", "Edit"));
+        metadata.put("create-diagram", expected("plinth-architect", "Create an architecture or design diagram from selected source artifacts.", "[source-artifact] [diagram-type]", "Read", "Write", "Edit"));
+        metadata.put("create-feature-branch", expected("plinth-tech-lead", "Create and switch to a conventionally named feature branch.", "[issue-or-change|type description] [base-reference]", "Read", "Bash"));
+        metadata.put("create-spec", expected("plinth-architect", "Create or update OpenSpec artifacts from approved source material.", "[issue-url]", "Read", "Write", "Edit", "Bash"));
+        metadata.put("create-worktree", expected("plinth-tech-lead", "Create an isolated Git worktree on a new conventionally named branch.", "[issue-or-change|type description] [target-path] [base-reference]", "Read", "Bash"));
+        metadata.put("explore-design", expected("plinth-architect", "Refine the technical design of an issue or OpenSpec change before implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
+        metadata.put("explore-problem", expected("plinth-business-analyst", "Analyze an issue through five lenses and post a Functional Specification.", "[issue-url]", "Read", "Bash"));
+        metadata.put("implement-spec", expected("plinth-tech-lead", "Deliver an approved plan or OpenSpec change through controlled implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
+        metadata.put("profile", expected("plinth-java-performance", "Coordinate a reproducible Java profiling and optimization lifecycle.", "[target]", "Read", "Write", "Edit", "Bash"));
+        metadata.put("update-issue", expected("plinth-business-analyst", "Update an issue description with structured, evidence-backed content.", "[issue-url]", "Read", "Bash"));
         return Map.copyOf(metadata);
     }
 

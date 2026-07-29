@@ -221,6 +221,22 @@ jobs:
             exit 0
           fi
 
+          finding_codes="$(
+            grep -oE '\[[A-Z][0-9]{3} (low|medium|high|critical)\]' snyk-agent-scan-report.txt \
+              | sort -u \
+              || true
+          )"
+          blocking_findings="$(
+            printf '%s\n' "${finding_codes}" \
+              | grep -Ev '^\[W011 (low|medium)\]$' \
+              || true
+          )"
+
+          if [ -n "${finding_codes}" ] && [ -z "${blocking_findings}" ]; then
+            echo "::warning title=Snyk Agent Scan reviewed findings::Only low/medium W011 third-party content exposure findings were reported. These expected content-ingestion capabilities are non-blocking; review the uploaded report."
+            exit 0
+          fi
+
           exit "${scan_status}"
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

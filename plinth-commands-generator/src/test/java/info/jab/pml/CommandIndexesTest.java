@@ -73,7 +73,7 @@ class CommandIndexesTest {
 
         assertThat(updateIssue)
             .contains("/update-issue <issue> [<source>] [<tracker>]")
-            .contains("`@robot-business-analyst`")
+            .contains("`@plinth-business-analyst`")
             .contains("`014-agile-user-story` when user-story refinement is required")
             .contains("Present the proposed body before overwriting");
     }
@@ -85,7 +85,7 @@ class CommandIndexesTest {
 
         assertThat(command)
             .contains("/explore-problem <issue-url>")
-            .contains("`@robot-business-analyst`")
+            .contains("`@plinth-business-analyst`")
             .contains("`021-problem-framing`")
             .contains("`022-root-cause-analysis`")
             .contains("`023-assumption-analysis`")
@@ -113,7 +113,7 @@ class CommandIndexesTest {
 
         assertThat(command)
             .contains("/create-acceptance-criteria <issue-url>")
-            .contains("`@robot-business-analyst`")
+            .contains("`@plinth-business-analyst`")
             .contains("`058-design-bdd`")
             .contains("`043-planning-github-issues`")
             .contains("`044-planning-jira`")
@@ -176,16 +176,16 @@ class CommandIndexesTest {
             .contains("/implement-spec <approved-plan|openspec-change>")
             .contains("approved implementation plan")
             .contains("validated `tasks.md`")
-            .contains("Owner: `@robot-tech-lead`")
-            .contains("`@robot-java-coder`")
-            .contains("`@robot-java-spring-boot-coder`")
-            .contains("`@robot-java-quarkus-coder`")
-            .contains("`@robot-java-micronaut-coder`")
-            .contains("`@robot-no-java`")
+            .contains("Owner: `@plinth-tech-lead`")
+            .contains("`@plinth-java-coder`")
+            .contains("`@plinth-java-spring-boot-coder`")
+            .contains("`@plinth-java-quarkus-coder`")
+            .contains("`@plinth-java-micronaut-coder`")
+            .contains("`@plinth-no-java`")
             .contains("file ownership")
             .contains("Mark OpenSpec tasks complete only after")
             .contains("Mandatory execution contract")
-            .contains("If the command runner is not `@robot-tech-lead`")
+            .contains("If the command runner is not `@plinth-tech-lead`")
             .contains("MUST invoke the selected implementation agent")
             .contains("Before any implementation agent starts, pass the branch/worktree gate below")
             .contains("Branch/worktree gate")
@@ -270,7 +270,7 @@ class CommandIndexesTest {
 
         assertThat(command)
             .contains("/create-spec <issue|design|adr|plan|existing-change>")
-            .contains("`@robot-architect`")
+            .contains("`@plinth-architect`")
             .contains("`042-planning-openspec`")
             .contains("Runs first to create the initial OpenSpec proposal")
             .contains("Use `/explore-design` afterward")
@@ -287,7 +287,7 @@ class CommandIndexesTest {
 
         assertThat(command)
             .contains("/explore-design <issue|openspec-change>")
-            .contains("`@robot-architect`")
+            .contains("`@plinth-architect`")
             .contains("`056-design-avoid-breaking-changes`")
             .contains("`057-design-feature-toggles`")
             .contains("`059-design-atdd`")
@@ -307,7 +307,7 @@ class CommandIndexesTest {
 
         assertThat(profile)
             .contains("/profile <application-or-module>")
-            .contains("Owner: `@robot-java-performance`")
+            .contains("Owner: `@plinth-java-performance`")
             .contains("`@161-java-profiling-detect`")
             .contains("`@162-java-profiling-analyze`")
             .contains("`@163-java-profiling-refactor`")
@@ -316,7 +316,7 @@ class CommandIndexesTest {
             .contains("non-equivalent measurements");
         assertThat(benchmark)
             .contains("/benchmark <target>")
-            .contains("Owner: `@robot-java-performance`")
+            .contains("Owner: `@plinth-java-performance`")
             .contains("`@151-java-performance-jmeter`")
             .contains("`@152-java-performance-gatling`")
             .contains("Maven/JMH guidance")

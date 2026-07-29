@@ -48,7 +48,7 @@ Scenario: Implement God Analysis API from a validated OpenSpec change
   Then the command loads the selected OpenSpec "tasks.md" as the execution contract
   And the command confirms the selected OpenSpec change is current, validated, and internally consistent
   And the command identifies the implementation as a Spring Boot MVC Java service from the OpenSpec design and technology constraints
-  And the command routes implementation work through "@robot-tech-lead" and the appropriate Java Spring Boot implementation agent
+  And the command routes implementation work through "@plinth-tech-lead" and the appropriate Java Spring Boot implementation agent
   And the command publishes a Skill discovery brief before the first implementation handoff
   And the command includes candidate skills to read in the implementation agent handoff
   And the command reports using the current branch as the isolation strategy before implementation starts

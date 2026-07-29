@@ -7,7 +7,7 @@
         <description>Archive a completed OpenSpec change by name.</description>
         <argument-hint>[openspec-change]</argument-hint>
         <model>inherit</model>
-        <agent>robot-architect</agent>
+        <agent>plinth-architect</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -31,7 +31,7 @@ Archive an OpenSpec change by name, using the OpenSpec CLI, so completed changes
 
 ## Owner
 
-`@robot-architect`
+`@plinth-architect`
 ]]></goal>
 
     <steps>

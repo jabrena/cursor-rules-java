@@ -372,53 +372,53 @@ Looking deeper into the command execution details, we can see the relationship b
   <tbody>
     <tr>
       <td><code>/update-issue</code></td>
-      <td><code>@robot-business-analyst</code></td>
+      <td><code>@plinth-business-analyst</code></td>
       <td>Refines issue content across GitHub, Jira, or Azure DevOps inputs.</td>
     </tr>
     <tr>
       <td><code>/create-adr</code></td>
-      <td><code>@robot-architect</code></td>
+      <td><code>@plinth-architect</code></td>
       <td>Records architecture decisions, alternatives, and consequences.</td>
     </tr>
     <tr>
       <td><code>/create-diagram</code></td>
-      <td><code>@robot-architect</code></td>
+      <td><code>@plinth-architect</code></td>
       <td>Creates architecture or design diagrams from trusted source artifacts.</td>
     </tr>
     <tr>
       <td><code>/create-spec</code></td>
-      <td><code>@robot-tech-lead</code></td>
+      <td><code>@plinth-tech-lead</code></td>
       <td>Applies planning, design, compatibility, and testing skills before tasking.</td>
     </tr>
     <tr>
       <td><code>/review-alignment</code></td>
-      <td><code>@robot-business-analyst</code></td>
+      <td><code>@plinth-business-analyst</code></td>
       <td>Reviews traceability, consistency, gaps, and implementation readiness.</td>
     </tr>
     <tr>
       <td><code>/explore-design</code></td>
-      <td><code>@robot-architect</code></td>
+      <td><code>@plinth-architect</code></td>
       <td>Compares design options and recommends an approved technical direction.</td>
     </tr>
     <tr>
       <td><code>/implement-spec</code></td>
-      <td><code>@robot-tech-lead</code></td>
-      <td>Delegates implementation to <code>@robot-java-coder</code>, <code>@robot-java-spring-boot-coder</code>, <code>@robot-java-quarkus-coder</code>, <code>@robot-java-micronaut-coder</code>, or <code>@robot-no-java</code>.</td>
+      <td><code>@plinth-tech-lead</code></td>
+      <td>Delegates implementation to <code>@plinth-java-coder</code>, <code>@plinth-java-spring-boot-coder</code>, <code>@plinth-java-quarkus-coder</code>, <code>@plinth-java-micronaut-coder</code>, or <code>@plinth-no-java</code>.</td>
     </tr>
     <tr>
       <td><code>/profile</code></td>
-      <td><code>@robot-java-performance</code></td>
+      <td><code>@plinth-java-performance</code></td>
       <td>Coordinates profiling evidence and delegates application-code changes to the appropriate Java or framework coder.</td>
     </tr>
     <tr>
       <td><code>/benchmark</code></td>
-      <td><code>@robot-java-performance</code></td>
+      <td><code>@plinth-java-performance</code></td>
       <td>Coordinates JMeter, Gatling, or JMH performance work with reproducible thresholds and artifacts.</td>
     </tr>
   </tbody>
 </table>
 
-In future releases, the agents related to `Analysis & Design` will become more independent to increase decoupling between phases. For example, `/create-spec` currently maps to `@robot-tech-lead`. Starting in release `0.18.0`, `@robot-tech-lead` will participate only in implementation phases. This change will make the project more modular and easier to customize for your organization.
+In future releases, the agents related to `Analysis & Design` will become more independent to increase decoupling between phases. For example, `/create-spec` currently maps to `@plinth-tech-lead`. Starting in release `0.18.0`, `@plinth-tech-lead` will participate only in implementation phases. This change will make the project more modular and easier to customize for your organization.
 
 <a id="improving-migration-safety-with-flyway-mongock-and-parallel-change"></a>
 

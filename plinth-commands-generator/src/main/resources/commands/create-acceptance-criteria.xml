@@ -7,7 +7,7 @@
         <description>Derive and post confirmed Gherkin acceptance criteria for an issue.</description>
         <argument-hint>[issue-url]</argument-hint>
         <model>inherit</model>
-        <agent>robot-business-analyst</agent>
+        <agent>plinth-business-analyst</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -31,7 +31,7 @@ Derive observable Gherkin acceptance criteria from the Functional Specification 
 
 ## Owning Agent
 
-`@robot-business-analyst`
+`@plinth-business-analyst`
 
 ## Associated Skills
 

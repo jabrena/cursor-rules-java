@@ -7,10 +7,10 @@ Feature: Scenario 4 — Case 4 OpenSpec technical requirements
   # Agent protocol (Case 4):
   # - Execute /implement-spec with benchmarks/scenario4/specs/technical-requirements/openspec/changes/add-god-analysis-api
   #   and implement in benchmarks/scenario4/demo/.
-  # - Delegate through @robot-tech-lead to the matching coder agent under .cursor/agents/ per implement-spec.
+  # - Delegate through @plinth-tech-lead to the matching coder agent under .cursor/agents/ per implement-spec.
   # - Use @042-planning-openspec from .agents/skills/ or skills/ for OpenSpec orchestration support.
   # - The delegated agents may inspect skills referenced by /implement-spec,
-  #   @robot-tech-lead, and the selected coder agent; the model decides which
+  #   @plinth-tech-lead, and the selected coder agent; the model decides which
   #   skills are relevant and the result JSON records only skills actually read
   #   or invoked during the run.
   # - Derive ALL implementation requirements ONLY from that OpenSpec change (tasks.md, design.md, spec.md).
@@ -46,8 +46,8 @@ Feature: Scenario 4 — Case 4 OpenSpec technical requirements
     And the Case 4 skill discovery allowlist permits skills referenced by the command and selected agents:
       | source |
       | .cursor/commands/implement-spec.md |
-      | .cursor/agents/robot-tech-lead.md |
-      | .cursor/agents/robot-java-spring-boot-coder.md |
+      | .cursor/agents/plinth-tech-lead.md |
+      | .cursor/agents/plinth-java-spring-boot-coder.md |
 
   @acceptance-test
   Scenario: Case 4 run records minimal v1 metrics as JSON
@@ -55,7 +55,7 @@ Feature: Scenario 4 — Case 4 OpenSpec technical requirements
     And the OpenSpec change "add-god-analysis-api" contains "proposal.md", "design.md", "tasks.md", and "specs/god-analysis-api/spec.md"
     And the command prompt source ".cursor/commands/implement-spec.md" is read before execution
     And Plinth agents under ".cursor/agents/" and skills under ".agents/skills/" or "skills/" may be read and invoked for orchestration or implementation guidance only
-    And skills referenced by ".cursor/commands/implement-spec.md", ".cursor/agents/robot-tech-lead.md", and ".cursor/agents/robot-java-spring-boot-coder.md" may be read before the model decides whether to apply them
+    And skills referenced by ".cursor/commands/implement-spec.md", ".cursor/agents/plinth-tech-lead.md", and ".cursor/agents/plinth-java-spring-boot-coder.md" may be read before the model decides whether to apply them
     And only files on the Case 4 allowlist are read for requirements, design, or acceptance criteria
     And only files on the Case 4 results allowlist are read under "benchmarks/scenario4/results/"
     And only files on the Case 4 Plinth tooling allowlist are read for commands, agents, and skills
@@ -88,8 +88,8 @@ Feature: Scenario 4 — Case 4 OpenSpec technical requirements
     And the length of "plinth_usage.skills" equals the value of "plinth_usage.skills_count"
     And every entry in "plinth_usage.skills" is a skill read or invoked during the run
     And "plinth_usage.commands" includes "implement-spec"
-    And "plinth_usage.agents" includes "robot-tech-lead"
-    And "plinth_usage.agents" includes "robot-java-spring-boot-coder"
+    And "plinth_usage.agents" includes "plinth-tech-lead"
+    And "plinth_usage.agents" includes "plinth-java-spring-boot-coder"
     And "plinth_usage.skills" includes "042-planning-openspec"
     And "benchmarks/scenario4/demo/" is restored to empty with only ".gitkeep"
     And the OpenSpec change path "benchmarks/scenario4/specs/technical-requirements/openspec/changes/add-god-analysis-api" is restored to its pre-run contents, including "tasks.md"

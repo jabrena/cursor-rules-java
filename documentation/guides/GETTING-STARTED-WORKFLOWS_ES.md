@@ -10,8 +10,8 @@ El análisis y el diseño son componibles. Empieza desde los artefactos autorita
 4. Ejecuta `/explore-design` cuando existan alternativas técnicas relevantes sin resolver.
 5. Ejecuta `/create-adr` para decisiones duraderas y `/create-diagram` para vistas de arquitectura útiles.
 6. Ejecuta `/create-spec` desde un issue, diseño aprobado, ADRs, plan existente, OpenSpec existente o una combinación válida.
-7. Pide a `@robot-tech-lead` que entregue el plan o `tasks.md` de OpenSpec seleccionado.
-8. Usa `/profile` o `/benchmark` con `@robot-java-performance` cuando necesites evidencia de rendimiento después de la implementación.
+7. Pide a `@plinth-tech-lead` que entregue el plan o `tasks.md` de OpenSpec seleccionado.
+8. Usa `/profile` o `/benchmark` con `@plinth-java-performance` cuando necesites evidencia de rendimiento después de la implementación.
 
 Las rutas comunes incluyen issue a plan, issue a OpenSpec, plan a OpenSpec y OpenSpec existente a plan. `/create-spec` puede proponer varios cambios OpenSpec cuando los resultados tengan límites independientes de valor, propiedad, entrega, riesgo, rollback o despliegue. El usuario aprueba ese mapa antes de crear los cambios.
 
@@ -25,7 +25,7 @@ Las rutas comunes incluyen issue a plan, issue a OpenSpec, plan a OpenSpec y Ope
 | Plan de implementación | Estrategia técnica, secuencia, dependencias y verificación |
 | OpenSpec `tasks.md` seleccionado | Seguimiento de ejecución cuando se elige ese flujo |
 
-La derivación es unidireccional y queda registrada. Un artefacto derivado nunca modifica silenciosamente sus fuentes. Si existen conflictos, pide a `@robot-business-analyst` que revise los artefactos en conflicto, decide qué responsabilidad autoritativa debe cambiar, actualízala explícitamente, regenera los derivados afectados y revisa la alineación de nuevo.
+La derivación es unidireccional y queda registrada. Un artefacto derivado nunca modifica silenciosamente sus fuentes. Si existen conflictos, pide a `@plinth-business-analyst` que revise los artefactos en conflicto, decide qué responsabilidad autoritativa debe cambiar, actualízala explícitamente, regenera los derivados afectados y revisa la alineación de nuevo.
 
 ## Entrega en paralelo
 

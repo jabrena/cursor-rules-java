@@ -15,7 +15,7 @@ Each runnable scenario adds structured inputs so agents have more to build from 
 | **Functional input** | `specs/functional-requirements/README.md` only | `specs/functional-requirements/problem1/` (user story, Gherkin, OpenAPI, ADRs) | — | — |
 | **Implementation input** | — | — | `specs/technical-requirements/openspec/` | `specs/technical-requirements/openspec/` |
 | **Bundled Plinth skills** | — | — | `openspec-propose` under `.agents/skills/` | `@042-planning-openspec/` under `.agents/skills/` or `skills/` |
-| **Plinth agents** | — | — | — | `@robot-tech-lead` → `@robot-java-spring-boot-coder` via `/implement-spec` |
+| **Plinth agents** | — | — | — | `@plinth-tech-lead` → `@plinth-java-spring-boot-coder` via `/implement-spec` |
 | **Runnable** | Yes | Yes | Yes | Yes |
 | **Delta vs previous scenario** | Baseline: sparse functional notes only | Adds full `problem1/` inventory; still no OpenSpec | Adds OpenSpec implementation input **plus** bundled propose skill | Same OpenSpec input shape as Case 3; canonical reference run for the richest step |
 | **Intent** | Measure baseline with minimal notes | Measure rich FR without OpenSpec | Measure implementation from OpenSpec with propose-workflow support | Measure implementation from pre-linked OpenSpec technical plan |
@@ -106,7 +106,7 @@ Each run record is a JSON object with up to five top-level groups (`efficiency`,
 | `plinth_usage.agents_count` | Number of distinct Plinth agents invoked from `.cursor/agents/` (must equal the length of `plinth_usage.agents` when both are present) |
 | `plinth_usage.skills` | Skill ids used during the run |
 | `plinth_usage.commands` | Plinth command ids from `.cursor/commands/` used during the run (for example `implement-spec`) |
-| `plinth_usage.agents` | Plinth agent ids from `.cursor/agents/` invoked during the run (for example `robot-tech-lead`); not the host tool model |
+| `plinth_usage.agents` | Plinth agent ids from `.cursor/agents/` invoked during the run (for example `plinth-tech-lead`); not the host tool model |
 
 ### `solution_snapshot`
 

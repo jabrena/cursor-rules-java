@@ -2,7 +2,7 @@
 description: 'Create and switch to a conventionally named feature branch.'
 argument-hint: '[issue-or-change|type description] [base-reference]'
 model: 'inherit'
-agent: 'robot-tech-lead'
+agent: 'plinth-tech-lead'
 tools:
   - 'Read'
   - 'Bash'
@@ -27,7 +27,7 @@ Create and switch the current checkout to a conventionally named local branch fo
 
 ## Owning Agent
 
-`@robot-tech-lead`
+`@plinth-tech-lead`
 
 ## Associated Capabilities
 

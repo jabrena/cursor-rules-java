@@ -7,7 +7,7 @@
         <description>Design and coordinate a reproducible Java performance test.</description>
         <argument-hint>[target]</argument-hint>
         <model>inherit</model>
-        <agent>robot-java-performance</agent>
+        <agent>plinth-java-performance</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -36,7 +36,7 @@ Select and coordinate an appropriate Java performance test with reproducible wor
 
 ## Owner and skills
 
-- Owner: `@robot-java-performance`
+- Owner: `@plinth-java-performance`
 - Associated skills: `@151-java-performance-jmeter`, `@152-java-performance-gatling`, and existing Maven/JMH guidance
 
 ## Tool selection

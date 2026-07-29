@@ -2,7 +2,7 @@
 description: 'Deliver an approved plan or OpenSpec change through controlled implementation.'
 argument-hint: '[openspec-change]'
 model: 'inherit'
-agent: 'robot-tech-lead'
+agent: 'plinth-tech-lead'
 tools:
   - 'Read'
   - 'Write'
@@ -30,18 +30,18 @@ A bare issue is context, not an execution contract. When repository policy requi
 
 ## Owner and delegation
 
-- Owner: `@robot-tech-lead`
-- Delegation targets: `@robot-java-coder`, `@robot-java-spring-boot-coder`, `@robot-java-quarkus-coder`, `@robot-java-micronaut-coder`, or `@robot-no-java`
+- Owner: `@plinth-tech-lead`
+- Delegation targets: `@plinth-java-coder`, `@plinth-java-spring-boot-coder`, `@plinth-java-quarkus-coder`, `@plinth-java-micronaut-coder`, or `@plinth-no-java`
 - The tech lead coordinates delivery and MUST NOT implement application code directly.
 
 ## Mandatory execution contract
 
-- If the command runner is not `@robot-tech-lead`, immediately delegate the whole command execution to `@robot-tech-lead` and wait for its result.
-- `@robot-tech-lead` MUST invoke the selected implementation agent for implementation, test, and verification work; naming an agent in the response is not delegation.
+- If the command runner is not `@plinth-tech-lead`, immediately delegate the whole command execution to `@plinth-tech-lead` and wait for its result.
+- `@plinth-tech-lead` MUST invoke the selected implementation agent for implementation, test, and verification work; naming an agent in the response is not delegation.
 - If agent invocation is unavailable in the current environment, stop and report that `/implement-spec` cannot proceed instead of implementing directly.
 - For OpenSpec inputs, pass the **OpenSpec readiness gate** below before skill discovery, Git-location changes, or implementation delegation.
 - Before any implementation agent starts, pass the branch/worktree gate below and report the selected isolation strategy.
-- Before any implementation agent starts, `@robot-tech-lead` MUST publish a **Skill discovery brief** and pass an ordered **candidate skills to read** list in every implementation handoff.
+- Before any implementation agent starts, `@plinth-tech-lead` MUST publish a **Skill discovery brief** and pass an ordered **candidate skills to read** list in every implementation handoff.
 
 ## OpenSpec readiness gate
 
@@ -85,25 +85,25 @@ A bare issue is context, not an execution contract. When repository policy requi
 
 ## Skill discovery gate
 
-- `@robot-tech-lead` MUST build the **Skill discovery brief** before the first implementation handoff, following **Skill discovery before delegation** in `@robot-tech-lead`.
+- `@plinth-tech-lead` MUST build the **Skill discovery brief** before the first implementation handoff, following **Skill discovery before delegation** in `@plinth-tech-lead`.
 - OpenSpec execution artifacts MUST include `@042-planning-openspec` as the planning anchor skill.
 - The tech lead MUST read `@042-planning-openspec` from `.agents/skills/` or `skills/` when the selected artifact is OpenSpec before delegating implementation.
 - Every implementation handoff MUST include **candidate skills to read**, **required skill report**, and a **telemetry reminder** so benchmark metrics can record exact skill ids.
 - The selected implementation agent MUST read each candidate skill from `.agents/skills/<skill-id>/SKILL.md` or `skills/<skill-id>/` before editing owned files, unless it returns a one-line skip reason in **Skills skipped**.
 - Benchmark and metrics runs MUST record in `plinth_usage.skills` only skill ids whose SKILL files were actually read or invoked during the run.
 - Reading `.cursor/agents/*.md` or mentioning `@skill-id` in prose does **not** count as reading or invoking a skill.
-- Naming `@robot-tech-lead` or an implementation agent in the response does **not** count as invoking that agent; use the environment's agent or subagent invocation mechanism when available.
+- Naming `@plinth-tech-lead` or an implementation agent in the response does **not** count as invoking that agent; use the environment's agent or subagent invocation mechanism when available.
 
 ## Workflow
 
 1. Load the actual selected plan or OpenSpec `tasks.md`; structurally validate OpenSpec input and confirm the artifact is current, approved, and internally consistent.
 2. For OpenSpec input, determine the selected execution scope and pass the bidirectional scenario/task readiness gate; stop with artifact-specific remediation before side effects when it fails.
-3. Stop and route the conflict to `@robot-business-analyst` for manual assessment when the issue, ADRs, specification, plan, or task list conflicts materially.
+3. Stop and route the conflict to `@plinth-business-analyst` for manual assessment when the issue, ADRs, specification, plan, or task list conflicts materially.
 4. Inspect workspace cleanliness and stop on dirty state, then resolve location from invocation constraints, valid `design.md`, or an explicit contributor answer.
 5. Complete the branch/worktree gate by applying the existing `main`, feature-branch, or worktree safeguards and report the selected location before delegation.
-6. Identify the framework from authoritative artifacts, build files, and code; select the matching specialized coder or `@robot-no-java` when the execution artifact does not use Java.
+6. Identify the framework from authoritative artifacts, build files, and code; select the matching specialized coder or `@plinth-no-java` when the execution artifact does not use Java.
 7. Extract task groups, dependencies, milestones, verification gates, and expected file ownership.
-8. Build the Skill discovery brief per `@robot-tech-lead`; when the artifact is OpenSpec, read `@042-planning-openspec` and select framework-specific candidate skills for the routed implementation agent.
+8. Build the Skill discovery brief per `@plinth-tech-lead`; when the artifact is OpenSpec, read `@042-planning-openspec` and select framework-specific candidate skills for the routed implementation agent.
 9. Serialize dependent or overlapping groups; run groups concurrently only when dependencies and owned files do not conflict.
 10. Invoke the selected implementation agent for each group with task IDs, owned files, acceptance criteria, blocked-by relationships, focused validation commands, candidate skills to read, required skill report, and telemetry reminder.
 11. Integrate delegated results and require changed-file, test, build, risk, blocker, skills applied, and skills skipped evidence.
@@ -127,7 +127,7 @@ A bare issue is context, not an execution contract. When repository policy requi
 - Do not implement from a stale, unapproved, missing, or conflicting execution artifact.
 - Do not continue from OpenSpec input whose selected scope lacks complete bidirectional scenario/task traceability.
 - Do not perform skill discovery, Git-location changes, or implementation delegation before the OpenSpec readiness gate passes.
-- Do not continue in the original command runner when `@robot-tech-lead` has not accepted the orchestration handoff.
+- Do not continue in the original command runner when `@plinth-tech-lead` has not accepted the orchestration handoff.
 - Do not start implementation before the feature-branch or worktree gate has passed.
 - Do not start implementation before the Skill discovery brief is published and candidate skills are included in the handoff.
 - Do not record an agent in benchmark metrics unless that agent was actually invoked, not merely referenced or read from `.cursor/agents/`.

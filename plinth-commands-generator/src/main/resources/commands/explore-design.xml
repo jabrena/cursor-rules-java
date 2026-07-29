@@ -7,7 +7,7 @@
         <description>Refine the technical design of an issue or OpenSpec change before implementation.</description>
         <argument-hint>[openspec-change]</argument-hint>
         <model>inherit</model>
-        <agent>robot-architect</agent>
+        <agent>plinth-architect</agent>
         <tools>
             <tools-list>
                 <tool>Read</tool>
@@ -36,7 +36,7 @@ Improve and refine the technical approach for an issue or OpenSpec change after 
 
 ## Owning Agent
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Associated Skills
 

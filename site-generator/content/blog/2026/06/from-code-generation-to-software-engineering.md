@@ -18,7 +18,7 @@ That is why this project is adding explicit design skills for AI agents. In the 
 
 ```text
 /create-spec
-@robot-tech-lead
+@plinth-tech-lead
     @042-planning-openspec
     @051-design-two-steps-methods
     @052-design-hamburger-method

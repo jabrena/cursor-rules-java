@@ -2,7 +2,7 @@
 description: 'Archive a completed OpenSpec change by name.'
 argument-hint: '[openspec-change]'
 model: 'inherit'
-agent: 'robot-architect'
+agent: 'plinth-architect'
 tools:
   - 'Read'
   - 'Bash'
@@ -24,7 +24,7 @@ Archive an OpenSpec change by name, using the OpenSpec CLI, so completed changes
 
 ## Owner
 
-`@robot-architect`
+`@plinth-architect`
 
 ## Workflow
 

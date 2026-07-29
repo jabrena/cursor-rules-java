@@ -74,7 +74,7 @@ public final class AgentMarkdownGenerator {
 
     private static List<Path> listAgentXmlFiles(Path agentsDir) throws IOException {
         List<Path> files = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(agentsDir, "robot-*.xml")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(agentsDir, "plinth-*.xml")) {
             for (Path path : stream) {
                 if (Files.isRegularFile(path)) {
                     files.add(path);

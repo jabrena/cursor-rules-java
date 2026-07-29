@@ -196,7 +196,7 @@
             "type": "string",
             "minLength": 1
           },
-          "description": "Plinth agent ids from .cursor/agents/ invoked during the run (for example robot-tech-lead); empty array when none. Does not include the host tool model (record that under protocol_labels.model)."
+          "description": "Plinth agent ids from .cursor/agents/ invoked during the run (for example plinth-tech-lead); empty array when none. Does not include the host tool model (record that under protocol_labels.model)."
         }
       }
     }

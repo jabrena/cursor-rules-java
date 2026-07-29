@@ -52,7 +52,7 @@ If this hypothesis holds, pass rate should climb and rework should fall as each 
 
 Pass rate alone doesn't climb steadily with richness — it's 93%, 100%, 88%, 92% across the four scenarios, so more input material by itself isn't the story here.
 
-The real signal is `scenario4`, the only scenario that runs the full Plinth workflow — `/create-spec` and `/explore-design` producing a refined plan, then `/implement-spec` delegating to `@robot-tech-lead` and framework-specific coder agents. It has the lowest average rework (0.71 turns), the highest zero-rework share (67%, vs. 25–50% everywhere else), and pulls in far more of the skill library on its own initiative (5 skills, 1 command, nearly 2 agents per run, against essentially none in `scenario1` and `scenario2`).
+The real signal is `scenario4`, the only scenario that runs the full Plinth workflow — `/create-spec` and `/explore-design` producing a refined plan, then `/implement-spec` delegating to `@plinth-tech-lead` and framework-specific coder agents. It has the lowest average rework (0.71 turns), the highest zero-rework share (67%, vs. 25–50% everywhere else), and pulls in far more of the skill library on its own initiative (5 skills, 1 command, nearly 2 agents per run, against essentially none in `scenario1` and `scenario2`).
 
 `scenario3` makes the contrast concrete: the same OpenSpec change as `scenario4`, but produced with just the `openspec-propose` skill and none of Plinth's delegation commands. It's the *worst* performer in the ladder — highest average rework (2.62 turns), lowest pass rate (88%). The documents alone aren't what helps; it's Plinth's commands turning those documents into an executed, delegated workflow.
 
