@@ -1,5 +1,5 @@
 title=Why Functional and Technical Specifications Matter for AI-Assisted Development
-date=2026-07-27
+date=2026-07-30
 type=post
 tags=blog,skills,agents,design,software-engineering,openspec
 author=MyRobot
@@ -41,7 +41,15 @@ Two different kinds of specification sit inside that middle step, and they answe
 
 A functional specification answers *what* the system should do and *why*, from the perspective of the people affected by it. It is deliberately silent on implementation.
 
-In this project, `/explore-problem` produces exactly this artifact. It is owned by `@robot-business-analyst` and evaluates an issue through five fixed lenses, in order:
+In this project, the process starts with `/update-issue`: it takes the raw issue — a terse title, a scattered discussion thread — and turns it into structured, evidence-backed content, without inventing requirements that aren't already there. A classical combo is:
+
+> /update-issue https://github.com/jabrena/plinth/issues/1022 
+> to update issue description using `User Story` format 
+> from `@.agents/skills/014-agile-user-story/`
+> and update the issue description and not make questions
+
+
+Only once the issue itself is in shape does `/explore-problem` produce the functional specification, evaluating it through five fixed lenses, in order:
 
 <table>
 <thead>
@@ -75,7 +83,7 @@ The command processes these lenses one at a time, not batched, and it asks a cla
 
 That constraint is the point. A functional specification is only useful if it reflects what is actually known and actually agreed, not what an agent inferred to keep moving.
 
-Before a functional specification becomes a technical one, there's a step that turns *what* and *why* into something checkable: `/create-acceptance-criteria`. It's owned by `@robot-business-analyst` — the same agent that writes the functional specification — and it runs strictly after `/explore-problem`.
+Before a functional specification becomes a technical one, there's a step that turns *what* and *why* into something checkable: `/create-acceptance-criteria`. It runs strictly after `/explore-problem`.
 
 Its input is narrow by design: only the confirmed Functional Specification comment already posted on the issue, never the raw issue description or unrelated discussion. It applies the `058-design-bdd` skill to that specification alone, confirming actors, outcomes, and business rules already established there, then derives main, alternative, boundary, and error examples into a self-contained Gherkin `Feature`. If a scenario would depend on a fact the functional specification never settled, the command asks one focused clarification question instead of inventing a decision — the same discipline `/explore-problem` applies to its five lenses.
 
@@ -85,7 +93,7 @@ The result is posted as its own new comment, headed `# Acceptance Criteria`, nev
 
 Once the problem is framed, a technical specification answers *how* — in enough detail that implementation and verification aren't left to interpretation.
 
-In this project, that's OpenSpec. `/create-spec`, owned by `@robot-architect`, turns an approved issue, design, or ADR into a structured change: a proposal, a design, requirements written as Given/When/Then scenarios, and a task list. The scenario format matters more than it looks:
+In this project, that's OpenSpec. `/create-spec` turns an approved issue, design, or ADR into a structured change: a proposal, a design, requirements written as Given/When/Then scenarios, and a task list. The scenario format matters more than it looks:
 
 ```text
 GIVEN a user is in a Plinth repository with a reachable issue at <issue-url>
@@ -98,7 +106,7 @@ Every requirement is falsifiable. "Rate limiting should work correctly" is not a
 
 Technical specification is also where compatibility and migration strategy get decided *before* code exists — for example, this project's own `@055-design-parallel-change` and `@056-design-avoid-breaking-changes` skills, which force an explicit expand/migrate/contract plan instead of a big-bang rename. That decision belongs in the spec, not discovered mid-implementation.
 
-`/create-spec` produces the first draft of that structured change, but a first draft isn't always ready for implementation — some changes need their design pressure-tested before an agent starts writing code. That's what `/explore-design` is for: also owned by `@robot-architect`, run after `/create-spec` rather than in place of it. Given an issue or an OpenSpec change with an unresolved technical approach, it compares feasible alternatives and their trade-offs, recommends a direction with rationale, and works out components, boundaries, data flow, failure handling, and the testing strategy needed before implementation starts — the same discipline that produces the `055`/`056` compatibility decision above. When the OpenSpec change already has a proposal, confirmed acceptance criteria, and a task checklist, `/explore-design` finishes with `059-design-atdd`, a read-only alignment gate that checks whether those three artifacts still agree with each other and reports `ready` or `changes-requested`. Either way, the command will not report a design as approved until a human confirms it — a recommendation is not a decision.
+`/create-spec` produces the first draft of that structured change, but a first draft isn't always ready for implementation — some changes need their design pressure-tested before an agent starts writing code. That's what `/explore-design` is for: run after `/create-spec` rather than in place of it. Given an issue or an OpenSpec change with an unresolved technical approach, it compares feasible alternatives and their trade-offs, recommends a direction with rationale, and works out components, boundaries, data flow, failure handling, and the testing strategy needed before implementation starts — the same discipline that produces the `055`/`056` compatibility decision above. When the OpenSpec change already has a proposal, confirmed acceptance criteria, and a task checklist, `/explore-design` finishes with `059-design-atdd`, a read-only alignment gate that checks whether those three artifacts still agree with each other and reports `ready` or `changes-requested`. Either way, the command will not report a design as approved until a human confirms it — a recommendation is not a decision.
 
 ## Why the order matters
 
@@ -118,6 +126,6 @@ But for anything that crosses a compatibility boundary, touches multiple stakeho
 
 ## Share your experience
 
-If you're using `/explore-problem`, `/create-acceptance-criteria`, `/create-spec`, or an equivalent functional/technical specification split in your own AI-assisted workflow, share what's working and where the process feels too heavy.
+If you're using `/update-issue`, `/explore-problem`, `/create-acceptance-criteria`, `/create-spec`, `/explore-design`, or an equivalent functional/technical specification split in your own AI-assisted workflow, share what's working and where the process feels too heavy.
 
 Use [GitHub Discussions](https://github.com/jabrena/plinth/discussions) to post where the two-phase approach caught a real problem, and where you had to relax it.

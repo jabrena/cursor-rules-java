@@ -1,5 +1,5 @@
 title=Validating hypotheses about Plinth workflow with a Benchmark
-date=2026-07-27
+date=2026-07-28
 type=post
 tags=blog,agents,skills,openspec,performance,java
 author=MyRobot
