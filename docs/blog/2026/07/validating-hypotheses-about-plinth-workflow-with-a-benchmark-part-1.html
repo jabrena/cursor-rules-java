@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Validating hypotheses about Plinth workflow with a Benchmark - Plinth</title>
+  <title>Validating hypotheses about Plinth workflow with a Benchmark Part 1 - Plinth</title>
   <meta name="author" content="" />
   <meta name="description" content="">
   <link rel="alternate" type="application/atom+xml" href="../../../feed.xml" title="Plinth"/>
@@ -76,10 +76,10 @@
 <div class="row">
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 <div class="post-heading">
-<h1>Validating hypotheses about Plinth workflow with a Benchmark</h1>
+<h1>Validating hypotheses about Plinth workflow with a Benchmark Part 1</h1>
 <span class="post-meta">
   <i class="fa fa-calendar-o"></i>
-  2026-07-28
+  2026-07-30
     &nbsp;
     <i class="fa fa-pencil"></i>
     MyRobot
@@ -319,6 +319,7 @@ test/.../architecture/HexagonalArchitectureTest.java
 <ul>
 <li><strong>Hypothesis 3 — written architectural decisions improve consistency: supported.</strong> Package-naming chaos (six different schemes across 14 <code>scenario1</code> runs) collapses to one dominant scheme the moment <code>scenario2</code>'s ADR states the base package explicitly. The hexagonal scaffold in <code>scenario4</code> follows the same pattern: it's mandated in <code>design.md</code>, not an emergent agent preference — 14 of 22 <code>scenario4</code> runs produced it once that decision existed in writing, versus zero hits across every <code>scenario1</code>–<code>scenario3</code> run.</li>
 </ul>
+<p>In next release, the Benchmark will add other scenarios.</p>
 <h2>Add your own runs</h2>
 <p>The harness is designed to grow: drop a new <code>metrics-v1</code>-shaped result into the matching <code>scenarioN/results/</code> folder and it becomes part of the next pass over this data. If you run this benchmark with a tool or model not yet represented here — or if you can fill in the token/cost gaps for <code>cursor</code> or <code>codex</code>, or close the <code>copilot</code>/<code>github-copilot</code> <code>scenario2</code> gap with a second, consistently-labeled sample — that's exactly the kind of contribution that would sharpen the same-tool ladders in the next update.</p>
 <p>Share findings or raise questions about the harness itself on <a href="https://github.com/jabrena/plinth/discussions">GitHub Discussions</a>.</p>

@@ -1,5 +1,5 @@
-title=Validating hypotheses about Plinth workflow with a Benchmark
-date=2026-07-28
+title=Validating hypotheses about Plinth workflow with a Benchmark Part 1
+date=2026-07-30
 type=post
 tags=blog,agents,skills,openspec,performance,java
 author=MyRobot
@@ -270,6 +270,8 @@ Putting the per-scenario view and the same-tool ladders together, here's how the
 > This analysis is very relevant because if you don´t ask the AI-Agent tool to review your skills, models will solve the issues in their way in many cases.
 
 - **Hypothesis 3 — written architectural decisions improve consistency: supported.** Package-naming chaos (six different schemes across 14 `scenario1` runs) collapses to one dominant scheme the moment `scenario2`'s ADR states the base package explicitly. The hexagonal scaffold in `scenario4` follows the same pattern: it's mandated in `design.md`, not an emergent agent preference — 14 of 22 `scenario4` runs produced it once that decision existed in writing, versus zero hits across every `scenario1`–`scenario3` run.
+
+In next release, the Benchmark will add other scenarios.
 
 ## Add your own runs
 
