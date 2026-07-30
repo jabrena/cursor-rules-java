@@ -5,10 +5,6 @@
         <lastmod>2015-02-01</lastmod>
     </url>
     <url>
-        <loc>https://jabrena.github.io/plinth/blog/2026/08/release-0.18.0.html</loc>
-        <lastmod>2026-08-03</lastmod>
-    </url>
-    <url>
         <loc>https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html</loc>
         <lastmod>2026-07-30</lastmod>
     </url>
@@ -89,6 +85,14 @@
         <lastmod>2025-07-12</lastmod>
     </url>
     <url>
+        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-6-documentation.html</loc>
+        <lastmod>2025-09-17</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/profile-memory-leak/module-4-refactoring.html</loc>
+        <lastmod>2025-09-17</lastmod>
+    </url>
+    <url>
         <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-5-performance.html</loc>
         <lastmod>2025-09-17</lastmod>
     </url>
@@ -137,15 +141,11 @@
         <lastmod>2025-09-17</lastmod>
     </url>
     <url>
-        <loc>https://jabrena.github.io/plinth/courses/system-prompts-java/module-6-documentation.html</loc>
-        <lastmod>2025-09-17</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/profile-memory-leak/module-4-refactoring.html</loc>
-        <lastmod>2025-09-17</lastmod>
-    </url>
-    <url>
         <loc>https://jabrena.github.io/plinth/courses/java-generics/index.html</loc>
+        <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-2-wildcards.html</loc>
         <lastmod>2025-09-13</lastmod>
     </url>
     <url>
@@ -162,10 +162,6 @@
     </url>
     <url>
         <loc>https://jabrena.github.io/plinth/courses/java-generics/module-3-advanced.html</loc>
-        <lastmod>2025-09-13</lastmod>
-    </url>
-    <url>
-        <loc>https://jabrena.github.io/plinth/courses/java-generics/module-2-wildcards.html</loc>
         <lastmod>2025-09-13</lastmod>
     </url>
 </urlset>
