@@ -17,7 +17,10 @@ This article reviews the main changes:
 - [Community first!](#community-first)
 - [What are the Top 10 Skills from this project in Skills.sh?](#what-are-the-top-10-skills-from-this-project-in-skillssh)
 - [Adding better Functional and Technical specification support](#adding-better-functional-and-technical-specification-support)
+- [Comparing Plinth commands with OpenSpec and Spec Kit](#comparing-plinth-commands-with-openspec-and-spec-kit)
+- [Comparing Plinth with mattpocock/skills and Superpowers](#comparing-plinth-with-mattpocockskills-and-superpowers)
 - [Testing the workflow with a reproducible benchmark](#testing-the-workflow-with-a-reproducible-benchmark)
+- [Do you still have questions about the project?](#doubts)
 - [Next steps](#next-steps)
 
 If you have questions about the project, how to customize it for your team, how to use the skills in daily work, or how to solve tooling issues, use [`GitHub Discussions`](https://github.com/jabrena/plinth/discussions).
@@ -317,6 +320,149 @@ This sequence makes the lifecycle easier to explain and audit. Problem explorati
 
 For more on why this specification phase deserves its own place in the workflow, read [Why Functional and Technical Specifications Matter for AI-Assisted Development](https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html).
 
+<a id="comparing-plinth-commands-with-openspec-and-spec-kit"></a>
+
+## Comparing Plinth commands with OpenSpec and Spec Kit
+
+The [`0.17.0` article](https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#comparing-plinth-commands-with-openspec-and-spec-kit) compared `Plinth commands` against `OpenSpec` and `Spec Kit` phases. `0.18.0`'s new Functional Specification commands and the agent-ownership changes reshape that mapping, so here is the updated comparison:
+
+<table>
+  <thead>
+    <tr>
+      <th>Plinth Command</th>
+      <th>OpenSpec phase</th>
+      <th>Spec Kit phase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/update-issue</code></td>
+      <td>Issue intake<br><code>openspec list</code></td>
+      <td><code>/speckit.specify</code> input</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>— (precedes OpenSpec)</td>
+      <td><code>/speckit.specify</code> input, <code>/speckit.clarify</code></td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>— (precedes OpenSpec)</td>
+      <td><code>/speckit.clarify</code>, <code>/speckit.checklist</code></td>
+    </tr>
+    <tr>
+      <td><code>/create-spec</code></td>
+      <td>Proposal and Specification<br><code>openspec new change &lt;change-name&gt;</code>, <code>openspec show &lt;change-name&gt;</code></td>
+      <td><code>/speckit.specify</code> plus <code>/speckit.checklist</code></td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>Task planning and alignment review<br><code>openspec validate --all</code></td>
+      <td><code>/speckit.plan</code> and <code>/speckit.tasks</code></td>
+    </tr>
+    <tr>
+      <td><code>/implement-spec</code></td>
+      <td>Implementation<br><code>openspec show &lt;change-name&gt;</code></td>
+      <td><code>/speckit.implement</code></td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>Review and closure<br><code>openspec archive &lt;change-name&gt;</code></td>
+      <td><code>/speckit.analyze</code> and <code>/speckit.converge</code></td>
+    </tr>
+  </tbody>
+</table>
+
+`/explore-problem` and `/create-acceptance-criteria` sit before either `OpenSpec` or `Spec Kit` phase begins, because neither tool separates a business-facing Functional Specification from the technical spec — that separation, covered in the section above, is specific to `Plinth`.
+
+<a id="comparing-plinth-with-mattpocockskills-and-superpowers"></a>
+
+## Comparing Plinth with mattpocock/skills and Superpowers
+
+[`mattpocock/skills`](https://github.com/mattpocock/skills) and [`Superpowers`](https://github.com/obra/superpowers) are two of the most widely adopted general-purpose agent-skill collections outside the Java ecosystem. Neither targets Java Enterprise development specifically, but both converge on the same underlying idea `Plinth` is built around: interrogate the problem, write the decision down, and only then let the agent build.
+
+`mattpocock/skills` is explicitly positioned as the lighter-weight alternative on that spectrum. "Its skills — split into "Engineering" and "Productivity", and further into user-invoked and model-invoked — are designed to be small, hackable, and composable rather than an enforced pipeline: `/grill-me` and `/grill-with-docs` interrogate a change before it starts, `/to-spec` and `/to-tickets` turn that conversation into a spec and tracer-bullet tickets, `/tdd` drives red-green-refactor, and `/code-review` checks the diff against both coding standards and the originating spec.
+
+[`Superpowers`](https://github.com/obra/superpowers) sits at the opposite end of that spectrum: it calls itself "a complete software development methodology" and runs as a largely mandatory pipeline — `brainstorming` before code, `using-git-worktrees` for isolation, `writing-plans` for bite-sized tasks, `subagent-driven-development` or `executing-plans` to run them, `test-driven-development` enforcing RED-GREEN-REFACTOR, `requesting-code-review` between tasks, and `finishing-a-development-branch` to close out. It also ships across more coding agents than either `Plinth` or `mattpocock/skills` currently supports (Claude Code, Antigravity, Codex, Cursor, Factory Droid, Gemini CLI, GitHub Copilot CLI, Kimi Code, OpenCode, and Pi).
+
+`Plinth` sits between those two poles, and not by accident. Its philosophy keeps the process ownership `mattpocock/skills` explicitly warns against, but scopes that ownership to a single niche instead of all software: the workflow is a fixed sequence — Functional Specification, Technical Specification, Implementation, Closure — and every phase has one explicit owner (`@plinth-business-analyst`, `@plinth-architect`, `@plinth-tech-lead`, and the framework-specific coder agents), with the handoff between phases gated by evidence — a BDD scenario, an ATDD alignment check, a readiness gate — rather than left to convention. That reads closer in spirit to `Superpowers`'s mandatory pipeline than to `mattpocock/skills`'s hackable, opt-in toolbox.
+
+But `Plinth` narrows its ambition in the other direction: it does not try to be a general-purpose software engineering methodology the way `Superpowers` does, and it is not framework-agnostic the way `mattpocock/skills` is. It is deliberately, permanently Java Enterprise only. Everything below the shared shape of the three projects — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, EU and ISO regulatory review — is where that narrower scope earns its keep, because none of it fits inside a framework-agnostic skill collection or a generic methodology without losing the precision that makes it useful.
+
+Putting numbers on that overlap and that gap, here is how the three projects map concern by concern:
+
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Plinth</th>
+      <th>mattpocock/skills</th>
+      <th>Superpowers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Interrogate before building</td>
+      <td><code>/explore-problem</code>, <code>/update-issue</code>, <code>/create-acceptance-criteria</code></td>
+      <td><code>/grill-me</code>, <code>/grill-with-docs</code></td>
+      <td><code>brainstorming</code></td>
+    </tr>
+    <tr>
+      <td>Turn the conversation into a spec</td>
+      <td><code>/create-spec</code></td>
+      <td><code>/to-spec</code>, <code>/to-tickets</code></td>
+      <td><code>writing-plans</code></td>
+    </tr>
+    <tr>
+      <td>TDD discipline</td>
+      <td><code>@054-design-tdd</code></td>
+      <td><code>/tdd</code></td>
+      <td><code>test-driven-development</code></td>
+    </tr>
+    <tr>
+      <td>Test type coverage (unit, integration, acceptance, performance, fuzzing)</td>
+      <td>
+        Framework-agnostic: <code>@130-java-testing-strategies</code>, <code>@131-java-testing-unit-testing</code>, <code>@132-java-testing-integration-testing</code>, <code>@133-java-testing-acceptance-tests</code><br>
+        Spring Boot: <code>@321-frameworks-spring-boot-testing-unit-tests</code>, <code>@322-frameworks-spring-boot-testing-integration-tests</code>, <code>@323-frameworks-spring-boot-testing-acceptance-tests</code><br>
+        Quarkus: <code>@421-frameworks-quarkus-testing-unit-tests</code>, <code>@422-frameworks-quarkus-testing-integration-tests</code>, <code>@423-frameworks-quarkus-testing-acceptance-tests</code><br>
+        Micronaut: <code>@521-frameworks-micronaut-testing-unit-tests</code>, <code>@522-frameworks-micronaut-testing-integration-tests</code>, <code>@523-frameworks-micronaut-testing-acceptance-tests</code><br>
+        Performance: <code>@151-java-performance-jmeter</code>, <code>@152-java-performance-gatling</code><br>
+        Fuzzing: <code>@703-technologies-fuzzing-testing</code>
+      </td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Delegated implementation</td>
+      <td><code>/implement-spec</code> → framework coder agents</td>
+      <td><code>/implement</code> (single agent)</td>
+      <td><code>subagent-driven-development</code>, <code>dispatching-parallel-agents</code></td>
+    </tr>
+    <tr>
+      <td>Alignment / code review</td>
+      <td><code>@059-design-atdd</code>, readiness gates</td>
+      <td><code>/code-review</code> (Standards + Spec)</td>
+      <td><code>requesting-code-review</code>, <code>receiving-code-review</code></td>
+    </tr>
+    <tr>
+      <td>Git isolation</td>
+      <td><code>/create-worktree</code>, <code>/create-feature-branch</code></td>
+      <td>—</td>
+      <td><code>using-git-worktrees</code></td>
+    </tr>
+    <tr>
+      <td>Architecture health</td>
+      <td><code>@033-architecture-diagrams</code>, <code>/create-adr</code> <code>@030-architecture-adr-general</code></td>
+      <td><code>/improve-codebase-architecture</code>, <code>codebase-design</code></td>
+      <td>— (implicit in plans and reviews)</td>
+    </tr>
+  </tbody>
+</table>
+
+Across all three, the same underlying discipline shows up independently — interrogate the problem, write the decision down, delegate through disciplined steps, verify before calling it done. That three projects with no shared history converged on it is a good sign the discipline is inherent to working well with agents, not one project's house opinion. Where they diverge is domain depth: `mattpocock/skills` stays deliberately language-agnostic and lightweight, `Superpowers` stays deliberately language-agnostic and enforced, and `Plinth` trades that portability for `125 skills` of Java Enterprise-specific coverage — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, and EU/ISO regulatory review — that neither alternative attempts.
+
+That trade is why `Plinth` is the better default for a Java Enterprise team specifically. The generic discipline all three projects agree on still has to end up in your stack either way; with `mattpocock/skills` or `Superpowers`, a Java team has to write the framework-specific, compliance-aware layer on top of it themselves. `Plinth` ships with that layer already built, and the benchmark results earlier in this article are evidence it holds up in practice — so a Java Enterprise team starts from that depth instead of building it from a language-agnostic baseline.
+
 <a id="testing-the-workflow-with-a-reproducible-benchmark"></a>
 
 ## Testing the workflow with a reproducible benchmark
@@ -370,10 +516,21 @@ The benchmark is not intended to declare a universal winner between agent tools 
 
 For the detailed methodology and current findings, read [Validating hypotheses about Plinth workflow with a Benchmark Part 1](/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html).
 
+<a id="doubts"></a>
+
+## Do you still have questions about the project?
+
+If you feel stuck using this project or have questions, you can attend the following workshop at [`JCConf 2026`](https://jcconf.tw/2026/):
+
+[![](/plinth/images/2026/7/jcconf-2026.png)](https://jcconf.tw/2026/)
+
 <a id="next-steps"></a>
 
 ## Next steps
 
-The benchmark and the new workflow gates create a foundation for the next iterations. Future work can use benchmark evidence to improve skill discovery, compare outcomes across agent tools, and identify which specification and design artifacts have the greatest effect on delivery quality.
+For the next release, we plan to work on a few topics:
 
-The broader direction remains the same: help Java teams move from isolated code generation to an engineering workflow where problems are explored, decisions are recorded, changes are implemented through explicit responsibilities, and results are verified before closure.
+- Add `Katas` that help users learn `Plinth` incrementally.
+- Add a skill about `JVM Flags`.
+- Go deeper into the EU regulation ecosystem for `GenAI`.
+
