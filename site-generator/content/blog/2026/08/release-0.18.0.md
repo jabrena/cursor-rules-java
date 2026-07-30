@@ -8,9 +8,7 @@ status=published
 
 `Plinth` is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable `Commands`, `Agents`, `Skills`, and `MCP Servers`.
 
-This release adds a reproducible benchmark, five problem-exploration lenses, BDD and ATDD skills, stronger OpenSpec delivery gates, clearer agent responsibilities, and dedicated generators for commands and agents.
-
-The central idea is simple: `"better code generation begins before code generation"`. An agent needs enough context to understand the problem, enough structure to make design decisions explicit, and enough verification evidence to know when the implementation is ready.
+This release adds a reproducible benchmark, five problem-exploration lenses, BDD and ATDD skills, and stronger OpenSpec delivery gates. The central idea is simple: `"better code generation begins before code generation"`. An agent needs enough context to understand the problem, enough structure to make design decisions explicit, and enough verification evidence to know when the implementation is ready.
 
 Thanks to our community members in [`Urumqi`](https://www.google.com/maps/search/?api=1&query=Urumqi), [`Singapore`](https://www.google.com/maps/search/?api=1&query=Singapore), [`Des Moines`](https://www.google.com/maps/search/?api=1&query=Des+Moines), [`Madrid`](https://www.google.com/maps/place/Madrid) & [`Bengaluru`](https://www.google.com/maps/search/?api=1&query=Bengaluru). 👋👋👋
 
@@ -18,13 +16,8 @@ This article reviews the main changes:
 
 - [Community first!](#community-first)
 - [What are the Top 10 Skills from this project in Skills.sh?](#what-are-the-top-10-skills-from-this-project-in-skillssh)
+- [Adding better Functional and Technical specification support](#adding-better-functional-and-technical-specification-support)
 - [Testing the workflow with a reproducible benchmark](#testing-the-workflow-with-a-reproducible-benchmark)
-- [Exploring the problem through five lenses](#exploring-the-problem-through-five-lenses)
-- [Connecting problem exploration to OpenSpec delivery](#connecting-problem-exploration-to-openspec-delivery)
-- [Using BDD and ATDD to keep intent and delivery aligned](#using-bdd-and-atdd-to-keep-intent-and-delivery-aligned)
-- [Clarifying responsibilities across agents](#clarifying-responsibilities-across-agents)
-- [Making commands and agents first-class generated products](#making-commands-and-agents-first-class-generated-products)
-- [Simplifying the design workflow](#simplifying-the-design-workflow)
 - [Next steps](#next-steps)
 
 If you have questions about the project, how to customize it for your team, how to use the skills in daily work, or how to solve tooling issues, use [`GitHub Discussions`](https://github.com/jabrena/plinth/discussions).
@@ -35,13 +28,9 @@ If you have questions about the project, how to customize it for your team, how 
 
 ## Community first!
 
-Community participation makes `Plinth` more useful beyond the context where it was created. Issues, pull requests, benchmark runs, installation feedback, and conversations about real workflows provide evidence that documentation alone cannot produce.
+In this release, we want to share our sincere gratitude to the `Cursor team` for their initial support in running the first [MadridJug](https://madridjug.es/) Meetup about [`Cursor AI`](https://www.youtube.com/watch?v=LAshLMBb8Bc) in 2025. They provided tokens that I have been managing ever since and that will be fully consumed by August 2026. That indirect support from Cursor helped this project get off the ground, and I believe it has gone on to generate a positive impact in the Java Community worldwide.
 
-Many thanks to [Leandro Loureiro](https://github.com/lealoureiro) for contributing to this release. In [`#1068`](https://github.com/jabrena/plinth/pull/1068), Leandro expanded the benchmark with additional samples generated with GitHub Copilot, Claude Sonnet 4.5, and Opus. These samples strengthen the comparison between tools and models and help the project avoid drawing conclusions from a single agent environment. Leandro also continued participating in the [`Project Benchmark Harness Part 1` issue](https://github.com/jabrena/plinth/issues/1012), sharing his intention to complete more scenarios.
-
-In [`#1073`](https://github.com/jabrena/plinth/pull/1073), Leandro added missing agent installation instructions for `Codex` and `GitHub Copilot`. This improves the path from discovering Plinth to using its agents in different development environments.
-
-The human committers represented in the `0.18.0` development range are [Juan Antonio Breña Moral](https://github.com/jabrena) and [Leandro Loureiro](https://github.com/lealoureiro). Dependabot also contributed automated dependency updates during the release cycle.
+PENDING TO MENTION CONTRIBUTIONS FROM COMMUNITY.
 
 If you would like to participate, review the open issues labeled [`good first issue`](https://github.com/jabrena/plinth/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22), propose improvements, test the workflow with another agent tool, or share your experience in [`GitHub Discussions`](https://github.com/jabrena/plinth/discussions).
 
@@ -49,11 +38,7 @@ If you would like to participate, review the open issues labeled [`good first is
 
 ## What are the Top 10 Skills from this project in Skills.sh?
 
-After the repository rename, Skills.sh maintains statistics under both [`jabrena/cursor-rules-java`](https://www.skills.sh/jabrena/cursor-rules-java) and [`jabrena/plinth`](https://www.skills.sh/jabrena/plinth). To preserve the complete installation history, the ranking below adds the installs reported for each skill on both registry pages. All skill links point to the current `jabrena/plinth` location.
-
-The values were recalculated on `2026-07-30`. Skills.sh statistics change continuously, so this table should be treated as a snapshot. The movement shown beside each `Plinth rank` compares the combined ranking with the Top 10 published in the [`0.17.0` release article](https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh), in the same way that article compared its ranking with `0.16.0`. `New` means that the skill was outside the previous article's Top 10.
-
-The `Skills.sh Search rank` column shows the current position of the legacy registry entry in the linked Skills.sh search category. The legacy entry carries the installation history used in the combined calculation, while the `Skill` column links to the current `jabrena/plinth` location.
+The [Skills.sh registry](https://www.skills.sh/jabrena/plinth) reports `125 skills` and `19.3K` installs in total — roughly `33%` growth since the [`0.17.0` release](https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh). Compared with `0.17.0`, these are the latest top 10 skills used by Skills.sh users:
 
 <table>
   <thead>
@@ -128,9 +113,9 @@ The `Skills.sh Search rank` column shows the current position of the legacy regi
   </tbody>
 </table>
 
-The combined ranking keeps the first five positions unchanged from `0.17.0`. Java concurrency rises two places to number six, while Maven dependencies moves from number six to number eight. Spring Boot REST enters the Top 10 at number nine, and Java generics moves down one place to number ten.
+**Note:** The `Search rank` column shows the skill's position inside that `Skills.sh` search category when results are sorted by install count.
 
-The same combined view for framework-specific skills shows the current Top 5 project skills for `Spring Boot`, `Quarkus`, and `Micronaut`. When combined install totals are tied, the linked Skills.sh search order determines their relative position.
+The same view for framework-specific skills shows the top 5 project skills for `Spring Boot`, `Quarkus`, and `Micronaut` searches:
 
 **Spring Boot**
 
@@ -267,6 +252,71 @@ The same combined view for framework-specific skills shows the current Top 5 pro
   </tbody>
 </table>
 
+<a id="adding-better-functional-and-technical-specification-support"></a>
+
+## Adding better Functional and Technical specification support
+
+Many failed implementations begin with a weak problem statement. A short issue can mix symptoms, assumptions, requested solutions, stakeholder expectations, and technical constraints without making any of them explicit. If an agent starts coding from that issue, it may efficiently implement the wrong change.
+
+`Plinth` addresses this by treating specification as two distinct phases: a **Functional Specification** phase that turns a raw issue into agreed business requirements, and a **Technical Specification** phase that turns those requirements into an OpenSpec design and task list. Each phase has its own dedicated commands:
+
+```text
+Functional Specification
+  /update-issue                  Update an issue description with structured, evidence-backed content
+  /explore-problem               Analyze an issue through five lenses and post a Functional Specification
+  /create-acceptance-criteria    Derive and post confirmed Gherkin acceptance criteria for an issue
+
+Technical Specification
+  /create-spec       Create or update OpenSpec artifacts from approved source material
+  /explore-design    Refine the technical design of an issue or OpenSpec change before implementation
+```
+
+### Functional Specification
+
+`0.18.0` focuses on strengthening the Functional Specification phase, adding five complementary skills for investigating a problem before committing to a solution:
+
+- [`@021-problem-framing`](https://www.skills.sh/jabrena/plinth/021-problem-framing) defines the observed problem, affected actors, evidence, impact, and boundaries.
+- [`@022-root-cause-analysis`](https://www.skills.sh/jabrena/plinth/022-root-cause-analysis) separates symptoms from plausible causes and identifies evidence needed to confirm them.
+- [`@023-assumption-analysis`](https://www.skills.sh/jabrena/plinth/023-assumption-analysis) makes hidden beliefs visible and classifies which assumptions need validation.
+- [`@024-context-mapping`](https://www.skills.sh/jabrena/plinth/024-context-mapping) identifies stakeholders, systems, dependencies, boundaries, and external constraints.
+- [`@025-quality-attribute-discovery`](https://www.skills.sh/jabrena/plinth/025-quality-attribute-discovery) discovers the performance, security, reliability, maintainability, and operational qualities that may shape the solution.
+
+The new `/explore-problem` command coordinates those five lenses and produces a Functional Specification that can be posted back to the source issue. This creates a stronger bridge between issue tracking and specification work: the issue remains the place where the business need is discussed, while the exploration result gives the next phase a more disciplined starting point.
+
+The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation cost begins to accumulate.
+
+Turning that Functional Specification into something an implementation can be checked against is the job of the new `/create-acceptance-criteria` command. It reads the Functional Specification comment posted by `/explore-problem` and derives observable Gherkin acceptance criteria, which it posts back to the issue as a separate, confirmed comment.
+
+This is where the new [`@058-design-bdd`](https://www.skills.sh/jabrena/plinth/058-design-bdd) skill does its work: it applies to the Functional Specification as the behavior source, confirms the actors, outcomes, and business rules already established there, and develops them into concrete main, alternative, boundary, and error examples expressed as externally observable Given/When/Then scenarios. BDD earns its place here because prose hides ambiguity that examples expose: a phrase such as "invalid requests are rejected" is too broad for reliable implementation, while a concrete scenario forces the team to state which inputs are invalid, which response is expected, and which observable behavior proves the requirement.
+
+### Technical Specification
+
+That Functional Specification then feeds directly into OpenSpec delivery. `0.18.0` strengthens the command path from an issue to an archived OpenSpec change:
+
+```text
+Issue
+  |
+  v
+/explore-problem
+  |
+  v
+/create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+```
+
+The commands now provide clearer transitions and gates:
+
+- `/create-spec` reads the complete issue context before drafting an OpenSpec change. Comments and follow-up discussion can contain decisions that are absent from the issue description, so partial issue reads are not enough.
+- `/explore-design` runs after specification creation and enriches the change with design decisions instead of acting as a substitute for the specification.
+
+Reaching that design-approved state now passes through the new [`@059-design-atdd`](https://www.skills.sh/jabrena/plinth/059-design-atdd) skill: once an OpenSpec change has an execution goal, acceptance criteria, and a task checklist, `/explore-design` invokes it as a final alignment gate and reports an evidence-backed `ready` or `changes-requested` outcome, refusing approval while findings stay unresolved. `/implement-spec` enforces that same alignment again as its own readiness gate before delivery begins, so a change that never reached genuine alignment during design cannot slip into implementation. `/close-spec` then archives the completed OpenSpec change once implementation and verification are finished.
+
+This sequence makes the lifecycle easier to explain and audit. Problem exploration discovers what needs attention. Specification turns that understanding into requirements and scenarios. Design decides how the change should be delivered. Implementation executes an approved task list. Closure archives the completed change and its evidence.
+
+For more on why this specification phase deserves its own place in the workflow, read [Why Functional and Technical Specifications Matter for AI-Assisted Development](https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html).
+
 <a id="testing-the-workflow-with-a-reproducible-benchmark"></a>
 
 ## Testing the workflow with a reproducible benchmark
@@ -309,113 +359,6 @@ The first results suggest an important distinction: more documents do not automa
 The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to make workflow hypotheses testable, expose where the process adds value, and identify where more evidence is needed.
 
 For the detailed methodology and current findings, read [Validating hypotheses about Plinth workflow with a Benchmark Part 1](/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html).
-
-<a id="exploring-the-problem-through-five-lenses"></a>
-
-## Exploring the problem through five lenses
-
-Many failed implementations begin with a weak problem statement. A short issue can mix symptoms, assumptions, requested solutions, stakeholder expectations, and technical constraints without making any of them explicit. If an agent starts coding from that issue, it may efficiently implement the wrong change.
-
-This release adds five complementary skills for investigating a problem before committing to a solution:
-
-- [`@021-problem-framing`](https://www.skills.sh/jabrena/plinth/021-problem-framing) defines the observed problem, affected actors, evidence, impact, and boundaries.
-- [`@022-root-cause-analysis`](https://www.skills.sh/jabrena/plinth/022-root-cause-analysis) separates symptoms from plausible causes and identifies evidence needed to confirm them.
-- [`@023-assumption-analysis`](https://www.skills.sh/jabrena/plinth/023-assumption-analysis) makes hidden beliefs visible and classifies which assumptions need validation.
-- [`@024-context-mapping`](https://www.skills.sh/jabrena/plinth/024-context-mapping) identifies stakeholders, systems, dependencies, boundaries, and external constraints.
-- [`@025-quality-attribute-discovery`](https://www.skills.sh/jabrena/plinth/025-quality-attribute-discovery) discovers the performance, security, reliability, maintainability, and operational qualities that may shape the solution.
-
-The new `/explore-problem` command coordinates those five lenses and produces a Functional Specification that can be posted back to the source issue. This creates a stronger bridge between issue tracking and specification work: the issue remains the place where the business need is discussed, while the exploration result gives the next phase a more disciplined starting point.
-
-The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation cost begins to accumulate.
-
-<a id="connecting-problem-exploration-to-openspec-delivery"></a>
-
-## Connecting problem exploration to OpenSpec delivery
-
-`0.18.0` strengthens the command path from an issue to an archived OpenSpec change:
-
-```text
-Issue
-  |
-  v
-/explore-problem
-  |
-  v
-/create-spec --> /explore-design --> /implement-spec --> /close-spec
-```
-
-The commands now provide clearer transitions and gates:
-
-- `/create-spec` reads the complete issue context before drafting an OpenSpec change. Comments and follow-up discussion can contain decisions that are absent from the issue description, so partial issue reads are not enough.
-- `/explore-design` runs after specification creation and enriches the change with design decisions instead of acting as a substitute for the specification.
-- `/implement-spec` checks readiness before delivery begins. Implementation should not start when required artifacts are missing, unresolved decisions would materially change the solution, or the task list is not actionable.
-- `/close-spec` archives a completed OpenSpec change after implementation and verification are finished.
-
-This sequence makes the lifecycle easier to explain and audit. Problem exploration discovers what needs attention. Specification turns that understanding into requirements and scenarios. Design decides how the change should be delivered. Implementation executes an approved task list. Closure archives the completed change and its evidence.
-
-Generated YAML frontmatter is now included for all commands, giving command assets consistent metadata for discovery and tooling.
-
-<a id="using-bdd-and-atdd-to-keep-intent-and-delivery-aligned"></a>
-
-## Using BDD and ATDD to keep intent and delivery aligned
-
-The design skill family introduced in `0.17.0` focused on how to change software safely. This release adds two skills that strengthen the connection between expected behavior and implementation work:
-
-- [`@058-design-bdd`](https://www.skills.sh/jabrena/plinth/058-design-bdd) helps teams discover behavior collaboratively and express it through concrete examples and Given/When/Then scenarios.
-- [`@059-design-atdd`](https://www.skills.sh/jabrena/plinth/059-design-atdd) reviews alignment between OpenSpec goals, acceptance criteria, and implementation and verification tasks.
-
-BDD is useful before and during specification because examples expose ambiguity. A phrase such as "invalid requests are rejected" is too broad for reliable implementation. Concrete scenarios force the team to identify which inputs are invalid, which response is expected, and which observable behavior proves the requirement.
-
-ATDD adds a complementary review. It asks whether every important goal is represented by acceptance criteria and whether the delivery plan includes work that will implement and verify those criteria. The result is an alignment report, not an automatic claim that the system is correct.
-
-Together, these skills help preserve traceability:
-
-```text
-Business goal -> Example -> Acceptance criterion -> Implementation task -> Verification evidence
-```
-
-This is especially valuable when agents participate across multiple phases. Without explicit traceability, an agent can produce a technically clean implementation while silently dropping an important behavior from the original issue.
-
-<a id="clarifying-responsibilities-across-agents"></a>
-
-## Clarifying responsibilities across agents
-
-As the workflow grows, agent specialization needs clear boundaries. `0.18.0` moves planning ownership from the Tech Lead to the Architect and separates design exploration from implementation coordination:
-
-- `@plinth-business-analyst` owns issue quality, requirements traceability, problem exploration, and alignment review.
-- `@plinth-architect` owns design exploration, architecture decisions, diagrams, plans, and OpenSpec preparation.
-- `@plinth-tech-lead` coordinates delivery from an approved implementation plan or OpenSpec task list.
-- Specialized Java and framework coder agents implement the delegated tasks.
-
-The active embedded agent identifiers have also moved from the `robot-` prefix to the `plinth-` prefix. The new names connect the agents clearly to the project and avoid presenting them as generic autonomous robots.
-
-These boundaries are more than naming. They create useful stopping conditions. The Tech Lead should not invent a missing plan while implementation is already under way. The Architect should not quietly become the implementation coordinator. The Business Analyst should not make architecture decisions while reviewing requirements. When responsibilities are explicit, handoffs and unresolved decisions become easier to see.
-
-<a id="making-commands-and-agents-first-class-generated-products"></a>
-
-## Making commands and agents first-class generated products
-
-The project now has three focused generator modules:
-
-- `plinth-commands-generator`
-- `plinth-agents-generator`
-- `plinth-skills-generator`
-
-Commands and agents were extracted into standalone modules that mirror the existing skills generator. Each module owns its inventory, embedded assets, schema, manifest, and focused tests. Commands and agents also receive dedicated `commands.xsd` and `agents.xsd` schemas.
-
-This modularization matters because commands, agents, and skills evolve at different rates and have different validation needs. A dedicated module makes ownership clearer, reduces accidental coupling, and gives each generated product a place for schema validation and propagation tests.
-
-The parent Maven artifact has also been renamed to `plinth`, completing another part of the project identity introduced in `0.17.0`.
-
-<a id="simplifying-the-design-workflow"></a>
-
-## Simplifying the design workflow
-
-This release removes `@034-architecture-design-exploration`. Its responsibilities have not disappeared; the necessary exploration steps now live directly in `/explore-design`.
-
-The removal reflects the new command sequence. When design exploration was an early standalone activity, a separate skill helped initiate that work. Now `/explore-design` runs after `/create-spec`, with an OpenSpec change already available as its input. Keeping a second orchestration layer would duplicate responsibilities and make the workflow harder to understand.
-
-This is a healthy kind of removal: as commands become better at coordinating complete phases, some intermediate skills can be absorbed into the workflow and the public model becomes smaller.
 
 <a id="next-steps"></a>
 

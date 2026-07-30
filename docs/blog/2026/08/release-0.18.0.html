@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>What&apos;s new in Plinth 0.18.0? - Plinth</title>
+  <meta name="author" content="" />
+  <meta name="description" content="">
+  <link rel="alternate" type="application/atom+xml" href="../../../feed.xml" title="Plinth"/>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../css/bootstrap-social.css" />
+  <link rel="stylesheet" href="../../../css/main.css" />
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+
+  <link rel="stylesheet" href="../../../css/asciidoctor.css">
+  <link rel="stylesheet" href="../../../css/prettify.css">
+  <link rel="icon" type="image/png" href="../../../images/java-icon.png">
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class="container-fluid">
+
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+  <span class="sr-only">Toggle navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="../../../index.html">Plinth</a>
+</div>
+
+<div class="collapse navbar-collapse" id="main-navbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><a href="https://forms.gle/TpNXENjmu45wuXoi6" target="_blank">Share feedback</a></li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Conferences</a>
+    <div class="navlinks-children">
+      <a href="https://jabrena.github.io/plinth/codemotion-madrid-2026/index.html" target="_blank">Codemotion Madrid 2026</a>
+      <a href="https://jabrena.github.io/plinth/dvbe25/index.html" target="_blank">Devoxx BE 2025</a>
+      <a href="https://jabrena.github.io/101-cursor/" target="_blank">WJAX-2025</a>
+    </div>
+  </li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Courses</a>
+    <div class="navlinks-children">
+      <a href="../../../courses/system-prompts-java/index.html">System prompts for Java</a>
+      <a href="../../../courses/java-generics/index.html">Java Generics</a>
+      <a href="../../../courses/profile-memory-leak/index.html">Memory Leak Profiling</a>
+    </div>
+  </li>
+  <li><a href="../../../archive.html">Archive</a></li>
+  <li><a href="https://jabrena-github-io.translate.goog/cursor-rules-java/?_x_tr_sl=en&_x_tr_tl=cn&_x_tr_hl=en-US&_x_tr_pto=wapp">Translate</a></li>
+</ul>
+</div>
+
+
+
+</div>
+</nav>
+
+
+
+<header class="header-section">
+
+
+<div class="intro-header no-img">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="post-heading">
+<h1>What's new in Plinth 0.18.0?</h1>
+<span class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-08-03
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    Juan Antonio Breña Moral
+</span>
+<span class="blog-tags">
+  &nbsp;
+  <i class="fa fa-tags"></i>
+    <a href="../../../tags/blog.html">blog</a>
+    <a href="../../../tags/skills.html">skills</a>
+    <a href="../../../tags/java.html">java</a>
+    <a href="../../../tags/agents.html">agents</a>
+    <a href="../../../tags/commands.html">commands</a>
+    <a href="../../../tags/openspec.html">openspec</a>
+    <a href="../../../tags/benchmark.html">benchmark</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role="main" class="blog-post">
+<p><code>Plinth</code> is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable <code>Commands</code>, <code>Agents</code>, <code>Skills</code>, and <code>MCP Servers</code>.</p>
+<p>This release adds a reproducible benchmark, five problem-exploration lenses, BDD and ATDD skills, and stronger OpenSpec delivery gates. The central idea is simple: <code>&quot;better code generation begins before code generation&quot;</code>. An agent needs enough context to understand the problem, enough structure to make design decisions explicit, and enough verification evidence to know when the implementation is ready.</p>
+<p>Thanks to our community members in <a href="https://www.google.com/maps/search/?api=1&amp;query=Urumqi"><code>Urumqi</code></a>, <a href="https://www.google.com/maps/search/?api=1&amp;query=Singapore"><code>Singapore</code></a>, <a href="https://www.google.com/maps/search/?api=1&amp;query=Des+Moines"><code>Des Moines</code></a>, <a href="https://www.google.com/maps/place/Madrid"><code>Madrid</code></a> &amp; <a href="https://www.google.com/maps/search/?api=1&amp;query=Bengaluru"><code>Bengaluru</code></a>. 👋👋👋</p>
+<p>This article reviews the main changes:</p>
+<ul>
+<li><a href="#community-first">Community first!</a></li>
+<li><a href="#what-are-the-top-10-skills-from-this-project-in-skillssh">What are the Top 10 Skills from this project in Skills.sh?</a></li>
+<li><a href="#adding-better-functional-and-technical-specification-support">Adding better Functional and Technical specification support</a></li>
+<li><a href="#testing-the-workflow-with-a-reproducible-benchmark">Testing the workflow with a reproducible benchmark</a></li>
+<li><a href="#next-steps">Next steps</a></li>
+</ul>
+<p>If you have questions about the project, how to customize it for your team, how to use the skills in daily work, or how to solve tooling issues, use <a href="https://github.com/jabrena/plinth/discussions"><code>GitHub Discussions</code></a>.</p>
+<p><strong>Help this project grow:</strong> <a href="https://github.com/sponsors/jabrena">If this project helps your team, become a sponsor.</a></p>
+<p><a id="community-first"></a></p>
+<h2>Community first!</h2>
+<p>In this release, we want to share our sincere gratitude to the <code>Cursor team</code> for their initial support in running the first <a href="https://madridjug.es/">MadridJug</a> Meetup about <a href="https://www.youtube.com/watch?v=LAshLMBb8Bc"><code>Cursor AI</code></a> in 2025. They provided tokens that I have been managing ever since and that will be fully consumed by August 2026. That indirect support from Cursor helped this project get off the ground, and I believe it has gone on to generate a positive impact in the Java Community worldwide.</p>
+<p>PENDING TO MENTION CONTRIBUTIONS FROM COMMUNITY.</p>
+<p>If you would like to participate, review the open issues labeled <a href="https://github.com/jabrena/plinth/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22"><code>good first issue</code></a>, propose improvements, test the workflow with another agent tool, or share your experience in <a href="https://github.com/jabrena/plinth/discussions"><code>GitHub Discussions</code></a>.</p>
+<p><a id="what-are-the-top-10-skills-from-this-project-in-skillssh"></a></p>
+<h2>What are the Top 10 Skills from this project in Skills.sh?</h2>
+<p>The <a href="https://www.skills.sh/jabrena/plinth">Skills.sh registry</a> reports <code>125 skills</code> and <code>19.3K</code> installs in total — roughly <code>33%</code> growth since the <a href="https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh"><code>0.17.0</code> release</a>. Compared with <code>0.17.0</code>, these are the latest top 10 skills used by Skills.sh users:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth rank&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th>Skills.sh Search</th>
+      <th>Skills.sh Search rank</th>
+      <th>Skill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#1</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=maven">Maven</a></td>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/110-java-maven-best-practices"><code>110-java-maven-best-practices</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#2</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20object%20oriented">Java object oriented</a></td>
+      <td><code>#1</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design"><code>121-java-object-oriented-design</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#3</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20security">Java security</a></td>
+      <td><code>#10</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/124-java-secure-coding"><code>124-java-secure-coding</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#4</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20unit%20testing">Java unit testing</a></td>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/131-java-testing-unit-testing"><code>131-java-testing-unit-testing</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#5</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20refactoring">Java refactoring</a></td>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/141-java-refactoring-with-modern-features"><code>141-java-refactoring-with-modern-features</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#6</code> ↗️ <code>+2</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20concurrency">Java concurrency</a></td>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/125-java-concurrency"><code>125-java-concurrency</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#7</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20functional%20programming">Java functional programming</a></td>
+      <td><code>#2</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/142-java-functional-programming"><code>142-java-functional-programming</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#8</code> ↘️ <code>-2</code></td>
+      <td><a href="https://www.skills.sh/search?q=maven">Maven</a></td>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/111-java-maven-dependencies"><code>111-java-maven-dependencies</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#9</code> 🆕</td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#31</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/302-frameworks-spring-boot-rest"><code>302-frameworks-spring-boot-rest</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#10</code> ↘️ <code>-1</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20generics">Java generics</a></td>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/128-java-generics"><code>128-java-generics</code></a></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Note:</strong> The <code>Search rank</code> column shows the skill's position inside that <code>Skills.sh</code> search category when results are sorted by install count.</p>
+<p>The same view for framework-specific skills shows the top 5 project skills for <code>Spring Boot</code>, <code>Quarkus</code>, and <code>Micronaut</code> searches:</p>
+<p><strong>Spring Boot</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth rank</th>
+      <th>Skills.sh Search</th>
+      <th>Skills.sh Search rank</th>
+      <th>Skill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#1</code></td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#31</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/302-frameworks-spring-boot-rest"><code>302-frameworks-spring-boot-rest</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#2</code></td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#32</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/301-frameworks-spring-boot-core"><code>301-frameworks-spring-boot-core</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#34</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321-frameworks-spring-boot-testing-unit-tests</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#38</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322-frameworks-spring-boot-testing-integration-tests</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#39</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323-frameworks-spring-boot-testing-acceptance-tests</code></a></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Quarkus</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth rank</th>
+      <th>Skills.sh Search</th>
+      <th>Skills.sh Search rank</th>
+      <th>Skill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#1</code></td>
+      <td><a href="https://www.skills.sh/search?q=quarkus">Quarkus</a></td>
+      <td><code>#12</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/412-frameworks-quarkus-panache"><code>412-frameworks-quarkus-panache</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#2</code></td>
+      <td><a href="https://www.skills.sh/search?q=quarkus">Quarkus</a></td>
+      <td><code>#13</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/402-frameworks-quarkus-rest"><code>402-frameworks-quarkus-rest</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/search?q=quarkus">Quarkus</a></td>
+      <td><code>#14</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/401-frameworks-quarkus-core"><code>401-frameworks-quarkus-core</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/search?q=quarkus">Quarkus</a></td>
+      <td><code>#15</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/411-frameworks-quarkus-jdbc"><code>411-frameworks-quarkus-jdbc</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/search?q=quarkus">Quarkus</a></td>
+      <td><code>#16</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421-frameworks-quarkus-testing-unit-tests</code></a></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Micronaut</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth rank</th>
+      <th>Skills.sh Search</th>
+      <th>Skills.sh Search rank</th>
+      <th>Skill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#1</code></td>
+      <td><a href="https://www.skills.sh/search?q=micronaut">Micronaut</a></td>
+      <td><code>#6</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/521-frameworks-micronaut-testing-unit-tests"><code>521-frameworks-micronaut-testing-unit-tests</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#2</code></td>
+      <td><a href="https://www.skills.sh/search?q=micronaut">Micronaut</a></td>
+      <td><code>#7</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/512-frameworks-micronaut-data"><code>512-frameworks-micronaut-data</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/search?q=micronaut">Micronaut</a></td>
+      <td><code>#8</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/522-frameworks-micronaut-testing-integration-tests"><code>522-frameworks-micronaut-testing-integration-tests</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/search?q=micronaut">Micronaut</a></td>
+      <td><code>#9</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/501-frameworks-micronaut-core"><code>501-frameworks-micronaut-core</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/search?q=micronaut">Micronaut</a></td>
+      <td><code>#10</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/502-frameworks-micronaut-rest"><code>502-frameworks-micronaut-rest</code></a></td>
+    </tr>
+  </tbody>
+</table>
+<p><a id="adding-better-functional-and-technical-specification-support"></a></p>
+<h2>Adding better Functional and Technical specification support</h2>
+<p>Many failed implementations begin with a weak problem statement. A short issue can mix symptoms, assumptions, requested solutions, stakeholder expectations, and technical constraints without making any of them explicit. If an agent starts coding from that issue, it may efficiently implement the wrong change.</p>
+<p><code>Plinth</code> addresses this by treating specification as two distinct phases: a <strong>Functional Specification</strong> phase that turns a raw issue into agreed business requirements, and a <strong>Technical Specification</strong> phase that turns those requirements into an OpenSpec design and task list. Each phase has its own dedicated commands:</p>
+<pre><code class="language-text">Functional Specification
+  /update-issue                  Update an issue description with structured, evidence-backed content
+  /explore-problem               Analyze an issue through five lenses and post a Functional Specification
+  /create-acceptance-criteria    Derive and post confirmed Gherkin acceptance criteria for an issue
+
+Technical Specification
+  /create-spec       Create or update OpenSpec artifacts from approved source material
+  /explore-design    Refine the technical design of an issue or OpenSpec change before implementation
+</code></pre>
+<h3>Functional Specification</h3>
+<p><code>0.18.0</code> focuses on strengthening the Functional Specification phase, adding five complementary skills for investigating a problem before committing to a solution:</p>
+<ul>
+<li><a href="https://www.skills.sh/jabrena/plinth/021-problem-framing"><code>@021-problem-framing</code></a> defines the observed problem, affected actors, evidence, impact, and boundaries.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/022-root-cause-analysis"><code>@022-root-cause-analysis</code></a> separates symptoms from plausible causes and identifies evidence needed to confirm them.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/023-assumption-analysis"><code>@023-assumption-analysis</code></a> makes hidden beliefs visible and classifies which assumptions need validation.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/024-context-mapping"><code>@024-context-mapping</code></a> identifies stakeholders, systems, dependencies, boundaries, and external constraints.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/025-quality-attribute-discovery"><code>@025-quality-attribute-discovery</code></a> discovers the performance, security, reliability, maintainability, and operational qualities that may shape the solution.</li>
+</ul>
+<p>The new <code>/explore-problem</code> command coordinates those five lenses and produces a Functional Specification that can be posted back to the source issue. This creates a stronger bridge between issue tracking and specification work: the issue remains the place where the business need is discussed, while the exploration result gives the next phase a more disciplined starting point.</p>
+<p>The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation cost begins to accumulate.</p>
+<p>Turning that Functional Specification into something an implementation can be checked against is the job of the new <code>/create-acceptance-criteria</code> command. It reads the Functional Specification comment posted by <code>/explore-problem</code> and derives observable Gherkin acceptance criteria, which it posts back to the issue as a separate, confirmed comment.</p>
+<p>This is where the new <a href="https://www.skills.sh/jabrena/plinth/058-design-bdd"><code>@058-design-bdd</code></a> skill does its work: it applies to the Functional Specification as the behavior source, confirms the actors, outcomes, and business rules already established there, and develops them into concrete main, alternative, boundary, and error examples expressed as externally observable Given/When/Then scenarios. BDD earns its place here because prose hides ambiguity that examples expose: a phrase such as &quot;invalid requests are rejected&quot; is too broad for reliable implementation, while a concrete scenario forces the team to state which inputs are invalid, which response is expected, and which observable behavior proves the requirement.</p>
+<h3>Technical Specification</h3>
+<p>That Functional Specification then feeds directly into OpenSpec delivery. <code>0.18.0</code> strengthens the command path from an issue to an archived OpenSpec change:</p>
+<pre><code class="language-text">Issue
+  |
+  v
+/explore-problem
+  |
+  v
+/create-acceptance-criteria
+  |
+  v
+/create-spec --&gt; /explore-design
+</code></pre>
+<p>The commands now provide clearer transitions and gates:</p>
+<ul>
+<li><code>/create-spec</code> reads the complete issue context before drafting an OpenSpec change. Comments and follow-up discussion can contain decisions that are absent from the issue description, so partial issue reads are not enough.</li>
+<li><code>/explore-design</code> runs after specification creation and enriches the change with design decisions instead of acting as a substitute for the specification.</li>
+</ul>
+<p>Reaching that design-approved state now passes through the new <a href="https://www.skills.sh/jabrena/plinth/059-design-atdd"><code>@059-design-atdd</code></a> skill: once an OpenSpec change has an execution goal, acceptance criteria, and a task checklist, <code>/explore-design</code> invokes it as a final alignment gate and reports an evidence-backed <code>ready</code> or <code>changes-requested</code> outcome, refusing approval while findings stay unresolved. <code>/implement-spec</code> enforces that same alignment again as its own readiness gate before delivery begins, so a change that never reached genuine alignment during design cannot slip into implementation. <code>/close-spec</code> then archives the completed OpenSpec change once implementation and verification are finished.</p>
+<p>This sequence makes the lifecycle easier to explain and audit. Problem exploration discovers what needs attention. Specification turns that understanding into requirements and scenarios. Design decides how the change should be delivered. Implementation executes an approved task list. Closure archives the completed change and its evidence.</p>
+<p>For more on why this specification phase deserves its own place in the workflow, read <a href="https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html">Why Functional and Technical Specifications Matter for AI-Assisted Development</a>.</p>
+<p><a id="testing-the-workflow-with-a-reproducible-benchmark"></a></p>
+<h2>Testing the workflow with a reproducible benchmark</h2>
+<p>An AI-native development workflow should not be evaluated only by how convincing its documentation sounds. It needs repeatable experiments that compare the results obtained with different amounts of engineering context.</p>
+<p><code>0.18.0</code> adds a benchmark harness under <a href="https://github.com/jabrena/plinth/tree/main/benchmarks"><code>benchmarks/</code></a>. The benchmark asks agent tools to solve the same Java problem through four scenarios:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Context available to the agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>scenario1</code></td>
+      <td>A minimal README.</td>
+    </tr>
+    <tr>
+      <td><code>scenario2</code></td>
+      <td>A functional-requirements package with a user story, Gherkin scenarios, OpenAPI, and ADRs.</td>
+    </tr>
+    <tr>
+      <td><code>scenario3</code></td>
+      <td>An OpenSpec change created from the same functional requirements.</td>
+    </tr>
+    <tr>
+      <td><code>scenario4</code></td>
+      <td>An OpenSpec change created, designed, and implemented through the Plinth workflow.</td>
+    </tr>
+  </tbody>
+</table>
+<p>Each run records efficiency, outcome quality, rework, and the commands, agents, and skills used during delivery. The repository includes reproducible scorecards and result samples generated with GitHub Copilot and Claude models.</p>
+<p>The first results suggest an important distinction: more documents do not automatically produce a better result. The strongest signal comes when structured artifacts are combined with commands that turn those artifacts into an executed workflow. In the current samples, the complete Plinth scenario required less average rework and encouraged more autonomous use of reusable skills and specialized agents.</p>
+<p>The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to make workflow hypotheses testable, expose where the process adds value, and identify where more evidence is needed.</p>
+<p>For the detailed methodology and current findings, read <a href="/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Validating hypotheses about Plinth workflow with a Benchmark Part 1</a>.</p>
+<p><a id="next-steps"></a></p>
+<h2>Next steps</h2>
+<p>The benchmark and the new workflow gates create a foundation for the next iterations. Future work can use benchmark evidence to improve skill discovery, compare outcomes across agent tools, and identify which specification and design artifacts have the greatest effect on delivery quality.</p>
+<p>The broader direction remains the same: help Java teams move from isolated code generation to an engineering workflow where problems are explored, decisions are recorded, changes are implemented through explicit responsibilities, and results are verified before closure.</p>
+
+</article>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="container beautiful-jekyll-footer">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+    <li>
+    <a href="https://twitter.com/juanantoniobm" title="Twitter">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/jabrena/plinth" title="GitHub">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="../../../feed.xml" title="RSS">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+</ul>
+<p class="copyright text-muted">
+&copy; Juan Antonio Breña Moral, 2026 |
+Baked with <a href="http://jbake.org">JBake v2.7.0</a>
+</p>
+<p class="theme-by text-muted">
+  Theme by <a href="https://github.com/Yamane/beautiful-jbake/" target="_blank">beautiful-jbake</a>
+  adapted from <a href="http://deanattali.com/beautiful-jekyll/" target="_blank">beautiful-jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="../../../js/jquery-1.11.2.min.js"></script>
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/prettify.js"></script>
+<script src="../../../js/run_prettify.js"></script>
+<script src="../../../js/main.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-13CV90H4J4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-13CV90H4J4');
+</script>
+
+</body>
+</html>
