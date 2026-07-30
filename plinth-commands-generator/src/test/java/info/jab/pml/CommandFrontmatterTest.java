@@ -135,7 +135,7 @@ class CommandFrontmatterTest {
         hashes.put("create-adr.md", "6e83c791ab01fe24d69c2333c766dbad250c63a08f2338a289f608086689e59d");
         hashes.put("create-diagram.md", "5153ad922dc4312b02ea9eb25c5ff577ef7fb449b6fc20cf9cab7b6d852311c4");
         hashes.put("create-feature-branch.md", "54303fafa8f4cf6a382d4261eba12d01fc00674ed7cc4817061c23c687d0a748");
-        hashes.put("create-spec.md", "777b885de2d6869ee94959a4c24058ebb257c135b6babe69607cf3e02244bedd");
+        hashes.put("create-spec.md", "0f9de66b1a5c8ed7a556e2255dec53adff1518e26b8323f4f95f53854fdce5ff");
         hashes.put("create-worktree.md", "4820d69aa31318cf32a891e41a7d436ee1623bee410c33b4f42876e8b62253a3");
         hashes.put("explore-design.md", "7a8860875168d89032d64bf42c6ec2b85c17a32a5ca58318ae37d3344354fd2b");
         hashes.put("explore-problem.md", "473f875921df4b54007a28cc07dde73519f0658e2a4fbfd52062e01015f09300");
