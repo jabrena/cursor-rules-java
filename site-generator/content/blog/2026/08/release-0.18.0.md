@@ -354,9 +354,19 @@ An AI-native development workflow should not be evaluated only by how convincing
 
 Each run records efficiency, outcome quality, rework, and the commands, agents, and skills used during delivery. The repository includes reproducible scorecards and result samples generated with GitHub Copilot and Claude models.
 
-The first results suggest an important distinction: more documents do not automatically produce a better result. The strongest signal comes when structured artifacts are combined with commands that turn those artifacts into an executed workflow. In the current samples, the complete Plinth scenario required less average rework and encouraged more autonomous use of reusable skills and specialized agents.
+With that data, the benchmark tests three hypotheses about the Plinth workflow:
 
-The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to make workflow hypotheses testable, expose where the process adds value, and identify where more evidence is needed.
+- Richer workflows reduce implementation rework.
+- Delegation workflows encourage autonomous use of reusable skills.
+- Written architectural decisions improve consistency.
+
+The first results are more nuanced than a straight line from "more structure" to "better outcome." Richness alone does not reduce rework: the scenario that pairs the same OpenSpec change with no delegation wiring has the *highest* average rework in the whole ladder, while the scenario that adds Plinth's `/create-spec` → `/explore-design` → `/implement-spec` delegation on top of that same input has the lowest average rework and the highest share of zero-rework runs. Rework only drops when structure is paired with delegated execution, not from richer documents by themselves — so the first hypothesis is only partially supported.
+
+The second hypothesis fares better: the only scenario with real agent delegation pulls in several skills, a command, and close to two agents per run on average, against close to none everywhere else, and every tool's own delegated run beats its own non-delegated baseline — though the size of that effect varies a lot by tool.
+
+The third hypothesis is the clearest of the three: package-naming chaos across the baseline runs collapses to one dominant scheme the moment a written ADR states the base package explicitly, and the same pattern holds for architectural shape — a hexagonal package layout with a dedicated boundary test shows up only once that decision exists in writing, never when it doesn't.
+
+The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to demonstrate the value `Plinth` brings to the Java community, and these first results validate that: across every tool tested, the full Plinth workflow produced the lowest rework, the most autonomous use of the skill and agent library, and the most consistent architecture. The full breakdown — per-scenario tables, per-tool comparisons, and decoded project trees — is in the article linked below.
 
 For the detailed methodology and current findings, read [Validating hypotheses about Plinth workflow with a Benchmark Part 1](/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html).
 
