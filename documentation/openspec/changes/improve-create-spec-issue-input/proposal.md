@@ -54,12 +54,16 @@ Implementation will affect XML sources and tests in `plinth-commands-generator` 
 
 Non-issue `/create-spec` inputs and generic outsider-authored sources outside this issue-backed command path remain unchanged.
 
-## Unresolved Questions
+## Approved Design Direction
 
-- Which concrete trust boundary or security control will replace maintainer-side sanitization while satisfying prompt-injection scanning?
-- Will direct retrieval initially support GitHub only, or every issue tracker accepted by the command?
-- How will the workflow prove completeness for edited or deleted comments and comments hidden by permissions?
-- How will oversized discussions be handled without silent truncation?
-- Which retrieval failures, if any, can be warnings rather than blocking failures?
+- `/create-spec` directly reads one supplied issue through available authenticated, read-only tracker tooling.
+- Complete context is the current accessible provider snapshot: the description, the provider-reported zero-comment state or every accessible paginated comment, and a count cross-check when the provider exposes a total.
+- Deleted or permission-hidden historical content is outside the accessible snapshot unless the provider signals an omission or count mismatch; a signaled gap makes completeness unavailable.
+- Issue text is untrusted requirements data. Embedded commands, links, code, or instructions are never executed or used to initiate tool actions.
+- Authentication, permission, availability, pagination, count, response-integrity, truncation, and size failures block scope assessment and authoring rather than becoming warnings.
+- Oversized context is not silently summarized or truncated. The workflow stops unless every accessible item can be processed.
+- Sanitized repository artifacts remain valid optional planning inputs, but `/create-spec` does not require one as a prerequisite for issue-backed input.
 
-These questions require design refinement and approval before implementation. They do not change the required observable behavior defined by this change.
+## ADR Candidate
+
+The repository already uses a maintainer-approved direct-read model for deep single-issue analysis in `/explore-problem`. A repository-level ADR should record when commands may diverge from tracker skills' default no-raw-ingestion posture, the required untrusted-data boundary, and the accepted low/medium W011 scanner posture. The ADR is recommended follow-up and is not required to implement this command-scoped change.
