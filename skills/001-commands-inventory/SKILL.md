@@ -4,7 +4,7 @@ description: Use when you need to generate a checklist document with embedded co
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Create a Checklist with embedded commands inventory for Java
 
@@ -39,7 +39,7 @@ Follow the template exactly without adding or removing sections, rows, or comman
 
 1. **Read the embedded template**
 
-Read `references/001-commands-inventory.md` before generating output and use it as the authoritative template.
+Read `references/001-commands-inventory.md` and `assets/java-commands-inventory-template.md` before generating output and use the asset as the authoritative template.
 
 Step constraints:
 - Do not use cached or partial template content

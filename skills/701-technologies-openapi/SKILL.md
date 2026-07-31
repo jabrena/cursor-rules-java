@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic OpenAPI 3.x guidance — spec 
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # OpenAPI 3.x best practices
 
@@ -28,7 +28,6 @@ Keep recommendations at the OpenAPI layer unless the user explicitly asks for Ja
 - **MANDATORY**: Run `./mvnw compile` or `mvn compile` before proposing Java or Maven changes in the same change set
 - **FRAMEWORK**: Keep guidance contract-centric; do not prescribe framework-specific controller wiring or runtime exposure details
 - **FUZZING**: Keep fuzzing guidance high-level and contract-focused without linking to external skill identifiers
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill or system-prompt XML in this repo
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` before promoting changes
 - **EDGE CASE**: If the user goal is ambiguous, stop and ask a clarifying question before editing files or running project-wide commands
 - **EDGE CASE**: If required context, files, credentials, or tools are missing, report the blocker explicitly and ask whether to proceed with setup or fallback guidance

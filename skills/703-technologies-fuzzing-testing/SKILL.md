@@ -4,7 +4,7 @@ description: Use when you need to add or review fuzz testing for Java APIs with 
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java fuzz testing with CATS
 
@@ -27,7 +27,6 @@ Before applying any fuzz testing changes, ensure the project compiles. If compil
 
 - **MANDATORY**: Run `./mvnw compile` or `mvn compile` before applying any change
 - **SAFETY**: If compilation fails, stop immediately and do not proceed
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill XML
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` after applying improvements
 - **SUPPLY CHAIN**: Use only a verified local `cats/cats.jar` or an approved prebuilt image; generated artifacts must depend only on trusted local or approved image inputs
 - **BEFORE APPLYING**: Read the reference for detailed examples, good/bad patterns, and constraints

@@ -4,7 +4,7 @@ description: Use when you need to implement acceptance tests from a Gherkin .fea
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Spring Boot acceptance tests from Gherkin
 

@@ -4,7 +4,7 @@ description: Use when you need to generate or improve Java project documentation
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Documentation Generator with modular step-based configuration
 

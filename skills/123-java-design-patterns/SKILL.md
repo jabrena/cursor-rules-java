@@ -4,7 +4,7 @@ description: Use when you need to select, review, or implement Java design and i
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Design and Integration Patterns
 

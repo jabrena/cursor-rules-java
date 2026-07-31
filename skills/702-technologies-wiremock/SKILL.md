@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic WireMock guidance — stub des
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # WireMock best practices
 
@@ -28,7 +28,6 @@ Keep recommendations at the WireMock and HTTP-stub layer unless the user explici
 - **MANDATORY**: Run `./mvnw compile` or `mvn compile` before proposing Java or Maven changes in the same change set
 - **FRAMEWORK**: Defer `@SpringBootTest` / `@QuarkusTest` / `@MicronautTest` and extension setup to `@132-java-testing-integration-testing` or the matching `322` / `422` / `522` integration-test skill
 - **CONTRACTS**: Defer OpenAPI document structure and linting to `@701-technologies-openapi`
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill or system-prompt XML in this repo
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` before promoting changes
 - **EDGE CASE**: If the user goal is ambiguous, stop and ask a clarifying question before editing files or running project-wide commands
 - **EDGE CASE**: If required context, files, credentials, or tools are missing, report the blocker explicitly and ask whether to proceed with setup or fallback guidance

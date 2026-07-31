@@ -4,7 +4,7 @@ description: Focused bounded-context PlantUML guidance for the interactive archi
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Diagrams Generator with modular step-based configuration
 

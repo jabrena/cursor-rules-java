@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic SQL guidance — schema naming
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # SQL best practices
 
@@ -32,7 +32,6 @@ Before recommending Java or build changes alongside SQL work, ensure the workspa
 - **SCOPE**: Stay within SQL, schema design, migrations, and database operations unless the user asks for framework-specific Java implementation
 - **SAFETY**: Do not propose destructive migration steps without backup, rollback/forward-fix, locking, and data-retention considerations
 - **PORTABILITY**: Mark dialect-specific syntax explicitly, especially identity columns, enum types, upserts, generated columns, JSON, full-text search, partitioning, and stored procedures
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

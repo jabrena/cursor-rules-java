@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic Docker and container image gui
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java container image best practices with Docker
 
@@ -31,7 +31,6 @@ Keep recommendations at the Dockerfile, image-build, and runtime-container layer
 - **REPRODUCIBILITY**: Pin base image versions intentionally, document digest trade-offs, keep build inputs explicit, and avoid network-dependent runtime startup steps
 - **JVM**: Account for container memory and CPU limits with JVM flags, graceful shutdown behavior, and observable startup failures before claiming production readiness
 - **BOUNDARIES**: Defer Spring Boot runtime behavior to `@301-frameworks-spring-boot-core`, Quarkus runtime behavior to `@401-frameworks-quarkus-core`, Micronaut runtime behavior to `@501-frameworks-micronaut-core`, and Testcontainers setup to the matching testing skill
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill or system-prompt XML in this repo
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` before promoting changes
 - **EDGE CASE**: If the target Java version, build tool, deployment platform, base-image policy, registry policy, or security scanner is missing and affects the recommendation, ask a clarifying question before editing container artifacts
 - **EDGE CASE**: If requested changes conflict with security policy, image provenance, air-gapped builds, or runtime platform constraints, explain the trade-off and ask for confirmation

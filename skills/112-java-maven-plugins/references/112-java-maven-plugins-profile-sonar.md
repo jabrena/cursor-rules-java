@@ -4,7 +4,7 @@ description: Sonar profile guidance for SonarQube and SonarCloud analysis.
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Maven Plugins: pom.xml Configuration Best Practices
 

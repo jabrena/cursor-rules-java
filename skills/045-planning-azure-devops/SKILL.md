@@ -4,7 +4,7 @@ description: Use when you need Azure DevOps CLI guidance to verify installation,
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral, Leandro Loureiro
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Azure DevOps CLI - work item IDs and workflows
 

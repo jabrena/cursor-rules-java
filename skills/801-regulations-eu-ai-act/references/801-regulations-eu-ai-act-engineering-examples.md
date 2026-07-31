@@ -4,7 +4,7 @@ description: Use as Java-focused EU AI Act engineering examples for AI capabilit
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU AI Act Regulation for Java Enterprise Development with AI Systems and AI Agents
 

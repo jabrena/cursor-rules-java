@@ -4,7 +4,7 @@ description: Use when Java design or refactoring choices should be evaluated wit
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Simple Design Rules
 

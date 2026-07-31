@@ -4,7 +4,7 @@ description: Review plans, OpenSpec changes, specs, and implementation proposals
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Avoid Breaking Changes
 
@@ -56,12 +56,11 @@ Check command and skill compatibility:
 
 Confirm that implementation plans name the source of truth and the documented refresh workflow for generated outputs:
 
-- Skill XML source: `skills-generator/src/main/resources/skill-indexes/` and `skills-generator/src/main/resources/skill-references/`
-- Command asset source: `skills-generator/src/main/resources/skill-references/assets/commands/`
-- Local `.agents/skills` refresh command: `./mvnw clean install -pl skills-generator`
-- Public `skills/` release refresh command: `./mvnw clean install -pl skills-generator -P release` when release output is intentionally in scope
-- `docs/` refresh command: use the site update profile when website sources change
-- Avoid direct `.cursor/rules/` edits
+- Identify the **source-of-truth inputs** (for example: XML, JSON/YAML, templates, schemas, or code) that produce user-facing generated outputs.
+- Identify the **generator workflow** documented by the repository (for example: a Makefile target, Maven/Gradle task, npm script, or CI job) that regenerates local artifacts for review.
+- Identify whether there is a separate **release/publication workflow** that refreshes published/generated outputs and requires explicit intent.
+- Confirm website/static-site outputs are regenerated only via the documented site workflow when site sources change.
+- Avoid direct edits to generated output when a source + generator pipeline owns it.
 
 Flag any plan that edits generated output directly without the corresponding source change and generator command.
 ### Step 4: Review source, schema, build, and validation contracts
@@ -69,7 +68,7 @@ Flag any plan that edits generated output directly without the corresponding sou
 Check whether the plan covers validation appropriate to touched files:
 
 - XML and XInclude: `xmllint --noout <changed XML>`
-- Maven generator changes: `./mvnw clean verify -pl skills-generator`
+- Build or generator changes: run the repository's documented build/test command(s) for the area you changed (for example `mvn clean verify`)
 - OpenSpec changes: `openspec validate --all`
 - Markdown-only docs: repository markdown validator when available
 - README changes: keep `README_ES.md` and `README_ZH.md` synchronized when `README.md` changes

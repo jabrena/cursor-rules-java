@@ -4,7 +4,7 @@ description: Apply Martin Fowler's Parallel Change technique to Quarkus Flyway m
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Quarkus — Database migrations (Flyway)
 

@@ -4,11 +4,11 @@ description: Use when you need to generate a checklist document with Java system
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Create a Checklist with all Java steps to use with system prompts for Java
 
-Create a comprehensive step-by-step checklist document for Java system prompts by following the embedded section template and deriving rows from `skills-generator/src/main/resources/skills.xml`.
+Create a comprehensive step-by-step checklist document for Java system prompts by following the embedded section template and deriving rows from `plinth-skills-generator/src/main/resources/skills.xml`.
 
 **What is covered in this Skill?**
 
@@ -41,7 +41,7 @@ Follow the template sections exactly and use `skills.xml` as the single source o
 
 1. **Read the template and inventory source**
 
-Read `references/003-skills-inventory.md` and `skills-generator/src/main/resources/skills.xml` before generating output.
+Read `references/003-skills-inventory.md` and `plinth-skills-generator/src/main/resources/skills.xml` before generating output.
 
 Step constraints:
 - Do not use cached or remembered template content

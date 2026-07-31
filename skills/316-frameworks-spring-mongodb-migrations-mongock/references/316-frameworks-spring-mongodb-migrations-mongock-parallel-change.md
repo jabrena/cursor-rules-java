@@ -4,7 +4,7 @@ description: Apply Parallel Change to Spring Boot Mongock migrations as an expan
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Spring - MongoDB migrations (Mongock)
 

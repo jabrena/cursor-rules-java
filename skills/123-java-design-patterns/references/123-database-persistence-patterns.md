@@ -4,7 +4,7 @@ description: Use when designing or reviewing database and persistence patterns ‚
 license: Apache-2.0
 metadata:
   author: Juan Antonio Bre√±a Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Design and Integration Patterns
 

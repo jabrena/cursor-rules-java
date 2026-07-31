@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic OpenAPI 3.x guidance — spec 
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # OpenAPI 3.x best practices
 
@@ -30,7 +30,6 @@ Before recommending structural or build changes, ensure the workspace builds. Co
 
 - **MANDATORY**: Run `./mvnw compile` or `mvn compile` before changing Java or build descriptors alongside the spec
 - **SCOPE**: Stay within OpenAPI artifacts and cross-cutting contract hygiene; defer framework wiring to 302/402/502
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

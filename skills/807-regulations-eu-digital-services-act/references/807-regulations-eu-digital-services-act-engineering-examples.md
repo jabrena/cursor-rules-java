@@ -4,7 +4,7 @@ description: Use as Java-focused Digital Services Act engineering examples for c
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU Digital Services Act Regulation for Java Online Platform Engineering
 

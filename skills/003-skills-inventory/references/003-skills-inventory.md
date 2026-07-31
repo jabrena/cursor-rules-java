@@ -4,7 +4,7 @@ description: Use when you need to generate a checklist document with Java system
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Create a Checklist with all Java steps to use with system prompts for Java
 
@@ -15,124 +15,15 @@ You are a Senior software engineer with extensive experience in Java software de
 ## Goal
 
 Your task is to create a comprehensive step-by-step guide that follows the exact
-section structure defined in the embedded template below and derives the inventory rows from
-`skills-generator/src/main/resources/skills.xml`. Create a markdown file named
-`INVENTORY-SKILLS-JAVA.md` with this structure:
+section structure defined in the embedded template asset and derives the inventory rows from
+`plinth-skills-generator/src/main/resources/skills.xml`. Create a markdown file named
+`INVENTORY-SKILLS-JAVA.md` using:
 
-```markdown
-# Skills for Java
-
-Use the following collection of Skills for Java to improve your Java development.
-
-## Inventory
-
-| Skill | Description | User Prompt | Notes |
-| ----- | ----------- | ----------- | ----- |
-
-## Installation
-
-| Skill | Description | User Prompt | Notes |
-| ----- | ----------- | ----------- | ----- |
-
-## Agile (User Stories, Gherkin & AI Planning)
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Architecture
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Planning
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Build system skills (Maven)
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Design skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Coding skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Observability skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Testing skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Refactoring skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Performance skills
-
-| Activity | Description | Prompt | Notes |
-| -------- | ----------- | ------ | ----- |
-
-## Profiling skills (Async profiler, jps, jstack, jcmd & jstat)
-
-| Activity | Description | Prompt | Notes |
-| -------- | ----------- | ------ | ----- |
-
-## Documentation skills
-
-| Activity | Description | Prompt | Notes |
-| -------- | ----------- | ------ | ----- |
-
-## Spring Boot skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Quarkus skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Micronaut skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## AI Tooling skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Technologies skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
-## Regulations skills
-
-| Skill | Description | Prompt | Notes |
-| ----- | ----------- | ------ | ----- |
-
----
-
-**Note:** This guide is self-contained and portable. Copy it into any Java project to get started with Skills for Java development.
-
-```
+- [java-skills-inventory-template.md](../assets/java-skills-inventory-template.md)
 
 ## Constraints
 
-**MANDATORY REQUIREMENT**: Follow the embedded section template and use `skills-generator/src/main/resources/skills.xml` as the single source of truth for skill rows. ### What NOT to Include:
+**MANDATORY REQUIREMENT**: Follow the embedded section template and use `plinth-skills-generator/src/main/resources/skills.xml` as the single source of truth for skill rows. ### What NOT to Include:
 
 - **DO NOT** create additional sections beyond what is shown in the template
 - **SECTION ORDER**: Keep `Regulations skills` as the final inventory section before the closing note

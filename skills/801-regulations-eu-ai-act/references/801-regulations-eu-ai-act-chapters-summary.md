@@ -4,7 +4,7 @@ description: Use as a chapter-by-chapter summary of Regulation (EU) 2024/1689 to
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU AI Act Regulation for Java Enterprise Development with AI Systems and AI Agents
 

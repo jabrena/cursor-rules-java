@@ -4,7 +4,7 @@ description: Use when designing or reviewing Kafka and event-driven patterns —
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Design and Integration Patterns
 

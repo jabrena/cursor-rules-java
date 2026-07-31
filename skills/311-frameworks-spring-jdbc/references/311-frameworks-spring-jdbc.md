@@ -4,7 +4,7 @@ description: Use when you need to write or review programmatic JDBC with Spring 
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Spring JDBC — JdbcClient (Spring Framework 7+)
 

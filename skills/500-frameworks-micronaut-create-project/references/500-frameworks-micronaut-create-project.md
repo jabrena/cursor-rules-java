@@ -4,7 +4,7 @@ description: Use when creating a new Maven-based Micronaut 4.x project with SDKM
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Create Micronaut Maven Project
 

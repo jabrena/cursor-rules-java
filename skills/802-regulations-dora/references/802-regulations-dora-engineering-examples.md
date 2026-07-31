@@ -4,7 +4,7 @@ description: Use as Java-focused DORA engineering examples for ICT inventory, in
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # DORA Regulation for Java Enterprise Digital Operational Resilience
 

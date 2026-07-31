@@ -4,7 +4,7 @@ description: Use when you need to analyze Java profiling data collected during t
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Profiling Workflow / Step 2 / Analyze profiling data
 
