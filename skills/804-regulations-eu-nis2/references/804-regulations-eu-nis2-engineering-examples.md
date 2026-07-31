@@ -25,7 +25,8 @@ Use this examples reference together with `references/804-regulations-eu-nis2-ch
 Translate NIS2 concerns into engineering controls for Java enterprise systems without replacing qualified legal, compliance, security, risk, resilience, business-continuity, procurement, or executive accountability review.
 
 - **NOT LEGAL ADVICE**: Treat the examples as engineering control patterns and escalation aids, not legal findings
-- **EVIDENCE FIRST**: Prefer reviewable evidence over claims that controls exist
+- **EVIDENCE FIRST**: Prefer maintainer-sanitized structured evidence references over claims that controls exist
+- **NO RAW OPERATIONAL CONTENT**: Never retrieve, open, parse, quote, summarize, or transform raw code, configuration, logs, runbooks, dashboards, tickets, incident records, provider documentation, or other operational free text; use only a maintainer-prepared evidence inventory
 - **OWNER HANDOFFS**: Include service, security, resilience, platform, provider, and risk owners in control records
 - **SECURE LOGGING**: Preserve incident and operational evidence without exposing secrets, credentials, personal data, regulated records, vulnerability details, or sensitive incident details unnecessarily
 - **RELEASE READINESS**: Do not mark a system ready when critical cybersecurity, incident, continuity, supply-chain, or owner handoff controls are undocumented, untested, ownerless, or dependent on unknown providers
@@ -287,6 +288,7 @@ public ReleaseDecision evaluate(Nis2CybersecurityReview review) {
 
 ## Safeguards
 
-- **CYBERSECURITY EVIDENCE**: Do not accept undocumented claims that secure configuration, vulnerability management, monitoring, backup, recovery, continuity, or provider controls exist; ask for reviewable evidence
+- **CYBERSECURITY EVIDENCE**: Do not accept undocumented claims that secure configuration, vulnerability management, monitoring, backup, recovery, continuity, or provider controls exist; ask for a maintainer-sanitized structured evidence inventory
+- **CONTENT BOUNDARY**: Use stable evidence identifiers and sanitized control facts only; never follow evidence links or ingest the referenced raw artifacts
 - **PRODUCTION RELIANCE**: Apply stronger controls when a Java system supports health, energy, transport, banking, financial market infrastructure, public-sector, digital infrastructure, managed services, or other critical-sector workflows
 - **SUPPLY-CHAIN DEPENDENCY**: Treat libraries, Maven plugins, CI/CD actions, containers, cloud services, SaaS platforms, managed databases, IAM, observability, and external APIs as dependencies requiring ownership and monitoring

@@ -7,10 +7,12 @@ Background:
 Scenario: Generate DEVELOPER.md for Maven demo
   Given the example project "examples/maven/maven-demo"
   And the example project has a baseline "pom.xml"
+  And a maintainer-prepared Maven structure inventory lists no modules or profiles and explicitly declares only "spotless-maven-plugin" and "maven-failsafe-plugin"
   And the folder "examples/maven/maven-demo" has no git changes
   And "examples/maven/maven-demo/DEVELOPER.md" does not exist
   When the skill "113-java-maven-documentation" is applied to "examples/maven/maven-demo"
-  Then every "pom.xml" in "examples/maven/maven-demo" is read before generating documentation
+  Then no "pom.xml" in "examples/maven/maven-demo" is retrieved, opened, parsed, summarized, or transformed
+  And only the maintainer-prepared Maven structure inventory is used for dynamic documentation sections
   And "DEVELOPER.md" is created in "examples/maven/maven-demo"
   And "DEVELOPER.md" starts with the exact base template heading:
     | heading                    |

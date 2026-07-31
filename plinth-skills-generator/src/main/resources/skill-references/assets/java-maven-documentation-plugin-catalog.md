@@ -1,7 +1,7 @@
 ### Known plugin catalog
 
 Use this catalog as a reference when generating goal tables.
-Only include a plugin subsection if the plugin appears in the project `pom.xml`.
+Only include a plugin subsection if the maintainer-prepared inventory identifies the plugin as explicitly declared.
 
 #### maven-compiler-plugin
 | Goal | Description |
