@@ -95,7 +95,16 @@ This project organizes AI-assisted Java work around four building blocks:
 A common path is:
 
 ```text
-/update-issue -> /create-spec -> /implement-issue -> /profile or /benchmark
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
 ```
 
 For documentation-only or planning work, you may stop after the issue, plan, specification, ADR, or diagram is complete.

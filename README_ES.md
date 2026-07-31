@@ -61,10 +61,6 @@ El skill guía al agente mediante una revisión estructurada de Maven mientras t
 
 Aprende a usar este proyecto siguiendo la guía rápida [Primeros pasos en 5 minutos](./documentation/guides/GETTING-STARTED-IN-5-MINUTES_ES.md).
 
-### Migración desde las reglas heredadas
-
-Los `System prompts/rules` actuales están deprecados y se eliminarán en `v0.18.0`. Si todavía los usas, revisa el [artículo de la versión 0.14.0](https://jabrena.github.io/plinth/blog/2026/04/release-0.14.0.html).
-
 ## Elige tu camino
 
 Los commands componen el flujo de trabajo dirigiendo cada tarea al agente y al conjunto de skills adecuados:
@@ -254,11 +250,7 @@ Actúa con precaución cuando un problema involucre bases de datos corporativas 
 
 ## Contribuir
 
-- Sigue la [guía de 5 minutos](./documentation/guides/GETTING-STARTED-IN-5-MINUTES_ES.md) y cuéntanos dónde puede mejorar la experiencia.
-- [Explora el inventario de skills](./documentation/guides/INVENTORY-SKILLS-JAVA.md) y propón un flujo de trabajo Java que falte.
-- [Abre una issue](https://github.com/jabrena/plinth/issues) para informar de un problema o sugerir una mejora.
-- Lee [CONTRIBUTING.md](./CONTRIBUTING.md) para mejorar un skill, agent, command o guía del proyecto.
-- Da una estrella al repositorio si estos flujos ayudan a tus proyectos Java.
+Consulta [CONTRIBUTING.md](./CONTRIBUTING.md) para conocer las formas de apoyar y mejorar el proyecto.
 
 ## Architecture Decision Records (ADR)
 

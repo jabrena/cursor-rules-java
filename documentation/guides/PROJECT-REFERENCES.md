@@ -72,8 +72,6 @@ This page collects talks, articles, reference links, skill portals, and related 
 - [SkillsLLM cursor-rules-java](https://skillsllm.com/skill/cursor-rules-java)
 - [911 Fund cursor-rules-java tool page](https://skills.911fund.io/tools/jabrena-cursor-rules-java)
 - [SkillsLLM cursor-rules-java vs superpowers comparison](https://skillsllm.com/compare/cursor-rules-java-vs-superpowers)
-- [Cross AI Tools cursor-rules-java skill page](https://crossaitools.com/skills/jabrena/plinth)
-- [77taoletao cursor-rules-java skill page](https://77taoletao.com/skills/83)
 - [Open Claw directory rules](https://open-claw.directory/rules)
 
 ### Java

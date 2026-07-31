@@ -95,7 +95,16 @@ Este proyecto organiza el trabajo Java asistido por IA alrededor de cuatro bloqu
 Una ruta habitual es:
 
 ```text
-/update-issue -> /create-spec -> /implement-issue -> /profile or /benchmark
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
 ```
 
 Para trabajo solo de documentación o planificación, puedes detenerte cuando el issue, plan, especificación, ADR o diagrama esté completo.

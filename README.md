@@ -250,11 +250,7 @@ Use caution when a problem involves corporate databases or other sensitive organ
 
 ## Contribute
 
-- Follow the [5-minute guide](./documentation/guides/GETTING-STARTED-IN-5-MINUTES.md) and tell us where the experience can improve.
-- [Browse the skill inventory](./documentation/guides/INVENTORY-SKILLS-JAVA.md) and propose a missing Java workflow.
-- [Open an issue](https://github.com/jabrena/plinth/issues) to report a problem or suggest an enhancement.
-- Read [CONTRIBUTING.md](./CONTRIBUTING.md) to improve a skill, agent, command, or project guide.
-- Star the repository if these workflows help your Java projects.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for ways to support and improve the project.
 
 ## Architecture Decision Records (ADR)
 
