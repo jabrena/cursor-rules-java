@@ -61,6 +61,7 @@ The following profiles are declared in this project. Activate them with `-P <pro
 
 | Profile ID | Command | Activation | Description |
 |------------|---------|------------|-------------|
+| snyk | `SNYK_TOKEN=<token> ./mvnw clean verify -P snyk` | manual | Runs the Snyk Maven plugin once at the reactor root to scan all module dependencies for vulnerabilities. |
 | security | `./mvnw clean verify -P security` | manual | Runs OWASP dependency-check-maven to scan for known vulnerabilities; fails on CVSS ≥ 7. |
 | find-bugs | `./mvnw clean verify -P find-bugs` | manual | Runs PMD and SpotBugs static analysis with max effort and low threshold. |
 | release | `./mvnw clean install -pl plinth-skills-generator -P release` | manual | Cleans and refreshes the public `skills/` release output instead of copying generated skills to `.agents/skills`. |
@@ -170,3 +171,9 @@ public release output.
 |------|-------------|
 | `./mvnw dependency-check:check` | Scan dependencies for known vulnerabilities |
 | `./mvnw dependency-check:aggregate` | Aggregate scan for multi-module projects |
+
+### snyk-maven-plugin
+
+| Goal | Description |
+|------|-------------|
+| `SNYK_TOKEN=<token> ./mvnw snyk:test -P snyk` | Scan all module dependencies for known vulnerabilities |

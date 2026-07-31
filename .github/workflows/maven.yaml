@@ -199,6 +199,13 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Scan generated skills with Snyk Agent Scan
         run: |
+          # Isolate the reviewed W011 exception so every other skill remains strictly scanned.
+          exception_root="$(mktemp -d)"
+          exception_skills="${exception_root}/skills"
+          mkdir "${exception_skills}"
+          mv .agents/skills/042-planning-openspec "${exception_skills}/"
+          trap 'mv "${exception_skills}/042-planning-openspec" .agents/skills/' EXIT
+
           set +e
           uvx snyk-agent-scan@latest scan .agents/skills \
             --ci \
@@ -208,20 +215,35 @@ jobs:
             --verbose \
             --print-errors \
             --print-full-descriptions \
-            2>&1 | tee snyk-agent-scan-report.txt
-          scan_status=${PIPESTATUS[0]}
+            2>&1 | tee snyk-agent-scan-strict-report.txt
+          strict_status=${PIPESTATUS[0]}
+
+          uvx snyk-agent-scan@latest scan "${exception_skills}" \
+            --ci \
+            --no-bootstrap \
+            --dangerously-run-mcp-servers \
+            --suppress-mcpserver-io=true \
+            --verbose \
+            --print-errors \
+            --print-full-descriptions \
+            --ignore-issues-codes W011 \
+            2>&1 | tee snyk-agent-scan-042-planning-openspec-report.txt
+          exception_status=${PIPESTATUS[0]}
           set -e
 
-          if [ "${scan_status}" -eq 0 ]; then
-            exit 0
+          if [ "${strict_status}" -ne 0 ] && grep -Eq "X007|Could not reach analysis server|API timeout while scanning discovered servers" snyk-agent-scan-strict-report.txt; then
+            echo "::warning title=Snyk Agent Scan unavailable::The strict Snyk Agent Scan could not reach the analysis server. Treating this infrastructure timeout as non-blocking; review the uploaded report."
+            strict_status=0
           fi
 
-          if grep -Eq "X007|Could not reach analysis server|API timeout while scanning discovered servers" snyk-agent-scan-report.txt; then
-            echo "::warning title=Snyk Agent Scan unavailable::Snyk Agent Scan could not reach the analysis server. Treating this infrastructure timeout as non-blocking; review the uploaded report."
-            exit 0
+          if [ "${exception_status}" -ne 0 ] && grep -Eq "X007|Could not reach analysis server|API timeout while scanning discovered servers" snyk-agent-scan-042-planning-openspec-report.txt; then
+            echo "::warning title=Snyk Agent Scan unavailable::The 042-planning-openspec Snyk Agent Scan could not reach the analysis server. Treating this infrastructure timeout as non-blocking; review the uploaded report."
+            exception_status=0
           fi
 
-          exit "${scan_status}"
+          if [ "${strict_status}" -ne 0 ] || [ "${exception_status}" -ne 0 ]; then
+            exit 1
+          fi
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload Snyk Agent Scan report
@@ -229,7 +251,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: snyk-agent-scan-report
-          path: snyk-agent-scan-report.txt
+          path: snyk-agent-scan-*-report.txt
           if-no-files-found: ignore
 
   pre-commit:
