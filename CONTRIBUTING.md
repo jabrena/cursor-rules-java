@@ -7,6 +7,16 @@ Read [AGENTS.md](./AGENTS.md) for the full contributor guide (tech stack, bounda
 - **Git:** use [Conventional Commits](https://www.conventionalcommits.org/) in the form `type(scope): description`, with types such as `feat`, `fix`, `docs`, `style`, `refactor`, `test`, and `chore` (see AGENTS.md).
 - **Pre-commit (recommended):** this repo includes [pre-commit](https://pre-commit.com/) in [`.pre-commit-config.yaml`](.pre-commit-config.yaml) (YAML checks and a commit-msg hook aligned with the rules above). Install once per clone: `pip install pre-commit` or `brew install pre-commit`, then `pre-commit install --install-hooks`. Details and manual checks are in AGENTS.md under **Pre-commit hooks**.
 
+## Ways to contribute
+
+Contributions do not need to start with code. You can help improve the project in several ways:
+
+- Follow the [5-minute guide](./documentation/guides/GETTING-STARTED-IN-5-MINUTES.md) and report where the experience is unclear or could be smoother.
+- [Browse the skill inventory](./documentation/guides/INVENTORY-SKILLS-JAVA.md) and propose a missing Java workflow.
+- [Open an issue](https://github.com/jabrena/plinth/issues) to report a problem or suggest an enhancement.
+- Improve a skill, agent, command, or project guide by following the source and validation rules in [AGENTS.md](./AGENTS.md).
+- Star the repository if these workflows help your Java projects.
+
 ## Pull Request Policy
 
 Pull requests must be opened by human contributors using human-owned GitHub accounts. The contributor is responsible for understanding, validating, and maintaining the submitted change.

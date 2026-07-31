@@ -95,7 +95,16 @@ install @005-agents-installation github-copilot
 一个常见路径是：
 
 ```text
-/update-issue -> /create-spec -> /implement-issue -> /profile or /benchmark
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
 ```
 
 对于只涉及文档或规划的工作，你可以在 issue、plan、specification、ADR 或 diagram 完成后停止。

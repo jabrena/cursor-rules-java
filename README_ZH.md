@@ -61,10 +61,6 @@ npx skills add jabrena/plinth --skill '*' --agent github-copilot -y
 
 按照快速指南 [5 分钟快速入门](./documentation/guides/GETTING-STARTED-IN-5-MINUTES_ZH.md) 学习如何使用本项目。
 
-### 从旧版规则迁移
-
-当前的 `System prompts/rules` 已弃用，并将在 `v0.18.0` 中移除。如果你仍在使用它们，请阅读 [0.14.0 版本文章](https://jabrena.github.io/plinth/blog/2026/04/release-0.14.0.html)。
-
 ## 选择你的路径
 
 Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整工作流：
@@ -254,11 +250,7 @@ MCP Servers
 
 ## 贡献
 
-- 按照 [5 分钟快速入门](./documentation/guides/GETTING-STARTED-IN-5-MINUTES_ZH.md) 操作，并告诉我们哪些体验可以改进。
-- [浏览 skill 清单](./documentation/guides/INVENTORY-SKILLS-JAVA.md)，并提出尚未覆盖的 Java 工作流。
-- [创建 issue](https://github.com/jabrena/plinth/issues)，报告问题或提出改进建议。
-- 阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)，改进 skill、agent、command 或项目指南。
-- 如果这些工作流对你的 Java 项目有所帮助，请为本仓库加星。
+请参阅 [CONTRIBUTING.md](./CONTRIBUTING.md)，了解支持和改进本项目的方式。
 
 ## Architecture Decision Records (ADR)
 

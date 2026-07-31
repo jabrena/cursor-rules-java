@@ -72,8 +72,6 @@
 - [SkillsLLM cursor-rules-java](https://skillsllm.com/skill/cursor-rules-java)
 - [911 Fund cursor-rules-java 工具页面](https://skills.911fund.io/tools/jabrena-cursor-rules-java)
 - [SkillsLLM cursor-rules-java 与 superpowers 对比](https://skillsllm.com/compare/cursor-rules-java-vs-superpowers)
-- [Cross AI Tools cursor-rules-java skill 页面](https://crossaitools.com/skills/jabrena/plinth)
-- [77taoletao cursor-rules-java skill 页面](https://77taoletao.com/skills/83)
 - [Open Claw directory 规则页](https://open-claw.directory/rules)
 
 ### Java
