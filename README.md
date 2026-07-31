@@ -61,10 +61,6 @@ The skill guides the agent through a structured Maven review while keeping you i
 
 Learn to use this project following the quick guide [Getting Started in 5 minutes](./documentation/guides/GETTING-STARTED-IN-5-MINUTES.md).
 
-### Migrating from legacy rules
-
-Current `System prompts/rules` are deprecated and will be removed in `v0.18.0`. If you still use them, review the [release 0.14.0 article](https://jabrena.github.io/plinth/blog/2026/04/release-0.14.0.html).
-
 ## Choose your path
 
 Commands compose the workflow by routing work to the right agent and skill set:
