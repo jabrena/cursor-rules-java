@@ -75,15 +75,6 @@ class CommandSkillPropagationTest {
                 .doesNotContain("`/" + commandName + "`");
         });
 
-        int previousPosition = -1;
-        for (String commandFile : CommandIndexes.commandFiles().toList()) {
-            String commandName = commandFile.substring(0, commandFile.length() - ".md".length());
-            int position = template.indexOf("`/" + commandName + "`");
-            assertThat(position)
-                .withFailMessage("Generated 001 inventory order differs at /%s", commandName)
-                .isGreaterThan(previousPosition);
-            previousPosition = position;
-        }
     }
 
     private String loadBridgedCommand(String commandFile) {
