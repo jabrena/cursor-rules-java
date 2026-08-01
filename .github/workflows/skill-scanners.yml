@@ -120,8 +120,10 @@ jobs:
           exception_skills="${exception_root}/skills"
           mkdir "${exception_skills}"
           mv .agents/skills/042-planning-openspec "${exception_skills}/"
+          # Reviewed W011: reads only allowlisted structural fields from local Maven POMs.
+          mv .agents/skills/113-java-maven-documentation "${exception_skills}/"
           mv .agents/skills/161-java-profiling-detect "${exception_skills}/"
-          trap 'mv "${exception_skills}/042-planning-openspec" "${exception_skills}/161-java-profiling-detect" .agents/skills/' EXIT
+          trap 'mv "${exception_skills}/042-planning-openspec" "${exception_skills}/113-java-maven-documentation" "${exception_skills}/161-java-profiling-detect" .agents/skills/' EXIT
 
           set +e
           uvx snyk-agent-scan@latest scan .agents/skills \
