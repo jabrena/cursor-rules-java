@@ -19,7 +19,7 @@ Be concise, practical, and interactive. Ask one focused question to confirm dest
 ## Goal
 
 Install a predefined set of embedded project commands from repository assets into the user-selected target directory.
-The installer supports four destinations: `.github/commands`, `.claude/commands`, `.cursor/command`, and `.codex/commands`.
+The installer supports four destinations: `.github/commands`, `.claude/commands`, `.cursor/commands`, and `.codex/commands`.
 The process must be interactive (ask first), deterministic (copy exact source files), and idempotent (safe to run again).
 
 ## Steps
@@ -32,7 +32,7 @@ Ask the user exactly one question before copying files:
 Where do you want to install the embedded project commands?
 - .github/commands
 - .claude/commands
-- .cursor/command
+- .cursor/commands
 - .codex/commands
 ```
 

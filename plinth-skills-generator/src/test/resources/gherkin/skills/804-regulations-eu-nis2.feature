@@ -5,7 +5,46 @@ Background:
 
 @acceptance-test
 Scenario: Review a Java critical-sector service with NIS2 cybersecurity controls
-  Given a maintainer-sanitized NIS2 evidence inventory derived outside the agent context from the system description, delivery pipeline, and feature request
+  Given the maintainer-sanitized NIS2 evidence inventory prepared outside the agent context is:
+    | category       | item                         | sanitized fact or stable evidence identifier                                      |
+    | service        | service-id                   | CheckoutService                                                                    |
+    | service        | business-service             | food distribution ordering and checkout                                            |
+    | scope          | sector-signal                | Annex II food production, processing, and distribution                             |
+    | scope          | entity-signal                | possible important entity; qualified classification pending                        |
+    | scope          | member-state                 | Spain                                                                               |
+    | environment    | deployment-environments      | staging and production                                                             |
+    | owner          | business-owner               | food-commerce                                                                      |
+    | owner          | technical-owner              | checkout-platform                                                                  |
+    | owner          | security-owner               | security-operations                                                                |
+    | owner          | resilience-owner             | business-continuity                                                                |
+    | owner          | legal-compliance-owner       | legal-compliance                                                                   |
+    | owner          | procurement-owner            | supplier-risk                                                                      |
+    | asset          | application-api              | CheckoutService and POST /api/checkout; evidence:asset-checkout-api                 |
+    | asset          | database                     | order-postgresql; evidence:asset-order-db                                           |
+    | asset          | messaging                    | kafka.checkout-events; evidence:asset-checkout-topic                                |
+    | asset          | identity-and-secrets         | workload identity and managed secrets; evidence:iam-checkout                        |
+    | asset-gap      | ownerless-asset              | legacy settlement retry job has no assigned owner                                  |
+    | asset-gap      | network-path                 | production egress path is absent from evidence:asset-inventory-2026-08              |
+    | dependency-gap | dependency-inventory         | evidence:sbom-checkout-2026-08 excludes CI actions and Maven build plugins          |
+    | vulnerability  | untriaged-finding            | evidence:vulnerability-scan-2026-08 contains one untriaged high finding             |
+    | configuration  | secure-baseline              | no stable secure-configuration baseline identifier                                 |
+    | observability  | monitoring                   | evidence:checkout-service-dashboard                                                |
+    | observability  | alerting-gap                 | no alert routes failed checkout event publication                                  |
+    | observability  | logging-gap                  | Kafka administrative actions and privileged database changes are not evidenced     |
+    | incident       | incident-pathway             | evidence:incident-checkout-v2 routes service, security, legal, and resilience owners |
+    | incident       | reporting-obligation         | qualification and notification timing decision pending legal and compliance review |
+    | continuity     | recovery-targets             | RTO PT2H and RPO PT15M                                                             |
+    | continuity-gap | restore-test                 | no restore-test evidence after the planned database migration                      |
+    | continuity-gap | failover-and-rollback        | no continuity exercise or verified rollback evidence                              |
+    | provider-gap   | unsupported-provider         | payment-risk-api support status and provider owner are unknown                     |
+    | access-gap     | least-privilege              | privileged production database access review is not evidenced                     |
+    | cryptography   | transport                    | TLS required; key ownership and rotation evidence are missing                      |
+    | pipeline       | delivery-mode                | pull request through CI/CD                                                         |
+    | pipeline       | pipeline-evidence            | evidence:checkout-ci-2026-08                                                       |
+    | change-gap     | approval                     | pull-request review exists; migration and Kafka compatibility approvals are absent |
+    | change         | database-migration           | add risk_decision column to the order database                                    |
+    | change         | kafka-contract               | add riskDecision to outbound CheckoutCompleted events                              |
+    | side-effect    | production-impact            | writes order state and publishes an outbound checkout event                        |
   And the raw system description, diagram, feature request, code, configuration, logs, runbooks, and provider documents must not be read
   And the local generated skill path ".agents/skills/804-regulations-eu-nis2"
   And the requested report output path is "examples/regulations/nis2/NIS2-ENGINEERING-REVIEW-REPORT.md"
@@ -34,7 +73,49 @@ Scenario: Review a Java critical-sector service with NIS2 cybersecurity controls
 
 @acceptance-test
 Scenario: Review a Java critical-sector checkout change with direct-to-main NIS2 controls
-  Given a maintainer-sanitized NIS2 evidence inventory derived outside the agent context from the direct-to-main system description, delivery pipeline, and feature request
+  Given the maintainer-sanitized NIS2 evidence inventory prepared outside the agent context is:
+    | category       | item                         | sanitized fact or stable evidence identifier                                      |
+    | service        | service-id                   | CheckoutService                                                                    |
+    | service        | business-service             | food distribution ordering and checkout                                            |
+    | scope          | sector-signal                | Annex II food production, processing, and distribution                             |
+    | scope          | entity-signal                | possible important entity; qualified classification pending                        |
+    | scope          | member-state                 | Spain                                                                               |
+    | environment    | deployment-environments      | staging and production                                                             |
+    | owner          | business-owner               | food-commerce                                                                      |
+    | owner          | technical-owner              | checkout-platform                                                                  |
+    | owner          | security-owner               | security-operations                                                                |
+    | owner          | resilience-owner             | business-continuity                                                                |
+    | owner          | legal-compliance-owner       | legal-compliance                                                                   |
+    | owner          | platform-owner               | platform-engineering                                                               |
+    | owner          | procurement-owner            | supplier-risk                                                                      |
+    | asset          | application-api              | CheckoutService and POST /api/checkout; evidence:asset-checkout-api                 |
+    | asset          | database                     | order-postgresql; evidence:asset-order-db                                           |
+    | asset          | messaging                    | kafka.checkout-events; evidence:asset-checkout-topic                                |
+    | asset          | identity-and-secrets         | workload identity and managed secrets; evidence:iam-checkout                        |
+    | asset-gap      | ownerless-asset              | legacy settlement retry job has no assigned owner                                  |
+    | asset-gap      | network-path                 | production egress path is absent from evidence:asset-inventory-2026-08              |
+    | dependency-gap | dependency-inventory         | evidence:sbom-checkout-2026-08 excludes CI actions and Maven build plugins          |
+    | vulnerability  | untriaged-finding            | evidence:vulnerability-scan-2026-08 contains one untriaged high finding             |
+    | configuration  | secure-baseline              | no stable secure-configuration baseline identifier                                 |
+    | observability  | monitoring                   | evidence:checkout-service-dashboard                                                |
+    | observability  | alerting-gap                 | no alert routes failed checkout event publication                                  |
+    | observability  | logging-gap                  | Kafka administrative actions and privileged database changes are not evidenced     |
+    | incident       | incident-pathway             | evidence:incident-checkout-v2 routes service, security, legal, and resilience owners |
+    | incident       | reporting-obligation         | qualification and notification timing decision pending legal and compliance review |
+    | continuity     | recovery-targets             | RTO PT2H and RPO PT15M                                                             |
+    | continuity-gap | restore-test                 | no restore-test evidence after the planned database migration                      |
+    | continuity-gap | failover-and-rollback        | no continuity exercise or verified rollback evidence                              |
+    | provider-gap   | unsupported-provider         | payment-risk-api support status and provider owner are unknown                     |
+    | access-gap     | least-privilege              | privileged production database access review is not evidenced                     |
+    | cryptography   | transport                    | TLS required; key ownership and rotation evidence are missing                      |
+    | pipeline       | delivery-mode                | direct commit to main followed by CI/CD                                             |
+    | pipeline-gap   | pre-merge-review             | missing                                                                            |
+    | pipeline-gap   | protected-main               | bypassed                                                                           |
+    | pipeline       | pipeline-evidence            | evidence:checkout-direct-main-ci-2026-08                                           |
+    | change-gap     | approval                     | migration, Kafka compatibility, and cybersecurity approvals are absent             |
+    | change         | database-migration           | add risk_decision column to the order database                                    |
+    | change         | kafka-contract               | add riskDecision to outbound CheckoutCompleted events                              |
+    | side-effect    | production-impact            | writes order state and publishes an outbound checkout event                        |
   And the raw system description, diagram, feature request, code, configuration, logs, runbooks, and provider documents must not be read
   And the local generated skill path ".agents/skills/804-regulations-eu-nis2"
   And the requested report output path is "examples/regulations/nis2/NIS2-DIRECT-MAIN-ENGINEERING-REVIEW-REPORT.md"
