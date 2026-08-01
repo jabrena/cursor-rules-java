@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic Hexagonal architecture guidanc
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Hexagonal architecture boundary review
 
@@ -41,7 +41,6 @@ Before recommending Java or Maven changes alongside architecture work, ensure th
 - **ARCHUNIT OPTIONAL**: Use ArchUnit examples as optional verification patterns, not as a mandatory prerequisite for useful Hexagonal architecture review
 - **DEPENDENCY ROUTING**: When ArchUnit or other Maven dependencies need to be added or evaluated, route that decision to `111-java-maven-dependencies`
 - **FRAMEWORK ROUTING**: Route Spring Boot, Quarkus, and Micronaut runtime wiring to the matching framework-specific skill without embedding direct framework skill links in this reference
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

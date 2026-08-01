@@ -4,7 +4,7 @@ description: Use as Java-focused MiFID II engineering examples for investment-se
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # MiFID II Regulation for Java Enterprise Investment Service Controls
 

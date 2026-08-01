@@ -60,7 +60,7 @@ El instalador copia los commands embebidos del proyecto en el directorio de comm
 
 Los destinos habituales para commands son:
 
-- `.cursor/command`
+- `.cursor/commands`
 - `.claude/commands`
 - `.codex/commands`
 - `.github/commands`

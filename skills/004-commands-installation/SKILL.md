@@ -4,7 +4,7 @@ description: Use when you need to install the embedded project commands into com
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Embedded commands installer
 
@@ -12,7 +12,7 @@ Install a predefined set of embedded project commands from repository assets int
 
 **What is covered in this Skill?**
 
-- Interactive target selection (`.github/commands`, `.claude/commands`, `.cursor/command`, or `.codex/commands`)
+- Interactive target selection (`.github/commands`, `.claude/commands`, `.cursor/commands`, or `.codex/commands`)
 - Deterministic copy of all embedded commands defined via XInclude from `assets/commands`
 - Idempotent re-installation with clear overwrite reporting
 - Support for four command framework destinations
@@ -22,7 +22,7 @@ Install a predefined set of embedded project commands from repository assets int
 This skill installs only the embedded project commands bundle and must ask for destination before writing files.
 
 - **MUST** ask the user to choose one of four command destinations before installing
-- **MUST** copy all embedded command files defined in `references/004-commands-installation.md`
+- **MUST** copy all embedded command files from skill `assets/commands/`
 - **MUST** preserve file names from the reference content and report overwrite actions
 - **MUST** create the destination directory if it does not exist
 

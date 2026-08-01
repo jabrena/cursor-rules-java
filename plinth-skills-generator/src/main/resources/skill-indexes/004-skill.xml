@@ -16,7 +16,7 @@ Install a predefined set of embedded project commands from repository assets int
 
 **What is covered in this Skill?**
 
-- Interactive target selection (`.github/commands`, `.claude/commands`, `.cursor/command`, or `.codex/commands`)
+- Interactive target selection (`.github/commands`, `.claude/commands`, `.cursor/commands`, or `.codex/commands`)
 - Deterministic copy of all embedded commands defined via XInclude from `assets/commands`
 - Idempotent re-installation with clear overwrite reporting
 - Support for four command framework destinations

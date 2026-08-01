@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic MongoDB and non-relational dat
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Non-relational database query best practices
 
@@ -33,7 +33,6 @@ Before recommending structural or build changes, ensure the workspace builds. Co
 - **SCOPE**: Stay within MongoDB/non-relational modeling, query, index, migration, and operational guidance; defer framework wiring to 315/415/515 and Mongock migrations to 316/416/516
 - **QUERY SAFETY**: Never build queries, aggregation stages, JSON documents, JavaScript expressions, or `$where` clauses by concatenating untrusted input
 - **EVIDENCE**: Use `explain()` output, index definitions, representative data volume, and query frequency before making performance claims
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

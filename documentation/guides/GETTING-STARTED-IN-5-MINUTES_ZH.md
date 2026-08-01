@@ -60,7 +60,7 @@ install @004-commands-installation github-copilot
 
 常见的 command 目标目录包括：
 
-- `.cursor/command`
+- `.cursor/commands`
 - `.claude/commands`
 - `.codex/commands`
 - `.github/commands`

@@ -4,7 +4,7 @@ description: Use as Java-focused GDPR engineering examples for personal-data inv
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # GDPR Regulation for Java Enterprise Personal Data Protection
 

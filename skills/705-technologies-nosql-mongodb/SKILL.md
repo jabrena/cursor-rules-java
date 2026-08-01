@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic MongoDB and non-relational dat
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Non-relational database query best practices
 
@@ -30,7 +30,6 @@ Keep recommendations at the database-modeling and query layer unless the user ex
 - **SCHEMA**: Prefer explicit document contracts, bounded arrays, stable identifiers, and validation rules over unconstrained document growth
 - **PERFORMANCE**: Review `explain()` plans, scanned/returned ratios, sort coverage, and index selectivity before claiming a query is optimized
 - **FRAMEWORK**: Defer Spring MongoDB to `@315-frameworks-spring-mongodb`, Quarkus MongoDB to `@415-frameworks-quarkus-mongodb`, Micronaut MongoDB to `@515-frameworks-micronaut-mongodb`, and Mongock migrations to the matching framework migration skill
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill or system-prompt XML in this repo
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` before promoting changes
 - **EDGE CASE**: If the target database, version, shard topology, read/write concern, data volume, or latency requirement is missing and affects the recommendation, ask a clarifying question before editing queries or schemas
 - **EDGE CASE**: If requested changes conflict with data safety, backwards compatibility, zero-downtime deployment, or retention requirements, explain the trade-off and ask for confirmation

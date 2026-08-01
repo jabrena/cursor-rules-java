@@ -60,7 +60,7 @@ The installer copies the embedded project commands into the command directory fo
 
 Typical command destinations are:
 
-- `.cursor/command`
+- `.cursor/commands`
 - `.claude/commands`
 - `.codex/commands`
 - `.github/commands`

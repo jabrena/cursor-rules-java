@@ -4,7 +4,7 @@ description: Use when you need to add or evaluate Maven dependencies that improv
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Add Maven dependencies for improved code quality
 

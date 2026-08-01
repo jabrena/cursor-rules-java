@@ -4,7 +4,7 @@ description: Use when you need to apply Java exception handling best practices ‚
 license: Apache-2.0
 metadata:
   author: Juan Antonio Bre√±a Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java Exception Handling Guidelines
 

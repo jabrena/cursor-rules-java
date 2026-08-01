@@ -4,7 +4,7 @@ description: Use as Java-focused ISO/IEC 42001 engineering examples for GenAI de
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # ISO/IEC 42001 AI Management System Guidance for GenAI Java Engineering
 

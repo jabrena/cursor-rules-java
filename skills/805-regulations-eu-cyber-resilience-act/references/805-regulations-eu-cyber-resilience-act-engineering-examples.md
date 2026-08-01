@@ -4,7 +4,7 @@ description: Use as Java-focused Cyber Resilience Act engineering examples for s
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU Cyber Resilience Act Regulation for Java Product Security Engineering
 

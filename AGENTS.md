@@ -15,6 +15,7 @@ You are an expert Java developer and technical writer for this project.
 - **Build:** Maven (wrapper: `./mvnw`)
 - **Rule pipeline:** XML → XInclude → XSLT → Markdown cursor rules
 - **Skill scanning:** `skill-check@latest` plus `cisco-ai-skill-scanner` behavioral scans
+- **Dependency scanning:** Snyk Maven plugin through the opt-in `snyk` profile
 - **Site generator:** JBake 2.7.0 with FreeMarker templates → GitHub Pages
 
 ### Framework version baseline
@@ -102,6 +103,23 @@ python -m pip install --upgrade cisco-ai-skill-scanner
 
 # Scan generated skills with behavioral strict policy
 skill-scanner scan-all ./skills --recursive --use-behavioral --policy strict --fail-on-severity high
+
+# Scan locally generated agent skills with behavioral strict policy
+skill-scanner scan-all ./.agents/skills \
+  --recursive \
+  --use-behavioral \
+  --policy strict \
+  --fail-on-severity high
+
+# Install the Snyk CLI with Homebrew
+brew tap snyk/tap
+brew install snyk
+
+# Authenticate locally with Snyk using the OAuth browser flow
+snyk auth
+
+# Scan all Maven modules; in CI, provide SNYK_TOKEN through the CI secret store
+./mvnw clean verify -P snyk
 
 # OpenSpec change management (run from documentation/ directory)
 cd documentation/

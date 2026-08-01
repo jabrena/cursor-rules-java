@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic SQL guidance — schema naming
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # SQL best practices
 
@@ -28,7 +28,6 @@ Keep recommendations at the SQL and database-design layer unless the user explic
 - **SQL INJECTION**: Never concatenate untrusted input into SQL strings; use bind parameters through the application's data-access API
 - **DIALECTS**: Call out database-specific syntax and portability trade-offs when using PostgreSQL, MySQL, Oracle, SQL Server, H2, or another engine
 - **FRAMEWORK**: Defer Spring JDBC to `@311-frameworks-spring-jdbc`, Quarkus JDBC to `@411-frameworks-quarkus-jdbc`, Micronaut JDBC to `@511-frameworks-micronaut-jdbc`, and framework-specific migrations to the matching Flyway skill
-- **MANDATORY**: Regenerate skills with `./mvnw clean install -pl skills-generator` after editing skill or system-prompt XML in this repo
 - **VERIFY**: Run `./mvnw clean verify` or `mvn clean verify` before promoting changes
 - **EDGE CASE**: If the target database dialect, migration tool, or production constraint is missing and affects the recommendation, ask a clarifying question before editing SQL
 - **EDGE CASE**: If requested changes conflict with data safety, backwards compatibility, or zero-downtime deployment constraints, explain the trade-off and ask for confirmation

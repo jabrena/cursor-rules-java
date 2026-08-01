@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic WireMock guidance — stub des
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # WireMock best practices
 
@@ -32,7 +32,6 @@ Before recommending structural or build changes, ensure the workspace builds. Co
 
 - **MANDATORY**: Run `./mvnw compile` or `mvn compile` before changing Java or build descriptors alongside stubbing strategy
 - **SCOPE**: Stay within WireMock usage patterns and HTTP stub design; defer framework test bootstrap to 132/322/422/522
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

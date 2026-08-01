@@ -4,7 +4,7 @@ description: Use when creating a new Maven-based Quarkus 3.x project with SDKMAN
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Create Quarkus Maven Project
 

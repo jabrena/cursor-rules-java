@@ -4,7 +4,7 @@ description: Use when reviewing, designing, or modifying Java enterprise softwar
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU Product Liability Directive Regulation for Java Product Engineering
 

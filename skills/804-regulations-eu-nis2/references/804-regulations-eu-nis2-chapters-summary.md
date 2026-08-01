@@ -4,7 +4,7 @@ description: Use as a chapter-by-chapter and article-by-article summary of Direc
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # NIS2 Regulation for Java Enterprise Cybersecurity Risk Management
 
@@ -231,7 +231,8 @@ Use this reference as NIS2 Directive context for Java engineering review. Do not
 - **SUMMARY ONLY**: Keep this reference focused on NIS2 Directive chapters, articles, annexes, and engineering implications; use the engineering examples reference for Java patterns
 - **ARTICLE MAPPING**: Map findings to directive topic areas such as applicability, governance, risk management, incident reporting, supply-chain security, supervision, enforcement, or sector scope
 - **OWNER ESCALATION**: Escalate entity classification, Member State applicability, incident-reporting obligations, regulatory interpretation, and risk acceptance to qualified owners
-- **EVIDENCE ORIENTATION**: Use article summaries to identify what engineering evidence is missing or weak, not to certify compliance
+- **EVIDENCE ORIENTATION**: Use article summaries and a maintainer-sanitized structured evidence inventory to identify what engineering evidence is missing or weak, not to certify compliance
+- **NO RAW OPERATIONAL CONTENT**: Never retrieve or ingest raw code, configuration, logs, runbooks, tickets, incident records, provider documentation, or other operational free text
 
 
 ## Output Format

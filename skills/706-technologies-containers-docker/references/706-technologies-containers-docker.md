@@ -4,7 +4,7 @@ description: Use when you need framework-agnostic Docker and container image gui
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Java container image best practices with Docker
 
@@ -35,7 +35,6 @@ Before recommending Java or Maven changes alongside Docker work, ensure the work
 - **JLINK**: Prefer `jlink` custom runtimes for production images when the module graph is known, validated with smoke tests, and compatible with the application's dependencies
 - **MICRO DISTRO**: Prefer micro runtime distributions such as Alpaquita only after checking libc compatibility, required OS certificates, timezone data, diagnostics, and security-scanner support
 - **REPRODUCIBILITY**: Pin base image versions intentionally, explain digest pinning trade-offs, and keep build inputs deterministic
-- **MANDATORY**: After editing generator XML, run `./mvnw clean install -pl skills-generator` and `./mvnw clean verify` as appropriate
 
 ## Examples
 

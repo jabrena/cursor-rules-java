@@ -4,7 +4,7 @@ description: Examples for designing, implementing, testing, operating, and clean
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral, Sangwon Park
-  version: 0.17.0
+  version: 0.18.0
 ---
 # Feature Toggles Design
 

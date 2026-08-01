@@ -4,7 +4,7 @@ description: Use as Java-focused Digital Markets Act engineering examples for in
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # EU Digital Markets Act Regulation for Java Enterprise Gatekeeper Platform Controls
 

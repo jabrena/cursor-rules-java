@@ -4,7 +4,7 @@ description: Use as an ISO/IEC 42001 AI management system summary to enrich GenA
 license: Apache-2.0
 metadata:
   author: Juan Antonio Breña Moral
-  version: 0.17.0
+  version: 0.18.0
 ---
 # ISO/IEC 42001 AI Management System Guidance for GenAI Java Engineering
 
