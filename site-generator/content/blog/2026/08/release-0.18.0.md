@@ -8,18 +8,19 @@ status=published
 
 `Plinth` is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable `Commands`, `Agents`, `Skills`, and `MCP Servers`.
 
-This release focuses on two things. First, `Plinth` now treats specification as two explicit phases — Functional and Technical — with new commands and skills that turn a raw issue into agreed requirements and an approved design before any code gets written. Second, a new reproducible benchmark puts that whole workflow to the test, comparing how different AI-Agent tools perform across several scenarios with increasing amounts of structure available. The idea behind both: `"better code generation begins before code generation"` — give an agent enough context to understand the problem, enough structure to make its design decisions explicit, and enough evidence to know when the work is actually done.
+This release focuses on two things. First, `Plinth` now treats specification as two explicit phases — Functional and Technical — with new commands and skills that turn a raw issue into agreed requirements and an approved design before any code gets written. Second, a new reproducible benchmark puts that whole workflow to the test, comparing how different AI agent tools perform across several scenarios with increasing amounts of structure available. The idea behind both is that `"better code generation begins before code generation"`: give an agent enough context to understand the problem, enough structure to make its design decisions explicit, and enough evidence to know when the work is actually done.
 
-Thanks to our community members in [`Urumqi`](https://www.google.com/maps/search/?api=1&query=Urumqi), [`Singapore`](https://www.google.com/maps/search/?api=1&query=Singapore), [`Des Moines`](https://www.google.com/maps/search/?api=1&query=Des+Moines), [`Madrid`](https://www.google.com/maps/place/Madrid) & [`Bengaluru`](https://www.google.com/maps/search/?api=1&query=Bengaluru). 👋👋👋
+Thanks to our community members in [`Urumqi`](https://www.google.com/maps/search/?api=1&query=Urumqi), [`Singapore`](https://www.google.com/maps/search/?api=1&query=Singapore), [`Des Moines`](https://www.google.com/maps/search/?api=1&query=Des+Moines), [`Madrid`](https://www.google.com/maps/place/Madrid), and [`Bengaluru`](https://www.google.com/maps/search/?api=1&query=Bengaluru). 👋👋👋
 
 This article is divided into the following sections:
 
 - [Community first!](#community-first)
-- [What are the Top 10 Skills from this project in Skills.sh?](#what-are-the-top-10-skills-from-this-project-in-skillssh)
+- [What are the top 10 skills from this project on Skills.sh?](#what-are-the-top-10-skills-from-this-project-in-skillssh)
 - [Adding better Functional and Technical specification support](#adding-better-functional-and-technical-specification-support)
 - [How to use Plinth in 0.18.0](#how-to-use-plinth-in-0180)
 - [Comparing Plinth commands with OpenSpec and Spec Kit](#comparing-plinth-commands-with-openspec-and-spec-kit)
 - [Comparing Plinth with mattpocock/skills and Superpowers](#comparing-plinth-with-mattpocockskills-and-superpowers)
+- [Why I review changes when working with agents and skill scanners](#why-i-review-changes-when-working-with-agents-and-skill-scanners)
 - [Testing the workflow with a reproducible benchmark](#testing-the-workflow-with-a-reproducible-benchmark)
 - [Do you still have questions about the project?](#doubts)
 - [Next steps](#next-steps)
@@ -32,17 +33,17 @@ If you have questions about the project, how to customize it for your team, how 
 
 ## Community first!
 
-In this release, I want to share publicly my most sincere gratitude to the `Cursor team` for their initial generous support in running the first [MadridJug](https://madridjug.es/) Meetup about `Cursor AI` in 2025. This is the last month I'll be drawing on the tokens they sponsored, and with that help, this project has gone on to make a real contribution to the `Java Community worldwide`.
+In this release, I want to publicly express my sincere gratitude to the `Cursor team` for their generous initial support in running the first [MadridJug](https://madridjug.es/) Meetup about `Cursor AI` in 2025. This is the last month I'll be drawing on the tokens they sponsored, and with that help, this project has gone on to make a real contribution to the `Java Community`.
 
-Beyond that sponsorship, this release also benefited from the community itself: thank you to [`Vidya Mmadireddy`](https://github.com/vidya166) and [`Leandro Loureiro`](https://github.com/lealoureiro) for their contributions and effort this cycle.
+Beyond that sponsorship, this release also benefited from the community itself: thank you to [`Vidya Mmadireddy`](https://github.com/vidya166) and [`Leandro Loureiro`](https://github.com/lealoureiro) for their initiatives, contributions, and effort this cycle.
 
 If you would like to participate, review the open issues labeled [`good first issue`](https://github.com/jabrena/plinth/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22), propose improvements, test the workflow with another agent tool, or share your experience in [`GitHub Discussions`](https://github.com/jabrena/plinth/discussions).
 
 <a id="what-are-the-top-10-skills-from-this-project-in-skillssh"></a>
 
-## What are the Top 10 Skills from this project in Skills.sh?
+## What are the top 10 skills from this project on Skills.sh?
 
-The [Skills.sh registry](https://www.skills.sh/jabrena/plinth) reports `125 skills` and `19.3K` installs in total — roughly `33%` growth since the [`0.17.0` release](https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh). Compared with `0.17.0`, these are the latest top 10 skills used by Skills.sh users:
+The [Skills.sh registry](https://www.skills.sh/jabrena/plinth) reports `125 skills` and `19.6K` installs in total — roughly `35%` growth since the [`0.17.0` release](https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh). Compared with `0.17.0`, these are the current top 10 skills among Skills.sh users:
 
 <table>
   <thead>
@@ -193,7 +194,7 @@ To do that investigation, `/explore-problem` coordinates five complementary skil
 - [`@024-context-mapping`](https://www.skills.sh/jabrena/plinth/024-context-mapping) identifies stakeholders, systems, dependencies, boundaries, and external constraints.
 - [`@025-quality-attribute-discovery`](https://www.skills.sh/jabrena/plinth/025-quality-attribute-discovery) discovers the performance, security, reliability, maintainability, and operational qualities that may shape the solution.
 
-The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation cost begins to accumulate.
+The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation costs begin to accumulate.
 
 The new `/create-acceptance-criteria` command turns that Functional Specification into something an implementation can be checked against: it reads the specification posted by `/explore-problem`, applies the new [`@058-design-bdd`](https://www.skills.sh/jabrena/plinth/058-design-bdd) skill to turn its actors, outcomes, and business rules into concrete Given/When/Then scenarios, and posts the confirmed result back to the issue. Scenarios earn their place here because prose hides ambiguity that examples expose — "invalid requests are rejected" is too broad to implement reliably, while a scenario forces the team to state which inputs are invalid, what response is expected, and what observable behavior proves it.
 
@@ -230,7 +231,7 @@ For more on why this specification phase deserves its own place in the workflow,
 
 ### Use Plinth as your AI-Native Development workflow
 
-Use the full command sequence daily for your genuinely complex problems, whenever the change starts from a business need — an issue, a user story, a bug report:
+Use the full command sequence for genuinely complex problems whenever the change starts from a business need — an issue, a user story, or a bug report:
 
 ```text
 Issue
@@ -249,9 +250,41 @@ Every phase is owned by a specific agent and gated by evidence, so nothing skips
 
 ### Refactor your Java classes with Plinth skills
 
-Use a skill directly, without OpenSpec, when there is no new requirement — just code that should be brought up to a known standard. `Plinth`'s `125 skills` are organized into numbered families by topic — Java core practices, testing, framework-specific guidance, and so on — and all of them are model-invoked: point an agent at a file or package and ask it to apply one, and it reviews the code against that skill's good/bad examples directly — no issue, no OpenSpec change, no agent handoff.
+Use a skill directly, without OpenSpec, when there is no new requirement — just code that should be brought up to a known standard. `Plinth`'s `125 skills` are organized into numbered families by topic — Java core practices, testing, framework-specific guidance, and so on — and all of them are model-invoked: point an agent at a file or package and ask it to apply one, and it reviews the code against that skill's good and bad examples directly — no issue, no OpenSpec change, no agent handoff.
 
-The three examples below reuse skills already familiar from the [Top 10 Skills](#what-are-the-top-10-skills-from-this-project-in-skillssh) table above:
+The four examples below reuse skills already familiar from the [Top 10 Skills](#what-are-the-top-10-skills-from-this-project-in-skillssh) table above:
+
+[`@121-java-object-oriented-design`](https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design) replaces type-dependent conditionals with polymorphism, so adding a new shape no longer requires modifying the area calculation:
+
+```java
+// Before — the calculation must change whenever a shape is added
+double area(Object shape) {
+    return switch (shape) {
+        case Rectangle r -> r.width() * r.height();
+        case Circle c -> Math.PI * c.radius() * c.radius();
+        default -> throw new IllegalArgumentException("Unknown shape");
+    };
+}
+
+// After — each shape owns its calculation
+interface Shape {
+    double area();
+}
+
+record Rectangle(double width, double height) implements Shape {
+    @Override
+    public double area() {
+        return width * height;
+    }
+}
+
+record Circle(double radius) implements Shape {
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+```
 
 `@125-java-concurrency` moves a concurrent fan-out from `CompletableFuture` to `StructuredTaskScope`:
 
@@ -267,18 +300,21 @@ Response handle(Request request) {
 }
 
 // After — StructuredTaskScope (Java 25 preview, JEP 505)
-Response handle(Request request) throws ExecutionException, InterruptedException {
-    try (var scope = StructuredTaskScope.open()) {
+Response handle(Request request)
+        throws InterruptedException, StructuredTaskScope.TimeoutException {
+    try (var scope = StructuredTaskScope.open(
+            StructuredTaskScope.Joiner.<Object>awaitAllSuccessfulOrThrow(),
+            config -> config.withTimeout(Duration.ofSeconds(2)))) {
         Subtask<Customer> customer = scope.fork(() -> findCustomer(request.customerId()));
         Subtask<OrderHistory> orders = scope.fork(() -> fetchOrderHistory(request.customerId()));
 
-        scope.join();
+        scope.join(); // Cancels unfinished subtasks and throws on timeout
         return new Response(customer.get(), orders.get());
     }
 }
 ```
 
-**Note:** It is reasonable to use Structured Concurrency in your development, although it is a preview feature.
+**Note:** It is reasonable to use Structured Concurrency in your development, although it is a preview feature. The timeout starts when the scope opens; if it expires before `join()` completes, the scope is cancelled and unfinished subtasks are interrupted.
 
 `@142-java-functional-programming` replaces a thrown exception with the Result pattern — the same "invalid requests are rejected" case from the BDD section above, made explicit in the type system:
 
@@ -303,25 +339,7 @@ public static Result<Request> validateRequest(Request request) {
 }
 ```
 
-`@128-java-generics` replaces raw types with parameterized ones:
-
-```java
-// Before
-private final List names = new ArrayList(); // No type information
-
-public String getFirstName() {
-    return names.isEmpty() ? "" : (String) names.get(0); // Unsafe cast
-}
-
-// After
-private final List<String> names = new ArrayList<>();
-
-public String getFirstName() {
-    return names.isEmpty() ? "" : names.get(0); // No casting needed
-}
-```
-
-A subtler generics issue is picking the wrong wildcard direction. The PECS principle — Producer `extends`, Consumer `super` — governs this: a method that only reads from a collection should use `? extends T`, one that only writes should use `? super T`.
+`@128-java-generics` applies the PECS principle — Producer `extends`, Consumer `super` — to correct the wildcard direction. A method that only reads from a collection should use `? extends T`, while one that only writes should use `? super T`:
 
 ```java
 // Before — wrong wildcard direction forces an unsafe cast
@@ -402,13 +420,13 @@ The [`0.17.0` article](https://jabrena.github.io/plinth/blog/2026/07/release-0.1
 
 ## Comparing Plinth with mattpocock/skills and Superpowers
 
-[`mattpocock/skills`](https://github.com/mattpocock/skills) and [`Superpowers`](https://github.com/obra/superpowers) are two of the most widely adopted general-purpose agent-skill collections outside the Java ecosystem. Neither targets Java Enterprise development specifically, but both converge on the same underlying idea `Plinth` is built around: interrogate the problem, write the decision down, and only then let the agent build.
+[`mattpocock/skills`](https://github.com/mattpocock/skills) and [`Superpowers`](https://github.com/obra/superpowers) are two of the most widely adopted general-purpose agent-skill collections outside the Java ecosystem. Neither targets Java Enterprise development specifically, but both converge on the same underlying idea that `Plinth` is built around: interrogate the problem, write the decision down, and only then let the agent build.
 
 `mattpocock/skills` is explicitly positioned as the lighter-weight alternative on that spectrum. Its skills — split into "Engineering" and "Productivity", and further into user-invoked and model-invoked — are designed to be small, hackable, and composable rather than an enforced pipeline: `/grill-me` and `/grill-with-docs` interrogate a change before it starts, `/to-spec` and `/to-tickets` turn that conversation into a spec and tracer-bullet tickets, `/tdd` drives red-green-refactor, and `/code-review` checks the diff against both coding standards and the originating spec.
 
 [`Superpowers`](https://github.com/obra/superpowers) sits at the opposite end of that spectrum: it calls itself "a complete software development methodology" and runs as a largely mandatory pipeline — `brainstorming` before code, `using-git-worktrees` for isolation, `writing-plans` for bite-sized tasks, `subagent-driven-development` or `executing-plans` to run them, `test-driven-development` enforcing RED-GREEN-REFACTOR, `requesting-code-review` between tasks, and `finishing-a-development-branch` to close out. It also ships across more coding agents than either `Plinth` or `mattpocock/skills` currently supports (Claude Code, Antigravity, Codex, Cursor, Factory Droid, Gemini CLI, GitHub Copilot CLI, Kimi Code, OpenCode, and Pi).
 
-`Plinth` sits between those two poles, and not by accident. Its philosophy keeps the process ownership `mattpocock/skills` explicitly warns against, but scopes that ownership to a single niche instead of all software: the workflow is a fixed sequence — Functional Specification, Technical Specification, Implementation, Closure — and every phase has one explicit owner (`@plinth-business-analyst`, `@plinth-architect`, `@plinth-tech-lead`, and the framework-specific coder agents), with the handoff between phases gated by evidence — a BDD scenario, an ATDD alignment check, a readiness gate — rather than left to convention. That reads closer in spirit to `Superpowers`'s mandatory pipeline than to `mattpocock/skills`'s hackable, opt-in toolbox.
+`Plinth` sits between those two poles, and not by accident. Its philosophy keeps the process ownership `mattpocock/skills` explicitly warns against, but scopes that ownership to a single niche instead of all software: the workflow is a fixed sequence — Functional Specification, Technical Specification, Implementation, Closure — and every phase has one explicit owner (`@plinth-business-analyst`, `@plinth-architect`, `@plinth-tech-lead`, and the framework-specific coder agents), with the handoff between phases gated by evidence — a BDD scenario, an ATDD alignment check, a readiness gate — rather than left to convention. That is closer in spirit to `Superpowers`'s mandatory pipeline than to `mattpocock/skills`'s hackable, opt-in toolbox.
 
 But `Plinth` narrows its ambition in the other direction: it does not try to be a general-purpose software engineering methodology the way `Superpowers` does, and it is not framework-agnostic the way `mattpocock/skills` is. It is deliberately, permanently Java Enterprise only. Everything below the shared shape of the three projects — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, EU and ISO regulatory review — is where that narrower scope earns its keep, because none of it fits inside a framework-agnostic skill collection or a generic methodology without losing the precision that makes it useful.
 
@@ -475,7 +493,7 @@ Putting numbers on that overlap and that gap, here is how the three projects map
     </tr>
     <tr>
       <td>Architecture health</td>
-      <td><code>@033-architecture-diagrams</code>, <code>/create-adr</code> <code>@030-architecture-adr-general</code></td>
+      <td><code>@033-architecture-diagrams</code>, <code>/create-adr</code>, <code>@030-architecture-adr-general</code></td>
       <td><code>/improve-codebase-architecture</code>, <code>codebase-design</code></td>
       <td>— (implicit in plans and reviews)</td>
     </tr>
@@ -484,7 +502,26 @@ Putting numbers on that overlap and that gap, here is how the three projects map
 
 Across all three, the same underlying discipline shows up independently — interrogate the problem, write the decision down, delegate through disciplined steps, verify before calling it done. The fact that three projects with no shared history converged on it is a good sign that the discipline is inherent to working well with agents, not one project's house opinion. Where they diverge is domain depth: `mattpocock/skills` stays deliberately language-agnostic and lightweight, `Superpowers` stays deliberately language-agnostic and enforced, and `Plinth` trades that portability for `125 skills` of Java Enterprise-specific coverage — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, and EU/ISO regulatory review — that neither alternative attempts.
 
-That trade is why `Plinth` is the better default for a Java Enterprise team specifically. The generic discipline all three projects agree on still has to end up in your stack either way; with `mattpocock/skills` or `Superpowers`, a Java team has to write the framework-specific, compliance-aware layer on top of it themselves. `Plinth` ships with that layer already built, and the benchmark results earlier in this article are evidence it holds up in practice — so a Java Enterprise team starts from that depth instead of building it from a language-agnostic baseline.
+That trade is why `Plinth` is the better default for a Java Enterprise team specifically. The generic discipline all three projects agree on still has to end up in your stack either way; with `mattpocock/skills` or `Superpowers`, a Java team has to write the framework-specific, compliance-aware layer on top of it themselves. `Plinth` ships with that layer already built, and the benchmark results later in this article provide evidence that it holds up in practice — so a Java Enterprise team starts from that depth instead of building it from a language-agnostic baseline.
+
+<a id="why-i-review-changes-when-working-with-agents-and-skill-scanners"></a>
+
+## Why I review changes when working with agents and skill scanners
+
+Skill scanners are an important part of the `Plinth` pipeline. They detect risky instructions, suspicious behavior, formatting problems, and other issues that should not reach a published skill. However, passing a scanner does not prove that a skill still behaves as intended. A scanner evaluates particular structural and security properties; it does not fully evaluate the quality of the guidance produced when an agent applies that skill.
+
+This distinction matters when the pipeline fails. If I ask an agent to modify a skill until it passes the scanners, the agent may optimize for the reported findings alone. A change can satisfy the scanner by removing or weakening detailed instructions, examples, constraints, or workflow steps that were essential to the skill's behavior. The pipeline becomes green, but the skill becomes less precise or less useful and may even behave differently than before.
+
+That is why I always review the resulting diff instead of treating a successful scan as the end of the work. I check whether the change addresses the actual finding, whether important domain guidance was preserved, and whether the generated skill still gives an agent the right decisions and boundaries. For every changed skill covered by the acceptance prompt inventory, I also run its specific prompt and verify the behavior rather than relying only on static validation.
+
+Agents and skill scanners are complementary controls: the agent can propose a correction, the scanner can detect defined classes of risk, and behavioral acceptance testing can show whether the skill still works. Human review connects those signals. Without that review, a well-intentioned scanner fix can quietly degrade the very behavior the skill was designed to provide.
+
+This connects with a controversial opinion from Uncle Bob Martin on not reviewing agent-generated code:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What I do instead is to surround the agents with extreme constraints.</p>&mdash; Uncle Bob Martin (@unclebobmartin) <a href="https://x.com/unclebobmartin/status/2080257779395154409?s=20">July 23, 2026</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+In enterprise environments, code review is not optional.
 
 <a id="testing-the-workflow-with-a-reproducible-benchmark"></a>
 
@@ -537,7 +574,7 @@ The third hypothesis is the clearest of the three: package-naming chaos across t
 
 The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to demonstrate the value `Plinth` brings to the Java community, and these first results validate that: across every tool tested, the full Plinth workflow produced the lowest rework, the most autonomous use of the skill and agent library, and the most consistent architecture. The full breakdown — per-scenario tables, per-tool comparisons, and decoded project trees — is in the article linked below.
 
-For the detailed methodology and current findings, read [Validating hypotheses about Plinth workflow with a Benchmark Part 1](/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html).
+For the detailed methodology and current findings, read [Validating Hypotheses About the Plinth Workflow with a Benchmark, Part 1](/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html).
 
 <a id="doubts"></a>
 
@@ -556,4 +593,3 @@ For the next release, we plan to work on a few topics:
 - Add `Katas` that help users learn `Plinth` incrementally.
 - Add a skill about `JVM Flags`.
 - Go deeper into the EU regulation ecosystem for `GenAI`.
-

@@ -24,6 +24,7 @@
 </head>
 
 <body>
+
 <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
 <div class="container-fluid">
 
@@ -66,29 +67,58 @@
 </div>
 </nav>
 
-<header class="header-section">
+
+<div id="header-big-imgs" data-num-img=1 data-img-src-1="../images/pillars2.jpg"></div>
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="page-heading">
+<h1>Plinth</h1>
+  <hr class="small">
+  <span class="page-subheading">Plinth is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable Commands, Agents, Skills, and MCP Servers.</span>
+</div>
+</div>
+</div>
+</div>
+<span class='img-desc'></span>
+</div>
+
 <div class="intro-header no-img">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="page-heading"><h1>#openspec</h1></div>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="page-heading">
+<h1>Plinth</h1>
+  <hr class="small">
+  <span class="page-subheading">Plinth is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable Commands, Agents, Skills, and MCP Servers.</span>
+</div>
+</div>
+</div>
+</div>
 </div>
 </header>
+
 
 <div class="container" role="main">
 <div class="row">
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-<div class="posts-list">
+<div class="content-list">
+
+
+<!-- Blog Posts Section -->
+<div class="posts-section">
+<h2 class="section-title"><i class="fa fa-rss"></i> Latest Posts</h2>
 <article class="post-preview">
-<h2 class="post-title"><a href="../blog/2026/08/release-0.18.0.html">What&apos;s new in Plinth 0.18.0?</a></h2>
+<h3 class="post-title"><a href="../blog/2025/07/release-0.8.0.html">What&apos;s new in Cursor rules for Java 0.8.0?</a></h3>
 
 <p class="post-meta">
   <i class="fa fa-calendar-o"></i>
-  2026-08-03
+  2025-07-12
     &nbsp;
     <i class="fa fa-pencil"></i>
     Juan Antonio Breña Moral
@@ -96,86 +126,27 @@
     &nbsp;
     <i class="fa fa-tags"></i>
       <a href="../tags/blog.html">blog</a>
-      <a href="../tags/skills.html">skills</a>
-      <a href="../tags/java.html">java</a>
-      <a href="../tags/agents.html">agents</a>
-      <a href="../tags/commands.html">commands</a>
-      <a href="../tags/openspec.html">openspec</a>
-      <a href="../tags/benchmark.html">benchmark</a>
   </span>
 </p>
 
 <div class="post-entry-container">
   <div class="post-entry">
-    Plinth is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable Commands, Agents, Skills, and MCP Servers.
-This release focuses on two things. First, Plinth now treats specification as two explicit phases — Functional and Technical — with new commands and skills that turn a raw issue into agreed requirements and an approved design before any code gets written. Seco...
+    New interactive behaviors in the Cursor rules
+In the previous release, the project added interactive behavior to a few complex rules to improve the developer experience, but in this release, new rules have evolved to add more interactive behavior regardless of complexity. The motivation behind this change: now the rules suggest alternatives to the software engineer to improve development at the pac...
     <p></p>
-    <a href="../blog/2026/08/release-0.18.0.html" class="post-read-more">[Read More]</a>
-  </div>
-</div>
-</article>
-<article class="post-preview">
-<h2 class="post-title"><a href="../blog/2026/07/why-functional-and-technical-specifications-matter.html">Why Functional and Technical Specifications Matter for AI-Assisted Development</a></h2>
-
-<p class="post-meta">
-  <i class="fa fa-calendar-o"></i>
-  2026-07-30
-    &nbsp;
-    <i class="fa fa-pencil"></i>
-    MyRobot
-  <span class="blog-tags">
-    &nbsp;
-    <i class="fa fa-tags"></i>
-      <a href="../tags/blog.html">blog</a>
-      <a href="../tags/skills.html">skills</a>
-      <a href="../tags/agents.html">agents</a>
-      <a href="../tags/design.html">design</a>
-      <a href="../tags/software-engineering.html">software-engineering</a>
-      <a href="../tags/openspec.html">openspec</a>
-  </span>
-</p>
-
-<div class="post-entry-container">
-  <div class="post-entry">
-    The gap AI agents fall into
-When you ask an AI agent to &quot;add rate limiting to the API&quot; and it will produce something. It might even compile, pass a quick test, and look complete in the diff.
-But what does &quot;rate limiting&quot; mean here? Per user, per API key, per IP? What happens when the limit is hit — a 429, a queue, a silent drop? Is this a business rule with a specific number att...
-    <p></p>
-    <a href="../blog/2026/07/why-functional-and-technical-specifications-matter.html" class="post-read-more">[Read More]</a>
-  </div>
-</div>
-</article>
-<article class="post-preview">
-<h2 class="post-title"><a href="../blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Validating hypotheses about Plinth workflow with a Benchmark Part 1</a></h2>
-
-<p class="post-meta">
-  <i class="fa fa-calendar-o"></i>
-  2026-07-30
-    &nbsp;
-    <i class="fa fa-pencil"></i>
-    MyRobot
-  <span class="blog-tags">
-    &nbsp;
-    <i class="fa fa-tags"></i>
-      <a href="../tags/blog.html">blog</a>
-      <a href="../tags/agents.html">agents</a>
-      <a href="../tags/skills.html">skills</a>
-      <a href="../tags/openspec.html">openspec</a>
-      <a href="../tags/performance.html">performance</a>
-      <a href="../tags/java.html">java</a>
-  </span>
-</p>
-
-<div class="post-entry-container">
-  <div class="post-entry">
-    The questions behind the benchmark
-During the last months, the project has evolved from a complete Skills folder for Java to provide an AI-native development workflow for Java, more or less this project lives in the Third generation (Systemp prompts -&gt; Skills -&gt; AI-Native development Workflow). During this time, any inquisitive user could ask for evidences about what is the real value using t...
-    <p></p>
-    <a href="../blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html" class="post-read-more">[Read More]</a>
+    <a href="../blog/2025/07/release-0.8.0.html" class="post-read-more">[Read More]</a>
   </div>
 </div>
 </article>
 </div>
+
+</div>
+
+<ul class="pager main-pager">
+<li class="previous">
+  <a href="../4/">&larr; Newer Posts</a>
+</li>
+</ul>
 
 </div>
 </div>

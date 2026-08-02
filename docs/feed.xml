@@ -2,9 +2,18 @@
 <feed xmlns='http://www.w3.org/2005/Atom' xml:lang='en'>
   <id>https://jabrena.github.io/plinth/</id>
   <title>Plinth</title>
-  <updated>2026-07-30T09:58:24+0200</updated>
+  <updated>2026-08-02T12:39:36+0200</updated>
   <link rel="alternate" type="text/html" href="https://jabrena.github.io/plinth/" />
   <link rel='self' type='application/atom+xml' href='https://jabrena.github.io/plinth//feed.xml' />
+  <entry>
+    <id>https://jabrena.github.io/plinth//blog/2026/08/release-0.18.0.html</id>
+    <title>What&apos;s new in Plinth 0.18.0?</title>
+    <link></link>
+    <link rel="alternate" type="text/html" href="https://jabrena.github.io/plinth//blog/2026/08/release-0.18.0.html" />
+    <updated>2026-08-03T00:00:00+0200</updated>
+    <summary>Plinth is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable Commands, Agents, Skills, and MCP Servers.
+This release focuses on two things. First, Plinth now treats specification as two explicit phases — Functional and Technical — with new commands and skills that turn a raw issue into agreed requirements and an approved design before any code gets written. Seco...</summary>
+  </entry>
   <entry>
     <id>https://jabrena.github.io/plinth//blog/2026/07/why-functional-and-technical-specifications-matter.html</id>
     <title>Why Functional and Technical Specifications Matter for AI-Assisted Development</title>
