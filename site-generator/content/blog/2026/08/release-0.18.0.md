@@ -580,7 +580,7 @@ For the detailed methodology and current findings, read [Validating Hypotheses A
 
 ## Do you still have questions about the project?
 
-If you feel stuck using this project or have questions, you can attend the following workshop at [`JCConf 2026`](https://jcconf.tw/2026/):
+If you feel stuck using this project or have questions, you can attend the talk about `AI Tooling for Java Development` at [`JCConf 2026`](https://jcconf.tw/2026/):
 
 [![](/plinth/images/2026/7/jcconf-2026.png)](https://jcconf.tw/2026/)
 
