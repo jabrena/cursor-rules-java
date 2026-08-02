@@ -17,18 +17,3 @@ Los agentes integrados separan análisis, arquitectura, liderazgo técnico e imp
 | `plinth-java-performance` | Coordinar profiling y benchmarking.<br>Preservar evidencias de baseline y medición.<br>Delegar optimizaciones aprobadas a coder agents. | Usa `/profile` o `/benchmark`. No implementa código de aplicación directamente. |
 
 El business analyst, architect, tech lead y Java performance agent no sustituyen a los agentes de implementación. El architect es responsable de la planificación y especificación previas a la implementación; el tech lead es responsable de la entrega desde un artefacto de ejecución aprobado. El tech lead selecciona un agente de implementación Java, específico del framework o no Java usando evidencias del repositorio y solo delega grupos en paralelo cuando las dependencias y la propiedad de archivos lo permiten. El Java performance agent delega optimizaciones aprobadas al coder Java o de framework adecuado cuando ya existe evidencia de profiling o benchmark.
-
-## Migración
-
-`robot-coordinator` se renombró a `plinth-tech-lead`. No existe un alias de compatibilidad. Después de reinstalar el paquete:
-
-1. Sustituye las menciones directas a `@robot-coordinator` por `@plinth-tech-lead`.
-2. Sustituye referencias a `robot-coordinator.md` por `plinth-tech-lead.md`.
-3. Mantén el modelo de delegación existente: los coder agents siguen siendo objetivos de implementación.
-
-## Ejemplos
-
-- `Using @plinth-business-analyst, evaluate issue #806 through the five problem-analysis perspectives.`
-- `Using @plinth-architect, create an OpenSpec change directly from this approved issue.`
-- `Using @plinth-architect, refine the technical approach in this OpenSpec change.`
-- `Using @plinth-tech-lead, deliver the selected OpenSpec tasks and delegate each implementation group.`

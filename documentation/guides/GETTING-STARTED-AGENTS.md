@@ -17,18 +17,3 @@ The embedded agents separate analysis, architecture, technical leadership, and i
 | `plinth-java-performance` | Coordinate profiling and benchmarking.<br>Preserve baseline and measurement evidence.<br>Delegate approved optimizations to coder agents. | Use `/profile` or `/benchmark`. It does not implement application code directly. |
 
 The business analyst, architect, tech lead, and Java performance agent do not replace implementation agents. The architect owns pre-implementation planning and specification; the tech lead owns delivery from an approved execution artifact. The tech lead selects one Java, framework-specific, or non-Java implementation agent from repository evidence and delegates parallel groups only when dependencies and file ownership permit it. The Java performance agent delegates approved optimizations to the appropriate Java or framework coder after profiling or benchmark evidence is available.
-
-## Migration
-
-`robot-coordinator` was renamed to `plinth-tech-lead`. There is no compatibility alias. After reinstalling the bundle:
-
-1. Replace direct `@robot-coordinator` mentions with `@plinth-tech-lead`.
-2. Replace references to `robot-coordinator.md` with `plinth-tech-lead.md`.
-3. Keep the existing delegation model: coder agents remain implementation targets.
-
-## Examples
-
-- `Using @plinth-business-analyst, evaluate issue #806 through the five problem-analysis perspectives.`
-- `Using @plinth-architect, create an OpenSpec change directly from this approved issue.`
-- `Using @plinth-architect, refine the technical approach in this OpenSpec change.`
-- `Using @plinth-tech-lead, deliver the selected OpenSpec tasks and delegate each implementation group.`

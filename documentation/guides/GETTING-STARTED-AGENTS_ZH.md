@@ -17,18 +17,3 @@
 | `plinth-java-performance` | 协调 profiling 和 benchmarking。<br>保留 baseline 与测量证据。<br>将已批准的优化委托给 coder agents。 | 使用 `/profile` 或 `/benchmark`。它不会直接实现应用代码。 |
 
 business analyst、architect、tech lead 和 Java performance agent 不替代实现 Agents。architect 负责实现前的规划与规格说明；tech lead 负责基于已批准的执行工件进行交付。tech lead 根据仓库证据选择 Java、特定框架或非 Java 实现 Agent，并且仅在依赖关系和文件所有权允许时并行委托任务组。Java performance agent 会在已有 profiling 或 benchmark 证据后，将已批准的优化委托给合适的 Java 或框架 coder。
-
-## 迁移
-
-`robot-coordinator` 已重命名为 `plinth-tech-lead`，不提供兼容别名。重新安装后：
-
-1. 将直接的 `@robot-coordinator` 提及替换为 `@plinth-tech-lead`。
-2. 将 `robot-coordinator.md` 引用替换为 `plinth-tech-lead.md`。
-3. 保留现有委托模型：coder agents 仍是实现目标。
-
-## 示例
-
-- `Using @plinth-business-analyst, evaluate issue #806 through the five problem-analysis perspectives.`
-- `Using @plinth-architect, create an OpenSpec change directly from this approved issue.`
-- `Using @plinth-architect, refine the technical approach in this OpenSpec change.`
-- `Using @plinth-tech-lead, deliver the selected OpenSpec tasks and delegate each implementation group.`
