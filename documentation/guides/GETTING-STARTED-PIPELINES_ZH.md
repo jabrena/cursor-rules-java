@@ -2,6 +2,59 @@
 
 你可以在 Pipeline 中使用 System prompts 或 SKILLs 来自动化任务。
 
+## 在 GitHub Actions 中使用 Codex 的示例
+
+Codex 可以将 GitHub issue 转换为 OpenSpec 规划产物。在此模式中，维护者添加
+`/create-spec` 标签，工作流将完整的 issue 上下文保存到文件中，然后以仅限当前
+仓库 workspace 的写入权限运行 `openai/codex-action`。
+
+```yaml
+name: Create OpenSpec from an issue with Codex
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  create-spec:
+    if: github.event.label.name == '/create-spec'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Read full issue context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          mkdir -p .codex/issue
+          gh api "repos/${REPOSITORY}/issues/${ISSUE_NUMBER}" > .codex/issue/issue.json
+          jq -r '.title // ""' .codex/issue/issue.json > .codex/issue/title.txt
+          jq -r '.body // ""' .codex/issue/issue.json > .codex/issue/body.md
+
+      - name: Ask Codex to create OpenSpec artifacts
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: workspace-write
+          prompt-file: .codex/issue/create-openspec-prompt.md
+```
+
+完整工作流还加入了多项生产环境防护：将 issue 文本视为不可信的规划输入，要求
+Codex 先生成净化后的摘要，将变更限制在 `documentation/openspec`，由确定性的工作流
+步骤负责提交和创建 pull request，并将结果反馈到 issue。使用前请配置仓库密钥
+`OPENAI_API_KEY`。
+
+**完整示例：**
+[create-spec-with-codex.yaml](../../.github/workflows/sf/create-spec-with-codex.yaml)
+
 ## 使用 Cursor CLI 的示例
 
 ```bash

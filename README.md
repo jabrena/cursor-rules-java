@@ -1,4 +1,4 @@
-# Commands, Agents & Skills for Java
+# Plinth for Java
 
 <a href="https://trendshift.io/repositories/15013" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15013" alt="jabrena%2Fcursor-rules-java | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
@@ -31,152 +31,157 @@ Explore the latest published content on https://jabrena.github.io/plinth/ and fo
 Install every skill for your preferred agent:
 
 ```bash
-# Cursor
 npx skills add jabrena/plinth --skill '*' --agent cursor -y
-
-# Claude Code
 npx skills add jabrena/plinth --skill '*' --agent claude-code -y
-
-# Codex
 npx skills add jabrena/plinth --skill '*' --agent codex -y
-
-# GitHub Copilot
 npx skills add jabrena/plinth --skill '*' --agent github-copilot -y
+```
+
+Install every command for your prefered agent:
+
+```bash
+install @004-commands-installation cursor
+install @004-commands-installation claude-code
+install @004-commands-installation codex
+install @004-commands-installation github-copilot
+```
+
+Install every agent for your prefered agent:
+
+```text
+install @005-agents-installation cursor
+install @005-agents-installation claude-code
+install @005-agents-installation codex
+install @005-agents-installation github-copilot
 ```
 
 ### See it in action
 
-Ask your agent:
+You can use the project in 2 ways:
+
+- Use the AI-Native development workflow
+- Refactor your code with Skills
+
+#### Using AI-Native development workflow
+
+Identify an issue in your `Kanban` dashboard from `Atlasian Jira`, `Github Issues` or `Azure DevOps` and apply the following workflow:
 
 ```text
-Use @110-java-maven-best-practices to review this Maven project located in examples/@maven/maven-demo
-Explain the findings, apply the approved improvements, and validate the build.
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
 ```
 
-![](documentation/images/herdr-example.png)
-
-The skill guides the agent through a structured Maven review while keeping you in control of proposed changes.
-
-## 5-Minute Onboarding
-
-Learn to use this project following the quick guide [Getting Started in 5 minutes](./documentation/guides/GETTING-STARTED-IN-5-MINUTES.md).
-
-## Choose your path
-
-Commands compose the workflow by routing work to the right agent and skill set:
-
-### Analysis & Design
+##### Analysis & Design
 
 Turn an idea into an actionable change with user stories, GitHub Issues or Jira, ADRs, diagrams, AI plan mode, and OpenSpec.
 
 **Functional Specification:**
 
-```text
-/update-issue
-@plinth-business-analyst
-    @043-planning-github-issues
-    @044-planning-jira
-    @045-planning-azure-devops
-    @014-agile-user-story
-
-/explore-problem
-@plinth-business-analyst
-    @021-problem-framing
-    @022-root-cause-analysis
-    @023-assumption-analysis
-    @024-context-mapping
-    @025-quality-attribute-discovery
-
-/create-acceptance-criteria
-@plinth-business-analyst
-    @058-design-bdd
-```
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/update-issue</code></td>
+      <td>Update an existing GitHub or Jira issue with a structured user story, acceptance criteria, and resource content.</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>Evaluate an issue from five perspectives and post a Functional Specification comment on the issue.</td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>Derive Gherkin acceptance criteria from a Functional Specification and post them as a separate issue comment.</td>
+    </tr>
+  </tbody>
+</table>
 
 **Technical Specification:**
 
-```
-/create-adr (Optional)
-@plinth-architect
-    @030-architecture-adr-general
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/create-adr</code> (Optional)</td>
+      <td>Record an architectural decision, its alternatives, rationale, and consequences.</td>
+    </tr>
+    <tr>
+      <td><code>/create-diagram</code> (Optional)</td>
+      <td>Create a focused architecture or design diagram from approved artifacts.</td>
+    </tr>
+    <tr>
+      <td><code>/create-spec</code> (OpenSpec)</td>
+      <td>Create or update one or more validated OpenSpec changes.</td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>Compare technical approaches and obtain an approved design direction.</td>
+    </tr>
+  </tbody>
+</table>
 
-/create-diagram (Optional)
-@plinth-architect
-    @033-architecture-diagrams
-
-/create-spec
-@plinth-architect
-    @042-planning-openspec
-
-/explore-design
-@plinth-architect
-    @051-design-two-steps-methods
-    @052-design-hamburger-method
-    @053-design-simple-rules
-    @054-design-tdd
-    @055-design-parallel-change
-    @056-design-avoid-breaking-changes
-    @057-design-feature-toggles
-    @059-design-atdd
-    @121-java-object-oriented-design
-    @122-java-type-design
-    @123-java-design-patterns
-    @130-java-testing-strategies
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-    Grafana
-```
-
-### Build
+##### Build
 
 Implement and improve Java applications with Maven, design, coding, testing, security, documentation, Spring Boot, Quarkus, Micronaut, OpenAPI, and WireMock guidance.
 
-```text
-/implement-spec
-@plinth-tech-lead
-    /create-feature-branch
-    /create-worktree
-    @plinth-java-coder
-    @plinth-java-spring-boot-coder
-    @plinth-java-quarkus-coder
-    @plinth-java-micronaut-coder
-    @plinth-no-java
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-
-/close-spec
-@plinth-architect
-```
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/implement-spec</code></td>
+      <td>Deliver an approved plan or validated OpenSpec task list through framework-aware delegation.</td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>Archive an OpenSpec change by name using the OpenSpec CLI.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Operate
 
 Measure and improve production behavior through observability, profiling, benchmarking, and performance testing.
 
-```text
-/profile
-@plinth-java-performance
-    @161-java-profiling-detect
-    @162-java-profiling-analyze
-    @163-java-profiling-refactor
-    @164-java-profiling-verify
-/benchmark
-@plinth-java-performance
-    @151-java-performance-jmeter
-    @152-java-performance-gatling
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    Serena-LSP
-    Grafana
-```
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/profile</code></td>
+      <td>Coordinate Java profiling from baseline detection through verified optimization.</td>
+    </tr>
+    <tr>
+      <td><code>/benchmark</code></td>
+      <td>Select and coordinate JMeter, Gatling, or JMH performance workflows.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Compliance (Alpha)
 
@@ -198,6 +203,21 @@ Review Java systems, AI models, and how GenAI tools are used across applications
 
 **Note:** This set of skills could be a good complement for the future [OWASP EU Compliance MCP](https://genai.owasp.org/solution/eu-compliance-mcp/).
 
+#### Refactor your code with Skill
+
+Ask your agent:
+
+```text
+Use @110-java-maven-best-practices to review this Maven project located in examples/@maven/maven-demo
+Explain the findings, apply the approved improvements, and validate the build.
+```
+
+The skill guides the agent through a structured Maven review while keeping you in control of proposed changes.
+
+## 5-Minute Onboarding
+
+Learn to use this project following the quick guide [Getting Started in 5 minutes](./documentation/guides/GETTING-STARTED-IN-5-MINUTES.md).
+
 Explore the complete [Commands](./documentation/guides/INVENTORY-COMMANDS-JAVA.md), [Agents](./documentation/guides/INVENTORY-AGENTS-JAVA.md), [Skills](./documentation/guides/INVENTORY-SKILLS-JAVA.md), and [MCP Servers](./documentation/guides/THIRD-PARTIES.md) inventories.
 
 ## Project Components
@@ -216,7 +236,7 @@ This project is compatible with any tool that supports `Commands`, `Agents`, `Sk
 
 ## Skill Validations
 
-Every push runs the following validation checks in [CI Builds](./.github/workflows/maven.yaml) to keep documentation and generated skills correct, consistent, and secure:
+Every push runs the following validation checks in the [Skill Scanners](./.github/workflows/skill-scanners.yml) as part of the CI Pipeline to keep documentation and generated skills correct, consistent, and secure:
 
 | Name | Purpose |
 | --- | --- |

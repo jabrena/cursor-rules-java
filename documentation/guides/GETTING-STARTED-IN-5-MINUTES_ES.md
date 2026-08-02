@@ -111,8 +111,7 @@ Para trabajo solo de documentación o planificación, puedes detenerte cuando el
 
 ## Profundiza
 
-- [Inventario de commands](./INVENTORY-COMMANDS-JAVA.md)
+- [Inventario de commands](./INVENTORY-COMMANDS-JAVA_ES.md)
 - [Primeros pasos con agents](./GETTING-STARTED-AGENTS_ES.md)
 - [Primeros pasos con skills](./GETTING-STARTED-SKILLS_ES.md)
-- [Workflows del proyecto](./GETTING-STARTED-WORKFLOWS_ES.md)
 - [Primeros pasos con pipelines](./GETTING-STARTED-PIPELINES_ES.md)

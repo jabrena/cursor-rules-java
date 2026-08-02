@@ -1,4 +1,4 @@
-# Java 命令、智能体与技能
+# 面向 Java 的 Plinth
 
 <a href="https://trendshift.io/repositories/15013" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15013" alt="jabrena%2Fcursor-rules-java | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
@@ -65,118 +65,122 @@ npx skills add jabrena/plinth --skill '*' --agent github-copilot -y
 
 Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整工作流：
 
+```text
+问题
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
+```
+
 ### 分析与设计
 
 通过 user stories、GitHub Issues 或 Jira、ADR、图表、AI plan mode 和 OpenSpec，将想法转化为可执行的变更。
 
 **功能规格：**
 
-```text
-/update-issue
-@plinth-business-analyst
-    @043-planning-github-issues
-    @044-planning-jira
-    @045-planning-azure-devops
-    @014-agile-user-story
-
-/explore-problem
-@plinth-business-analyst
-    @021-problem-framing
-    @022-root-cause-analysis
-    @023-assumption-analysis
-    @024-context-mapping
-    @025-quality-attribute-discovery
-
-/create-acceptance-criteria
-@plinth-business-analyst
-    @058-design-bdd
-```
+<table>
+  <thead>
+    <tr>
+      <th>命令</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/update-issue</code></td>
+      <td>使用结构化用户故事、验收标准和资源内容更新现有的 GitHub 或 Jira issue。</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>从五个角度评估 issue，并在该 issue 中发布功能规格评论。</td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>根据功能规格生成 Gherkin 验收标准，并将其作为单独评论发布到 issue 中。</td>
+    </tr>
+  </tbody>
+</table>
 
 **技术规格：**
 
-```
-/create-adr (可选)
-@plinth-architect
-    @030-architecture-adr-general
-
-/create-diagram (可选)
-@plinth-architect
-    @033-architecture-diagrams
-
-/create-spec
-@plinth-architect
-    @042-planning-openspec
-
-/explore-design
-@plinth-architect
-    @051-design-two-steps-methods
-    @052-design-hamburger-method
-    @053-design-simple-rules
-    @054-design-tdd
-    @055-design-parallel-change
-    @056-design-avoid-breaking-changes
-    @057-design-feature-toggles
-    @059-design-atdd
-    @121-java-object-oriented-design
-    @122-java-type-design
-    @123-java-design-patterns
-    @130-java-testing-strategies
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-    Grafana
-```
+<table>
+  <thead>
+    <tr>
+      <th>命令</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/create-adr</code>（可选）</td>
+      <td>记录架构决策及其备选方案、理由和后果。</td>
+    </tr>
+    <tr>
+      <td><code>/create-diagram</code>（可选）</td>
+      <td>根据已批准的工件创建聚焦的架构图或设计图。</td>
+    </tr>
+    <tr>
+      <td><code>/create-spec</code>（OpenSpec）</td>
+      <td>创建或更新一个或多个经过验证的 OpenSpec 变更。</td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>比较技术方案并获得批准的设计方向。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### 构建
 
 借助 Maven、设计、编码、测试、安全、文档、Spring Boot、Quarkus、Micronaut、OpenAPI 和 WireMock 指南，实现并改进 Java 应用程序。
 
-```text
-/implement-spec
-@plinth-tech-lead
-    /create-feature-branch
-    /create-worktree
-    @plinth-java-coder
-    @plinth-java-spring-boot-coder
-    @plinth-java-quarkus-coder
-    @plinth-java-micronaut-coder
-    @plinth-no-java
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-
-/close-spec
-@plinth-architect
-```
+<table>
+  <thead>
+    <tr>
+      <th>命令</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/implement-spec</code></td>
+      <td>通过适配框架的委派来交付已批准的计划或经过验证的 OpenSpec 任务列表。</td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>使用 OpenSpec CLI 按名称归档 OpenSpec 变更。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### 运维
 
 通过可观测性、profiling、benchmarking 和性能测试来衡量并改进生产行为。
 
-```text
-/profile
-@plinth-java-performance
-    @161-java-profiling-detect
-    @162-java-profiling-analyze
-    @163-java-profiling-refactor
-    @164-java-profiling-verify
-/benchmark
-@plinth-java-performance
-    @151-java-performance-jmeter
-    @152-java-performance-gatling
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    Serena-LSP
-    Grafana
-```
+<table>
+  <thead>
+    <tr>
+      <th>命令</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/profile</code></td>
+      <td>协调 Java profiling，从基线检测一直到经过验证的优化。</td>
+    </tr>
+    <tr>
+      <td><code>/benchmark</code></td>
+      <td>选择并协调 JMeter、Gatling 或 JMH 性能工作流。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### 合规 (Alpha)
 
