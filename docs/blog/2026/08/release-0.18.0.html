@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>What&apos;s new in Plinth 0.18.0? - Plinth</title>
+  <meta name="author" content="" />
+  <meta name="description" content="">
+  <link rel="alternate" type="application/atom+xml" href="../../../feed.xml" title="Plinth"/>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../css/bootstrap-social.css" />
+  <link rel="stylesheet" href="../../../css/main.css" />
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+
+  <link rel="stylesheet" href="../../../css/asciidoctor.css">
+  <link rel="stylesheet" href="../../../css/prettify.css">
+  <link rel="icon" type="image/png" href="../../../images/java-icon.png">
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class="container-fluid">
+
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+  <span class="sr-only">Toggle navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="../../../index.html">Plinth</a>
+</div>
+
+<div class="collapse navbar-collapse" id="main-navbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><a href="https://forms.gle/TpNXENjmu45wuXoi6" target="_blank">Share feedback</a></li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Conferences</a>
+    <div class="navlinks-children">
+      <a href="https://jabrena.github.io/plinth/codemotion-madrid-2026/index.html" target="_blank">Codemotion Madrid 2026</a>
+      <a href="https://jabrena.github.io/plinth/dvbe25/index.html" target="_blank">Devoxx BE 2025</a>
+      <a href="https://jabrena.github.io/101-cursor/" target="_blank">WJAX-2025</a>
+    </div>
+  </li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Courses</a>
+    <div class="navlinks-children">
+      <a href="../../../courses/system-prompts-java/index.html">System prompts for Java</a>
+      <a href="../../../courses/java-generics/index.html">Java Generics</a>
+      <a href="../../../courses/profile-memory-leak/index.html">Memory Leak Profiling</a>
+    </div>
+  </li>
+  <li><a href="../../../archive.html">Archive</a></li>
+  <li><a href="https://jabrena-github-io.translate.goog/cursor-rules-java/?_x_tr_sl=en&_x_tr_tl=cn&_x_tr_hl=en-US&_x_tr_pto=wapp">Translate</a></li>
+</ul>
+</div>
+
+
+
+</div>
+</nav>
+
+
+
+<header class="header-section">
+
+
+<div class="intro-header no-img">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="post-heading">
+<h1>What's new in Plinth 0.18.0?</h1>
+<span class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-08-03
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    Juan Antonio Breña Moral
+</span>
+<span class="blog-tags">
+  &nbsp;
+  <i class="fa fa-tags"></i>
+    <a href="../../../tags/blog.html">blog</a>
+    <a href="../../../tags/skills.html">skills</a>
+    <a href="../../../tags/java.html">java</a>
+    <a href="../../../tags/agents.html">agents</a>
+    <a href="../../../tags/commands.html">commands</a>
+    <a href="../../../tags/openspec.html">openspec</a>
+    <a href="../../../tags/benchmark.html">benchmark</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role="main" class="blog-post">
+<p><code>Plinth</code> is an AI-native engineering toolkit for modern Java enterprise SDLC, built around reusable <code>Commands</code>, <code>Agents</code>, <code>Skills</code>, and <code>MCP Servers</code>.</p>
+<p>This release focuses on two things. First, <code>Plinth</code> now treats specification as two explicit phases — Functional and Technical — with new commands and skills that turn a raw issue into agreed requirements and an approved design before any code gets written. Second, a new reproducible benchmark puts that whole workflow to the test, comparing how different AI agent tools perform across several scenarios with increasing amounts of structure available. The idea behind both is that <code>&quot;better code generation begins before code generation&quot;</code>: give an agent enough context to understand the problem, enough structure to make its design decisions explicit, and enough evidence to know when the work is actually done.</p>
+<p>Thanks to our community members in <a href="https://www.google.com/maps/search/?api=1&amp;query=Urumqi"><code>Urumqi</code></a>, <a href="https://www.google.com/maps/search/?api=1&amp;query=Singapore"><code>Singapore</code></a>, <a href="https://www.google.com/maps/search/?api=1&amp;query=Des+Moines"><code>Des Moines</code></a>, <a href="https://www.google.com/maps/place/Madrid"><code>Madrid</code></a>, and <a href="https://www.google.com/maps/search/?api=1&amp;query=Bengaluru"><code>Bengaluru</code></a>. 👋👋👋</p>
+<p>This article is divided into the following sections:</p>
+<ul>
+<li><a href="#community-first">Community first!</a></li>
+<li><a href="#what-are-the-top-10-skills-from-this-project-in-skillssh">What are the top 10 skills from this project on Skills.sh?</a></li>
+<li><a href="#adding-better-functional-and-technical-specification-support">Adding better Functional and Technical specification support</a></li>
+<li><a href="#how-to-use-plinth-in-0180">How to use Plinth in 0.18.0</a></li>
+<li><a href="#comparing-plinth-commands-with-openspec-and-spec-kit">Comparing Plinth commands with OpenSpec and Spec Kit</a></li>
+<li><a href="#comparing-plinth-with-mattpocockskills-and-superpowers">Comparing Plinth with mattpocock/skills and Superpowers</a></li>
+<li><a href="#why-i-review-changes-when-working-with-agents-and-skill-scanners">Why I review changes when working with agents and skill scanners</a></li>
+<li><a href="#testing-the-workflow-with-a-reproducible-benchmark">Testing the workflow with a reproducible benchmark</a></li>
+<li><a href="#doubts">Do you still have questions about the project?</a></li>
+<li><a href="#next-steps">Next steps</a></li>
+</ul>
+<p>If you have questions about the project, how to customize it for your team, how to use the skills in daily work, or how to solve tooling issues, use <a href="https://github.com/jabrena/plinth/discussions"><code>GitHub Discussions</code></a>.</p>
+<p><strong>Help this project grow:</strong> <a href="https://github.com/sponsors/jabrena">If this project helps your team, become a sponsor.</a></p>
+<p><a id="community-first"></a></p>
+<h2>Community first!</h2>
+<p>In this release, I want to publicly express my sincere gratitude to the <code>Cursor team</code> for their generous initial support in running the first <a href="https://madridjug.es/">MadridJug</a> Meetup about <code>Cursor AI</code> in 2025. This is the last month I'll be drawing on the tokens they sponsored, and with that help, this project has gone on to make a real contribution to the <code>Java Community</code>.</p>
+<p>Beyond that sponsorship, this release also benefited from the community itself: thank you to <a href="https://github.com/vidya166"><code>Vidya Mmadireddy</code></a> and <a href="https://github.com/lealoureiro"><code>Leandro Loureiro</code></a> for their initiatives, contributions, and effort this cycle.</p>
+<p>If you would like to participate, review the open issues labeled <a href="https://github.com/jabrena/plinth/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22"><code>good first issue</code></a>, propose improvements, test the workflow with another agent tool, or share your experience in <a href="https://github.com/jabrena/plinth/discussions"><code>GitHub Discussions</code></a>.</p>
+<p><a id="what-are-the-top-10-skills-from-this-project-in-skillssh"></a></p>
+<h2>What are the top 10 skills from this project on Skills.sh?</h2>
+<p>The <a href="https://www.skills.sh/jabrena/plinth">Skills.sh registry</a> reports <code>125 skills</code> and <code>19.6K</code> installs in total — roughly <code>35%</code> growth since the <a href="https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#what-are-the-top-10-skills-from-this-project-in-skillssh"><code>0.17.0</code> release</a>. Compared with <code>0.17.0</code>, these are the current top 10 skills among Skills.sh users:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth rank&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th>Skills.sh Search</th>
+      <th>Skills.sh Search rank</th>
+      <th>Skill</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#1</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=maven">Maven</a></td>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/110-java-maven-best-practices"><code>110-java-maven-best-practices</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#2</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20object%20oriented">Java object oriented</a></td>
+      <td><code>#1</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design"><code>121-java-object-oriented-design</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#3</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20security">Java security</a></td>
+      <td><code>#10</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/124-java-secure-coding"><code>124-java-secure-coding</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#4</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20unit%20testing">Java unit testing</a></td>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/131-java-testing-unit-testing"><code>131-java-testing-unit-testing</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#5</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20refactoring">Java refactoring</a></td>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/141-java-refactoring-with-modern-features"><code>141-java-refactoring-with-modern-features</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#6</code> ↗️ <code>+2</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20concurrency">Java concurrency</a></td>
+      <td><code>#4</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/125-java-concurrency"><code>125-java-concurrency</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#7</code> ➡️ <code>=</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20functional%20programming">Java functional programming</a></td>
+      <td><code>#2</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/142-java-functional-programming"><code>142-java-functional-programming</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#8</code> ↘️ <code>-2</code></td>
+      <td><a href="https://www.skills.sh/search?q=maven">Maven</a></td>
+      <td><code>#5</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/111-java-maven-dependencies"><code>111-java-maven-dependencies</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#9</code> 🆕</td>
+      <td><a href="https://www.skills.sh/search?q=spring%20boot">Spring Boot</a></td>
+      <td><code>#31</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/302-frameworks-spring-boot-rest"><code>302-frameworks-spring-boot-rest</code></a></td>
+    </tr>
+    <tr>
+      <td><code>#10</code> ↘️ <code>-1</code></td>
+      <td><a href="https://www.skills.sh/search?q=java%20generics">Java generics</a></td>
+      <td><code>#3</code></td>
+      <td><a href="https://www.skills.sh/jabrena/plinth/128-java-generics"><code>128-java-generics</code></a></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Note:</strong> The <code>Search rank</code> column shows the skill's position inside that <code>Skills.sh</code> search category when results are sorted by install count.</p>
+<p><a id="adding-better-functional-and-technical-specification-support"></a></p>
+<h2>Adding better Functional and Technical specification support</h2>
+<p>Many failed implementations begin with a weak problem statement. A short issue can mix symptoms, assumptions, requested solutions, stakeholder expectations, and technical constraints without making any of them explicit. If an agent starts coding from that issue, it may efficiently implement the wrong change.</p>
+<p><code>Plinth</code> addresses this by treating specification as two distinct phases: a <strong>Functional Specification</strong> phase that turns a raw issue into agreed business requirements, and a <strong>Technical Specification</strong> phase that turns those requirements into an OpenSpec design and task list. Each phase has its own dedicated commands:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3">Functional Specification</td>
+      <td><code>/update-issue</code></td>
+      <td>Update an issue description with structured, evidence-backed content</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>Analyze an issue through five lenses and post a Functional Specification</td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>Derive and post confirmed Gherkin acceptance criteria for an issue</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Technical Specification</td>
+      <td><code>/create-spec</code></td>
+      <td>Create or update OpenSpec artifacts from approved source material</td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>Refine the technical design of an issue or OpenSpec change before implementation</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Implementation</td>
+      <td><code>/implement-spec</code></td>
+      <td>Deliver an approved plan or OpenSpec change through controlled implementation</td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>Archive a completed OpenSpec change by name</td>
+    </tr>
+  </tbody>
+</table>
+<p>Like a good dish, good requirements take time and more than one cook. These commands give the process structure, but they work best paired with real collaboration — <a href="https://agilealliance.org/glossary/three-amigos/">Three Amigos sessions</a> that bring business, development, and testing perspectives together before a single line of code is written.</p>
+<h3>Functional Specification</h3>
+<p>The Functional Specification phase turns a raw issue into agreed business requirements through three commands:</p>
+<pre><code class="language-text">Issue
+  |
+  v
+/update-issue --&gt; /explore-problem --&gt; /create-acceptance-criteria
+</code></pre>
+<p>The new <code>/explore-problem</code> command investigates a problem before committing to a solution, then produces a Functional Specification that can be posted back to the source issue. This creates a stronger bridge between issue tracking and specification work: the issue remains the place where the business need is discussed, while the exploration result gives the next phase a more disciplined starting point.</p>
+<p>To do that investigation, <code>/explore-problem</code> coordinates five complementary skills — one per lens:</p>
+<ul>
+<li><a href="https://www.skills.sh/jabrena/plinth/021-problem-framing"><code>@021-problem-framing</code></a> defines the observed problem, affected actors, evidence, impact, and boundaries.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/022-root-cause-analysis"><code>@022-root-cause-analysis</code></a> separates symptoms from plausible causes and identifies evidence needed to confirm them.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/023-assumption-analysis"><code>@023-assumption-analysis</code></a> makes hidden beliefs visible and classifies which assumptions need validation.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/024-context-mapping"><code>@024-context-mapping</code></a> identifies stakeholders, systems, dependencies, boundaries, and external constraints.</li>
+<li><a href="https://www.skills.sh/jabrena/plinth/025-quality-attribute-discovery"><code>@025-quality-attribute-discovery</code></a> discovers the performance, security, reliability, maintainability, and operational qualities that may shape the solution.</li>
+</ul>
+<p>The five lenses are deliberately separate. A root-cause hypothesis is not the same as a requirement. A stakeholder constraint is not the same as a quality attribute. An assumption is not evidence. Keeping those categories visible helps both humans and agents challenge the problem definition before implementation costs begin to accumulate.</p>
+<p>The new <code>/create-acceptance-criteria</code> command turns that Functional Specification into something an implementation can be checked against: it reads the specification posted by <code>/explore-problem</code>, applies the new <a href="https://www.skills.sh/jabrena/plinth/058-design-bdd"><code>@058-design-bdd</code></a> skill to turn its actors, outcomes, and business rules into concrete Given/When/Then scenarios, and posts the confirmed result back to the issue. Scenarios earn their place here because prose hides ambiguity that examples expose — &quot;invalid requests are rejected&quot; is too broad to implement reliably, while a scenario forces the team to state which inputs are invalid, what response is expected, and what observable behavior proves it.</p>
+<h3>Technical Specification</h3>
+<p>That Functional Specification then feeds directly into OpenSpec delivery. This release strengthens the command path from an issue to an archived OpenSpec change:</p>
+<pre><code class="language-text">Issue
+  |
+  v
+/update-issue --&gt; /explore-problem --&gt; /create-acceptance-criteria
+  |
+  v
+/create-spec --&gt; /explore-design
+</code></pre>
+<p>The commands now provide clearer transitions and gates:</p>
+<ul>
+<li><code>/create-spec</code> reads the complete issue context before drafting an OpenSpec change. Comments and follow-up discussion can contain decisions that are absent from the issue description, so partial issue reads are not enough.</li>
+<li><code>/explore-design</code> runs after specification creation and enriches the change with design decisions instead of acting as a substitute for the specification.</li>
+</ul>
+<p>Reaching that design-approved state now passes through the new <a href="https://www.skills.sh/jabrena/plinth/059-design-atdd"><code>@059-design-atdd</code></a> skill: once an OpenSpec change has an execution goal, acceptance criteria, and a task checklist, <code>/explore-design</code> invokes it as a final alignment gate and reports an evidence-backed <code>ready</code> or <code>changes-requested</code> outcome, refusing approval while findings stay unresolved. <code>/implement-spec</code> enforces that same alignment again as its own readiness gate before delivery begins, so a change that never reached genuine alignment during design cannot slip into implementation. <code>/close-spec</code> then archives the completed OpenSpec change once implementation and verification are finished.</p>
+<p>This sequence makes the lifecycle easier to explain and audit. Problem exploration discovers what needs attention. Specification turns that understanding into requirements and scenarios. Design decides how the change should be delivered. Implementation executes an approved task list. Closure archives the completed change and its evidence.</p>
+<p>For more on why this specification phase deserves its own place in the workflow, read <a href="https://jabrena.github.io/plinth/blog/2026/07/why-functional-and-technical-specifications-matter.html">Why Functional and Technical Specifications Matter for AI-Assisted Development</a>.</p>
+<p><a id="how-to-use-plinth-in-0180"></a></p>
+<h2>How to use Plinth in 0.18.0</h2>
+<p><code>Plinth</code> supports two different entry points, and the right one depends on whether there is a requirement behind the change or just existing code to improve.</p>
+<h3>Use Plinth as your AI-Native Development workflow</h3>
+<p>Use the full command sequence for genuinely complex problems whenever the change starts from a business need — an issue, a user story, or a bug report:</p>
+<pre><code class="language-text">Issue
+  |
+  v
+/update-issue --&gt; /explore-problem --&gt; /create-acceptance-criteria
+  |
+  v
+/create-spec --&gt; /explore-design
+  |
+  v
+/implement-spec --&gt; /close-spec
+</code></pre>
+<p>Every phase is owned by a specific agent and gated by evidence, so nothing skips ahead of what has actually been agreed.</p>
+<h3>Refactor your Java classes with Plinth skills</h3>
+<p>Use a skill directly, without OpenSpec, when there is no new requirement — just code that should be brought up to a known standard. <code>Plinth</code>'s <code>125 skills</code> are organized into numbered families by topic — Java core practices, testing, framework-specific guidance, and so on — and all of them are model-invoked: point an agent at a file or package and ask it to apply one, and it reviews the code against that skill's good and bad examples directly — no issue, no OpenSpec change, no agent handoff.</p>
+<p>The four examples below reuse skills already familiar from the <a href="#what-are-the-top-10-skills-from-this-project-in-skillssh">Top 10 Skills</a> table above:</p>
+<p><a href="https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design"><code>@121-java-object-oriented-design</code></a> replaces type-dependent conditionals with polymorphism, so adding a new shape no longer requires modifying the area calculation:</p>
+<pre><code class="language-java">// Before — the calculation must change whenever a shape is added
+double area(Object shape) {
+    return switch (shape) {
+        case Rectangle r -&gt; r.width() * r.height();
+        case Circle c -&gt; Math.PI * c.radius() * c.radius();
+        default -&gt; throw new IllegalArgumentException(&quot;Unknown shape&quot;);
+    };
+}
+
+// After — each shape owns its calculation
+interface Shape {
+    double area();
+}
+
+record Rectangle(double width, double height) implements Shape {
+    @Override
+    public double area() {
+        return width * height;
+    }
+}
+
+record Circle(double radius) implements Shape {
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+</code></pre>
+<p><code>@125-java-concurrency</code> moves a concurrent fan-out from <code>CompletableFuture</code> to <code>StructuredTaskScope</code>:</p>
+<pre><code class="language-java">// Before — CompletableFuture
+Response handle(Request request) {
+    CompletableFuture&lt;Customer&gt; customer =
+        CompletableFuture.supplyAsync(() -&gt; findCustomer(request.customerId()));
+    CompletableFuture&lt;OrderHistory&gt; orders =
+        CompletableFuture.supplyAsync(() -&gt; fetchOrderHistory(request.customerId()));
+
+    return customer.thenCombine(orders, Response::new).join();
+}
+
+// After — StructuredTaskScope (Java 25 preview, JEP 505)
+Response handle(Request request)
+        throws InterruptedException, StructuredTaskScope.TimeoutException {
+    try (var scope = StructuredTaskScope.open(
+            StructuredTaskScope.Joiner.&lt;Object&gt;awaitAllSuccessfulOrThrow(),
+            config -&gt; config.withTimeout(Duration.ofSeconds(2)))) {
+        Subtask&lt;Customer&gt; customer = scope.fork(() -&gt; findCustomer(request.customerId()));
+        Subtask&lt;OrderHistory&gt; orders = scope.fork(() -&gt; fetchOrderHistory(request.customerId()));
+
+        scope.join(); // Cancels unfinished subtasks and throws on timeout
+        return new Response(customer.get(), orders.get());
+    }
+}
+</code></pre>
+<p><strong>Note:</strong> It is reasonable to use Structured Concurrency in your development, although it is a preview feature. The timeout starts when the scope opens; if it expires before <code>join()</code> completes, the scope is cancelled and unfinished subtasks are interrupted.</p>
+<p><code>@142-java-functional-programming</code> replaces a thrown exception with the Result pattern — the same &quot;invalid requests are rejected&quot; case from the BDD section above, made explicit in the type system:</p>
+<pre><code class="language-java">// Before
+public static Request validateRequest(Request request) {
+    if (request.amount() &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Amount must be positive&quot;);
+    }
+    return request;
+}
+
+// After
+sealed interface Result&lt;T&gt; permits Ok, Ko {}
+record Ok&lt;T&gt;(T value) implements Result&lt;T&gt; {}
+record Ko&lt;T&gt;(String error) implements Result&lt;T&gt; {}
+
+public static Result&lt;Request&gt; validateRequest(Request request) {
+    return (request.amount() &lt;= 0)
+        ? new Ko&lt;&gt;(&quot;Amount must be positive&quot;)
+        : new Ok&lt;&gt;(request);
+}
+</code></pre>
+<p><code>@128-java-generics</code> applies the PECS principle — Producer <code>extends</code>, Consumer <code>super</code> — to correct the wildcard direction. A method that only reads from a collection should use <code>? extends T</code>, while one that only writes should use <code>? super T</code>:</p>
+<pre><code class="language-java">// Before — wrong wildcard direction forces an unsafe cast
+public static double sum(List&lt;? super Number&gt; numbers) {
+    double total = 0.0;
+    for (Object num : numbers) {
+        total += ((Number) num).doubleValue(); // Unsafe cast required
+    }
+    return total;
+}
+
+// After — this method only reads, so it's a producer: use extends
+public static double sum(List&lt;? extends Number&gt; numbers) {
+    double total = 0.0;
+    for (Number num : numbers) { // Safe: every item is guaranteed to be a Number
+        total += num.doubleValue();
+    }
+    return total;
+}
+</code></pre>
+<p><a id="comparing-plinth-commands-with-openspec-and-spec-kit"></a></p>
+<h2>Comparing Plinth commands with OpenSpec and Spec Kit</h2>
+<p>The <a href="https://jabrena.github.io/plinth/blog/2026/07/release-0.17.0.html#comparing-plinth-commands-with-openspec-and-spec-kit"><code>0.17.0</code> article</a> compared <code>Plinth commands</code> against <code>OpenSpec</code> and <code>Spec Kit</code> phases. <code>0.18.0</code>'s new Functional Specification commands and the agent-ownership changes reshape that mapping, so here is the updated comparison:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Plinth Command</th>
+      <th>OpenSpec phase</th>
+      <th>Spec Kit phase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/update-issue</code></td>
+      <td>Issue intake<br><code>openspec list</code></td>
+      <td><code>/speckit.specify</code> input</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>— (precedes OpenSpec)</td>
+      <td><code>/speckit.specify</code> input, <code>/speckit.clarify</code></td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>— (precedes OpenSpec)</td>
+      <td><code>/speckit.clarify</code>, <code>/speckit.checklist</code></td>
+    </tr>
+    <tr>
+      <td><code>/create-spec</code></td>
+      <td>Proposal and Specification<br><code>openspec new change &lt;change-name&gt;</code>, <code>openspec show &lt;change-name&gt;</code></td>
+      <td><code>/speckit.specify</code> plus <code>/speckit.checklist</code></td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>Task planning and alignment review<br><code>openspec validate --all</code></td>
+      <td><code>/speckit.plan</code> and <code>/speckit.tasks</code></td>
+    </tr>
+    <tr>
+      <td><code>/implement-spec</code></td>
+      <td>Implementation<br><code>openspec show &lt;change-name&gt;</code></td>
+      <td><code>/speckit.implement</code></td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>Review and closure<br><code>openspec archive &lt;change-name&gt;</code></td>
+      <td><code>/speckit.analyze</code> and <code>/speckit.converge</code></td>
+    </tr>
+  </tbody>
+</table>
+<p><code>/explore-problem</code> and <code>/create-acceptance-criteria</code> sit before either <code>OpenSpec</code> or <code>Spec Kit</code> phase begins, because neither tool separates a business-facing Functional Specification from the technical spec — that separation, covered in the section above, is specific to <code>Plinth</code>.</p>
+<p><a id="comparing-plinth-with-mattpocockskills-and-superpowers"></a></p>
+<h2>Comparing Plinth with mattpocock/skills and Superpowers</h2>
+<p><a href="https://github.com/mattpocock/skills"><code>mattpocock/skills</code></a> and <a href="https://github.com/obra/superpowers"><code>Superpowers</code></a> are two of the most widely adopted general-purpose agent-skill collections outside the Java ecosystem. Neither targets Java Enterprise development specifically, but both converge on the same underlying idea that <code>Plinth</code> is built around: interrogate the problem, write the decision down, and only then let the agent build.</p>
+<p><code>mattpocock/skills</code> is explicitly positioned as the lighter-weight alternative on that spectrum. Its skills — split into &quot;Engineering&quot; and &quot;Productivity&quot;, and further into user-invoked and model-invoked — are designed to be small, hackable, and composable rather than an enforced pipeline: <code>/grill-me</code> and <code>/grill-with-docs</code> interrogate a change before it starts, <code>/to-spec</code> and <code>/to-tickets</code> turn that conversation into a spec and tracer-bullet tickets, <code>/tdd</code> drives red-green-refactor, and <code>/code-review</code> checks the diff against both coding standards and the originating spec.</p>
+<p><a href="https://github.com/obra/superpowers"><code>Superpowers</code></a> sits at the opposite end of that spectrum: it calls itself &quot;a complete software development methodology&quot; and runs as a largely mandatory pipeline — <code>brainstorming</code> before code, <code>using-git-worktrees</code> for isolation, <code>writing-plans</code> for bite-sized tasks, <code>subagent-driven-development</code> or <code>executing-plans</code> to run them, <code>test-driven-development</code> enforcing RED-GREEN-REFACTOR, <code>requesting-code-review</code> between tasks, and <code>finishing-a-development-branch</code> to close out. It also ships across more coding agents than either <code>Plinth</code> or <code>mattpocock/skills</code> currently supports (Claude Code, Antigravity, Codex, Cursor, Factory Droid, Gemini CLI, GitHub Copilot CLI, Kimi Code, OpenCode, and Pi).</p>
+<p><code>Plinth</code> sits between those two poles, and not by accident. Its philosophy keeps the process ownership <code>mattpocock/skills</code> explicitly warns against, but scopes that ownership to a single niche instead of all software: the workflow is a fixed sequence — Functional Specification, Technical Specification, Implementation, Closure — and every phase has one explicit owner (<code>@plinth-business-analyst</code>, <code>@plinth-architect</code>, <code>@plinth-tech-lead</code>, and the framework-specific coder agents), with the handoff between phases gated by evidence — a BDD scenario, an ATDD alignment check, a readiness gate — rather than left to convention. That is closer in spirit to <code>Superpowers</code>'s mandatory pipeline than to <code>mattpocock/skills</code>'s hackable, opt-in toolbox.</p>
+<p>But <code>Plinth</code> narrows its ambition in the other direction: it does not try to be a general-purpose software engineering methodology the way <code>Superpowers</code> does, and it is not framework-agnostic the way <code>mattpocock/skills</code> is. It is deliberately, permanently Java Enterprise only. Everything below the shared shape of the three projects — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, EU and ISO regulatory review — is where that narrower scope earns its keep, because none of it fits inside a framework-agnostic skill collection or a generic methodology without losing the precision that makes it useful.</p>
+<p>Putting numbers on that overlap and that gap, here is how the three projects map concern by concern:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Plinth</th>
+      <th>mattpocock/skills</th>
+      <th>Superpowers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Interrogate before building</td>
+      <td><code>/update-issue</code>, <code>/explore-problem</code>, <code>/create-acceptance-criteria</code></td>
+      <td><code>/grill-me</code>, <code>/grill-with-docs</code></td>
+      <td><code>brainstorming</code></td>
+    </tr>
+    <tr>
+      <td>Turn the conversation into a spec</td>
+      <td><code>/create-spec</code></td>
+      <td><code>/to-spec</code>, <code>/to-tickets</code></td>
+      <td><code>writing-plans</code></td>
+    </tr>
+    <tr>
+      <td>TDD discipline</td>
+      <td><code>@054-design-tdd</code></td>
+      <td><code>/tdd</code></td>
+      <td><code>test-driven-development</code></td>
+    </tr>
+    <tr>
+      <td>Test type coverage (unit, integration, acceptance, performance, fuzzing)</td>
+      <td>
+        Framework-agnostic: <a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130</code></a>, <a href="https://www.skills.sh/jabrena/plinth/131-java-testing-unit-testing"><code>131</code></a>, <a href="https://www.skills.sh/jabrena/plinth/132-java-testing-integration-testing"><code>132</code></a>, <a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133</code></a><br>
+        Spring Boot: <a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321</code></a>, <a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322</code></a>, <a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323</code></a><br>
+        Quarkus: <a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421</code></a>, <a href="https://www.skills.sh/jabrena/plinth/422-frameworks-quarkus-testing-integration-tests"><code>422</code></a>, <a href="https://www.skills.sh/jabrena/plinth/423-frameworks-quarkus-testing-acceptance-tests"><code>423</code></a><br>
+        Micronaut: <a href="https://www.skills.sh/jabrena/plinth/521-frameworks-micronaut-testing-unit-tests"><code>521</code></a>, <a href="https://www.skills.sh/jabrena/plinth/522-frameworks-micronaut-testing-integration-tests"><code>522</code></a>, <a href="https://www.skills.sh/jabrena/plinth/523-frameworks-micronaut-testing-acceptance-tests"><code>523</code></a><br>
+        Performance: <a href="https://www.skills.sh/jabrena/plinth/151-java-performance-jmeter"><code>151</code></a>, <a href="https://www.skills.sh/jabrena/plinth/152-java-performance-gatling"><code>152</code></a><br>
+        Fuzzing: <a href="https://www.skills.sh/jabrena/plinth/703-technologies-fuzzing-testing"><code>703</code></a>
+      </td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Delegated implementation</td>
+      <td><code>/implement-spec</code> → framework coder agents</td>
+      <td><code>/implement</code> (single agent)</td>
+      <td><code>subagent-driven-development</code>, <code>dispatching-parallel-agents</code></td>
+    </tr>
+    <tr>
+      <td>Alignment / code review</td>
+      <td><code>@059-design-atdd</code>, readiness gates</td>
+      <td><code>/code-review</code> (Standards + Spec)</td>
+      <td><code>requesting-code-review</code>, <code>receiving-code-review</code></td>
+    </tr>
+    <tr>
+      <td>Git isolation</td>
+      <td><code>/create-worktree</code>, <code>/create-feature-branch</code></td>
+      <td>—</td>
+      <td><code>using-git-worktrees</code></td>
+    </tr>
+    <tr>
+      <td>Architecture health</td>
+      <td><code>@033-architecture-diagrams</code>, <code>/create-adr</code>, <code>@030-architecture-adr-general</code></td>
+      <td><code>/improve-codebase-architecture</code>, <code>codebase-design</code></td>
+      <td>— (implicit in plans and reviews)</td>
+    </tr>
+  </tbody>
+</table>
+<p>Across all three, the same underlying discipline shows up independently — interrogate the problem, write the decision down, delegate through disciplined steps, verify before calling it done. The fact that three projects with no shared history converged on it is a good sign that the discipline is inherent to working well with agents, not one project's house opinion. Where they diverge is domain depth: <code>mattpocock/skills</code> stays deliberately language-agnostic and lightweight, <code>Superpowers</code> stays deliberately language-agnostic and enforced, and <code>Plinth</code> trades that portability for <code>125 skills</code> of Java Enterprise-specific coverage — Maven, Spring Boot, Quarkus, Micronaut, JVM performance tooling, and EU/ISO regulatory review — that neither alternative attempts.</p>
+<p>That trade is why <code>Plinth</code> is the better default for a Java Enterprise team specifically. The generic discipline all three projects agree on still has to end up in your stack either way; with <code>mattpocock/skills</code> or <code>Superpowers</code>, a Java team has to write the framework-specific, compliance-aware layer on top of it themselves. <code>Plinth</code> ships with that layer already built, and the benchmark results later in this article provide evidence that it holds up in practice — so a Java Enterprise team starts from that depth instead of building it from a language-agnostic baseline.</p>
+<p><a id="why-i-review-changes-when-working-with-agents-and-skill-scanners"></a></p>
+<h2>Why I review changes when working with agents and skill scanners</h2>
+<p>Skill scanners are an important part of the <code>Plinth</code> pipeline. They detect risky instructions, suspicious behavior, formatting problems, and other issues that should not reach a published skill. However, passing a scanner does not prove that a skill still behaves as intended. A scanner evaluates particular structural and security properties; it does not fully evaluate the quality of the guidance produced when an agent applies that skill.</p>
+<p>This distinction matters when the pipeline fails. If I ask an agent to modify a skill until it passes the scanners, the agent may optimize for the reported findings alone. A change can satisfy the scanner by removing or weakening detailed instructions, examples, constraints, or workflow steps that were essential to the skill's behavior. The pipeline becomes green, but the skill becomes less precise or less useful and may even behave differently than before.</p>
+<p>That is why I always review the resulting diff instead of treating a successful scan as the end of the work. I check whether the change addresses the actual finding, whether important domain guidance was preserved, and whether the generated skill still gives an agent the right decisions and boundaries. For every changed skill covered by the acceptance prompt inventory, I also run its specific prompt and verify the behavior rather than relying only on static validation.</p>
+<p>Agents and skill scanners are complementary controls: the agent can propose a correction, the scanner can detect defined classes of risk, and behavioral acceptance testing can show whether the skill still works. Human review connects those signals. Without that review, a well-intentioned scanner fix can quietly degrade the very behavior the skill was designed to provide.</p>
+<p>This connects with a controversial opinion from Uncle Bob Martin on not reviewing agent-generated code:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What I do instead is to surround the agents with extreme constraints.</p>&mdash; Uncle Bob Martin (@unclebobmartin) <a href="https://x.com/unclebobmartin/status/2080257779395154409?s=20">July 23, 2026</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>In enterprise environments, code review is not optional.</p>
+<p><a id="testing-the-workflow-with-a-reproducible-benchmark"></a></p>
+<h2>Testing the workflow with a reproducible benchmark</h2>
+<p>An AI-native development workflow should not be evaluated only by how convincing its documentation sounds. It needs repeatable experiments that compare the results obtained with different amounts of engineering context.</p>
+<p>This release adds a benchmark harness under <a href="https://github.com/jabrena/plinth/tree/main/benchmarks"><code>benchmarks/</code></a>. The benchmark asks agent tools to solve the same Java problem through four scenarios:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Context available to the agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>scenario1</code></td>
+      <td>A minimal README.</td>
+    </tr>
+    <tr>
+      <td><code>scenario2</code></td>
+      <td>A functional-requirements package with a user story, Gherkin scenarios, OpenAPI, and ADRs.</td>
+    </tr>
+    <tr>
+      <td><code>scenario3</code></td>
+      <td>An OpenSpec change created from the same functional requirements.</td>
+    </tr>
+    <tr>
+      <td><code>scenario4</code></td>
+      <td>An OpenSpec change created, designed, and implemented through the Plinth workflow.</td>
+    </tr>
+  </tbody>
+</table>
+<p>Each run records efficiency, outcome quality, rework, and the commands, agents, and skills used during delivery. The repository includes reproducible scorecards and result samples generated with GitHub Copilot and Claude models.</p>
+<p>With that data, the benchmark tests three hypotheses about the Plinth workflow:</p>
+<ul>
+<li>Richer workflows reduce implementation rework.</li>
+<li>Delegation workflows encourage autonomous use of reusable skills.</li>
+<li>Written architectural decisions improve consistency.</li>
+</ul>
+<p>The first results are more nuanced than a straight line from &quot;more structure&quot; to &quot;better outcome.&quot; Richness alone does not reduce rework: the scenario that pairs the same OpenSpec change with no delegation wiring has the <em>highest</em> average rework in the whole ladder, while the scenario that adds Plinth's <code>/create-spec</code> → <code>/explore-design</code> → <code>/implement-spec</code> delegation on top of that same input has the lowest average rework and the highest share of zero-rework runs. Rework only drops when structure is paired with delegated execution, not from richer documents by themselves — so the first hypothesis is only partially supported.</p>
+<p>The second hypothesis fares better: the only scenario with real agent delegation pulls in several skills, a command, and close to two agents per run on average, against close to none everywhere else, and every tool's own delegated run beats its own non-delegated baseline — though the size of that effect varies a lot by tool.</p>
+<p>The third hypothesis is the clearest of the three: package-naming chaos across the baseline runs collapses to one dominant scheme the moment a written ADR states the base package explicitly, and the same pattern holds for architectural shape — a hexagonal package layout with a dedicated boundary test shows up only once that decision exists in writing, never when it doesn't.</p>
+<p>The benchmark is not intended to declare a universal winner between agent tools or models. Its purpose is to demonstrate the value <code>Plinth</code> brings to the Java community, and these first results validate that: across every tool tested, the full Plinth workflow produced the lowest rework, the most autonomous use of the skill and agent library, and the most consistent architecture. The full breakdown — per-scenario tables, per-tool comparisons, and decoded project trees — is in the article linked below.</p>
+<p>For the detailed methodology and current findings, read <a href="/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Validating Hypotheses About the Plinth Workflow with a Benchmark, Part 1</a>.</p>
+<p><a id="doubts"></a></p>
+<h2>Do you still have questions about the project?</h2>
+<p>If you feel stuck using this project or have questions, you can attend the following workshop at <a href="https://jcconf.tw/2026/"><code>JCConf 2026</code></a>:</p>
+<p><a href="https://jcconf.tw/2026/"><img src="/plinth/images/2026/7/jcconf-2026.png" alt="" /></a></p>
+<p><a id="next-steps"></a></p>
+<h2>Next steps</h2>
+<p>For the next release, we plan to work on a few topics:</p>
+<ul>
+<li>Add <code>Katas</code> that help users learn <code>Plinth</code> incrementally.</li>
+<li>Add a skill about <code>JVM Flags</code>.</li>
+<li>Go deeper into the EU regulation ecosystem for <code>GenAI</code>.</li>
+</ul>
+
+</article>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="container beautiful-jekyll-footer">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+    <li>
+    <a href="https://twitter.com/juanantoniobm" title="Twitter">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/jabrena/plinth" title="GitHub">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="../../../feed.xml" title="RSS">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+</ul>
+<p class="copyright text-muted">
+&copy; Juan Antonio Breña Moral, 2026 |
+Baked with <a href="http://jbake.org">JBake v2.7.0</a>
+</p>
+<p class="theme-by text-muted">
+  Theme by <a href="https://github.com/Yamane/beautiful-jbake/" target="_blank">beautiful-jbake</a>
+  adapted from <a href="http://deanattali.com/beautiful-jekyll/" target="_blank">beautiful-jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="../../../js/jquery-1.11.2.min.js"></script>
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/prettify.js"></script>
+<script src="../../../js/run_prettify.js"></script>
+<script src="../../../js/main.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-13CV90H4J4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-13CV90H4J4');
+</script>
+
+</body>
+</html>
