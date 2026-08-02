@@ -66,6 +66,19 @@ You can use the project in 2 ways:
 
 Identify an issue in your `Kanban` dashboard from `Atlasian Jira`, `Github Issues` or `Azure DevOps` and apply the following workflow:
 
+```text
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
+```
+
 ##### Analysis & Design
 
 Turn an idea into an actionable change with user stories, GitHub Issues or Jira, ADRs, diagrams, AI plan mode, and OpenSpec.

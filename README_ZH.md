@@ -65,6 +65,19 @@ npx skills add jabrena/plinth --skill '*' --agent github-copilot -y
 
 Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整工作流：
 
+```text
+问题
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
+```
+
 ### 分析与设计
 
 通过 user stories、GitHub Issues 或 Jira、ADR、图表、AI plan mode 和 OpenSpec，将想法转化为可执行的变更。

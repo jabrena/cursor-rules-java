@@ -65,6 +65,19 @@ Aprende a usar este proyecto siguiendo la guía rápida [Primeros pasos en 5 min
 
 Los commands componen el flujo de trabajo dirigiendo cada tarea al agente y al conjunto de skills adecuados:
 
+```text
+Incidencia
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
+```
+
 ### Análisis y diseño
 
 Convierte una idea en un cambio accionable mediante user stories, GitHub Issues o Jira, ADRs, diagramas, AI plan mode y OpenSpec.
