@@ -111,7 +111,7 @@ Issue
 
 ## 深入了解
 
-- [Commands 清单](./INVENTORY-COMMANDS-JAVA.md)
+- [Commands 清单](./INVENTORY-COMMANDS-JAVA_ZH.md)
 - [Agents 快速入门](./GETTING-STARTED-AGENTS_ZH.md)
 - [Skills 快速入门](./GETTING-STARTED-SKILLS_ZH.md)
 - [项目 workflows](./GETTING-STARTED-WORKFLOWS_ZH.md)
