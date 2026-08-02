@@ -1,4 +1,4 @@
-# Comandos, Agentes y Skills para Java
+# Plinth para Java
 
 <a href="https://trendshift.io/repositories/15013" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15013" alt="jabrena%2Fcursor-rules-java | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
@@ -71,112 +71,103 @@ Convierte una idea en un cambio accionable mediante user stories, GitHub Issues 
 
 **Especificación funcional:**
 
-```text
-/update-issue
-@plinth-business-analyst
-    @043-planning-github-issues
-    @044-planning-jira
-    @045-planning-azure-devops
-    @014-agile-user-story
-
-/explore-problem
-@plinth-business-analyst
-    @021-problem-framing
-    @022-root-cause-analysis
-    @023-assumption-analysis
-    @024-context-mapping
-    @025-quality-attribute-discovery
-
-/create-acceptance-criteria
-@plinth-business-analyst
-    @058-design-bdd
-```
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Explicación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/update-issue</code></td>
+      <td>Actualiza una incidencia existente de GitHub o Jira con una historia de usuario estructurada, criterios de aceptación y contenido de recursos.</td>
+    </tr>
+    <tr>
+      <td><code>/explore-problem</code></td>
+      <td>Evalúa una incidencia desde cinco perspectivas y publica en ella un comentario de especificación funcional.</td>
+    </tr>
+    <tr>
+      <td><code>/create-acceptance-criteria</code></td>
+      <td>Deriva criterios de aceptación Gherkin de una especificación funcional y los publica como un comentario independiente en la incidencia.</td>
+    </tr>
+  </tbody>
+</table>
 
 **Especificación técnica:**
 
-```
-/create-adr (Opcional)
-@plinth-architect
-    @030-architecture-adr-general
-
-/create-diagram (Opcional)
-@plinth-architect
-    @033-architecture-diagrams
-
-/create-spec
-@plinth-architect
-    @042-planning-openspec
-
-/explore-design
-@plinth-architect
-    @051-design-two-steps-methods
-    @052-design-hamburger-method
-    @053-design-simple-rules
-    @054-design-tdd
-    @055-design-parallel-change
-    @056-design-avoid-breaking-changes
-    @057-design-feature-toggles
-    @059-design-atdd
-    @121-java-object-oriented-design
-    @122-java-type-design
-    @123-java-design-patterns
-    @130-java-testing-strategies
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-    Grafana
-```
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Explicación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/create-adr</code> (Opcional)</td>
+      <td>Registra una decisión arquitectónica, sus alternativas, su justificación y sus consecuencias.</td>
+    </tr>
+    <tr>
+      <td><code>/create-diagram</code> (Opcional)</td>
+      <td>Crea un diagrama de arquitectura o diseño específico a partir de artefactos aprobados.</td>
+    </tr>
+    <tr>
+      <td><code>/create-spec</code> (OpenSpec)</td>
+      <td>Crea o actualiza uno o más cambios OpenSpec validados.</td>
+    </tr>
+    <tr>
+      <td><code>/explore-design</code></td>
+      <td>Compara enfoques técnicos y obtiene la aprobación de una dirección de diseño.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Construir
 
 Implementa y mejora aplicaciones Java con orientación sobre Maven, diseño, programación, pruebas, seguridad, documentación, Spring Boot, Quarkus, Micronaut, OpenAPI y WireMock.
 
-```text
-/implement-spec
-@plinth-tech-lead
-    /create-feature-branch
-    /create-worktree
-    @plinth-java-coder
-    @plinth-java-spring-boot-coder
-    @plinth-java-quarkus-coder
-    @plinth-java-micronaut-coder
-    @plinth-no-java
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    JavaDocs
-    Serena-LSP
-
-/close-spec
-@plinth-architect
-```
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Explicación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/implement-spec</code></td>
+      <td>Entrega un plan aprobado o una lista de tareas OpenSpec validada mediante delegación adaptada al framework.</td>
+    </tr>
+    <tr>
+      <td><code>/close-spec</code></td>
+      <td>Archiva por nombre un cambio OpenSpec mediante la CLI de OpenSpec.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Operar
 
 Mide y mejora el comportamiento en producción mediante observabilidad, profiling, benchmarking y pruebas de rendimiento.
 
-```text
-/profile
-@plinth-java-performance
-    @161-java-profiling-detect
-    @162-java-profiling-analyze
-    @163-java-profiling-refactor
-    @164-java-profiling-verify
-/benchmark
-@plinth-java-performance
-    @151-java-performance-jmeter
-    @152-java-performance-gatling
-
-MCP Servers
-    Jbang-Quarkus-JDBC
-    MongoDB
-    Serena-LSP
-    Grafana
-```
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Explicación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/profile</code></td>
+      <td>Coordina el profiling de Java desde la detección de la línea base hasta la optimización verificada.</td>
+    </tr>
+    <tr>
+      <td><code>/benchmark</code></td>
+      <td>Selecciona y coordina flujos de trabajo de rendimiento con JMeter, Gatling o JMH.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Cumplimiento (Alpha)
 
