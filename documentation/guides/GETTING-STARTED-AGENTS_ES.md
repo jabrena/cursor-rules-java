@@ -32,5 +32,3 @@ El business analyst, architect, tech lead y Java performance agent no sustituyen
 - `Using @plinth-architect, create an OpenSpec change directly from this approved issue.`
 - `Using @plinth-architect, refine the technical approach in this OpenSpec change.`
 - `Using @plinth-tech-lead, deliver the selected OpenSpec tasks and delegate each implementation group.`
-
-Consulta [Flujos de trabajo del proyecto](GETTING-STARTED-WORKFLOWS_ES.md) para ver las rutas del ciclo de vida y la autoridad de los artefactos.

@@ -32,5 +32,3 @@ business analyst、architect、tech lead 和 Java performance agent 不替代实
 - `Using @plinth-architect, create an OpenSpec change directly from this approved issue.`
 - `Using @plinth-architect, refine the technical approach in this OpenSpec change.`
 - `Using @plinth-tech-lead, deliver the selected OpenSpec tasks and delegate each implementation group.`
-
-生命周期路径和工件权威规则请参阅[项目工作流](GETTING-STARTED-WORKFLOWS_ZH.md)。

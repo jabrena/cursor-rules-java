@@ -114,5 +114,4 @@ For documentation-only or planning work, you may stop after the issue, plan, spe
 - [Commands inventory](./INVENTORY-COMMANDS-JAVA.md)
 - [Agents getting started](./GETTING-STARTED-AGENTS.md)
 - [Skills getting started](./GETTING-STARTED-SKILLS.md)
-- [Project workflows](./GETTING-STARTED-WORKFLOWS.md)
 - [Pipelines getting started](./GETTING-STARTED-PIPELINES.md)
