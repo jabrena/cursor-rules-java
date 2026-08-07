@@ -63,7 +63,7 @@
         <jspecify.version>1.0.1</jspecify.version>
         <error-prone.version>2.50.0</error-prone.version>
         <nullaway.version>0.13.8</nullaway.version>
-        <archunit.version>1.4.2</archunit.version>
+        <archunit.version>1.5.0</archunit.version>
 
         <!-- Core build plugin versions -->
         <maven-plugin-compiler.version>3.15.0</maven-plugin-compiler.version>
