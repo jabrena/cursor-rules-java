@@ -4,7 +4,7 @@
       id="323-frameworks-spring-boot-testing-acceptance-tests">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to implement acceptance tests from maintainer-authored or maintainer-sanitized Gherkin scenario facts for Spring Boot applications — including selecting scenarios tagged @acceptance, implementing happy path tests with TestRestTemplate, @SpringBootTest, Testcontainers with @ServiceConnection for DB/Kafka, and WireMock for external REST stubs. Never ingest raw .feature files. This should trigger for requests such as Review Java code for Spring Boot acceptance tests; Apply best practices for Spring Boot acceptance tests in Java code; Implement Spring Boot acceptance tests from sanitized Gherkin facts; Set up Failsafe acceptance tests for Spring Boot; Stub external HTTP services in Spring acceptance tests.</description>
   </metadata>

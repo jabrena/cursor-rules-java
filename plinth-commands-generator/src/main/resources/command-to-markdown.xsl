@@ -44,6 +44,24 @@ tools:
       <xsl:text>
 </xsl:text>
     </xsl:for-each>
+    <xsl:text>metadata:</xsl:text>
+    <xsl:if test="metadata/authors/author[normalize-space(.) != '']">
+      <xsl:variable name="authors">
+        <xsl:call-template name="authors"/>
+      </xsl:variable>
+      <xsl:text>
+  author: </xsl:text>
+      <xsl:call-template name="yaml-single-quoted-scalar">
+        <xsl:with-param name="text" select="$authors"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:text>
+  version: </xsl:text>
+    <xsl:call-template name="yaml-single-quoted-scalar">
+      <xsl:with-param name="text" select="metadata/version"/>
+    </xsl:call-template>
+    <xsl:text>
+</xsl:text>
     <xsl:text>---
 
 </xsl:text>
@@ -57,6 +75,15 @@ tools:
     <xsl:apply-templates select="steps"/>
     <xsl:apply-templates select="output-format"/>
     <xsl:apply-templates select="safeguards"/>
+  </xsl:template>
+
+  <xsl:template name="authors">
+    <xsl:for-each select="metadata/authors/author[normalize-space(.) != '']">
+      <xsl:if test="position() &gt; 1">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
+      <xsl:value-of select="normalize-space(.)"/>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template name="yaml-single-quoted-scalar">

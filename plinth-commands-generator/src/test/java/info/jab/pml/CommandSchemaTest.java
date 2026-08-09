@@ -32,11 +32,12 @@ class CommandSchemaTest {
     }
 
     @Test
-    @DisplayName("Metadata must contain every required frontmatter scalar")
-    void should_rejectMissingRequiredField_when_metadataIsValidated() {
+    @DisplayName("Metadata must contain required version provenance")
+    void should_rejectMissingVersion_when_metadataIsValidated() {
         String xml = validCommand("<description>Description</description>"
             + "<argument-hint>[input]</argument-hint>"
             + "<model>inherit</model>"
+            + "<agent>custom-agent</agent>"
             + "<tools><tools-list><tool>Read</tool></tools-list></tools>");
 
         assertThatThrownBy(() -> validate(xml)).isInstanceOf(SAXException.class);
@@ -62,6 +63,21 @@ class CommandSchemaTest {
     }
 
     @Test
+    @DisplayName("Metadata accepts optional, one, or multiple PML-style authors")
+    void should_acceptOptionalOneAndMultipleAuthors_when_metadataIsValidated() {
+        String tools = "<tools><tools-list><tool>Read</tool></tools-list></tools>";
+
+        assertThatCode(() -> validate(validCommand(metadataScalars() + tools)))
+            .doesNotThrowAnyException();
+        assertThatCode(() -> validate(validCommand("<authors><author>First Author</author></authors>"
+            + metadataScalars() + tools)))
+            .doesNotThrowAnyException();
+        assertThatCode(() -> validate(validCommand("<authors><author>First Author</author>"
+            + "<author>Second Author</author></authors>" + metadataScalars() + tools)))
+            .doesNotThrowAnyException();
+    }
+
+    @Test
     @DisplayName("Metadata must compose the global agents-style element vocabulary by reference")
     void should_referenceGlobalElements_when_metadataSchemaIsInspected() throws Exception {
         Document schemaDocument;
@@ -74,19 +90,22 @@ class CommandSchemaTest {
 
         assertThatCode(() -> globalElement(schemaDocument, "metadata")).doesNotThrowAnyException();
         assertThat(sequenceReferences(globalElement(schemaDocument, "metadata")))
-            .containsExactly("description", "argument-hint", "model", "agent", "tools");
+            .containsExactly("authors", "version", "description", "argument-hint", "model", "agent", "tools");
+        assertThat(sequenceReferences(globalElement(schemaDocument, "authors")))
+            .containsExactly("author");
         assertThat(sequenceReferences(globalElement(schemaDocument, "tools")))
             .containsExactly("tools-list");
         assertThat(sequenceReferences(globalElement(schemaDocument, "tools-list")))
             .containsExactly("tool");
-        assertThat(List.of("description", "argument-hint", "model", "agent", "tool"))
+        assertThat(List.of("authors", "author", "version", "description", "argument-hint", "model", "agent", "tool"))
             .allSatisfy(name -> assertThat(globalElement(schemaDocument, name))
                 .as("Global PML-style declaration for %s", name)
                 .isNotNull());
     }
 
     private static String metadataScalars() {
-        return "<description>Description</description>"
+        return "<version>0.19.0-SNAPSHOT</version>"
+            + "<description>Description</description>"
             + "<argument-hint>[input]</argument-hint>"
             + "<model>custom-model</model>"
             + "<agent>custom-agent</agent>";

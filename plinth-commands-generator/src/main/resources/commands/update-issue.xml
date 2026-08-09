@@ -4,6 +4,10 @@
          xsi:noNamespaceSchemaLocation="../commands.xsd">
 
     <metadata>
+        <authors>
+            <author>Juan Antonio Breña Moral</author>
+        </authors>
+        <version>0.19.0-SNAPSHOT</version>
         <description>Update an issue description with structured, evidence-backed content.</description>
         <argument-hint>[issue-url]</argument-hint>
         <model>inherit</model>

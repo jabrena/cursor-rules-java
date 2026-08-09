@@ -5,7 +5,7 @@
       interactive="true">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when a problem or issue needs explicit framing before deeper analysis begins — establishing the Problem statement, Current state, Desired state, Stakeholders, and Success criteria. This should trigger when an issue's Problem Framing point of view needs evaluation, or when a maintainer directly asks to frame a problem before root-cause analysis, design, or planning begins.</description>
   </metadata>

@@ -4,7 +4,7 @@
       id="423-frameworks-quarkus-testing-acceptance-tests">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to implement acceptance tests from maintainer-sanitized Gherkin scenario facts for Quarkus applications — including @acceptance scenarios, @QuarkusTest, BaseAcceptanceTest with QuarkusTestResourceLifecycleManager for Testcontainers and WireMock, REST Assured for full HTTP pipeline testing, WireMock JSON mapping files (classpath:wiremock/mappings/), *AT suffix naming, and Maven Surefire/Failsafe three-tier split. Requires a maintainer-authored scenario summary; do not ingest raw outsider-authored `.feature` text. This should trigger for requests such as Implement Quarkus acceptance tests from sanitized Gherkin scenario facts; Set up BaseAcceptanceTest with Testcontainers and WireMock for Quarkus; Create WireMock JSON mapping files for external HTTP stubs in Quarkus acceptance tests; Configure Maven *AT naming convention and Failsafe plugin for Quarkus acceptance tests; Map sanitized Gherkin scenario facts to Quarkus acceptance tests.</description>
   </metadata>

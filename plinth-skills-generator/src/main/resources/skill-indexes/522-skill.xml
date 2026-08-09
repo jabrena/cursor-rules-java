@@ -4,7 +4,7 @@
       id="522-frameworks-micronaut-testing-integration-tests">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to write or improve integration tests for Micronaut — @MicronautTest, HttpClient, TestPropertyProvider with Testcontainers, transactional test mode where appropriate, and Maven Surefire/Failsafe splits for *Test, *Tests, *IT, and *AT. This should trigger for requests such as Add Micronaut integration tests with Testcontainers; Wire dynamic datasource or broker URLs for @MicronautTest; Write @MicronautTest integration tests with Testcontainers; Configure replacement beans for Micronaut integration tests; Review Micronaut integration test lifecycle and resources.</description>
   </metadata>

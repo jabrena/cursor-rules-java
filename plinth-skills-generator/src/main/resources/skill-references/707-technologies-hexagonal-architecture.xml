@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Java Hexagonal architecture boundary review</title>
         <description>Use when you need framework-agnostic Hexagonal architecture guidance for Java projects - ports and adapters boundaries, application core independence, driving and driven adapters, dependency direction, infrastructure leakage detection, optional architecture tests, and evidence-backed remediation.</description>

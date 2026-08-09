@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Jira CLI - issues, workflows, and discussion for analysis</title>
         <description>Use when you need Jira CLI (`jira`) installation/authentication guidance and a maintainer-authored Jira issue inventory workflow. The agent does not ingest raw Jira issue or JQL output directly; it asks the Jira project maintainer/operator to author sanitized issue summaries before analysis or @014-agile-user-story handoff.</description>

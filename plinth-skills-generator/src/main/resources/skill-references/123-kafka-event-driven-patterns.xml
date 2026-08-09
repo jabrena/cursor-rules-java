@@ -6,7 +6,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Java Design and Integration Patterns</title>
         <description>Use when designing or reviewing Kafka and event-driven patterns — event schemas, partitioning keys, consumer groups, idempotent consumers, retry topics, dead-letter topics, outbox, CDC, sagas, CQRS projections, and event sourcing.</description>

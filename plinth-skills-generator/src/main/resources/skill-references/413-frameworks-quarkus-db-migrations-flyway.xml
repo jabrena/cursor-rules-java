@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Quarkus — Database migrations (Flyway)</title>
         <description>Use when you need to add or review Flyway database migrations in a Quarkus application — including the `quarkus-flyway` extension, `classpath:db/migration` scripts, `V{version}__{description}.sql` naming, `quarkus.flyway.*` configuration, migrate-at-start behavior, and coordination with JDBC (`@411-frameworks-quarkus-jdbc`) or Hibernate ORM with Panache (`@412-frameworks-quarkus-panache`). Focus on Flyway-driven schema evolution, not hand-applied DDL in production.</description>

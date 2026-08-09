@@ -4,7 +4,7 @@
       id="305-frameworks-spring-boot-modulith">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to design, review, or improve modular monoliths with Spring Modulith in Spring Boot applications - including application module package structure, ApplicationModules verification, named interfaces, allowed dependencies, domain events, @ApplicationModuleTest, Scenario-based module tests, generated documentation, actuator exposure, observability, and event publication registry choices. This should trigger for requests such as Add Spring Modulith to a Spring Boot application; Review Spring Modulith module boundaries; Improve modular monolith architecture in Spring Boot; Add @ApplicationModuleTest tests; Generate Spring Modulith documentation.</description>
   </metadata>

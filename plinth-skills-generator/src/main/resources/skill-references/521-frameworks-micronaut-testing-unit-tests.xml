@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Micronaut Unit Testing</title>
         <description>Use when you need to write unit tests for Micronaut applications — including pure JUnit 5 + Mockito with @ExtendWith(MockitoExtension.class) for @Singleton services, @MicronautTest with @MockBean for HTTP/controller slices, @Client HttpClient against EmbeddedServer, JSON assertions with AssertJ, @ParameterizedTest with @CsvSource/@MethodSource, property overrides with @Property, and naming conventions (*Test → Surefire, *IT → Failsafe). For framework-agnostic Java use @131-java-testing-unit-testing. For integration tests use @522-frameworks-micronaut-testing-integration-tests.</description>

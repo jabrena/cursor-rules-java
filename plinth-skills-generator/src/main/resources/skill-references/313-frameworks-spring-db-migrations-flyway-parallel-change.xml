@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Spring — Database migrations (Flyway)</title>
         <description>Apply Martin Fowler's Parallel Change technique to Spring Boot Flyway migrations as an expand, migrate, contract workflow.</description>

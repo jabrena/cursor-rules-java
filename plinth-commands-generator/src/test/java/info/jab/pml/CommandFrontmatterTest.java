@@ -39,7 +39,11 @@ class CommandFrontmatterTest {
 
             assertThat(frontmatter)
                 .as("Frontmatter keys for %s", source)
-                .containsOnlyKeys("description", "argument-hint", "model", "agent", "tools");
+                .containsOnlyKeys("description", "argument-hint", "model", "agent", "tools", "metadata");
+            assertThat(frontmatter.get("metadata")).isEqualTo(Map.of(
+                "author", String.join(", ", elements(metadata, "author")),
+                "version", text(metadata, "version")
+            ));
             assertThat(frontmatter.get("description")).isEqualTo(text(metadata, "description"));
             assertThat(frontmatter.get("argument-hint")).isEqualTo(text(metadata, "argument-hint"));
             assertThat(frontmatter.get("model")).isEqualTo(text(metadata, "model"));
@@ -58,6 +62,8 @@ class CommandFrontmatterTest {
     @DisplayName("YAML scalars must preserve punctuation, backslashes, apostrophes, and boundary spaces")
     void should_preserveYamlSignificantCharacters_when_frontmatterIsRendered() throws Exception {
         String xml = "<command id=\"yaml-boundaries\"><metadata>"
+            + "<authors><author>First O'Author</author><author>Second Author</author></authors>"
+            + "<version>0.19.0-SNAPSHOT</version>"
             + "<description>  Plan: team's #1 [work] \\ path  </description>"
             + "<argument-hint>[issue: 'value']</argument-hint><model>inherit</model><agent>inherit</agent>"
             + "<tools><tools-list><tool>Read</tool><tool>Custom: Tool #1</tool></tools-list></tools>"
@@ -69,6 +75,10 @@ class CommandFrontmatterTest {
         assertThat(metadata.get("description")).isEqualTo("  Plan: team's #1 [work] \\ path  ");
         assertThat(metadata.get("argument-hint")).isEqualTo("[issue: 'value']");
         assertThat(metadata.get("tools")).isEqualTo(List.of("Read", "Custom: Tool #1"));
+        assertThat(metadata.get("metadata")).isEqualTo(Map.of(
+            "author", "First O'Author, Second Author",
+            "version", "0.19.0-SNAPSHOT"
+        ));
     }
 
     @Test
