@@ -29,3 +29,10 @@ and verify that acceptance-tests passes.
 execute @benchmarks/scenario4/gherkin/scenario4.feature
 and verify that acceptance-tests passes.
 ```
+
+## scenario4
+
+```bash
+execute @benchmarks/scenario5/gherkin/scenario5.feature
+and verify that acceptance-tests passes.
+```

@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: My JSON Server API
+  description: API for retrieving Greek gods data from external service
+  version: 1.0.0
+  contact:
+    name: Juan Antonio Breña Moral
+    email: my@email.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://my-json-server.typicode.com/jabrena/latency-problems
+    description: External JSON server
+paths:
+  /greek:
+    get:
+      tags:
+        - External Greek Gods
+      summary: Get Greek gods from external API
+      description: Returns a list of Greek gods from the external service
+      operationId: getExternalGreekGods
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalGod'
+              examples:
+                success:
+                  value:
+                    - "Zeus"
+                    - "Hera"
+                    - "Poseidon"
+                    - "Demeter"
+                    - "Ares"
+                    - "Athena"
+                    - "Apollo"
+                    - "Artemis"
+                    - "Hephaestus"
+                    - "Aphrodite"
+                    - "Hermes"
+                    - "Dionysus"
+                    - "Hades"
+                    - "Hypnos"
+                    - "Nike"
+                    - "Janus"
+                    - "Nemesis"
+                    - "Iris"
+                    - "Hecate"
+                    - "Tyche"
+        '500':
+          description: Internal server error
+        '504':
+          description: Gateway timeout
+  /roman:
+    get:
+      tags:
+        - External Roman Gods
+      summary: Get Roman gods from external API
+      description: Returns a list of Roman gods from the external service
+      operationId: getExternalRomanGods
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalGod'
+              examples:
+                success:
+                  value:
+                    - "Venus"
+                    - "Mars"
+                    - "Neptun"
+                    - "Mercury"
+                    - "Pluto"
+                    - "Jupiter"
+        '500':
+          description: Internal server error
+        '504':
+          description: Gateway timeout
+  /nordic:
+    get:
+      tags:
+        - External Nordic Gods
+      summary: Get Nordic gods from external API
+      description: Returns a list of Nordic gods from the external service
+      operationId: getExternalNordicGods
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalGod'
+              examples:
+                success:
+                  value:
+                    - "Baldur"
+                    - "Freyja"
+                    - "Heimdall"
+                    - "Frigga"
+                    - "Hel"
+                    - "Loki"
+                    - "Njord"
+                    - "Odin"
+                    - "Thor"
+                    - "Tyr"
+        '500':
+          description: Internal server error
+        '504':
+          description: Gateway timeout
+components:
+  schemas:
+    ExternalGod:
+      type: string
