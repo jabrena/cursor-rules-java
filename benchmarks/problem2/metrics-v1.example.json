@@ -1,0 +1,41 @@
+{
+  "efficiency": {
+    "wall_clock_s": 1234.5,
+    "active_agent_s": 900.0,
+    "tokens_in": 50000,
+    "tokens_out": 39000,
+    "tokens_total": 89000,
+    "cost_usd": 2.45
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 0,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario1",
+    "case_id": "case-1-readme-only",
+    "tool": "cursor",
+    "model": "example-model-id",
+    "plinth_config": "bare-agent",
+    "commit": "0123456789abcdef0123456789abcdef01234567",
+    "retry_count": 0,
+    "human_intervention_min": 15
+  },
+  "plinth_usage": {
+    "skills_count": 0,
+    "commands_count": 1,
+    "agents_count": 0,
+    "skills": [],
+    "commands": ["implement-spec"],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario1/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9zY2VuYXJpbzEvZGVtby8K4pSc4pSA4pSAIHBvbS54bWwK4pSU4pSA4pSAIHNyYwogICAg4pSU4pSA4pSAIG1haW4KICAgICAgICDilJTilIDilIAgamF2YQogICAgICAgICAgICDilJTilIDilIAgaW5mbwogICAgICAgICAgICAgICAg4pSU4pSA4pSAIGphYgogICAgICAgICAgICAgICAgICAgIOKUlOKUgOKUgCBtcwogICAgICAgICAgICAgICAgICAgICAgICDilJTilIDilIAgR29kQW5hbHlzaXNBcHBsaWNhdGlvbi5qYXZh",
+    "file_count": 2
+  }
+}
