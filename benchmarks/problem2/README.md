@@ -29,8 +29,8 @@ Campaigns SHOULD compare cost/tokens/quality across this ladder for the same pro
 ```text
 benchmarks/problem2/
 ├── README.md
-├── metrics-v1.schema.json    # canonical run metrics JSON Schema
-├── metrics-v1.example.json   # fully populated example; scenarios require all fields
+├── metrics-v2.schema.json    # canonical run metrics JSON Schema
+├── metrics-v2.example.json   # fully populated example; scenarios require all fields
 ├── acceptance-tests-prompts.md
 ├── scenario1/                # minimal functional notes
 │   ├── README.md
@@ -62,7 +62,7 @@ benchmarks/problem2/
     └── gherkin/scenario5.feature
 ```
 
-Each scenario folder owns its input contract (`README.md`), requirements under `specs/`, acceptance criteria (`gherkin/` with exactly one `@acceptance-test` scenario), and run records under `results/` (JSON per completed run conforming to [metrics-v1.schema.json](metrics-v1.schema.json)).
+Each scenario folder owns its input contract (`README.md`), requirements under `specs/`, acceptance criteria (`gherkin/` with exactly one `@acceptance-test` scenario), and run records under `results/` (JSON per completed run conforming to [metrics-v2.schema.json](metrics-v2.schema.json)).
 
 Input paths above are relative to each scenario folder (for example `benchmarks/problem2/scenario2/specs/functional-requirements/agile/`). OpenSpec changes use `add-greek-gods-api`. Runnable scenario authority is the harness-local `specs/` trees. Do not use `benchmarks/problem1/` or rewrite upstream example trees as part of a campaign run.
 
@@ -70,8 +70,8 @@ Input paths above are relative to each scenario folder (for example `benchmarks/
 
 Canonical field definitions and JSON Schema for every scenario execution record:
 
-- Schema: [metrics-v1.schema.json](metrics-v1.schema.json)
-- Example: [metrics-v1.example.json](metrics-v1.example.json)
+- Schema: [metrics-v2.schema.json](metrics-v2.schema.json)
+- Example: [metrics-v2.example.json](metrics-v2.example.json)
 
 Each run record is a JSON object with up to five top-level groups (`efficiency`, `outcome_quality`, `protocol_labels`, `plinth_usage`, `solution_snapshot`). **All groups and fields are optional in the schema.** Each scenario Gherkin feature (`scenarioN/gherkin/scenarioN.feature`) defines which fields MUST be populated for completed runs in that case (currently: all fields in every scenario).
 
@@ -126,11 +126,12 @@ Each run record is a JSON object with up to five top-level groups (`efficiency`,
 | `solution_snapshot.tree_format` | Format of the decoded tree payload (currently `unix-tree`) |
 | `solution_snapshot.tree_encoding` | Encoding of the tree payload (currently `base64`) |
 | `solution_snapshot.tree_b64` | Base64-encoded directory tree of `demo_root` at run completion; capture before restoring `demo/` |
+| `solution_snapshot.pom_xml_b64` | Base64-encoded contents of the main `pom.xml` under `demo_root` (Maven buildsystem); capture before restoring `demo/` |
 | `solution_snapshot.file_count` | Number of files under `demo_root` excluding `.gitkeep` when the snapshot was taken |
 
 ### Schema vs scenario requirements
 
-- **Schema** ([metrics-v1.schema.json](metrics-v1.schema.json)): defines allowed shape and types only; nothing is required at validation time.
+- **Schema** ([metrics-v2.schema.json](metrics-v2.schema.json)): defines allowed shape and types only; nothing is required at validation time.
 - **Scenario Gherkin**: defines mandatory population for completed runs. Cases 1–5 currently require every group and every field listed above.
 
 See the `@acceptance-test` scenario in each `scenarioN/gherkin/scenarioN.feature` for the authoritative population checklist.

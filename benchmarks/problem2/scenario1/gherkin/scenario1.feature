@@ -29,8 +29,8 @@ Feature: Scenario 1 — Case 1 minimal functional notes
       | benchmarks/problem2/scenario1/specs/functional-requirements/README.md |
       | benchmarks/problem2/scenario1/gherkin/scenario1.feature |
       | benchmarks/problem2/scenario1/README.md |
-      | benchmarks/problem2/metrics-v1.schema.json |
-      | benchmarks/problem2/metrics-v1.example.json |
+      | benchmarks/problem2/metrics-v2.schema.json |
+      | benchmarks/problem2/metrics-v2.example.json |
     And the Case 1 results allowlist is the only authorized reading set under "benchmarks/problem2/scenario1/results/":
       | path |
       | benchmarks/problem2/scenario1/results/README.md |
@@ -69,12 +69,12 @@ Feature: Scenario 1 — Case 1 minimal functional notes
     And the run completes
     Then the product happy path embedded in "benchmarks/problem2/scenario1/specs/functional-requirements/README.md" passes
     And a result JSON file exists under "benchmarks/problem2/scenario1/results/"
-    And the result JSON conforms to "benchmarks/problem2/metrics-v1.schema.json"
+    And the result JSON conforms to "benchmarks/problem2/metrics-v2.schema.json"
     And the result JSON includes populated group "efficiency" with fields "wall_clock_s", "active_agent_s", "tokens_in", "tokens_out", "tokens_total", and "cost_usd"
     And the result JSON includes populated group "outcome_quality" with fields "acceptance_pass", "acceptance_coverage", "rework_turns", and "artifact_completeness"
     And the result JSON includes populated group "protocol_labels" with fields "scenario", "case_id", "tool", "model", "plinth_config", "commit", "retry_count", and "human_intervention_min"
     And the result JSON includes populated group "plinth_usage" with fields "skills_count", "commands_count", "agents_count", "skills", "commands", and "agents"
-    And the result JSON includes populated group "solution_snapshot" with fields "demo_root", "tree_format", "tree_encoding", "tree_b64", and "file_count"
+    And the result JSON includes populated group "solution_snapshot" with fields "demo_root", "tree_format", "tree_encoding", "tree_b64", "pom_xml_b64", and "file_count"
     And the result JSON field "protocol_labels.scenario" equals "scenario1"
     And the result JSON field "protocol_labels.case_id" equals "case-1-readme-only"
     And the result JSON field "solution_snapshot.demo_root" equals "benchmarks/problem2/scenario1/demo/"

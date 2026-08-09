@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/jabrena/plinth/benchmarks/metrics-v1.schema.json",
-  "title": "Plinth project benchmark run metrics v1",
+  "$id": "https://github.com/jabrena/plinth/benchmarks/problem2/metrics-v2.schema.json",
+  "title": "Plinth project benchmark run metrics v2",
   "description": "Canonical shape for a benchmark harness run record. All top-level groups and nested fields are optional in this schema. Each scenario Gherkin feature defines which fields MUST be populated for that case.",
   "type": "object",
   "additionalProperties": false,
@@ -127,12 +127,12 @@
     "solution_snapshot": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Durable snapshot of the implementation tree under demo/ before the folder is restored. Captures how each run structured files for cross-scenario comparison.",
+      "description": "Durable snapshot of the implementation tree under demo/ before the folder is restored. Captures how each run structured files and the Maven buildsystem for cross-scenario comparison.",
       "properties": {
         "demo_root": {
           "type": "string",
           "minLength": 1,
-          "description": "Repository-relative path to the demo implementation root (for example benchmarks/scenario1/demo/)."
+          "description": "Repository-relative path to the demo implementation root (for example benchmarks/problem2/scenario1/demo/)."
         },
         "tree_format": {
           "type": "string",
@@ -147,6 +147,10 @@
         "tree_b64": {
           "type": "string",
           "description": "Base64-encoded directory tree of demo_root at run completion. Empty string only for placeholder result templates."
+        },
+        "pom_xml_b64": {
+          "type": ["string", "null"],
+          "description": "Base64-encoded contents of the main pom.xml under demo_root (the Maven buildsystem descriptor). Empty string only for placeholder result templates. Null only for historical runs captured before this field existed."
         },
         "file_count": {
           "type": "integer",

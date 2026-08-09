@@ -40,7 +40,7 @@ benchmarks/
 └── problem2/                 # Greek Gods API (latency-problems Problem 5)
     ├── README.md
     ├── acceptance-tests-prompts.md
-    ├── metrics-v1.schema.json
+    ├── metrics-v2.schema.json
     └── scenario1/ … scenario5/
 ```
 

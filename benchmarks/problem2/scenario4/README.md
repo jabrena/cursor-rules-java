@@ -48,10 +48,10 @@ Use the canonical execution prompt only; do not prepend `/create-worktree` or ot
 
 ## Metrics and results JSON
 
-Every completed run MUST persist one JSON file under `results/` conforming to [metrics-v1.schema.json](../metrics-v1.schema.json):
+Every completed run MUST persist one JSON file under `results/` conforming to [metrics-v2.schema.json](../metrics-v2.schema.json):
 
-- Schema: [../metrics-v1.schema.json](../metrics-v1.schema.json)
-- Example: [../metrics-v1.example.json](../metrics-v1.example.json)
+- Schema: [../metrics-v2.schema.json](../metrics-v2.schema.json)
+- Example: [../metrics-v2.example.json](../metrics-v2.example.json)
 - Case template: [results/example.result.json](results/example.result.json)
 
 Canonical definitions for all scenarios: [../README.md](../README.md).

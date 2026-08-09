@@ -36,6 +36,7 @@
     "tree_format": "unix-tree",
     "tree_encoding": "base64",
     "tree_b64": "",
+    "pom_xml_b64": "",
     "file_count": 0
   }
 }

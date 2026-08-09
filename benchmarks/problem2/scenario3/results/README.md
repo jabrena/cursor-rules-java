@@ -2,8 +2,8 @@
 
 Each completed Case 1 run MUST write one JSON file under this directory that conforms to the canonical harness schema:
 
-- Schema: [metrics-v1.schema.json](../../metrics-v1.schema.json)
-- Example: [metrics-v1.example.json](../../metrics-v1.example.json)
+- Schema: [metrics-v2.schema.json](../../metrics-v2.schema.json)
+- Example: [metrics-v2.example.json](../../metrics-v2.example.json)
 
 ```text
 benchmarks/scenario1/results/<run-id>.json
@@ -39,8 +39,8 @@ Set `outcome_quality.acceptance_pass` to `true` only when the product happy path
 5. Track `outcome_quality.rework_turns` and optional `protocol_labels.human_intervention_min`.
 6. Stop timer when done; capture tokens, cost, and `plinth_usage` from the tool or operator tally.
 7. Set `outcome_quality.acceptance_pass` from product + harness checks.
-8. Capture `solution_snapshot` from `benchmarks/scenario1/demo/` before restore (for example `tree -a -I '.git' benchmarks/scenario1/demo/ | base64`) and set `solution_snapshot.file_count`.
-9. Write `benchmarks/scenario1/results/<run-id>.json` conforming to [metrics-v1.schema.json](../../metrics-v1.schema.json).
+8. Capture `solution_snapshot` from `benchmarks/scenario1/demo/` before restore (for example `tree -a -I '.git' benchmarks/scenario1/demo/ | base64` for `tree_b64`, and `base64 < benchmarks/scenario1/demo/pom.xml` for `pom_xml_b64`) and set `solution_snapshot.file_count`.
+9. Write `benchmarks/scenario1/results/<run-id>.json` conforming to [metrics-v2.schema.json](../../metrics-v2.schema.json).
 10. Restore `benchmarks/scenario1/demo/` to empty (only `.gitkeep`).
 11. Rank later using [benchmarks/README.md](../../README.md) rules (`outcome_quality.acceptance_pass = true` only).
 

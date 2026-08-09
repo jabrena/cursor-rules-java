@@ -37,8 +37,8 @@ Feature: Scenario 2 — Case 2 full functional requirements package
       | benchmarks/problem2/scenario2/specs/functional-requirements/design/greek_gods_api_sequence_diagram.png |
       | benchmarks/problem2/scenario2/gherkin/scenario2.feature |
       | benchmarks/problem2/scenario2/README.md |
-      | benchmarks/problem2/metrics-v1.schema.json |
-      | benchmarks/problem2/metrics-v1.example.json |
+      | benchmarks/problem2/metrics-v2.schema.json |
+      | benchmarks/problem2/metrics-v2.example.json |
     And the Case 2 results allowlist is the only authorized reading set under "benchmarks/problem2/scenario2/results/":
       | path |
       | benchmarks/problem2/scenario2/results/README.md |
@@ -77,12 +77,12 @@ Feature: Scenario 2 — Case 2 full functional requirements package
     Then the @smoke @happy-path scenario in "benchmarks/problem2/scenario2/specs/functional-requirements/agile/US-001_api_greek_gods_data_retrieval.feature" passes
     And the @smoke @data-quality scenario in "benchmarks/problem2/scenario2/specs/functional-requirements/agile/US-001_api_greek_gods_data_retrieval.feature" passes
     And a result JSON file exists under "benchmarks/problem2/scenario2/results/"
-    And the result JSON conforms to "benchmarks/problem2/metrics-v1.schema.json"
+    And the result JSON conforms to "benchmarks/problem2/metrics-v2.schema.json"
     And the result JSON includes populated group "efficiency" with fields "wall_clock_s", "active_agent_s", "tokens_in", "tokens_out", "tokens_total", and "cost_usd"
     And the result JSON includes populated group "outcome_quality" with fields "acceptance_pass", "acceptance_coverage", "rework_turns", and "artifact_completeness"
     And the result JSON includes populated group "protocol_labels" with fields "scenario", "case_id", "tool", "model", "plinth_config", "commit", "retry_count", and "human_intervention_min"
     And the result JSON includes populated group "plinth_usage" with fields "skills_count", "commands_count", "agents_count", "skills", "commands", and "agents"
-    And the result JSON includes populated group "solution_snapshot" with fields "demo_root", "tree_format", "tree_encoding", "tree_b64", and "file_count"
+    And the result JSON includes populated group "solution_snapshot" with fields "demo_root", "tree_format", "tree_encoding", "tree_b64", "pom_xml_b64", and "file_count"
     And the result JSON field "protocol_labels.scenario" equals "scenario2"
     And the result JSON field "protocol_labels.case_id" equals "case-2-all-functional-requirements"
     And the result JSON field "solution_snapshot.demo_root" equals "benchmarks/problem2/scenario2/demo/"
