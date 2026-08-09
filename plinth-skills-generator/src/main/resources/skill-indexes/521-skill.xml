@@ -4,7 +4,7 @@
       id="521-frameworks-micronaut-testing-unit-tests">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to write unit tests for Micronaut applications — Mockito-first with @ExtendWith(MockitoExtension.class), @MicronautTest with @MockBean, HttpClient @Client(/) assertions, @Property overrides, @ParameterizedTest, and *Test vs *IT naming. For framework-agnostic Java use @131-java-testing-unit-testing. This should trigger for requests such as Add or improve unit tests in a Micronaut project; Reduce unnecessary @MicronautTest usage with Mockito-first tests; Write Mockito-first unit tests for Micronaut services; Mock Micronaut bean collaborators in unit tests; Review fast Micronaut tests without application context.</description>
   </metadata>

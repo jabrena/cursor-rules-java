@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Spring Data JDBC with Records</title>
         <description>Use when you need to use Spring Data JDBC with Java records — including entity design with records, repository pattern, immutable updates, aggregate relationships, custom queries, transaction management, and avoiding N+1 problems. For programmatic JDBC (`JdbcTemplate`, `NamedParameterJdbcTemplate`), hand-written SQL, and maximum control without repository abstraction, use `@311-frameworks-spring-jdbc`. For Flyway-backed DDL and versioned schema changes, use `@313-frameworks-spring-db-migrations-flyway`.</description>

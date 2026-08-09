@@ -4,7 +4,7 @@
       id="810-regulations-eu-mifid-ii">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing Java enterprise evidence for MiFID II investment services, investment activities, client classification, suitability, appropriateness, order-handling evidence, best-execution evidence, algorithmic-trading governance evidence, market-access governance evidence, transaction evidence, record keeping, monitoring, or compliance-owner handoff. This should trigger for requests such as Review a Java investment-service platform for MiFID II evidence; Assess suitability, appropriateness, order-handling evidence, or best-execution evidence; Document audit, monitoring, or clock-synchronisation gaps for algorithmic-trading governance; Assess investment-service engineering evidence before production release.</description>
   </metadata>

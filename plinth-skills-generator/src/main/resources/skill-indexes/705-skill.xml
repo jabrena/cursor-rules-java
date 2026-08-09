@@ -4,7 +4,7 @@
       id="705-technologies-nosql-mongodb">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need framework-agnostic MongoDB and non-relational database query guidance — document schema design, collection modeling, JSON Schema validation, indexes, aggregation pipelines, query performance, consistency trade-offs, transactions, and operational safety — without choosing Spring Boot, Quarkus, or Micronaut. This should trigger for requests such as Design MongoDB document schemas; Review MongoDB queries and indexes; Improve aggregation pipeline performance; Model non-relational data access patterns; Review NoSQL consistency and transaction trade-offs.</description>
   </metadata>

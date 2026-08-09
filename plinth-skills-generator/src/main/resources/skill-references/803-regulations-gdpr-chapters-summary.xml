@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>GDPR Regulation for Java Enterprise Personal Data Protection</title>
         <description>Use as a chapter-by-chapter and article-by-article summary of Regulation (EU) 2016/679 to enrich Java enterprise privacy engineering reviews with GDPR context.</description>

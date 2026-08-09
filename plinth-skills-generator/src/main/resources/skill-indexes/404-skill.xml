@@ -4,7 +4,7 @@
       id="404-frameworks-quarkus-security">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to design, review, or improve security in Quarkus applications — including Quarkus Security with JWT/OIDC, basic auth, @RolesAllowed / @Authenticated / @PermitAll, SecurityIdentity, permission checks, path-based authorization in configuration, exception mapping for auth failures, and sensitive-data-safe logging. This should trigger for requests such as Add Quarkus security support; Review Quarkus security configuration; Improve API authorization in Quarkus; Add JWT/OIDC security in Quarkus; Harden Quarkus authorization rules.</description>
   </metadata>

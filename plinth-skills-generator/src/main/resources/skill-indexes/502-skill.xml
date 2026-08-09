@@ -4,7 +4,7 @@
       id="502-frameworks-micronaut-rest">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to design, review, or improve REST APIs with Micronaut — including @Controller routes, HTTP status codes, DTOs, Bean Validation, exception handlers, pagination, idempotency, ETag/If-Match, caching headers, versioning, contract-first OpenAPI (OpenAPI Generator), optional runtime OpenAPI via micronaut-openapi, and security annotations. This should trigger for requests such as Review or improve Micronaut @Controller REST APIs; Add validation, error handling, or align controllers with the OpenAPI contract on Micronaut HTTP layer; Design Micronaut controllers and DTO validation; Add Micronaut exception handlers and Problem Details responses; Improve pagination filtering or OpenAPI alignment in Micronaut APIs.</description>
   </metadata>

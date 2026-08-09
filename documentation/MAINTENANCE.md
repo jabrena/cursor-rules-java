@@ -12,10 +12,14 @@ Some **User prompts** designed to help in the maintenance of this repository.
 ./mvnw versions:commit
 
 #Bump to a new snapshot
-@skill-resources/src/main/resources/ update version to 0.19.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
+@plinth-commands-generator/src/main/resources/commands update version to 0.19.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
+
+@plinth-agents-generator/src/main/resources/agents update version to 0.19.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
+
+@plinth-skills-generator/src/main/resources/ update version to 0.19.0-SNAPSHOT finally regenerate local skills with ./mvnw clean install -pl plinth-skills-generator -am
 
 #Update the XML Schema to latest version
-@skill-resources/src/main/resources/ update all XML Schema with XSD Configuration pointing to PML 0.8.0 and regenerate local skills with ./mvnw clean install -pl plinth-skills-generator
+@plinth-skills-generator/src/main/resources/ update all XML Schema with XSD Configuration pointing to PML 0.9.0 and regenerate local skills with ./mvnw clean install -pl plinth-skills-generator
 ```
 
 ## Finish a release

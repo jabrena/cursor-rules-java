@@ -4,7 +4,7 @@
       id="130-java-testing-strategies">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when you need to apply testing strategies for Java code — RIGHT-BICEP to guide test creation, A-TRIP for test quality characteristics, or CORRECT for verifying boundary conditions. This should trigger for requests such as Review Java code for testing strategies; Apply RIGHT-BICEP testing strategies in Java code; Apply A-TRIP testing strategies in Java code; Apply CORRECT boundary condition verification in Java code.</description>
   </metadata>

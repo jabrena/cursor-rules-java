@@ -6,7 +6,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Maven Plugins: pom.xml Configuration Best Practices</title>
         <description>Sonar profile guidance for SonarQube and SonarCloud analysis.</description>

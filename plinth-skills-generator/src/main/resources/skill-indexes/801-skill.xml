@@ -4,7 +4,7 @@
       id="801-regulations-eu-ai-act">
   <metadata>
     <author>Juan Antonio Breña Moral</author>
-    <version>0.18.0</version>
+    <version>0.19.0-SNAPSHOT</version>
     <license>Apache-2.0</license>
     <description>Use when reviewing, designing, or modifying Java enterprise systems that use AI, LLMs, AI agents, RAG, tool calling, workflow automation, or model-based decision support and need EU AI Act regulatory awareness. This should trigger for requests such as Review a Java AI system for EU AI Act controls; Design governance for an AI agent with enterprise tools; Add human oversight and auditability to LLM workflows; Assess RAG or model-driven decision support before production release.</description>
   </metadata>

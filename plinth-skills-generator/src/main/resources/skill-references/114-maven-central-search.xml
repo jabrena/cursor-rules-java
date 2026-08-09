@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Maven version workflow router</title>
         <description>Guides explicit Maven artifact discovery, coordinate verification, version browsing, repository URL construction, and artifact download links using maintainer-approved structured evidence, local resolver output, or approved package-intelligence tooling.</description>

@@ -7,7 +7,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Java Integration testing guidelines</title>
         <description>Use when you need to set up, review, or improve Java integration tests for framework-agnostic applications (no Spring Boot, Quarkus, Micronaut) — including generating a BaseIntegrationTest.java with WireMock for HTTP stubs, detecting HTTP client infrastructure from import signals, injecting service coordinates dynamically via System.setProperty(), creating WireMock JSON mapping files with bodyFileName, isolating stubs per test method, verifying HTTP interactions, or eliminating anti-patterns such as Mockito-mocked HTTP clients or globally registered WireMock stubs. For Spring Boot use @322-frameworks-spring-boot-testing-integration-tests. For Quarkus use @422-frameworks-quarkus-testing-integration-tests.</description>

@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Spring Boot — Kafka messaging</title>
         <description>Use when you need Kafka with Spring Boot — including Maven dependencies (`spring-boot-starter-kafka`), typed event records, KafkaTemplate producers, @KafkaListener consumers, JSON serialization with Boot auto-configuration, retries and dead-letter topics, idempotent consumers, and integration testing with Testcontainers `@ServiceConnection` or `@EmbeddedKafka`. This should trigger for requests such as Add Kafka in Spring Boot; Review Spring Kafka consumers; Improve retries and DLT in Spring Kafka.</description>

@@ -5,7 +5,7 @@
         <authors>
             <author>Juan Antonio Breña Moral</author>
         </authors>
-        <version>0.18.0</version>
+        <version>0.19.0-SNAPSHOT</version>
         <license>Apache-2.0</license>
         <title>Micronaut REST API Guidelines</title>
         <description>Use when you need to design, review, or improve REST APIs with Micronaut — including HTTP methods, resource URIs, status codes, DTOs, versioning, deprecation and sunset headers, content negotiation (JSON and vendor media types), ISO-8601 instants in DTOs, pagination/sorting/filtering, Bean Validation at the boundary, idempotency, ETag concurrency, HTTP caching, error handling with `ExceptionHandler`, security annotations, contract-first OpenAPI (OpenAPI Generator `micronaut` server), optional runtime OpenAPI via `micronaut-openapi`, and RFC 7807-style problem details for errors.</description>
