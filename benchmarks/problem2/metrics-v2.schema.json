@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jabrena/plinth/benchmarks/problem2/metrics-v2.schema.json",
+  "title": "Plinth project benchmark run metrics v2",
+  "description": "Canonical shape for a benchmark harness run record. All top-level groups and nested fields are optional in this schema. Each scenario Gherkin feature defines which fields MUST be populated for that case.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "efficiency": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Efficiency metrics for the run.",
+      "properties": {
+        "wall_clock_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Elapsed wall-clock seconds for the run."
+        },
+        "active_agent_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Seconds the agent was actively working; excludes idle wait where measurable."
+        },
+        "tokens_in": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Prompt / input tokens when available."
+        },
+        "tokens_out": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Completion / output tokens when available."
+        },
+        "tokens_total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total tokens for the run. Prefer tokens_in + tokens_out when both are known."
+        },
+        "cost_usd": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated or billed USD cost for the run."
+        }
+      }
+    },
+    "outcome_quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Outcome quality metrics for the run.",
+      "properties": {
+        "acceptance_pass": {
+          "type": "boolean",
+          "description": "Whether the run met the scenario @acceptance-test outcome and product happy path for the case."
+        },
+        "acceptance_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Share of acceptance criteria satisfied when measurable."
+        },
+        "rework_turns": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of human or agent rework turns after the first attempt."
+        },
+        "artifact_completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Whether required deliverables for the case were produced."
+        }
+      }
+    },
+    "protocol_labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Protocol labels identifying the run context.",
+      "properties": {
+        "scenario": {
+          "type": "string",
+          "enum": ["scenario1", "scenario2", "scenario3", "scenario4", "scenario5"],
+          "description": "Folder id for the benchmark scenario."
+        },
+        "case_id": {
+          "type": "string",
+          "enum": [
+            "case-1-readme-only",
+            "case-2-all-functional-requirements",
+            "case-3-current-openspec-problem2",
+            "case-4-current-openspec-problem2",
+            "case-5-direct-openspec-problem2"
+          ],
+          "description": "Stable case id for the run."
+        },
+        "tool": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Agent tool used for the run (for example cursor, codex, github-copilot, claude-code)."
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Model identifier used for the run."
+        },
+        "plinth_config": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plinth configuration level (for example bare-agent, no-openspec, full-plinth)."
+        },
+        "commit": {
+          "type": "string",
+          "minLength": 7,
+          "description": "Git commit SHA of the workspace under test when the run starts."
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of retries for this run."
+        },
+        "human_intervention_min": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Minutes of human intervention during the run."
+        }
+      }
+    },
+    "solution_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Durable snapshot of the implementation tree under demo/ before the folder is restored. Captures how each run structured files and the Maven buildsystem for cross-scenario comparison.",
+      "properties": {
+        "demo_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository-relative path to the demo implementation root (for example benchmarks/problem2/scenario1/demo/)."
+        },
+        "tree_format": {
+          "type": "string",
+          "enum": ["unix-tree"],
+          "description": "Format of the decoded tree_b64 payload."
+        },
+        "tree_encoding": {
+          "type": "string",
+          "enum": ["base64"],
+          "description": "Encoding of the tree payload."
+        },
+        "tree_b64": {
+          "type": "string",
+          "description": "Base64-encoded directory tree of demo_root at run completion. Empty string only for placeholder result templates."
+        },
+        "pom_xml_b64": {
+          "type": ["string", "null"],
+          "description": "Base64-encoded contents of the main pom.xml under demo_root (the Maven buildsystem descriptor). Empty string only for placeholder result templates. Null only for historical runs captured before this field existed."
+        },
+        "file_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of files under demo_root excluding .gitkeep when the snapshot was taken."
+        }
+      }
+    },
+    "plinth_usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Plinth skills, commands, and agents used during the run.",
+      "properties": {
+        "skills_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of distinct skills read or invoked; MUST equal the length of skills when both are present."
+        },
+        "commands_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of distinct Plinth commands read or invoked; MUST equal the length of commands when both are present."
+        },
+        "agents_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of distinct Plinth agents invoked from .cursor/agents/; MUST equal the length of agents when both are present."
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Skill ids used during the run (for example 042-planning-openspec); empty array when none."
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Plinth command ids from .cursor/commands/ used during the run (for example implement-spec); empty array when none."
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Plinth agent ids from .cursor/agents/ invoked during the run (for example plinth-tech-lead); empty array when none. Does not include the host tool model (record that under protocol_labels.model)."
+        }
+      }
+    }
+  }
+}

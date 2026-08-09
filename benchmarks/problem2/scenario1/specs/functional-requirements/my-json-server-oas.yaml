@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: My JSON Server API
+  description: API for retrieving Greek gods data from external service
+  version: 1.0.0
+  contact:
+    name: My JSON Server
+    email: info@myjsonserver.example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://my-json-server.typicode.com/jabrena/latency-problems
+    description: External JSON server
+paths:
+  /greek:
+    get:
+      tags:
+        - External Greek Gods
+      summary: Get Greek gods from external API
+      description: Returns a list of Greek gods from the external service
+      operationId: getExternalGreekGods
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Name of the Greek god
+                  example: Zeus
+        '500':
+          description: Internal server error
+        '504':
+          description: Gateway timeout

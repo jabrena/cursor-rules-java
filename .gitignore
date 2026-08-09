@@ -7,6 +7,10 @@ target/
 .settings/
 .factorypath
 .agents
+!benchmarks/problem1/scenario3/.agents/
+!benchmarks/problem1/scenario3/.agents/**
+!benchmarks/problem2/scenario3/.agents/
+!benchmarks/problem2/scenario3/.agents/**
 .env
 dependency-reduced-pom.xml
 docs-local/

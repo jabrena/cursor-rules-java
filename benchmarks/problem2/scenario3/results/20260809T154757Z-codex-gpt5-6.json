@@ -1,0 +1,46 @@
+{
+  "efficiency": {
+    "wall_clock_s": 360,
+    "active_agent_s": 340,
+    "tokens_in": 33000,
+    "tokens_out": 7500,
+    "tokens_total": 40500,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 3,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario3",
+    "case_id": "case-3-current-openspec-problem2",
+    "tool": "codex",
+    "model": "gpt-5",
+    "plinth_config": "full-plinth",
+    "commit": "579ac915976b774a866537a75d5edf80ada2957b",
+    "retry_count": 3,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 3,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [
+      "133-java-testing-acceptance-tests",
+      "openspec-propose",
+      "423-frameworks-quarkus-testing-acceptance-tests"
+    ],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/problem2/scenario3/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMi9zY2VuYXJpbzMvZGVtbwp8LS0gcG9tLnhtbApgLS0gc3JjCiAgICB8LS0gbWFpbgogICAgfCAgIHwtLSBqYXZhCiAgICB8ICAgfCAgIGAtLSBpbmZvCiAgICB8ICAgfCAgICAgICBgLS0gamFiCiAgICB8ICAgfCAgICAgICAgICAgYC0tIHBsaW50aAogICAgfCAgIHwgICAgICAgICAgICAgICBgLS0gZ3JlZWsKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHcmVla0dvZC5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgICAgICB8LS0gR3JlZWtHb2RSZXBvc2l0b3J5LmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHcmVla0dvZFJlc291cmNlLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHcmVla0dvZFNlcnZpY2UuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICAgICAgYC0tIEdyZWVrR29kU3luY2hyb25pemVyLmphdmEKICAgIHwgICBgLS0gcmVzb3VyY2VzCiAgICB8ICAgICAgIHwtLSBhcHBsaWNhdGlvbi5wcm9wZXJ0aWVzCiAgICB8ICAgICAgIGAtLSBkYgogICAgfCAgICAgICAgICAgYC0tIG1pZ3JhdGlvbgogICAgfCAgICAgICAgICAgICAgIGAtLSBWMV9fY3JlYXRlX2dyZWVrX2dvZC5zcWwKICAgIGAtLSB0ZXN0CiAgICAgICAgfC0tIGphdmEKICAgICAgICB8ICAgYC0tIGluZm8KICAgICAgICB8ICAgICAgIGAtLSBqYWIKICAgICAgICB8ICAgICAgICAgICBgLS0gcGxpbnRoCiAgICAgICAgfCAgICAgICAgICAgICAgIGAtLSBncmVlawogICAgICAgIHwgICAgICAgICAgICAgICAgICAgfC0tIEJhc2VBY2NlcHRhbmNlVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgICAgICB8LS0gR3JlZWtHb2RTeW5jaHJvbml6ZXJJVC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgICAgICB8LS0gR3JlZWtHb2RzUmVzb3VyY2VBVC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgICAgICBgLS0gV2lyZU1vY2tMaWZlY3ljbGVNYW5hZ2VyLmphdmEKICAgICAgICBgLS0gcmVzb3VyY2VzCiAgICAgICAgICAgIGAtLSBkYgogICAgICAgICAgICAgICAgYC0tIG1pZ3JhdGlvbgogICAgICAgICAgICAgICAgICAgIGAtLSBWMl9fc2VlZF96ZXVzLnNxbAoKMjAgZGlyZWN0b3JpZXMsIDEzIGZpbGVzCg==",
+    "pom_xml_b64": null,
+    "file_count": 13
+  }
+}

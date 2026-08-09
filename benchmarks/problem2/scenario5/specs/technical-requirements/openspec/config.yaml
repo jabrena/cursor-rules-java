@@ -1,0 +1,5 @@
+# OpenSpec project configuration for the Greek Gods API benchmark change.
+schemaVersion: 1
+project:
+  name: greek-gods-api-openspec
+  description: OpenSpec change derived from co-located functional-requirements.

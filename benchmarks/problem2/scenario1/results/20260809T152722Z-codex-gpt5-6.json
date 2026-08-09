@@ -1,0 +1,44 @@
+{
+  "efficiency": {
+    "wall_clock_s": 420,
+    "active_agent_s": 390,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "tokens_total": 0,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 1,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario1",
+    "case_id": "case-1-readme-only",
+    "tool": "codex",
+    "model": "gpt-5",
+    "plinth_config": "full-plinth",
+    "commit": "579ac915976b774a866537a75d5edf80ada2957b",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 1,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [
+      "133-java-testing-acceptance-tests"
+    ],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/problem2/scenario1/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMi9zY2VuYXJpbzEvZGVtby8K4pSc4pSA4pSAIHBvbS54bWwK4pSU4pSA4pSAIHNyYwogICAg4pSc4pSA4pSAIG1haW4KICAgIOKUgiAgIOKUlOKUgOKUgCBqYXZhCiAgICDilIIgICAgICAg4pSU4pSA4pSAIGluZm8KICAgIOKUgiAgICAgICAgICAg4pSU4pSA4pSAIGphYnJlbmEKICAgIOKUgiAgICAgICAgICAgICAgIOKUlOKUgOKUgCBiZW5jaG1hcmtzCiAgICDilIIgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdyZWVrR29kLmphdmEKICAgIOKUgiAgICAgICAgICAgICAgICAgICDilJzilIDilIAgR3JlZWtHb2RBcHBsaWNhdGlvbi5qYXZhCiAgICDilIIgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdyZWVrR29kUmVwb3NpdG9yeS5qYXZhCiAgICDilIIgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdyZWVrR29kU2VydmljZS5qYXZhCiAgICDilIIgICAgICAgICAgICAgICAgICAg4pSU4pSA4pSAIEdyZWVrR29kU291cmNlLmphdmEKICAgIOKUlOKUgOKUgCB0ZXN0CiAgICAgICAg4pSU4pSA4pSAIGphdmEKICAgICAgICAgICAg4pSU4pSA4pSAIGluZm8KICAgICAgICAgICAgICAgIOKUlOKUgOKUgCBqYWJyZW5hCiAgICAgICAgICAgICAgICAgICAg4pSU4pSA4pSAIGJlbmNobWFya3MKICAgICAgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEJhc2VBY2NlcHRhbmNlVGVzdC5qYXZhCiAgICAgICAgICAgICAgICAgICAgICAgIOKUlOKUgOKUgCBHcmVla0dvZHNBcGlBVC5qYXZh",
+    "pom_xml_b64": null,
+    "file_count": 8
+  }
+}

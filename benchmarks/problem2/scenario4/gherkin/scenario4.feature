@@ -1,0 +1,102 @@
+Feature: Scenario 4 — Case 4 OpenSpec technical requirements
+  As a Plinth maintainer running the project benchmark harness
+  I want Case 4 runs to implement the OpenSpec change via /implement-spec
+  and persist a metrics result JSON under results/
+  So that we can compare command-driven OpenSpec implementation with measurable cost and quality
+
+  # Agent protocol (Case 4):
+  # - Execute /implement-spec with
+  #   benchmarks/problem2/scenario4/specs/technical-requirements/openspec/changes/add-greek-gods-api
+  #   and implement in benchmarks/problem2/scenario4/demo/.
+  # - Delegate through @plinth-tech-lead to @plinth-java-quarkus-coder under .cursor/agents/
+  #   per implement-spec.
+  # - Use @042-planning-openspec from .agents/skills/ or skills/ for OpenSpec
+  #   orchestration support.
+  # - The delegated agents may inspect skills referenced by /implement-spec,
+  #   @plinth-tech-lead, and the selected coder agent; the model decides which
+  #   skills are relevant and the result JSON records only skills actually read
+  #   or invoked during the run.
+  # - Derive ALL implementation requirements ONLY from that OpenSpec change
+  #   (proposal.md, design.md, tasks.md, specs/greek-gods-api/spec.md).
+  # - Capture the OpenSpec change state before execution and restore it after metrics are written;
+  #   /implement-spec may update tasks.md, but benchmark inputs must remain reusable.
+  # - Do NOT read benchmarks/problem2/scenario4/specs/functional-requirements/ directly as agent input
+  #   (those files exist only so OpenSpec derivation links resolve within the harness).
+  # - Under benchmarks/problem2/scenario4/results/, read ONLY README.md and example.result.json
+  #   (operator/metrics template).
+  # - Do NOT read prior run JSON files under benchmarks/problem2/scenario4/results/.
+  # - Do NOT use examples/openspec/ or other scenarios as input authority.
+
+  Background:
+    Given a Case 4 benchmark run for scenario "scenario4"
+    And the run case id is "case-4-current-openspec-problem2"
+    And results are stored under "benchmarks/problem2/scenario4/results/"
+    And the Case 4 allowlist is the only authorized reading set for requirements and product behavior:
+      | path |
+      | benchmarks/problem2/scenario4/specs/technical-requirements/openspec/ |
+      | benchmarks/problem2/scenario4/gherkin/scenario4.feature |
+      | benchmarks/problem2/scenario4/README.md |
+      | benchmarks/problem2/metrics-v2.schema.json |
+      | benchmarks/problem2/metrics-v2.example.json |
+    And the Case 4 results allowlist is the only authorized reading set under "benchmarks/problem2/scenario4/results/":
+      | path |
+      | benchmarks/problem2/scenario4/results/README.md |
+      | benchmarks/problem2/scenario4/results/example.result.json |
+    And the Case 4 Plinth tooling allowlist is the authorized reading set for commands, agents, and skills:
+      | path |
+      | .cursor/commands/implement-spec.md |
+      | .cursor/agents/ |
+      | .agents/skills/ |
+      | skills/ |
+    And the Case 4 skill discovery allowlist permits skills referenced by the command and selected agents:
+      | source |
+      | .cursor/commands/implement-spec.md |
+      | .cursor/agents/plinth-tech-lead.md |
+      | .cursor/agents/plinth-java-quarkus-coder.md |
+
+  @acceptance-test
+  Scenario: Case 4 run records minimal v1 metrics as JSON
+    Given the OpenSpec change path "benchmarks/problem2/scenario4/specs/technical-requirements/openspec/changes/add-greek-gods-api"
+    And the OpenSpec change "add-greek-gods-api" contains "proposal.md", "design.md", "tasks.md", and "specs/greek-gods-api/spec.md"
+    And the command prompt source ".cursor/commands/implement-spec.md" is read before execution
+    And Plinth agents under ".cursor/agents/" and skills under ".agents/skills/" or "skills/" may be read and invoked for orchestration or implementation guidance only
+    And skills referenced by ".cursor/commands/implement-spec.md", ".cursor/agents/plinth-tech-lead.md", and ".cursor/agents/plinth-java-quarkus-coder.md" may be read before the model decides whether to apply them
+    And only files on the Case 4 allowlist are read for requirements, design, or acceptance criteria
+    And only files on the Case 4 results allowlist are read under "benchmarks/problem2/scenario4/results/"
+    And only files on the Case 4 Plinth tooling allowlist are read for commands, agents, and skills
+    And skills read or invoked from the Case 4 skill discovery allowlist are recorded in "plinth_usage.skills"
+    And no file under "benchmarks/problem2/scenario4/results/" outside the Case 4 results allowlist may be read during the run
+    And the agent must not read, open, grep, or search under any path outside "benchmarks/problem2/scenario4/" except harness metrics files on the Case 4 allowlist under "benchmarks/problem2/" and Plinth tooling on the Case 4 Plinth tooling allowlist
+    And "benchmarks/problem2/scenario4/specs/functional-requirements/" must not be read directly for requirements or technology choices
+    And "benchmarks/problem2/scenario1/" must not be read or used as scenario input
+    And "benchmarks/problem2/scenario2/" must not be read or used as scenario input
+    And "benchmarks/problem2/scenario3/" must not be read or used as scenario input
+    And "benchmarks/problem2/scenario5/" must not be read or used as scenario input
+    And "benchmarks/problem1/" must not be read or used as scenario input
+    And "examples/openspec/" must not be read or used as scenario input
+    And no "ADR-*" file outside "benchmarks/problem2/scenario4/" may be read for requirements or technology choices
+    And no "openspec/changes/" design, tasks, or spec files outside "benchmarks/problem2/scenario4/" may be read for requirements
+    When the user executes the prompt "/implement-spec benchmarks/problem2/scenario4/specs/technical-requirements/openspec/changes/add-greek-gods-api implement in benchmarks/problem2/scenario4/demo/"
+    And the run completes
+    Then the happy path in "benchmarks/problem2/scenario4/specs/technical-requirements/openspec/changes/add-greek-gods-api/specs/greek-gods-api/spec.md" passes
+    And a result JSON file exists under "benchmarks/problem2/scenario4/results/"
+    And the result JSON conforms to "benchmarks/problem2/metrics-v2.schema.json"
+    And the result JSON includes populated group "efficiency" with fields "wall_clock_s", "active_agent_s", "tokens_in", "tokens_out", "tokens_total", and "cost_usd"
+    And the result JSON includes populated group "outcome_quality" with fields "acceptance_pass", "acceptance_coverage", "rework_turns", and "artifact_completeness"
+    And the result JSON includes populated group "protocol_labels" with fields "scenario", "case_id", "tool", "model", "plinth_config", "commit", "retry_count", and "human_intervention_min"
+    And the result JSON includes populated group "plinth_usage" with fields "skills_count", "commands_count", "agents_count", "skills", "commands", and "agents"
+    And the result JSON includes populated group "solution_snapshot" with fields "demo_root", "tree_format", "tree_encoding", "tree_b64", "pom_xml_b64", and "file_count"
+    And the result JSON field "protocol_labels.scenario" equals "scenario4"
+    And the result JSON field "protocol_labels.case_id" equals "case-4-current-openspec-problem2"
+    And the result JSON field "solution_snapshot.demo_root" equals "benchmarks/problem2/scenario4/demo/"
+    And the result JSON field "outcome_quality.acceptance_pass" is true only when the OpenSpec happy path and this scenario pass
+    And the length of "plinth_usage.agents" equals the value of "plinth_usage.agents_count"
+    And the length of "plinth_usage.commands" equals the value of "plinth_usage.commands_count"
+    And the length of "plinth_usage.skills" equals the value of "plinth_usage.skills_count"
+    And every entry in "plinth_usage.skills" is a skill read or invoked during the run
+    And "plinth_usage.commands" includes "implement-spec"
+    And "plinth_usage.agents" includes "plinth-tech-lead"
+    And "plinth_usage.agents" includes "plinth-java-quarkus-coder"
+    And "plinth_usage.skills" includes "042-planning-openspec"
+    And "benchmarks/problem2/scenario4/demo/" is restored to empty with only ".gitkeep"
+    And the OpenSpec change path "benchmarks/problem2/scenario4/specs/technical-requirements/openspec/changes/add-greek-gods-api" is restored to its pre-run contents, including "tasks.md"

@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: God Analysis API
+  description: |
+    Cross-pantheon god name analysis: loads god lists from configured sources (Greek, Roman, Nordic),
+    applies a case-sensitive name prefix filter, converts each matching name to a decimal string by
+    concatenating Unicode code point values per character, then returns the sum of those values.
+
+    **Processing rules** (from requirements):
+    - **Decimal conversion:** For each character in a name, use its Unicode integer value and concatenate
+      those digits as a string (e.g. `Zeus` → `90101117115`), then contribute that string's numeric value to the total.
+    - **Filter:** `filter` accepts exactly one Unicode code point and matching is case-sensitive.
+      The documented source data uses uppercase initials, so `filter=N` matches names such as
+      `Nike`, `Nemesis`, `Neptun`, and `Njord`; lowercase `filter=n` is valid but returns no
+      matches for the current documented data.
+    - **Timeouts:** External source calls use a configured timeout (e.g. 5 seconds). If a source times out,
+      the aggregate is computed from the remaining sources only (HTTP 200 with partial logical result).
+    - **Authentication:** Public API; no authentication required.
+
+    **External data sources** (implementation detail; not part of this contract):
+    - Greek: `https://my-json-server.typicode.com/jabrena/latency-problems/greek`
+    - Roman: `https://my-json-server.typicode.com/jabrena/latency-problems/roman`
+    - Nordic: `https://my-json-server.typicode.com/jabrena/latency-problems/nordic`
+  version: 1.0.0
+  contact:
+    name: latency-problems maintainers
+    url: https://github.com/jabrena/latency-problems
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.example.com
+    description: Replace with deployment base URL
+  - url: http://localhost:8080
+    description: Local development (typical default)
+
+security: []
+
+paths:
+  /api/v1/gods/stats/sum:
+    get:
+      operationId: getGodsStatsSum
+      summary: Sum of Unicode-derived decimal values for filtered god names
+      description: |
+        Returns a JSON object with a single field `sum` containing the aggregated result as a decimal string.
+        Large results may exceed 64-bit integer range in plain JSON numbers; the value is therefore represented as a string.
+      tags:
+        - gods
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          description: |
+            Single-character prefix applied to the start of each god name. Matching is case-sensitive.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 1
+          example: "N"
+        - name: sources
+          in: query
+          required: true
+          description: |
+            Comma-separated list of pantheon sources to include. Typical values are `greek`, `roman`, and `nordic`.
+            Order may affect implementation; the aggregate is over all gods retrieved from the selected sources after filtering.
+          schema:
+            type: string
+          example: "greek,roman,nordic"
+      responses:
+        "200":
+          description: |
+            Successful computation. When no names match the filter, `sum` is `"0"`.
+            When a source times out or fails, the service still responds with 200 and `sum` reflects only data from sources that responded in time.
+            When **all** selected sources time out or fail, the service still responds with 200 and `sum` is `"0"`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GodStatsSumResponse"
+              examples:
+                happyPath:
+                  summary: Acceptance test — filter N, all three sources
+                  value:
+                    sum: "78179288397447443426"
+                lowercaseFilterNoMatch:
+                  summary: Case-sensitive filter n — no lowercase-n names in documented data
+                  value:
+                    sum: "0"
+        "400":
+          description: Malformed request (e.g. missing required query parameters, invalid filter length, invalid source names).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Unexpected server failure. Not specified in acceptance tests; clients may treat as retryable.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    GodStatsSumResponse:
+      type: object
+      required:
+        - sum
+      properties:
+        sum:
+          type: string
+          pattern: "^[0-9]+$"
+          description: |
+            Non-negative integer represented as a decimal string. Using string avoids JSON number precision issues for very large aggregates.
+          example: "78179288397447443426"
+    ErrorResponse:
+      type: object
+      description: Optional error envelope; shape is not fixed by US-001 — adjust to match implementation.
+      additionalProperties: true
