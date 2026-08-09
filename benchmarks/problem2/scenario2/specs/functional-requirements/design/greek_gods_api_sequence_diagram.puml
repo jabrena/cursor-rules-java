@@ -1,0 +1,37 @@
+@startuml
+
+actor "User"
+
+box "Microservice scope" #LightBlue
+
+boundary "REST API"
+control "Greek God Service"
+entity "Quarkus JDBC Repository"
+database "PostgreSQL Database"
+control "God Updater"
+
+end box
+
+group Write process
+
+"God Updater" -> "my-json-server": GET https://my-json-server.typicode.com/jabrena/latency-problems/greek
+"God Updater" <-- "my-json-server": List of greek gods
+"God Updater" -> "Quarkus JDBC Repository" : Upsert greek god names
+"Quarkus JDBC Repository" -> "PostgreSQL Database" : INSERT new names / keep existing IDs
+
+end
+
+group Read process
+
+"User" -> "REST API": GET /api/v1/gods/greek
+"REST API" -> "Greek God Service": Find greek gods
+"Greek God Service" -> "Quarkus JDBC Repository": Query greek gods
+"Quarkus JDBC Repository" -> "PostgreSQL Database": SELECT id, name FROM greek_god
+"PostgreSQL Database" --> "Quarkus JDBC Repository": Rows with id and name
+"Quarkus JDBC Repository" --> "Greek God Service": Greek gods
+"Greek God Service" --> "REST API": Greek gods
+"User" <-- "REST API": List of greek gods
+
+end
+
+@enduml

@@ -1,31 +1,33 @@
-# Plinth project benchmark harness
+# Plinth project benchmark harness (problem2)
 
-Reproducible **project effectiveness** benchmark for comparing agent outcomes on the God Analysis API problem as **information richness increases** from Scenario 1 through Scenario 4 (issue [#1012](https://github.com/jabrena/plinth/issues/1012)).
+Reproducible **project effectiveness** benchmark for comparing agent outcomes on the **Greek Gods API** problem as **information richness increases** from Scenario 1 through Scenario 5 (issue [#1012](https://github.com/jabrena/plinth/issues/1012)).
 
 This harness is documentation and campaign protocol only (Markdown + Gherkin). It is **not** a Maven module and is **not** part of the JVM `/benchmark` command.
 
-## Scenarios (Cases 1–4)
+Sibling harness: [problem1](../problem1/) (God Analysis API). Do not mix inputs across problems.
+
+## Scenarios (Cases 1–5)
 
 Each runnable scenario adds structured inputs so agents have more to build from than the previous case. Scenarios are columns; each row explains one dimension of the information-richness ladder.
 
-| | `scenario1` | `scenario2` | `scenario3` | `scenario4` |
-| --- | --- | --- | --- | --- |
-| **Richness level** | Minimal | Full functional package | OpenSpec technical requirements | OpenSpec technical requirements |
-| **Case id** | `case-1-readme-only` | `case-2-all-problem1-requirements` | `case-3-current-openspec-problem1` | `case-4-current-openspec-problem1` |
-| **Functional input** | `specs/functional-requirements/README.md` only | `specs/functional-requirements/problem1/` (user story, Gherkin, OpenAPI, ADRs) | — | — |
-| **Implementation input** | — | — | `specs/technical-requirements/openspec/` | `specs/technical-requirements/openspec/` |
-| **Bundled Plinth skills** | — | — | `openspec-propose` under `.agents/skills/` | `@042-planning-openspec/` under `.agents/skills/` or `skills/` |
-| **Plinth agents** | — | — | — | `@plinth-tech-lead` → `@plinth-java-spring-boot-coder` via `/implement-spec` |
-| **Runnable** | Yes | Yes | Yes | Yes |
-| **Delta vs previous scenario** | Baseline: sparse functional notes only | Adds full `problem1/` inventory; still no OpenSpec | Adds OpenSpec implementation input **plus** bundled propose skill | Same OpenSpec input shape as Case 3; canonical reference run for the richest step |
-| **Intent** | Measure baseline with minimal notes | Measure rich FR without OpenSpec | Measure implementation from OpenSpec with propose-workflow support | Measure implementation from pre-linked OpenSpec technical plan |
+| | `scenario1` | `scenario2` | `scenario3` | `scenario4` | `scenario5` |
+| --- | --- | --- | --- | --- | --- |
+| **Richness level** | Minimal | Full functional package | OpenSpec technical requirements | OpenSpec technical requirements | OpenSpec technical requirements |
+| **Case id** | `case-1-readme-only` | `case-2-all-functional-requirements` | `case-3-current-openspec-problem2` | `case-4-current-openspec-problem2` | `case-5-direct-openspec-problem2` |
+| **Functional input** | `specs/functional-requirements/README.md` only | `specs/functional-requirements/agile/` + `design/` (user story, Gherkin, OpenAPI, ADRs, schema, diagrams) | — | — | — |
+| **Implementation input** | — | — | `specs/technical-requirements/openspec/` | `specs/technical-requirements/openspec/` | `specs/technical-requirements/openspec/` |
+| **Bundled Plinth skills** | — | — | `openspec-propose` under `.agents/skills/` | `@042-planning-openspec/` under `.agents/skills/` or `skills/` | — (discovery only; no mandated skill in Then) |
+| **Plinth agents** | — | — | — | `@plinth-tech-lead` → `@plinth-java-quarkus-coder` via `/implement-spec` | Agents/skills discovery allowed; `/implement-spec` forbidden |
+| **Runnable** | Yes | Yes | Yes | Yes | Yes |
+| **Delta vs previous scenario** | Baseline: sparse functional notes only | Adds full `agile/` + `design/` inventory; still no OpenSpec | Adds OpenSpec implementation input **plus** bundled propose skill | Same OpenSpec input shape as Case 3; command-driven via `/implement-spec` | Same OpenSpec input; **direct** implementation (no `/implement-spec`) |
+| **Intent** | Measure baseline with minimal notes | Measure rich FR without OpenSpec | Measure implementation from OpenSpec with propose-workflow support | Measure implementation from pre-linked OpenSpec via Plinth command/agents | Measure direct OpenSpec implementation vs Case 4 orchestration |
 
 Campaigns SHOULD compare cost/tokens/quality across this ladder for the same product acceptance outcome.
 
 ## Layout
 
 ```text
-benchmarks/
+benchmarks/problem2/
 ├── README.md
 ├── metrics-v1.schema.json    # canonical run metrics JSON Schema
 ├── metrics-v1.example.json   # fully populated example; scenarios require all fields
@@ -36,25 +38,33 @@ benchmarks/
 │   └── gherkin/scenario1.feature
 ├── scenario2/                # full functional requirements
 │   ├── README.md
-│   ├── specs/functional-requirements/problem1/
+│   ├── specs/functional-requirements/agile/
+│   ├── specs/functional-requirements/design/
 │   └── gherkin/scenario2.feature
-├── scenario3/                # OpenSpec technical requirements
+├── scenario3/                # OpenSpec + bundled openspec-propose
 │   ├── README.md
+│   ├── .agents/skills/openspec-propose/
 │   ├── specs/
-│   │   ├── functional-requirements/problem1/
+│   │   ├── functional-requirements/   # derivation links only (not agent input)
 │   │   └── technical-requirements/openspec/
 │   └── gherkin/scenario3.feature
-└── scenario4/                # OpenSpec technical requirements
+├── scenario4/                # OpenSpec via /implement-spec
+│   ├── README.md
+│   ├── specs/
+│   │   ├── functional-requirements/   # derivation links only (not agent input)
+│   │   └── technical-requirements/openspec/
+│   └── gherkin/scenario4.feature
+└── scenario5/                # OpenSpec direct implementation
     ├── README.md
     ├── specs/
-    │   ├── functional-requirements/problem1/
+    │   ├── functional-requirements/   # derivation links only (not agent input)
     │   └── technical-requirements/openspec/
-    └── gherkin/scenario4.feature
+    └── gherkin/scenario5.feature
 ```
 
 Each scenario folder owns its input contract (`README.md`), requirements under `specs/`, acceptance criteria (`gherkin/` with exactly one `@acceptance-test` scenario), and run records under `results/` (JSON per completed run conforming to [metrics-v1.schema.json](metrics-v1.schema.json)).
 
-Input paths above are relative to each scenario folder (for example `benchmarks/scenario2/specs/functional-requirements/problem1/`). Upstream provenance may originate from `examples/openspec/god-analysis-api/`. Runnable scenario authority is the harness-local `specs/` trees. Do not rewrite the upstream example trees as part of a campaign run.
+Input paths above are relative to each scenario folder (for example `benchmarks/problem2/scenario2/specs/functional-requirements/agile/`). OpenSpec changes use `add-greek-gods-api`. Runnable scenario authority is the harness-local `specs/` trees. Do not use `benchmarks/problem1/` or rewrite upstream example trees as part of a campaign run.
 
 ## Metrics scorecard
 
@@ -88,7 +98,7 @@ Each run record is a JSON object with up to five top-level groups (`efficiency`,
 
 | Field | Meaning |
 | --- | --- |
-| `protocol_labels.scenario` | Folder id: `scenario1` … `scenario4` |
+| `protocol_labels.scenario` | Folder id: `scenario1` … `scenario5` |
 | `protocol_labels.case_id` | Stable case id (for example `case-1-readme-only`) |
 | `protocol_labels.tool` | Agent tool used for the run |
 | `protocol_labels.model` | Model identifier used for the run |
@@ -112,7 +122,7 @@ Each run record is a JSON object with up to five top-level groups (`efficiency`,
 
 | Field | Meaning |
 | --- | --- |
-| `solution_snapshot.demo_root` | Repository-relative demo path snapshotted (for example `benchmarks/scenario1/demo/`) |
+| `solution_snapshot.demo_root` | Repository-relative demo path snapshotted (for example `benchmarks/problem2/scenario1/demo/`) |
 | `solution_snapshot.tree_format` | Format of the decoded tree payload (currently `unix-tree`) |
 | `solution_snapshot.tree_encoding` | Encoding of the tree payload (currently `base64`) |
 | `solution_snapshot.tree_b64` | Base64-encoded directory tree of `demo_root` at run completion; capture before restoring `demo/` |
@@ -121,7 +131,7 @@ Each run record is a JSON object with up to five top-level groups (`efficiency`,
 ### Schema vs scenario requirements
 
 - **Schema** ([metrics-v1.schema.json](metrics-v1.schema.json)): defines allowed shape and types only; nothing is required at validation time.
-- **Scenario Gherkin**: defines mandatory population for completed runs. Cases 1–4 currently require every group and every field listed above.
+- **Scenario Gherkin**: defines mandatory population for completed runs. Cases 1–5 currently require every group and every field listed above.
 
 See the `@acceptance-test` scenario in each `scenarioN/gherkin/scenarioN.feature` for the authoritative population checklist.
 
@@ -129,4 +139,4 @@ See the `@acceptance-test` scenario in each `scenarioN/gherkin/scenarioN.feature
 
 1. Rank by `efficiency.cost_usd` and/or `efficiency.tokens_total` only among runs where `outcome_quality.acceptance_pass = true`.
 2. Keep `outcome_quality.acceptance_pass = false` runs in a separate failure cohort; do not mix them into the cost/token leaderboard.
-3. Prefer same-tool/same-model cells when comparing Scenario 1 → 2 → 3 → 4 richness steps.
+3. Prefer same-tool/same-model cells when comparing Scenario 1 → 2 → 3 → 4 → 5 richness steps.

@@ -1,0 +1,41 @@
+{
+  "efficiency": {
+    "wall_clock_s": 0,
+    "active_agent_s": 0,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "tokens_total": 0,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": false,
+    "acceptance_coverage": 0,
+    "rework_turns": 0,
+    "artifact_completeness": 0
+  },
+  "protocol_labels": {
+    "scenario": "scenario1",
+    "case_id": "case-1-readme-only",
+    "tool": "cursor",
+    "model": "replace-me",
+    "plinth_config": "bare-agent",
+    "commit": "replace-with-git-rev-parse-HEAD",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 0,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario1/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "",
+    "file_count": 0
+  }
+}

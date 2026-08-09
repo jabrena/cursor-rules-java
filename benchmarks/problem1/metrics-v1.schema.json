@@ -78,7 +78,7 @@
       "properties": {
         "scenario": {
           "type": "string",
-          "enum": ["scenario1", "scenario2", "scenario3", "scenario4"],
+          "enum": ["scenario1", "scenario2", "scenario3", "scenario4", "scenario5"],
           "description": "Folder id for the benchmark scenario."
         },
         "case_id": {
@@ -87,7 +87,8 @@
             "case-1-readme-only",
             "case-2-all-problem1-requirements",
             "case-3-current-openspec-problem1",
-            "case-4-current-openspec-problem1"
+            "case-4-current-openspec-problem1",
+            "case-5-direct-openspec-problem1"
           ],
           "description": "Stable case id for the run."
         },

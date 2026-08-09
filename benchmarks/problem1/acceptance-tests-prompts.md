@@ -5,34 +5,34 @@ Canonical prompts to execute each scenario Gherkin feature. Run constraints (inp
 ## scenario1
 
 ```bash
-execute @benchmarks/scenario1/gherkin/scenario1.feature
+execute @benchmarks/problem1/scenario1/gherkin/scenario1.feature
 and verify that acceptance-tests passes.
 ```
 
 ## scenario2
 
 ```bash
-execute @benchmarks/scenario2/gherkin/scenario2.feature
+execute @benchmarks/problem1/scenario2/gherkin/scenario2.feature
 and verify that acceptance-tests passes.
 ```
 
 ## scenario3
 
 ```bash
-execute @benchmarks/scenario3/gherkin/scenario3.feature
+execute @benchmarks/problem1/scenario3/gherkin/scenario3.feature
 and verify that acceptance-tests passes.
 ```
 
 ## scenario4
 
 ```bash
-execute @benchmarks/scenario4/gherkin/scenario4.feature
+execute @benchmarks/problem1/scenario4/gherkin/scenario4.feature
 and verify that acceptance-tests passes.
 ```
 
-## scenario4
+## scenario5
 
 ```bash
-execute @benchmarks/scenario5/gherkin/scenario5.feature
+execute @benchmarks/problem1/scenario5/gherkin/scenario5.feature
 and verify that acceptance-tests passes.
 ```
