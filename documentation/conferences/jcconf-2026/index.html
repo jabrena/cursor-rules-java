@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>AI Tooling for Java Development</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+        <link rel="icon" href="images/java-icon.png" type="image/png" />
+	</head>
+	<body>
+		<div class="reveal">
+			<!-- My CSS Adventures in 2025 -->
+			<!-- Footer -->
+			<style>
+				.footer {
+					position: absolute;
+					left: 10px;
+					bottom: 0px;
+					z-index: 999;
+					background: #fff;
+					margin-bottom: 10px;
+					padding-bottom: 0px;
+				}
+			</style>
+			<div class="footer">
+				<small><a href="https://twitter.com/juanantoniobm" target="_blank">Twitter: @juanantoniobm</a></small>
+			</div>
+			<div class="slides">
+                <section>
+					<section data-background-image="./images/pillars2.jpg">
+						<h2>
+                            <span style="display: inline-block; color: black;  background: #ffffff;">
+                                AI Tooling for Java Development
+                            </span>
+                        </h2>
+                        <p>
+							<span style="display: inline-block; color: black;  background: #fff;">
+								<a href="https://twitter.com/juanantoniobm" target="_blank">Juan Antonio Breña Moral</a>
+							</span>
+						</p>
+						<img src="images/duke.png" width="15%" />
+					</section>
+				</section>
+                <section>
+                    <section align="left" data-background="#ffd7b5">
+                        <h2 align="center">Who I am</h2>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="./images/jabAvatar.jpg" width="70%" />
+                                </td>
+                                <td style="color: #336699; vertical-align: top">
+                                    Juan Antonio Breña Moral<br />
+                                    <div style="display:inline-block;">Engineering @ IG Group, EU Division</div>
+                                    <!--,
+                                    Footballitics,
+                                    Novag Chess user
+                                    -->
+                                    <br />
+                                    <a target="_blank" href="https://twitter.com/juanantoniobm">Twitter</a> |
+                                    <a target="_blank" href="https://github.com/jabrena">Github</a></li> |
+                                    <a target="_blank" href="https://www.linkedin.com/in/juanantoniobrenamoral">LinkedIn</a>
+                                </td>
+                            </tr>
+                            <!--
+                            <tr>
+                                <td colspan="2" align="center" style="color: #336699;">
+                                    Purpose: <i>"Riding dragons with innovation & fun"</i>
+                                </td>
+                            </tr>
+                            -->
+                            <tr>
+                                <td colspan="2" align="center" style="color: #336699;">
+                                    <em>"Make it work, make it right, make it fast." <br />- Kent Beck</em><br />
+                                    <em>"Lead me, follow me, or get out of my way.", <br />"Pressure makes diamonds." <br />- George S. Patton Jr.</em>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </section>
+                </section>
+
+                <section>
+                    <img src="./images/ppt.png" width="60%" />
+                    <small><strong>Source: </strong><a href="https://cio-wiki.org/wiki/Leavitt%27s_Alignment_Model" target="_blank">Leavitt's Alignment Model (1965) >> People, Process and Technology Framework</a></small>
+                </section>
+                <section>
+                    <section>
+                        <h2>Agenda (45 min)</h2>
+                        <ul>
+                            <li>Conway's Law</li>
+                            <li>Building blocks in GenAI age</li>
+                            <li>Project types</li>
+                            <li>Modern Java SDLC</li>
+                            <li>Takeaways</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Slides</h3>
+                        <pre data-id="code-animation">
+                            <code class="hljs bash" data-trim data-line-numbers>
+                                jbang trust list
+                                jbang cache clear
+                                jbang catalog list jabrena
+                                jbang qr-code@jabrena \
+                                --url https://jabrena.github.io/plinth/jcconf-2026/
+                            </code>
+                        </pre>
+                        <img src="images/qr-code.png" width="40%" />
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Conway's Law</h2>
+                        <p>
+                            "Organizations which design systems are constrained
+                            to produce designs which are copies of
+                            the communication structures of these organizations."
+                        </p>
+                        <img src="./images/melvin-conway.png" class="r-stretch" />
+                    </section>
+                    <section>
+                        <h2>Conway's Law</h2>
+                        <img src="./images/conway-1.png" width="90%" />
+                    </section>
+                    <section>
+                        <h2>Conway's Law</h2>
+                        <p>
+                            Maintain the communication between teams
+                            and teams members is fundamental.
+                        </p>
+                        <img src="./images/conway-2.png" width="60%" />
+                    </section>
+                    <section>
+                        <h2>Conway's Law</h2>
+                        <p>
+                            AI-Agent tools can help to accelerate the development but
+                            it is necessary to maintain cohesion and aligment with other
+                            systems and teams, to avoid the risk of creating a "Frankenstein" system.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Conway's Law</h2>
+                        <p>
+                            Architect roles has an excellent opportunity to improve "The eagle view skills"
+                            to review systems at scale to verify consistency and aligment.
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Building blocks in GenAI age</h2>
+                        <ul>
+                            <li>AGENTS.md</li>
+                            <li>Skills</li>
+                            <li>Commands</li>
+                            <li>Subagents</li>
+                            <li>MCP Severs</li>
+                            <li>SDD</li>
+                        </ul>
+                    </section>
+                                        <section>
+                        <h2>AGENTS.md</h2>
+                        <p>
+                            An open and simple format to guide programming agents.
+                            Think of AGENTS.md as a README for agents: a dedicated and predictable place to provide the context and instructions to help AI coding agents work on your project.
+                        </p>
+                        <a href="https://agents.md/" target="_blank">https://agents.md/</a>
+                    </section>
+                    <section>
+                        <h2>Skill</h2>
+                        <p>
+                            Skills are folders of instructions, scripts, and resources that AI tools
+                            load dynamically
+                            to improve performance
+                            on specialized tasks.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Skill</h2>
+                        <p>
+                            Skill folder structure:
+                        </p>
+                        <pre><code class="hljs bash" data-trim data-line-numbers>
+skill-name/
+├── SKILL.md # Required: metadata + instructions
+├── scripts/ # Optional: executable code
+├── references/ # Optional: documentation
+├── assets/ # Optional: templates, resources
+└── ... # Any additional files or directories
+                        </code>
+                        </pre>
+                        <a href="https://agentskills.io/specification" target="_blank">https://agentskills.io/specification</a>
+                    </section>
+                    <section>
+                        <h2>Skill</h2>
+                        <p>
+                            Where can you find Skills for Java?
+                        </p>
+                        <a href="https://skills.sh/" target="_blank">https://skills.sh/</a>
+                    </section>
+                    <section>
+                        <h2>Subagents</h2>
+                        <p>
+Subagents are specialized AI assistants that the Cursor agent can delegate tasks to. Each subagent operates in its own
+context window, handles specific types of work, and returns its result to the main agent.
+                        </p>
+                        <a href="https://cursor.com/docs/subagents" target="_blank">https://cursor.com/docs/subagents</a><br />
+                        <a href="https://code.claude.com/docs/en/sub-agents" target="_blank">https://code.claude.com/docs/en/sub-agents</a>
+
+                    </section>
+                    <section>
+                        <h3>MCP Severs</h3>
+                        <img src="images/mcp.png" width="50%" />
+                        <p>
+                            Model Context Protocol (MCP) is an open protocol that standardizes how applications provide context to LLMs.
+                        </p>
+                        <small><strong>Source: </strong><a href="https://modelcontextprotocol.io/introduction"
+                                target="_blank">https://modelcontextprotocol.io/introduction</a></small>
+                    </section>
+                    <section>
+                        <h3>MCP Severs</h3>
+                        <p>
+                            Think of MCP as a plugin system for Cursor:
+                        </p>
+                        <img src="images/mcp-architecture.png" width="50%" />
+                        <small><strong>Source: </strong><a href="https://docs.cursor.com/context/model-context-protocol"
+                                target="_blank">https://docs.cursor.com/context/model-context-protocol</a></small>
+                    </section>
+                    <section>
+                        <h2>SDD</h2>
+                        <p>
+                            Spec-driven development (SDD) is a software engineering methodology where a formal, machine-readable specification
+                            serves as the authoritative source of truth and the primary artifact from which implementation, testing, and
+                            documentation are derived.
+                        </p>
+                        <a href="https://openspec.dev/" target="_blank">https://openspec.dev/</a><br />
+                        <a href="https://github.github.com/spec-kit/" target="_blank">https://github.github.com/spec-kit/</a>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Project types</h2>
+                        <ul>
+                            <li>Greenfield</li>
+                            <li>Brownfield</li>
+                            <li>Legacy</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Project types</h2>
+                        <h3>Greenfield</h3>
+                        <p>
+                            New project, no constraints from previous work.
+                        </p>
+                        <ul>
+                            <li>New AGENTS.md</li>
+                            <li>New OpenSpec project</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Project types</h2>
+                        <h3>Brownfield</h3>
+                        <p>
+                            Existing project, with constraints from previous work.
+                        </p>
+                        <ul>
+                            <li>Review potential gaps in Specs from OpenSpec</li>
+                            <li>Review missing parts in AGENTS.md</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Project types</h2>
+                        <h3>Legacy</h3>
+                        <p>
+                            Older project, with significant technical debt and outdated architecture.
+                        </p>
+                        <p>
+                            A real engineering challenge to backfill the missing parts
+                            in the project, like documentation, missing tests, etc...
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Modern Java SDLC</h2>
+                        <img src="./images/SDLC.jpg" width="50%" />
+                    </section>
+                    <section>
+                        <h2>Modern Java SDLC</h2>
+                        <p>
+                            Every issue requires Functional & Technical specifications:
+                        </p>
+<pre><code data-trim data-noescape>
+Issue
+  |
+  v
+/update-issue --> /explore-problem --> /create-acceptance-criteria
+  |
+  v
+/create-spec --> /explore-design
+  |
+  v
+/implement-spec --> /close-spec
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>Modern Java SDLC</h2>
+                        <p>
+                            PENDING TO TALK ABOUT:
+                        </p>
+                        <ul>
+                            <li>Functional specifications</li>
+                            <li>Technical specifications</li>
+                            <li>Encapsulate knowledge in Skills</li>
+                            <li>Create your company ubicous language based on commands -> agents -> skills</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>References</h2>
+                    <ul>
+                        <li>
+                            <a href="https://www.skills.sh/jabrena/plinth" target="_blank">https://www.skills.sh/jabrena/plinth</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/jabrena/plinth" target="_blank">
+                                Plinth @ jabrena
+                            </a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="https://github.com/jabrena/cursor-rules-agile" target="_blank">
+                                Cursor Rules Agile @ jabrena
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/snarktank/ai-dev-tasks" target="_blank">
+                                AI Dev Tasks @ snarktankd
+                            </a>
+                        </li>
+                        -->
+                    </ul>
+                </section>
+                <!--
+                <section>
+                    <h2>Feedback</h2>
+                    <p>
+                        Your feedback is important to evolve this project.
+                        Participate in the following questionnaire:
+                    </p>
+                    <p>
+                        <a href="https://forms.gle/TpNXENjmu45wuXoi6" target="_blank">
+                            https://forms.gle/TpNXENjmu45wuXoi6
+                        </a>
+                    </p>
+                </section>
+                -->
+                <section>
+					<h1>🙏 🙏 🙏</h1>
+					<p>
+						Thanks
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.configure({ slideNumber: true });
+			//Reveal.configure({ slideNumber: 'c/t' });
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				transition: 'fade', // none/fade/slide/convex/concave/zoom
+				slideNumber: true,
+				showSlideNumber: 'all',
+				scrollActivationWidth: null, // https://revealjs.com/scroll-view/ from 4.6.1 -> latest version
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+			});
+		</script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-13CV90H4J4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-13CV90H4J4');
+        </script>
+	</body>
+</html>
