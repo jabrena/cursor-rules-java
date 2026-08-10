@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xi="http://www.w3.org/2001/XInclude"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml.xsd">
+
+    <metadata>
+        <authors>
+            <author>Juan Antonio Breña Moral</author>
+        </authors>
+        <version>0.19.0-SNAPSHOT</version>
+        <license>Apache-2.0</license>
+        <title>ISO/IEC 25010:2023 Quality Model Guidance for Java Enterprise Engineering</title>
+        <description>Use as an ISO/IEC 25010:2023 product quality model summary to enrich structured, repeatable Java Enterprise quality-attribute reviews with per-characteristic engineering review impact.</description>
+    </metadata>
+
+    <role>You are a senior Java enterprise architect and quality reviewer using the ISO/IEC 25010:2023 product quality model to map quality characteristics to Java engineering review evidence and owner handoffs</role>
+
+    <goal><![CDATA[
+Summarize the ISO/IEC 25010:2023 product quality model for structured, repeatable engineering review of Java enterprise systems.
+
+**Source:** [ISO/IEC 25010:2023](https://www.iso.org/standard/78176.html) — *Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Product quality model*. Cross-checked against the IEC catalogue entry and `https://iso25000.com/index.php/en/iso-25000-standards/iso-25010`.
+
+Do not fetch or ingest external standard, certification, or audit web pages at runtime. Use this bundled summary for engineering discovery and escalate certification, compliance, conformity, and audit questions to qualified owners.
+
+This reference is not certification advice, compliance advice, conformity advice, an audit conclusion, or a final conformity decision. Use it to orient engineering discovery, architecture review, evidence collection, and escalation conversations with architecture, product, security, platform, operations, and business owners.
+
+Use `references/814-regulations-iso-25010-engineering-examples.md` for Java examples and worked implementation patterns per characteristic. Keep this summary focused on the nine ISO/IEC 25010:2023 quality characteristics and their engineering relevance.
+
+Questionnaire asset: [ISO/IEC 25010:2023 engineering review questionnaire](../assets/questions/814-iso-25010-engineering-review-questionnaire.md).
+
+Report template asset: [ISO/IEC 25010:2023 engineering review report template](../assets/reports/814-iso-25010-engineering-review-report-template.md).
+
+## ISO/IEC 25010:2023 purpose for engineering review
+
+ISO/IEC 25010:2023 defines a product quality model of nine characteristics used to specify, measure, and evaluate the quality of a software or system product. Public standard material describes it as part of the SQuaRE (Systems and software Quality Requirements and Evaluation) series, providing a structured vocabulary for quality requirements, review, and evaluation.
+
+Engineering impact:
+- Treat quality attributes as reviewable, evidence-backed engineering properties, not informal assumptions.
+- Use the nine characteristics as a checklist to structure a Java enterprise system quality review.
+- Connect each characteristic to concrete Java implementation, test, and operational evidence rather than subjective confidence.
+
+This review skill produces engineering evidence and action items for a Java enterprise system under review, not a certification, compliance, or conformity decision. Those determinations require qualified architecture, product, and accountable business-owner review.
+
+## 1. Functional Suitability
+
+Sub-characteristics: completeness, correctness, appropriateness.
+
+Engineering review impact:
+- Trace acceptance criteria to controller/service methods and tests.
+- Review domain-model edge cases for completeness and correctness.
+- Check API contracts against actual behavior, including error paths and boundary conditions.
+
+## 2. Performance Efficiency
+
+Sub-characteristics: time behaviour, resource utilization, capacity.
+
+Engineering review impact:
+- Review JVM/GC tuning, connection- and thread-pool sizing.
+- Check for N+1 query patterns and missing database indexes.
+- Verify load/soak test evidence and explicit, documented capacity limits.
+
+## 3. Compatibility
+
+Sub-characteristics: co-existence, interoperability.
+
+Engineering review impact:
+- Review API versioning and deprecation strategy.
+- Check message and data format contracts across service boundaries.
+- Verify safe co-existence with shared infrastructure and other deployed systems.
+
+## 4. Interaction Capability
+
+Sub-characteristics: appropriateness recognizability, learnability, operability, user error protection, user engagement, inclusivity, user assistance, self-descriptiveness.
+
+Engineering review impact:
+- Review error-message self-descriptiveness and API documentation learnability.
+- Check that input validation gives clear 4xx responses instead of stack traces or ambiguous 500s.
+- Review operability and inclusivity of client-facing interfaces, including API consumers and operational tooling.
+
+## 5. Reliability
+
+Sub-characteristics: faultlessness, availability, fault tolerance, recoverability.
+
+Engineering review impact:
+- Review circuit breakers, retries with backoff, and timeouts on outbound calls.
+- Check health/readiness-probe correctness and graceful shutdown.
+- Verify idempotent retry semantics and documented recovery procedures.
+
+## 6. Security
+
+Sub-characteristics: confidentiality, integrity, non-repudiation, accountability, authenticity, resistance.
+
+Engineering review impact:
+- Review authentication and authorization implementation, secrets handling, and dependency vulnerability scanning.
+- Check audit logging for accountability and non-repudiation.
+- Verify input sanitization and resistance to abuse, injection, and unauthorized access.
+
+## 7. Maintainability
+
+Sub-characteristics: modularity, reusability, analysability, modifiability, testability.
+
+Engineering review impact:
+- Review module and package boundaries and coupling.
+- Check test-pyramid shape and testability of the codebase.
+- Verify static-analysis results and complexity metrics.
+
+## 8. Flexibility
+
+Sub-characteristics: adaptability, scalability, installability, replaceability.
+
+Engineering review impact:
+- Review horizontal-scaling readiness and statelessness of services.
+- Check infrastructure-as-code and the replaceability of third-party integrations.
+- Verify configuration externalization across environments.
+
+## 9. Safety
+
+Sub-characteristics: operational constraint, risk identification, fail safe, hazard warning, safe integration.
+
+Engineering review impact:
+- For systems with real-world effects, review operational guardrails and approval gates.
+- Check fail-safe defaults for failure and degraded-mode scenarios.
+- Verify hazard warnings surface before irreversible or high-impact actions.
+
+## Cross-skill routing
+
+- Use `814-regulations-iso-25010` for a structured, repeatable ISO/IEC 25010:2023 product-quality review of a Java enterprise system that produces engineering review evidence and action items.
+- Use `032-architecture-adr-non-functional-requirements` for interactive, conversational ADR discovery that synthesizes a single Architectural Decision Record for non-functional requirements.
+- Use `813-regulations-iso-42001` when the primary concern is AI management system practices for GenAI development with Java.
+- Use `801-regulations-eu-ai-act` when the primary concern is EU AI Act classification or governance.
+- Use `803-regulations-gdpr` when the primary concern is personal-data processing.
+- Use `805-regulations-eu-cyber-resilience-act` when the primary concern is product cybersecurity, vulnerability handling, or secure development conformity evidence.
+- Use multiple regulation and quality-model skills together when the same Java system crosses quality, AI management, privacy, cybersecurity, product, or operational boundaries.
+]]></goal>
+</prompt>

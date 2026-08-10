@@ -882,3 +882,10 @@ and verify that acceptance-tests passes.
 execute @plinth-skills-generator/src/test/resources/gherkin/skills/813-regulations-iso-42001.feature
 and verify that acceptance-tests passes.
 ```
+
+## 814-regulations-iso-25010
+
+```bash
+execute @plinth-skills-generator/src/test/resources/gherkin/skills/814-regulations-iso-25010.feature
+and verify that acceptance-tests passes.
+```
