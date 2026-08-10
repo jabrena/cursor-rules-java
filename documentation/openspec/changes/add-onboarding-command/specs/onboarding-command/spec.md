@@ -49,23 +49,33 @@ When root `AGENTS.md` is absent and OpenSpec discovery is not ambiguous, `/onboa
 
 ### Requirement: Initialize missing OpenSpec at a selected path
 
-When recursive discovery finds no directory named `openspec`, `/onboarding` MUST ask the user to select an initialization path, MUST offer `documentation/openspec` as the default, and MUST delegate initialization at the selected path to `042-planning-openspec` using `openspec init`.
+When recursive discovery finds no directory named `openspec`, `/onboarding` MUST ask the user to select the resulting OpenSpec directory, MUST offer `documentation/openspec` as the default, and MUST delegate initialization to `042-planning-openspec` using `openspec init` with the selected directory's parent as the initialization project root. The selected directory MUST be a normalized repository-relative path whose final segment is `openspec`.
 
 #### Scenario: Accept the default initialization path
 
 - **GIVEN** the repository contains no directory named `openspec`
 - **WHEN** the maintainer runs `/onboarding`
 - **AND** accepts the default OpenSpec path
-- **THEN** initialization at `documentation/openspec` is delegated to `042-planning-openspec`
+- **THEN** initialization with `documentation` as the project root is delegated to `042-planning-openspec`
 - **AND** completing the delegated workflow creates one OpenSpec project at `documentation/openspec`
 
 #### Scenario: Select a custom initialization path
 
 - **GIVEN** the repository contains no directory named `openspec`
 - **WHEN** the maintainer runs `/onboarding`
-- **AND** selects a path other than `documentation/openspec`
-- **THEN** initialization at the selected path is delegated to `042-planning-openspec`
+- **AND** selects the resulting directory `architecture/openspec`
+- **THEN** initialization with `architecture` as the project root is delegated to `042-planning-openspec`
+- **AND** completing the delegated workflow creates one OpenSpec project at `architecture/openspec`
 - **AND** the command does not also initialize the default path
+
+#### Scenario: Reject an invalid selected path before mutation
+
+- **GIVEN** the repository contains no directory named `openspec`
+- **WHEN** the maintainer selects an absolute path, a path that escapes the repository, or a path whose final segment is not `openspec`
+- **THEN** `/onboarding` reports why the selected path is invalid
+- **AND** no delegated workflow is started
+- **AND** no repository content is changed
+- **AND** the command asks for a valid repository-relative OpenSpec directory or an explicit cancellation
 
 #### Scenario: Selected-path initialization fails
 
@@ -75,6 +85,38 @@ When recursive discovery finds no directory named `openspec`, `/onboarding` MUST
 - **THEN** `/onboarding` reports that OpenSpec initialization did not complete
 - **AND** it does not silently select a different path
 - **AND** it does not claim that onboarding succeeded
+
+### Requirement: Sequence missing-prerequisite delegation safely
+
+When both prerequisites are missing, `/onboarding` MUST complete delegated OpenSpec initialization before starting delegated root guidance creation, MUST NOT run the interactive workflows concurrently, and MUST report partial completion without rolling back successfully created prerequisite content.
+
+#### Scenario: OpenSpec initialization fails before root guidance starts
+
+- **GIVEN** root `AGENTS.md` is absent
+- **AND** the repository contains no directory named `openspec`
+- **WHEN** delegated OpenSpec initialization fails
+- **THEN** no `200-agents-md` workflow is started
+- **AND** `/onboarding` reports that both prerequisites remain incomplete
+- **AND** it does not claim that onboarding succeeded
+
+#### Scenario: Root guidance creation fails after OpenSpec initialization
+
+- **GIVEN** root `AGENTS.md` is absent
+- **AND** the repository contains no directory named `openspec`
+- **WHEN** delegated OpenSpec initialization succeeds
+- **AND** delegated `200-agents-md` creation fails or is cancelled
+- **THEN** the initialized OpenSpec project remains unchanged
+- **AND** `/onboarding` reports OpenSpec as initialized and root guidance as incomplete
+- **AND** it reports onboarding as partially complete rather than successful
+
+#### Scenario: Retry after partial completion
+
+- **GIVEN** a previous onboarding attempt initialized exactly one OpenSpec project
+- **AND** root `AGENTS.md` remains absent
+- **WHEN** the maintainer runs `/onboarding` again
+- **THEN** the existing OpenSpec project is preserved
+- **AND** no OpenSpec initialization workflow is started
+- **AND** missing root guidance creation is delegated to `200-agents-md`
 
 ### Requirement: Stop before mutation on ambiguous OpenSpec discovery
 
