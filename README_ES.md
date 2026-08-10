@@ -66,6 +66,9 @@ Aprende a usar este proyecto siguiendo la guía rápida [Primeros pasos en 5 min
 Los commands componen el flujo de trabajo dirigiendo cada tarea al agente y al conjunto de skills adecuados:
 
 ```text
+/onboarding
+  |
+  v
 Incidencia
   |
   v
@@ -77,6 +80,8 @@ Incidencia
   v
 /implement-spec --> /close-spec
 ```
+
+`/onboarding` establece el archivo `AGENTS.md` en la raíz y un único proyecto OpenSpec no ambiguo antes de seleccionar una incidencia. Conserva los prerrequisitos existentes; si falta OpenSpec, eliges la ruta resultante con `documentation/openspec` como valor predeterminado.
 
 ### Análisis y diseño
 
@@ -92,6 +97,10 @@ Convierte una idea en un cambio accionable mediante user stories, GitHub Issues 
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><code>/onboarding</code></td>
+      <td>Establece las instrucciones del repositorio raíz y un único proyecto OpenSpec no ambiguo antes de trabajar con incidencias.</td>
+    </tr>
     <tr>
       <td><code>/update-issue</code></td>
       <td>Actualiza una incidencia existente de GitHub o Jira con una historia de usuario estructurada, criterios de aceptación y contenido de recursos.</td>

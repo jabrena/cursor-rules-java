@@ -66,6 +66,9 @@ npx skills add jabrena/plinth --skill '*' --agent github-copilot -y
 Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整工作流：
 
 ```text
+/onboarding
+  |
+  v
 问题
   |
   v
@@ -77,6 +80,8 @@ Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整
   v
 /implement-spec --> /close-spec
 ```
+
+`/onboarding` 会在选择 issue 之前建立根目录 `AGENTS.md` 和一个无歧义的 OpenSpec 项目。它会保留已有的先决条件；若缺少 OpenSpec，你可以选择生成路径，默认值为 `documentation/openspec`。
 
 ### 分析与设计
 
@@ -92,6 +97,10 @@ Commands 通过把工作路由到合适的 agent 与 skill 集合来组合完整
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><code>/onboarding</code></td>
+      <td>在 issue 工作之前建立根仓库指南和一个无歧义的 OpenSpec 项目。</td>
+    </tr>
     <tr>
       <td><code>/update-issue</code></td>
       <td>使用结构化用户故事、验收标准和资源内容更新现有的 GitHub 或 Jira issue。</td>

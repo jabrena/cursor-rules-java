@@ -19,6 +19,7 @@ class CommandSkillPropagationTest {
         String reference = output.referenceMds().get("004-commands-installation");
         assertThat(reference)
             .contains("assets/commands/")
+            .contains("](../assets/commands/onboarding.md)")
             .contains("](../assets/commands/update-issue.md)")
             .contains("](../assets/commands/create-acceptance-criteria.md)")
             .contains("](../assets/commands/benchmark.md)")

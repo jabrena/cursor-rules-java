@@ -20,6 +20,7 @@ Scenario: Generate embedded commands inventory with every command asset
   And the generated inventory file includes the installation targets ".github/commands", ".claude/commands", ".cursor/command", and ".codex/commands"
   And the generated inventory file includes exactly one row for each embedded command asset:
     | assetFile                | command                  |
+    | onboarding.md            | /onboarding              |
     | update-issue.md          | /update-issue            |
     | explore-problem.md       | /explore-problem         |
     | create-acceptance-criteria.md | /create-acceptance-criteria |

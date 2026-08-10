@@ -21,6 +21,7 @@ Scenario: Install embedded commands into the GitHub commands destination
   And no command files are copied outside "examples/skills/installers"
   And the target directory contains exactly these command files:
     | fileName                 |
+    | onboarding.md            |
     | update-issue.md          |
     | explore-problem.md       |
     | create-acceptance-criteria.md |
@@ -45,6 +46,7 @@ Scenario: Skill follows the generator registration and local-output workflow
   Then the source changes are made under "plinth-skills-generator/src/main/resources"
   And "plinth-skills-generator/src/main/resources/skills.xml" registers skill id "004" with the commands installation reference
   And the generated local skill output includes ".agents/skills/004-commands-installation/SKILL.md"
+  And the generated local skill output includes ".agents/skills/004-commands-installation/assets/commands/onboarding.md"
   And the generated local skill output includes ".agents/skills/004-commands-installation/assets/commands/update-issue.md"
   And the generated local skill output includes ".agents/skills/004-commands-installation/assets/commands/create-acceptance-criteria.md"
   And the generated local skill output includes ".agents/skills/004-commands-installation/assets/commands/benchmark.md"

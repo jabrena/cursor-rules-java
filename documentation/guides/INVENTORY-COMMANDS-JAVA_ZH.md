@@ -8,6 +8,7 @@
 
 | Command | SDLC 阶段 | 主要用途 |
 | --- | --- | --- |
+| `/onboarding` | 分析 / 设计 | 在 issue 工作之前建立根目录 `AGENTS.md` 和一个无歧义的 OpenSpec 项目；若缺少 OpenSpec，默认路径为 `documentation/openspec`。 |
 | `/update-issue` | 分析 / 设计 | 使用结构化 user story、验收标准和资源内容更新现有 GitHub 或 Jira issue。 |
 | `/explore-problem` | 分析 / 设计 | 从五个视角评估 issue，并在 issue 中发布功能规格评论。 |
 | `/create-acceptance-criteria` | 分析 / 设计 | 根据功能规格评论生成 Gherkin 验收标准，并将其作为单独的 issue 评论发布。 |

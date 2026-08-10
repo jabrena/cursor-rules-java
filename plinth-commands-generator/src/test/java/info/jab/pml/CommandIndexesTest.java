@@ -31,6 +31,40 @@ class CommandIndexesTest {
         assertThat(new HashSet<>(commandFiles))
             .withFailMessage("Command inventory must not contain duplicate command files")
             .hasSize(commandFiles.size());
+        assertThat(sources)
+            .as("Onboarding must precede issue-oriented commands")
+            .startsWith("onboarding.xml", "update-issue.xml");
+    }
+
+    @Test
+    @DisplayName("Onboarding command must coordinate repository prerequisites safely")
+    void should_coordinateRepositoryPrerequisites_when_onboardingCommandIsInstalled() {
+        String onboarding = loadClasspathResource("commands/onboarding.md");
+
+        assertThat(onboarding)
+            .contains("/onboarding")
+            .contains("Owner: `@plinth-architect`")
+            .contains("`200-agents-md`")
+            .contains("`042-planning-openspec`")
+            .contains("root `AGENTS.md`")
+            .contains("recursively discover the complete set of directories named exactly `openspec` before starting any delegated workflow")
+            .contains("report every conflicting repository-relative path")
+            .contains("identify the ambiguity as technical debt")
+            .contains("stop")
+            .contains("`documentation/openspec` as the default")
+            .contains("Reject absolute paths")
+            .contains("escapes the repository")
+            .contains("final segment is not exactly `openspec`")
+            .contains("`documentation/openspec` -> initialization project root `documentation`")
+            .contains("`architecture/openspec` -> initialization project root `architecture`")
+            .contains("wait for delegated OpenSpec initialization to complete successfully before starting `200-agents-md`")
+            .contains("never run the interactive delegations concurrently")
+            .contains("do not roll back delegated work")
+            .contains("distinguish full success from partial completion")
+            .contains("On a retry after partial completion")
+            .contains("perform no writes, start no delegated workflow")
+            .contains("Do not inspect project maturity, infer specifications from implementation, or create a custom specification baseline")
+            .contains("Do not select or implement an issue");
     }
 
     @Test
