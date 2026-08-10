@@ -32,6 +32,8 @@
             <reference>004-commands-installation</reference>
         </reference-list>
         <resource-list>
+            <resource source="skill-references/assets/commands/onboarding.md"
+                target="assets/commands/onboarding.md" />
             <resource source="skill-references/assets/commands/update-issue.md"
                 target="assets/commands/update-issue.md" />
             <resource source="skill-references/assets/commands/explore-problem.md"

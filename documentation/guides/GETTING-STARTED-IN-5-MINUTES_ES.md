@@ -87,7 +87,7 @@ Los destinos habituales para agents son:
 
 Este proyecto organiza el trabajo Java asistido por IA alrededor de cuatro bloques:
 
-- `Commands` son los puntos de entrada, como `/update-issue`, `/create-spec` y `/implement-issue`.
+- `Commands` son los puntos de entrada, como `/onboarding`, `/update-issue`, `/create-spec` y `/implement-spec`.
 - `Agents` definen responsabilidades, como análisis de negocio, arquitectura, liderazgo técnico, implementación Java o trabajo de rendimiento.
 - `Skills` aportan prácticas enfocadas para Java, frameworks, testing, documentación, seguridad y observabilidad.
 - `MCP Servers` conectan los agentes con herramientas externas y contexto del proyecto cuando están disponibles.
@@ -95,6 +95,9 @@ Este proyecto organiza el trabajo Java asistido por IA alrededor de cuatro bloqu
 Una ruta habitual es:
 
 ```text
+/onboarding
+  |
+  v
 Issue
   |
   v
@@ -106,6 +109,8 @@ Issue
   v
 /implement-spec --> /close-spec
 ```
+
+Empieza con `/onboarding` para establecer `AGENTS.md` en la raíz y un único proyecto OpenSpec no ambiguo. Se conservan los prerrequisitos existentes. Si falta OpenSpec, selecciona su ruta resultante o acepta el valor predeterminado `documentation/openspec`.
 
 Para trabajo solo de documentación o planificación, puedes detenerte cuando el issue, plan, especificación, ADR o diagrama esté completo.
 

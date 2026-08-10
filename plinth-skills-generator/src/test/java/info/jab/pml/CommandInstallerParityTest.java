@@ -22,6 +22,7 @@ class CommandInstallerParityTest {
             .toList();
 
         assertThat(commandAssets)
+            .startsWith("assets/commands/onboarding.md", "assets/commands/update-issue.md")
             .containsExactlyElementsOf(CommandIndexes.commandFiles()
                 .map(commandFile -> "assets/commands/" + commandFile)
                 .toList());

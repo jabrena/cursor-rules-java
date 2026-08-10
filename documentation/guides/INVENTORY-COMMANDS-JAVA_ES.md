@@ -8,6 +8,7 @@ Proporcionar una lista de comprobación rápida de los commands integrados dispo
 
 | Command | Fase del SDLC | Propósito principal |
 | --- | --- | --- |
+| `/onboarding` | Análisis / Diseño | Establecer `AGENTS.md` en la raíz y un único proyecto OpenSpec no ambiguo antes del trabajo con issues; si falta OpenSpec, el valor predeterminado es `documentation/openspec`. |
 | `/update-issue` | Análisis / Diseño | Actualizar issues existentes de GitHub o Jira con una user story estructurada, criterios de aceptación y contenido de recursos. |
 | `/explore-problem` | Análisis / Diseño | Evaluar un issue desde cinco puntos de vista y publicar un comentario de especificación funcional en el issue. |
 | `/create-acceptance-criteria` | Análisis / Diseño | Derivar criterios de aceptación en Gherkin a partir de un comentario de especificación funcional y publicarlos como un comentario separado en el issue. |

@@ -55,7 +55,7 @@ class CommandFrontmatterTest {
             assertThat(frontmatter.get("agent")).isEqualTo(expected.agent());
             assertThat(frontmatter.get("tools")).isEqualTo(expected.tools());
         }
-        assertThat(APPROVED_METADATA).hasSize(13);
+        assertThat(APPROVED_METADATA).hasSize(14);
     }
 
     @Test
@@ -150,6 +150,7 @@ class CommandFrontmatterTest {
         hashes.put("explore-design.md", "7a8860875168d89032d64bf42c6ec2b85c17a32a5ca58318ae37d3344354fd2b");
         hashes.put("explore-problem.md", "473f875921df4b54007a28cc07dde73519f0658e2a4fbfd52062e01015f09300");
         hashes.put("implement-spec.md", "f91e9d4183965454f39fc998123fcd0ef377e3dd4b4d3ba0b9dc147224a52d6e");
+        hashes.put("onboarding.md", "5d8bf73bbedf21c9ed4290f1cb6fb4b8f7f65437b538a150cd3c326a6f24efe8");
         hashes.put("profile.md", "103066f8d47f4b46753e301e11607b5f2a72d7e78357e1061ad6465a9a3b497f");
         hashes.put("update-issue.md", "6b034e24a43adad78e061fd755dd1a967c23bf50032644e4369d8669b28b8fc7");
         return Map.copyOf(hashes);
@@ -170,6 +171,7 @@ class CommandFrontmatterTest {
         metadata.put("explore-design", expected("plinth-architect", "Refine the technical design of an issue or OpenSpec change before implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
         metadata.put("explore-problem", expected("plinth-business-analyst", "Analyze an issue through five lenses and post a Functional Specification.", "[issue-url]", "Read", "Bash"));
         metadata.put("implement-spec", expected("plinth-tech-lead", "Deliver an approved plan or OpenSpec change through controlled implementation.", "[openspec-change]", "Read", "Write", "Edit", "Bash"));
+        metadata.put("onboarding", expected("plinth-architect", "Establish repository guidance and one unambiguous OpenSpec project before issue work.", "", "Read", "Write", "Edit", "Bash"));
         metadata.put("profile", expected("plinth-java-performance", "Coordinate a reproducible Java profiling and optimization lifecycle.", "[target]", "Read", "Write", "Edit", "Bash"));
         metadata.put("update-issue", expected("plinth-business-analyst", "Update an issue description with structured, evidence-backed content.", "[issue-url]", "Read", "Bash"));
         return Map.copyOf(metadata);

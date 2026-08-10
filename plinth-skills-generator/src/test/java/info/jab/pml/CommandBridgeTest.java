@@ -14,6 +14,10 @@ class CommandBridgeTest {
     @Test
     @DisplayName("Bridged command assets must match plinth-commands-generator manifest")
     void should_stageAllCommandAssets_when_generateResourcesBridgeRuns() {
+        assertThat(CommandIndexes.commandFiles().toList())
+            .as("Onboarding command propagation order")
+            .startsWith("onboarding.md", "update-issue.md");
+
         CommandIndexes.commandFiles().forEach(commandFile -> {
             String resource = "skill-references/assets/commands/" + commandFile;
             String bridged = loadResource(resource);

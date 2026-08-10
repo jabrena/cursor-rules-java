@@ -28,7 +28,7 @@ The repository MUST provide a dedicated `plinth-agents-generator` Maven module t
 
 ### Requirement: Agent inventory integrity
 
-The agents module MUST preserve the embedded agent bundle declared by `agents.xml`.
+The agents module MUST preserve the embedded agent bundle declared by `agents.xml` and keep its source metadata aligned with the Maven project release.
 
 #### Scenario: Preserve installation order and uniqueness
 
@@ -53,6 +53,14 @@ The agents module MUST preserve the embedded agent bundle declared by `agents.xm
 - **GIVEN** agent markdown assets define missions, routing, skill precedence, and safeguards
 - **WHEN** agent contract tests run in `plinth-agents-generator`
 - **THEN** installer/inventory parity, tech-lead routing, coder skill precedence, framework JDBC preferences, and nine-agent bundle assertions continue to pass after relocation
+
+#### Scenario: Match every agent version to the Maven project
+
+- **GIVEN** `agents.xml` declares the authoritative agent XML inventory
+- **WHEN** agent version consistency tests run
+- **THEN** every inventoried agent XML metadata version equals the root `pom.xml` project version
+- **AND** the expected version is derived from the root POM rather than hard-coded in the test
+- **AND** a mismatch identifies the offending agent source
 
 ### Requirement: Agents-generator dependency on plinth-commands-generator
 

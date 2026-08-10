@@ -87,7 +87,7 @@ Typical agent destinations are:
 
 This project organizes AI-assisted Java work around four building blocks:
 
-- `Commands` are the entry points, such as `/update-issue`, `/create-spec`, and `/implement-issue`.
+- `Commands` are the entry points, such as `/onboarding`, `/update-issue`, `/create-spec`, and `/implement-spec`.
 - `Agents` define responsibilities, such as business analysis, architecture, technical leadership, Java implementation, or performance work.
 - `Skills` provide focused Java, framework, testing, documentation, security, and observability practices.
 - `MCP Servers` connect agents to external tools and project context when available.
@@ -95,6 +95,9 @@ This project organizes AI-assisted Java work around four building blocks:
 A common path is:
 
 ```text
+/onboarding
+  |
+  v
 Issue
   |
   v
@@ -106,6 +109,8 @@ Issue
   v
 /implement-spec --> /close-spec
 ```
+
+Start with `/onboarding` to establish root `AGENTS.md` and one unambiguous OpenSpec project. Existing prerequisites are preserved. If OpenSpec is missing, select its result path or accept the default `documentation/openspec`.
 
 For documentation-only or planning work, you may stop after the issue, plan, specification, ADR, or diagram is complete.
 

@@ -1,5 +1,12 @@
 # Acceptance Test Prompts for Commands
 
+## /onboarding
+
+```bash
+execute @plinth-commands-generator/src/test/resources/gherkin/commands/onboarding.feature
+and verify that acceptance-tests passes.
+```
+
 ## /benchmark
 
 ```bash

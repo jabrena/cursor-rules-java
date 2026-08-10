@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <command-inventory>
+    <command file="onboarding.xml"/>
     <command file="update-issue.xml"/>
     <command file="explore-problem.xml"/>
     <command file="create-acceptance-criteria.xml"/>

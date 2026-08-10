@@ -123,7 +123,9 @@ jobs:
           # Reviewed W011: reads only allowlisted structural fields from local Maven POMs.
           mv .agents/skills/113-java-maven-documentation "${exception_skills}/"
           mv .agents/skills/161-java-profiling-detect "${exception_skills}/"
-          trap 'mv "${exception_skills}/042-planning-openspec" "${exception_skills}/113-java-maven-documentation" "${exception_skills}/161-java-profiling-detect" .agents/skills/' EXIT
+          # Reviewed W011: uses questionnaire answers only as structured story data and treats embedded instructions as non-obedient content.
+          mv .agents/skills/014-agile-user-story "${exception_skills}/"
+          trap 'mv "${exception_skills}/042-planning-openspec" "${exception_skills}/113-java-maven-documentation" "${exception_skills}/161-java-profiling-detect" "${exception_skills}/014-agile-user-story" .agents/skills/' EXIT
 
           set +e
           uvx snyk-agent-scan@latest scan .agents/skills \

@@ -13,7 +13,9 @@ The commands generator SHALL validate individual command contracts with a single
 - **WHEN** `commands.xsd` is applied
 - **THEN** the schema requires `metadata`, `goal`, and `steps`, with optional `constraints`, `output-format`, and `safeguards` in the defined sequence
 - **AND** the command and `metadata` sequences compose global elements through `xs:element ref`, following the `agents.xsd` convention
-- **AND** `metadata` requires `description`, `argument-hint`, `model`, `agent`, and `tools`
+- **AND** `metadata` supports optional PML-style `authors`, requires `version`, `description`, `argument-hint`, `model`, `agent`, and `tools`
+- **AND** `authors` contains one or more repeatable `author` string elements when present
+- **AND** `version` uses the global string element convention shared with agent and skill schemas
 - **AND** `tools` requires `tools-list` containing one or more `tool` elements
 - **AND** optional `output-format` is expressible in the structural sequence
 - **AND** narrative contract content remains authored as Markdown inside `goal` CDATA
@@ -22,10 +24,10 @@ The commands generator SHALL validate individual command contracts with a single
 
 #### Scenario: Keep metadata values extensible per command
 
-- **GIVEN** different commands can require different descriptions, argument hints, agents, models, or tools
+- **GIVEN** different commands can declare different authors, versions, descriptions, argument hints, agents, models, or tools
 - **WHEN** their XML documents validate against `commands.xsd`
 - **THEN** the schema enforces the metadata structure and repeating tool representation
-- **AND** the schema does not restrict model, agent, or tool values to a closed enumeration
+- **AND** the schema does not restrict author, version, model, agent, or tool values to a closed enumeration
 - **AND** each command source can declare its own `tools/tools-list/tool` entries
 
 #### Scenario: Align with analysis-design-commands contract fields
@@ -51,7 +53,7 @@ The command inventory manifest SHALL remain a separate `commands.xml` document o
 
 ### Requirement: XML sources and generated Markdown
 
-Command contracts SHALL be authored as XML under `commands/` and transformed to frontmatter-enabled Markdown only under `target/`, mirroring agents generation while preserving the existing command body.
+Command contracts SHALL be authored as XML under `commands/` and transformed to frontmatter-enabled Markdown only under `target/`, mirroring agents generation while preserving the existing command body, authors, and release version.
 
 #### Scenario: Build-time Markdown generation
 
@@ -59,7 +61,7 @@ Command contracts SHALL be authored as XML under `commands/` and transformed to 
 - **WHEN** Maven reaches `process-classes` for `plinth-commands-generator`
 - **THEN** `CommandMarkdownGenerator` writes Markdown to `target/generated-resources/commands` and `target/classes/commands`
 - **AND** every generated file begins with an opening YAML delimiter and ends its frontmatter before the command H1
-- **AND** the generated frontmatter contains `description`, `argument-hint`, `model`, `agent`, and `tools`
+- **AND** the generated frontmatter contains `description`, `argument-hint`, `model`, `agent`, `tools`, nested `metadata.author`, and nested `metadata.version`
 - **AND** hand-authored `commands/*.md` are not present under `src/main/resources/commands/`
 - **AND** `CommandIndexesTest` assertions pass against the generated classpath Markdown
 
@@ -75,7 +77,8 @@ Command contracts SHALL be authored as XML under `commands/` and transformed to 
 
 - **GIVEN** the maintainer-approved YAML-frontmatter values are recorded in each inventoried command XML `metadata` element
 - **WHEN** the generated frontmatter is parsed as YAML 1.2
-- **THEN** `description`, `argument-hint`, `model`, and `agent` equal the corresponding XML values
+- **THEN** nested `metadata.author`, nested `metadata.version`, `description`, `argument-hint`, `model`, and `agent` equal the corresponding XML values
+- **AND** multiple XML authors are rendered in document order using the same comma-separated scalar convention as agents and skills
 - **AND** `tools` equals the complete ordered `tools/tools-list/tool` sequence from that command source
 - **AND** YAML-significant punctuation in scalar values remains valid and retains its parsed meaning
 

@@ -8,6 +8,7 @@ Provide a quick checklist of the embedded commands available for installation in
 
 | Command | SDLC phase | Primary purpose |
 | --- | --- | --- |
+| `/onboarding` | Analysis / Design | Establish root `AGENTS.md` and one unambiguous OpenSpec project before issue work; missing OpenSpec defaults to `documentation/openspec`. |
 | `/update-issue` | Analysis / Design | Update existing GitHub or Jira issues with structured user story, acceptance criteria, and resource content. |
 | `/explore-problem` | Analysis / Design | Evaluate an issue through five points of view and post a Functional Specification comment on the issue. |
 | `/create-acceptance-criteria` | Analysis / Design | Derive Gherkin acceptance criteria from a Functional Specification comment and post them as a separate issue comment. |

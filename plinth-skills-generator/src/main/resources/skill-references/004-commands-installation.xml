@@ -50,6 +50,7 @@
             <step-content>
                 Copy these exact source files from the skill `assets/commands/` directory into the chosen destination directory:
 
+                - [onboarding.md](../assets/commands/onboarding.md)
                 - [update-issue.md](../assets/commands/update-issue.md)
                 - [explore-problem.md](../assets/commands/explore-problem.md)
                 - [create-acceptance-criteria.md](../assets/commands/create-acceptance-criteria.md)
@@ -71,7 +72,7 @@
             <step-constraints>
                 <step-constraint-list>
                     <step-constraint>**MUST** copy from embedded assets, not from external URLs</step-constraint>
-                    <step-constraint>**MUST** install all thirteen commands as one set</step-constraint>
+                    <step-constraint>**MUST** install all fourteen commands as one set</step-constraint>
                     <step-constraint>**MUST** preserve original file names</step-constraint>
                 </step-constraint-list>
             </step-constraints>

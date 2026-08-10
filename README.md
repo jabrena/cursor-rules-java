@@ -64,9 +64,12 @@ You can use the project in 2 ways:
 
 #### Using AI-Native development workflow
 
-Identify an issue in your `Kanban` dashboard from `Atlasian Jira`, `Github Issues` or `Azure DevOps` and apply the following workflow:
+Prepare the repository with `/onboarding`, then identify an issue in your `Kanban` dashboard from `Atlasian Jira`, `Github Issues` or `Azure DevOps` and apply the following workflow:
 
 ```text
+/onboarding
+  |
+  v
 Issue
   |
   v
@@ -78,6 +81,8 @@ Issue
   v
 /implement-spec --> /close-spec
 ```
+
+`/onboarding` establishes root `AGENTS.md` and one unambiguous OpenSpec project before issue selection. It preserves existing prerequisites; when OpenSpec is missing, you select its result path with `documentation/openspec` as the default.
 
 ##### Analysis & Design
 
@@ -93,6 +98,10 @@ Turn an idea into an actionable change with user stories, GitHub Issues or Jira,
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><code>/onboarding</code></td>
+      <td>Establish root repository guidance and one unambiguous OpenSpec project before issue work.</td>
+    </tr>
     <tr>
       <td><code>/update-issue</code></td>
       <td>Update an existing GitHub or Jira issue with a structured user story, acceptance criteria, and resource content.</td>
