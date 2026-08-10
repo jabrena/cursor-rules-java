@@ -24,6 +24,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li class="navlinks-container">
     <a class="navlinks-parent" href="javascript:void(0)">Conferences</a>
     <div class="navlinks-children">
+      <a href="https://jabrena.github.io/plinth/jcconf-2026/index.html" target="_blank">JCConf 2026</a>
       <a href="https://jabrena.github.io/plinth/codemotion-madrid-2026/index.html" target="_blank">Codemotion Madrid 2026</a>
       <a href="https://jabrena.github.io/plinth/dvbe25/index.html" target="_blank">Devoxx BE 2025</a>
       <a href="https://jabrena.github.io/101-cursor/" target="_blank">WJAX-2025</a>

@@ -141,6 +141,22 @@
                                     </resources>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>copy-jcconf-2026-to-docs</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.basedir}/../docs/jcconf-2026</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.basedir}/../documentation/conferences/jcconf-2026</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
