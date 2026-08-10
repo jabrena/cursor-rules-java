@@ -22,13 +22,13 @@ The repository MUST define `814-regulations-iso-25010` as the ISO/IEC 25010:2023
 
 - **GIVEN** the `814-regulations-iso-25010` skill has been generated
 - **WHEN** a reviewer opens its chapters-summary reference
-- **THEN** it covers Functional Suitability, Performance Efficiency, Compatibility, Reliability, Security, Maintainability, Flexibility, and Safety
+- **THEN** it covers Functional Suitability, Performance Efficiency, Compatibility, Interaction Capability, Reliability, Security, Maintainability, Flexibility, and Safety
 
 #### Scenario: Java architect applies ISO/IEC 25010:2023 guidance to a Java Enterprise system
 
 - **GIVEN** a Java architect, tech lead, or reviewer is reviewing a Java Enterprise system
 - **WHEN** the `814-regulations-iso-25010` skill is applied
-- **THEN** the skill explains how each of the eight ISO/IEC 25010:2023 quality characteristics applies to the system under review
+- **THEN** the skill explains how each of the nine ISO/IEC 25010:2023 quality characteristics applies to the system under review
 - **AND** the skill provides practical, Java-focused engineering review guidance for each quality characteristic
 - **AND** the guidance frames findings as engineering evidence and action items rather than certification, compliance, or conformity conclusions
 - **AND** the skill produces findings and action items using an ISO/IEC 25010:2023 engineering review report template
