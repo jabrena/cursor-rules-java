@@ -15,7 +15,7 @@
     <artifactId>plinth-commands-generator</artifactId>
 
     <properties>
-        <snakeyaml-engine.version>3.1</snakeyaml-engine.version>
+        <snakeyaml-engine.version>3.1.1</snakeyaml-engine.version>
     </properties>
     <packaging>jar</packaging>
 
