@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>AI Tooling for Java Development</title>
+		<title>AI-Native Java Engineering — From Local Correctness to System Awareness</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -12,24 +12,22 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			.footer {
+				position: absolute;
+				left: 10px;
+				bottom: 0;
+				z-index: 999;
+				background: #fff;
+				margin-bottom: 10px;
+				padding-bottom: 0;
+			}
+		</style>
 
         <link rel="icon" href="images/java-icon.png" type="image/png" />
 	</head>
 	<body>
 		<div class="reveal">
-			<!-- My CSS Adventures in 2025 -->
-			<!-- Footer -->
-			<style>
-				.footer {
-					position: absolute;
-					left: 10px;
-					bottom: 0px;
-					z-index: 999;
-					background: #fff;
-					margin-bottom: 10px;
-					padding-bottom: 0px;
-				}
-			</style>
 			<div class="footer">
 				<small><a href="https://twitter.com/juanantoniobm" target="_blank">Twitter: @juanantoniobm</a></small>
 			</div>
@@ -38,7 +36,8 @@
 					<section data-background-image="./images/pillars2.jpg">
 						<h2>
                             <span style="display: inline-block; color: black;  background: #ffffff;">
-                                AI Tooling for Java Development
+                                AI-Native Java Engineering<br />
+                                <small>From Local Correctness to System Awareness</small>
                             </span>
                         </h2>
                         <p>
@@ -66,7 +65,7 @@
                                     -->
                                     <br />
                                     <a target="_blank" href="https://twitter.com/juanantoniobm">Twitter</a> |
-                                    <a target="_blank" href="https://github.com/jabrena">Github</a></li> |
+                                    <a target="_blank" href="https://github.com/jabrena">GitHub</a> |
                                     <a target="_blank" href="https://www.linkedin.com/in/juanantoniobrenamoral">LinkedIn</a>
                                 </td>
                             </tr>
@@ -97,10 +96,8 @@
                         <h2>Agenda (45 min)</h2>
                         <ul>
                             <li>Introduction</li>
-                            <li>Conway's Law</li>
-                            <li>Modern Java SDLC</li>
-                            <li>Local correctness ≠ System correctnes</li>
-                            <!-- <li>Building blocks in GenAI age</li> -->
+                            <li>From prompting to specification</li>
+                            <li>Local correctness ≠ System correctness</li>
                             <li>Project types</li>
                             <li>Takeaways</li>
                         </ul>
@@ -134,7 +131,7 @@
                     <section>
                         <h2>Introduction</h2>
                         <p>
-                            Zelda Series has a fantatic analogy with the Agentic Development.
+                            The Legend of Zelda offers a useful analogy for agentic development.
                         </p>
                         <img src="./images/botw.jpg" width="70%" />
                     </section>
@@ -147,9 +144,16 @@
                         </p>
                         <hr />
                         <p>
-                            When you are developing features in a project, <br />
-                            Who is resolving the issues? <br />
-                            <strong>The Software engineer or your Harness Agent tool?</strong>
+                            When you are developing a feature, <br />
+                            Who is solving the problem? <br />
+                            <strong>The software engineer or an AI agent?</strong>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Introduction</h2>
+                        <p>
+                            Epona makes Link faster. She does not choose the destination.<br />
+                            <strong>The agent moves fast. The engineer decides where the system should go.</strong>
                         </p>
                     </section>
                 </section>
@@ -166,159 +170,314 @@
                     </section>
                     <section>
                         <h2>Conway's Law</h2>
-                        <img src="./images/conway-1.png" width="90%" />
+                        <h3>Now add AI agents</h3>
+<pre><code data-trim data-noescape>
+Developer A ───────────── Developer B
+     │                         │
+ AI Agent                  AI Agent
+     │                         │
+ Service A ─────────────── Service B
+              │
+          Service C
+</code></pre>
+                        <p>Developers can now produce changes across interconnected services much faster.</p>
                     </section>
                     <section>
                         <h2>Conway's Law</h2>
+                        <h3>The bottleneck moves</h3>
                         <p>
-                            Maintain the communication between teams
-                            and teams members is fundamental.
+                            AI agents accelerate implementation.<br />
+                            Coordination does not accelerate automatically.
                         </p>
-                        <img src="./images/conway-2.png" width="60%" />
-                    </section>
-                    <section>
-                        <h2>Conway's Law</h2>
-                        <p>
-                            AI-Agent tools can help to accelerate the development but
-                            it is necessary to maintain cohesion and aligment with other
-                            systems and teams, to avoid the risk of creating a "Frankenstein" system.
-                        </p>
-                    </section>
-                    <section>
-                        <h2>Conway's Law</h2>
-                        <p>
-                            Architect roles has an excellent opportunity to improve "The eagle view skills"
-                            to review systems at scale to verify consistency and aligment.
-                        </p>
+                        <h4>What happens when implementation accelerates but coordination does not?</h4>
                     </section>
                 </section>
 
                 <section>
                     <section>
-                        <h2>Modern Java SDLC</h2>
-                        <p>
-                            How to adopt Agentic development in the SDLC?
-                        </p>
-                        <img src="./images/SDLC.jpg" width="50%" />
+                        <h2>From prompting to specification</h2>
+                        <h3>Prompting is not specification</h3>
+                        <blockquote>
+                            <strong>Add rate limiting to the API.</strong>
+                        </blockquote>
+                        <p>Can an AI agent implement this?</p>
+                        <h3>Yes.</h3>
                     </section>
                     <section>
-                        <h2>Modern Java SDLC</h2>
-                        <p>
-                            Every issue requires Functional & Technical specifications
-                            before starting the implementation:
-                        </p>
+                        <h2>From prompting to specification</h2>
+                        <h3>But what does it mean?</h3>
 <pre><code data-trim data-noescape>
-Issue
-  |
-  v
-Functional specification
-  |
-  v
-Technical specification
-  |
-  v
-Implementation
+Per user, API key, or IP?    Which endpoints?
+100 per minute?              HTTP 429?
+Distributed?                 Retry-After?
+Persistent?                  How is it observed?
 </code></pre>
+                        <h4>
+                            The implementation is not the problem. <br />
+                            The ambiguity is.</h4>
                     </section>
                     <section>
-                        <h2>Modern Java SDLC</h2>
+                        <h2>From prompting to specification</h2>
+                        <h3>Specify before generating</h3>
+<pre><code data-trim data-noescape>
+    WHAT / WHY              HOW                 CODE
+        │                    │                    │
+        ▼                    ▼                    ▼
+Functional Spec  ──→  Technical Spec  ──→  Implementation
+Business contract     System contract      Executable artifact
+</code></pre>
+                        <p>
+                            Use this depth when ambiguity, risk, or system impact justifies it.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>From prompting to specification</h2>
                         <h3>Functional specification</h3>
                         <p>
-                            Functional specifications are the source of truth for the business.
-                            The functional specifications are the contract between the business and the teams.
+                            Define what the system must do and why
                         </p>
-                        <table>
-                            <tr>
-                                <td style="vertical-align: top;">
-                                    <img src="./images/jira.png" width="100%" />
-                                </td>
-                                <td style="vertical-align: top;">
-                                    <img src="./images/github.png" width="100%" />
-                                </td>
-                                <td style="vertical-align: top;">
-                                    <img src="./images/azure-devops.png" width="100%" />
-                                </td>
-                            </tr>
-                        </table>
-                    </section>
-                    <section>
-                        <h2>Modern Java SDLC</h2>
-                        <h3>Technical specification</h3>
+                        <ul>
+                            <li>Business rules and outcomes</li>
+                            <li>User stories and acceptance criteria</li>
+                            <li>Constraints and quality attributes</li>
+                            <li>No implementation decisions yet</li>
+                        </ul>
                         <p>
-                            Technical specifications are the source of truth for the implementation.
-                            The technical specifications are the contract between the teams and the systems.
-                        </p>
-                        <p>
-                            <img src="./images/openspec.png" />
-                        </p>
-                        <p>
-                            <a href="https://openspec.dev/" target="_blank">
-                                https://openspec.dev/
-                            </a>
+                            <small>A business contract shared through tools such as Jira, GitHub, or Azure DevOps.</small>
                         </p>
                     </section>
                     <section>
-                        <h2>Modern Java SDLC</h2>
+                        <h2>From prompting to specification</h2>
                         <h3>Technical specification</h3>
+                        <p>
+                            Define how the system will satisfy the contract
+                        </p>
+                        <ul>
+                            <li>Components, interfaces, and data model</li>
+                            <li>Dependencies and architectural decisions</li>
+                            <li>Migration and compatibility strategy</li>
+                            <li>Testing and validation strategy</li>
+                        </ul>
+                        <p>
+                            <a href="https://openspec.dev/" target="_blank">OpenSpec makes these decisions explicit.</a>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>From prompting to specification</h2>
+                        <h3>Engineer the workflow around the agent</h3>
 <pre><code data-trim data-noescape>
-├── openspec/
-│   ├── config.yaml
-│   ├── specs/
-│   │   ├── payments/
-│   │   │   └── spec.md
-│   │   └── ...
-│   └── changes/
-│       ├── add-user-login/
-│       │   ├── proposal.md
-│       │   ├── design.md
-│       │   ├── tasks.md
-│       │   └── specs/
-│       └── ...
-└── ...
+Intent → Decisions → Constraints → Context → Agent → Evidence
 </code></pre>
+                        <h4>Constrain the problem before accelerating the solution.</h4>
                     </section>
                     <section>
-                        <h2>Modern Java SDLC</h2>
+                        <h2>From prompting to specification</h2>
+<pre><code data-trim data-noescape>
+                    Engineer
+                       │
+                       ▼
+              ┌─────────────────┐
+              │    Workflow     │
+              ├─────────────────┤
+              │ Commands        │
+              │ Agents          │
+              │ Skills          │
+              │ MCP Servers     │
+              └────────┬────────┘
+                       ▼
+                    Codebase
+</code></pre>
                         <p>
-                            One workflow which cover this vision has the following commands:
+                            Plinth is an AI-native engineering toolkit for the Java enterprise SDLC.
                         </p>
+                    </section>
+                    <section>
+                        <h2>From prompting to specification</h2>
+                        <h3>The Plinth workflow</h3>
 <pre><code data-trim data-noescape>
 Issue
-  |
-  v
-/update-issue --> /explore-problem --> /create-acceptance-criteria
-  |
-  v
-/create-spec --> /explore-design
-  |
-  v
-/implement-spec --> /close-spec
+  │
+  ▼
+Explore problem → Functional specification
+  │
+  ▼
+Create spec → Explore design → Technical specification
+  │
+  ▼
+Implement spec → Close spec
 </code></pre>
-                    <p>
+                        <p>
                         <a href="https://github.com/jabrena/plinth" target="_blank">
                             https://github.com/jabrena/plinth
                         </a>
-                    </p>
+                        </p>
                     </section>
                 </section>
 
                 <section>
                     <section>
                         <h2>Local correctness ≠ System correctness</h2>
+                        <h3>Everything is green</h3>
+<pre><code data-trim data-noescape>
+✓ Code compiles
+✓ Unit tests pass
+✓ Integration tests pass
+✓ Acceptance criteria pass
+</code></pre>
+                        <h1>💥 Production breaks</h1>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+<pre><code data-trim data-noescape>
+Specification ✓
+Implementation ✓
+Tests ✓
+Repository ✓
+
+        ≠
+
+System correctness
+</code></pre>
+                        <p>The change is correct inside the boundary the agent can see.</p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>One innocent Java change</h3>
+                        <blockquote><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></blockquote>
+<pre><code class="language-java" data-trim data-noescape>
+record Order(String clientId, BigDecimal total) {}
+</code></pre>
+                        <p>Locally correct. But what else depends on this contract?</p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>The change surface</h3>
+<pre><code data-trim data-noescape>
+                         REST clients
+                              ↑
+                              │
+Database schema ←────── [ CHANGE ] ──────→ Events
+                              │
+                              ▼
+                    Consumers and ETL
+                       ↙            ↘
+                 Dashboards     Documentation
+</code></pre>
+                        <h4>The unit of correctness is not always the repository.</h4>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>Parallel Change</h3>
+                        <p>When a contract must change, old and new worlds may need to coexist.</p>
+<pre><code data-trim data-noescape>
+OLD ────────────────┐
+                    ├── transition ──→ NEW
+NEW ────────────────┘
+
+Expand → Migrate → Contract
+</code></pre>
+                        <p><small>APIs · database schemas · events · configuration · protocols</small></p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>What context is missing?</h3>
                         <p>
-                            Local correctness is a necessary but not sufficient condition for system correctness.
-                            It is important to maintain the cohesion and alignment between systems and teams.
+                            The repository describes the local implementation.<br />
+                            It may not describe the wider business and system landscape.
+                        </p>
+                        <h4>How can an agent discover what it cannot see?</h4>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>The agent's horizon</h3>
+<pre><code data-trim data-noescape>
+┌─────────────────────────┐
+│ Current task            │     Other repositories
+│ Current repository      │     Teams and ownership
+│ Current tests           │     Consumers
+└─────────────────────────┘     Historical decisions
+      Agent sees this.          Business constraints
+</code></pre>
+                        <p>Architects help maintain the eagle view across domains, systems, and teams.</p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>DDD Registry: Where am I?</h3>
+                        <p><small>Roadmap concept: a queryable strategic DDD inventory.</small></p>
+<pre><code data-trim data-noescape>
+Business Domain
+      │
+      ▼
+  Subdomain ──→ Core / Supporting / Generic
+      │
+      ▼
+Bounded Context ──→ Ownership and context relationships
+</code></pre>
+                        <p>
+                            Strategic DDD describes the business landscape—not Java classes,
+                            databases, APIs, or Kafka topics.
                         </p>
                     </section>
                     <section>
                         <h2>Local correctness ≠ System correctness</h2>
+                        <h3>Skill Registry: How should I work here?</h3>
+                        <p><small>Roadmap concept: organizational discovery of approved engineering knowledge.</small></p>
+                        <ul>
+                            <li>Which engineering practices apply?</li>
+                            <li>How should this Java change be tested?</li>
+                            <li>How should this contract evolve safely?</li>
+                            <li>Which approved skill is relevant here?</li>
+                        </ul>
+                        <p><strong>Skills encode reusable engineering knowledge.</strong></p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>Make context queryable</h3>
+                        <p><small>Proposed context model.</small></p>
+<pre><code data-trim data-noescape>
+               WHERE AM I?             HOW SHOULD I WORK?
+                    │                          │
+                    ▼                          ▼
+              DDD Registry              Skill Registry
+                    │                          │
+                    └────────── MCP ───────────┘
+                                │
+                                ▼
+                            AI Agent
+</code></pre>
+                        <small>Do not put all context in the prompt. Make knowledge discoverable.</small>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>From code-aware to system-aware</h3>
+<pre><code data-trim data-noescape>
+Code            → What exists in this repository?
+Skills          → How do we engineer this safely?
+Strategic DDD   → Where does this change live in the business?
+
+                         ↓
+
+                  System awareness
+</code></pre>
                         <p>
-                            A → B → C → D
+                            Context cannot guarantee the correct decision, but it can expose
+                            decisions that should not be made from repository context alone.
                         </p>
-                        <p>
-                            A change can be specification-correct and implementation-correct,
-                            yet system-incorrect if the specification does not model the full impact surface.
-                        </p>
+                    </section>
+                    <section>
+                        <h2>Local correctness ≠ System correctness</h2>
+                        <h3>Roadmap: governance at organizational scale</h3>
+<pre><code data-trim data-noescape>
+AI engineering assets
+        │
+        ├── Discovery: What exists? Who owns it?
+        ├── Governance: Approved? Trusted? Versioned?
+        └── Control: Who can use it? Where? Auditable?
+        │
+        ▼
+AI Registry
+</code></pre>
+                        <p>At organizational scale, context becomes infrastructure that needs governance.</p>
                     </section>
                 </section>
 
@@ -331,7 +490,7 @@ Issue
                             <li>Skills</li>
                             <li>Commands</li>
                             <li>Subagents</li>
-                            <li>MCP Severs</li>
+                            <li>MCP Servers</li>
                             <li>SDD</li>
                         </ul>
                     </section>
@@ -386,7 +545,7 @@ context window, handles specific types of work, and returns its result to the ma
 
                     </section>
                     <section>
-                        <h3>MCP Severs</h3>
+                        <h3>MCP Servers</h3>
                         <img src="images/mcp.png" width="50%" />
                         <p>
                             Model Context Protocol (MCP) is an open protocol that standardizes how applications provide context to LLMs.
@@ -395,7 +554,7 @@ context window, handles specific types of work, and returns its result to the ma
                                 target="_blank">https://modelcontextprotocol.io/introduction</a></small>
                     </section>
                     <section>
-                        <h3>MCP Severs</h3>
+                        <h3>MCP Servers</h3>
                         <p>
                             Think of MCP as a plugin system for Cursor:
                         </p>
@@ -420,82 +579,211 @@ context window, handles specific types of work, and returns its result to the ma
                 <section>
                     <section>
                         <h2>Project types</h2>
-                        <ul>
-                            <li>Greenfield</li>
-                            <li>Brownfield</li>
-                            <li>Legacy</li>
-                        </ul>
+                        <p>Same destination, different starting points</p>
+                        <small>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Greenfield</th>
+                                    <th>Brownfield</th>
+                                    <th>Legacy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>High freedom</td>
+                                    <td>Existing constraints</td>
+                                    <td>Hidden constraints</td>
+                                </tr>
+                                <tr>
+                                    <td>Explicit context</td>
+                                    <td>Partial context</td>
+                                    <td>Tribal knowledge</td>
+                                </tr>
+                                <tr>
+                                    <td>Low archaeology</td>
+                                    <td>Known dependencies</td>
+                                    <td>Uncertain behavior</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </small>
+                        <p><strong>The workflow is the same. The starting context is not.</strong></p>
                     </section>
                     <section>
                         <h2>Project types</h2>
-                        <h3>Greenfield</h3>
-                        <p>
-                            New project, no constraints from previous work.
-                        </p>
-                        <ul>
-                            <li>New AGENTS.md</li>
-                            <li>New OpenSpec project</li>
-                        </ul>
+                        <p>Different starting points, different guidance</p>
+                        <small>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Greenfield</th>
+                                    <th>Brownfield</th>
+                                    <th>Legacy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Define domain language</td>
+                                    <td>Discover constraints</td>
+                                    <td>Stabilize before changing</td>
+                                </tr>
+                                <tr>
+                                    <td>Create specifications</td>
+                                    <td>Backfill missing ADRs</td>
+                                    <td>Add characterization tests</td>
+                                </tr>
+                                <tr>
+                                    <td>Establish architecture</td>
+                                    <td>Document boundaries</td>
+                                    <td>Recover business rules</td>
+                                </tr>
+                                <tr>
+                                    <td>Add agent guidance</td>
+                                    <td>Protect existing contracts</td>
+                                    <td>Change incrementally</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </small>
+                        <p><strong>Do not ask the agent to invent context that the organization has never recorded.</strong></p>
                     </section>
                     <section>
                         <h2>Project types</h2>
-                        <h3>Brownfield</h3>
+                        <h3>Adopt in layers</h3>
+<pre><code data-trim data-noescape>
+Repository guidance
+        ↓
+Specifications and ADRs
+        ↓
+Reusable skills and workflows
+        ↓
+System and domain context
+        ↓
+Organizational governance
+</code></pre>
                         <p>
-                            Existing project, with constraints from previous work.
+                            Greenfield: design each layer deliberately.<br />
+                            Brownfield: discover gaps and backfill.<br />
+                            Legacy: stabilize and recover intent.
                         </p>
-                        <ul>
-                            <li>Review potential gaps in Specs from OpenSpec</li>
-                            <li>Review missing parts in AGENTS.md</li>
-                            <li>Review Karpathy LLM Wiki pattern to describe Domains/Subdomains</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Project types</h2>
-                        <h3>Legacy</h3>
-                        <p>
-                            Older project, with significant technical debt
-                            , outdated architecture and lack of testing.
-                        </p>
-                        <p>
-                            A real engineering challenge to backfill the missing parts
-                            in the project, like documentation, missing tests, etc...
-                        </p>
+                        <p><strong>AI-native development starts by making the right context explicit.</strong></p>
                     </section>
                 </section>
 
+                <!--
+                <section>
+                    <section>
+                        <h2>Does this actually work?</h2>
+                        <p>
+                            AI-native engineering needs evidence about engineering outcomes,
+                            not demonstrations of code generation.
+                        </p>
+<pre><code data-trim data-noescape>
+Task completion     Rework              Regressions
+Consistency         Human intervention  Time and cost
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>Part 2: Reliability versus latency</h2>
+                        <p><small>Six commit/tool-matched pairs with equivalent OpenSpec input</small></p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Delegated workflow</th>
+                                    <th>Direct execution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pass rate</td>
+                                    <td>6/6</td>
+                                    <td>6/6</td>
+                                </tr>
+                                <tr>
+                                    <td>Average rework</td>
+                                    <td><strong>0.50 turns</strong></td>
+                                    <td>1.67 turns</td>
+                                </tr>
+                                <tr>
+                                    <td>Average wall time</td>
+                                    <td>807 seconds</td>
+                                    <td><strong>577 seconds</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <blockquote>
+                            Delegation produced about 70% less rework,<br />
+                            while direct execution was about 29% faster.
+                        </blockquote>
+                    </section>
+                    <section>
+                        <h2>What the evidence actually supports</h2>
+                        <ul>
+                            <li><strong>Reliability:</strong> five matched pairs favored delegation for rework; one tied.</li>
+                            <li><strong>Architecture:</strong> both workflows preserved the written Hexagonal and ArchUnit decisions.</li>
+                            <li><strong>Skills:</strong> systematic, relevant application matters more than raw skill count.</li>
+                            <li><strong>Tradeoff:</strong> orchestration improves process reliability, not execution speed.</li>
+                        </ul>
+                        <p>
+                            <strong>Use delegation when reducing rework matters more than latency.</strong>
+                        </p>
+                        <small>
+                            Small-sample, descriptive evidence. The current oracle validates the documented happy path,
+                            not every OpenSpec scenario.<br />
+                            <a href="https://github.com/jabrena/plinth/issues/1110" target="_blank">
+                                Issue #1110: corrected Part 2 analysis in progress
+                            </a>
+                        </small>
+                    </section>
+                </section>
+                -->
                 <section>
                     <section>
                         <h2>Takeaways</h2>
-                        <ul>
-                            <li>Create formal communication channels in your company to avoid "Frankenstein" systems.</li>
-                            <li>Architects roles have a crucial mission to increase consistency among Domains, Subdomains and teams involved.</li>
-                            <li>AI-Agent harness is not a Silver Bullet</li>
-                        </ul>
+                        <ol>
+                            <li>Formalize cross-team communication to avoid "Frankenstein" systems.</li>
+                            <li>Architects must strengthen consistency across domains, subdomains, and teams.</li>
+                            <li>An AI-agent harness is not a silver bullet.</li>
+                            <li>Specify before generating.</li>
+                            <li>Engineer the workflow, not just the prompt.</li>
+                            <li>Optimize for system awareness and system correctness.</li>
+                            <li>Every organization requires an AI Registry.</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>Takeaways</h2>
+                        <h3>Link and Epona</h3>
+<pre><code data-trim data-noescape>
+AI agent  → Speed
+Engineer  → Direction
+Workflow  → Discipline
+Context   → Awareness
+</code></pre>
+                        <h4>AI agents accelerate engineering.<br />They do not replace engineering.</h4>
+                        <p><strong>So let us engineer how we use them.</strong></p>
+                    </section>
                 </section>
 
                 <section>
                     <h2>References</h2>
                     <ul>
                         <li>
-                            <a href="https://www.skills.sh/jabrena/plinth" target="_blank">https://www.skills.sh/jabrena/plinth</a>
+                            <a href="https://github.com/jabrena/plinth" target="_blank">Plinth on GitHub</a>
                         </li>
                         <li>
-                            <a href="https://github.com/jabrena/plinth" target="_blank">
-                                Plinth @ jabrena
-                            </a>
-                        </li>
-                        <!--
-                        <li>
-                            <a href="https://github.com/jabrena/cursor-rules-agile" target="_blank">
-                                Cursor Rules Agile @ jabrena
-                            </a>
+                            <a href="https://www.skills.sh/jabrena/plinth" target="_blank">Plinth skills on Skills.sh</a>
                         </li>
                         <li>
-                            <a href="https://github.com/snarktank/ai-dev-tasks" target="_blank">
-                                AI Dev Tasks @ snarktankd
-                            </a>
+                            <a href="https://openspec.dev/" target="_blank">OpenSpec</a>
                         </li>
-                        -->
+                        <li>
+                            <a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context Protocol</a>
+                        </li>
+                        <li>
+                            <a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change</a>
+                        </li>
                     </ul>
                 </section>
                 <!--
@@ -513,10 +801,8 @@ context window, handles specific types of work, and returns its result to the ma
                 </section>
                 -->
                 <section>
-					<h1>🙏 🙏 🙏</h1>
-					<p>
-						Thanks
-					</p>
+					<h1>Q&A?</h1>
+					<p>🙏 Thank you 🙏</p>
 				</section>
 			</div>
 		</div>
