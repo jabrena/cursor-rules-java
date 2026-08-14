@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>JCConf 2026 - AI-Native Java Engineering</title>
+    <title>Devoxx 2026 - The Importance of HITL to Avoid Chaos and EU Regulations for AI</title>
 
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
@@ -47,6 +47,11 @@
 
         .reveal h3 {
             font-size: 1.05em;
+        }
+
+        .reveal .title-slide h1 {
+            font-size: 1.65em;
+            line-height: 1.15;
         }
 
         .reveal .risk {
@@ -132,6 +137,31 @@
         .reveal .control-step strong {
             display: block;
             margin-bottom: .25em;
+        }
+
+        .reveal .governance-stack {
+            display: grid;
+            gap: .28em;
+            width: 88%;
+            margin: 0 auto;
+        }
+
+        .reveal .governance-stack .card {
+            padding: .35em .55em;
+        }
+
+        .reveal .stack-arrow {
+            color: var(--agent);
+            font-size: 1.25em;
+            font-weight: 800;
+            line-height: .8;
+        }
+
+        .reveal .decision-banner {
+            border-left: 8px solid var(--risk);
+            background: #fff4f4;
+            padding: .55em .8em;
+            text-align: left;
         }
 
         .reveal .flow {
@@ -362,23 +392,18 @@
             <small><a href="https://twitter.com/juanantoniobm" target="_blank">Twitter: @juanantoniobm</a></small>
         </div>
         <div class="slides">
-            <section data-background-image="./images/pillars2.jpg">
+            <section class="title-slide" data-background-image="./images/pillars2.jpg">
                 <h1>
                     <span style="display: inline-block; color: black; background: #ffffff;">
-                        AI-Native Java Engineering
+                        The Importance of HITL to Avoid Chaos and EU Regulations for AI
                     </span>
                 </h1>
-                <p>
-                    <span style="display: inline-block; color: black; background: #fff;">
-                        From Local Correctness to Governed, System-Aware Java Engineering
-                    </span>
-                </p>
                 <p>
                     <span style="display: inline-block; color: black; background: #fff;">
                         <a href="https://twitter.com/juanantoniobm" target="_blank">Juan Antonio Breña Moral</a>
                     </span>
                 </p>
-                <img src="images/duke.png" width="10%" />
+                <img src="images/duke.png" width="10%" alt="Duke, the Java mascot" />
             </section>
 
             <section>
@@ -386,7 +411,7 @@
                     <h2 align="center">Who I am</h2>
                     <table>
                         <tr>
-                            <td><img src="./images/jabAvatar.jpg" width="70%" /></td>
+                            <td><img src="./images/jabAvatar.jpg" width="70%" alt="Juan Antonio Breña Moral" /></td>
                             <td style="color: #336699; vertical-align: top">
                                 Juan Antonio Breña Moral<br />
                                 <div style="display:inline-block;">Engineering @ IG Group, EU Division</div>
@@ -408,600 +433,393 @@
             </section>
 
             <section>
-                <img src="./images/ppt.png" width="60%" />
-                <small><strong>Source: </strong><a href="https://cio-wiki.org/wiki/Leavitt%27s_Alignment_Model"
-                        target="_blank">Leavitt's Alignment Model (1965) >> People, Process and Technology
-                        Framework</a></small>
-            </section>
-
-            <section>
-                <h2>Agenda (45 minutes)</h2>
-                <ul>
-                    <li>The problem (7 min)</li>
-                    <li>Local correctness (7 min)</li>
-                    <li>System awareness (10 min)</li>
-                    <li>Human-in-the-Loop (8 min)</li>
-                    <li>Governed execution at scale (8 min)</li>
-                    <li>Takeaways (3 min)</li>
-                </ul>
+                <h2>Agenda · 45 minutes</h2>
+                <ol>
+                    <li><strong>The problem</strong> · 8 min<br />A green PR can still be wrong.</li>
+                    <li><strong>HITL at the PR</strong> · 18 min<br />Risk, evidence, authority, intervention.</li>
+                    <li><strong>Governance</strong> · 12 min<br />Laws, standards, frameworks, controls.</li>
+                    <li><strong>Takeaways</strong> · 7 min</li>
+                </ol>
             </section>
 
             <section>
                 <section class="section-divider">
                     <p class="act-number">ACT I</p>
-                    <h1>The problem</h1>
-                    <p>Implementation accelerates. Context does not.</p>
+                    <h1>A green PR can still be wrong</h1>
+                    <p>Implementation accelerates. Context and review capacity do not.</p>
                 </section>
 
                 <section>
-                    <h2>Everything is green</h2>
+                    <h2>An agent opens a perfect-looking PR</h2>
                     <div class="grid-4 compact">
                         <div class="card evidence">✓ Compiles</div>
-                        <div class="card evidence">✓ Unit tests</div>
-                        <div class="card evidence">✓ Integration tests</div>
+                        <div class="card evidence">✓ Unit + integration tests</div>
+                        <div class="card evidence">✓ Security scans</div>
                         <div class="card evidence">✓ Acceptance criteria</div>
                     </div>
                     <p class="statement risk impact">💥 Production breaks</p>
+                    <p>The checks proved the implementation—not the whole consequence.</p>
                 </section>
 
                 <section>
-                    <h2>
-                        How can a change be completely <span class="evidence">correct</span> and
-                        still be <span class="risk">wrong</span>?
-                    </h2>
-                </section>
-
-                <section>
-                    <h2>Conway's Law</h2>
-                    <blockquote>
-                        Organizations design systems that mirror their communication structures.
-                    </blockquote>
-                    <img src="./images/melvin-conway.png" width="20%" />
-                    <p class="muted"><small>Paraphrased from Melvin Conway, 1968.</small></p>
-                </section>
-
-                <section>
-                    <h2>AI may amplify Conway's Law</h2>
-                    <div class="flow compact">
-                        <div class="card context">Weak communication boundary</div>
-                        <div class="arrow">→</div>
-                        <div class="card agent">Agents generate changes faster</div>
-                        <div class="arrow">→</div>
-                        <div class="card risk">Inconsistency propagates faster</div>
-                    </div>
-                </section>
-
-                <section>
-                    <h2>AI accelerates code, not context</h2>
-                    <div class="grid-2">
-                        <div class="card agent">
-                            <h3>Implementation throughput</h3>
-                            <p class="statement">High</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Context discovery throughput</h3>
-                            <p class="statement">Low</p>
-                        </div>
-                    </div>
-                    <p class="statement risk">Context—not coding—becomes the bottleneck.</p>
-                </section>
-
-                <section>
-                    <h2>People · Process · Technology</h2>
-                    <div class="grid-3">
-                        <div class="card context">
-                            <h3>People</h3>
-                            <p>Ownership<br />Communication</p>
-                        </div>
-                        <div class="card evidence">
-                            <h3>Process</h3>
-                            <p>Specification<br />Validation</p>
-                        </div>
-                        <div class="card agent">
-                            <h3>Technology</h3>
-                            <p>Agents<br />Tools</p>
-                        </div>
-                    </div>
-                    <p>
-                        AI accelerates <span class="agent">technology</span>.<br />
-                        System correctness still depends on all three.</p>
-                </section>
-            </section>
-
-            <section>
-                <section class="section-divider">
-                    <p class="act-number">ACT II</p>
-                    <h1>Local correctness</h1>
-                    <p>Specification constrains the work inside the visible boundary.</p>
-                </section>
-
-                <section>
-                    <h2>Prompting is not specification</h2>
-                    <blockquote><strong>Add rate limiting to the API.</strong></blockquote>
+                    <h2>The problem statement</h2>
                     <div class="grid-3 compact">
-                        <div class="card risk">Per user, API key, or IP?</div>
-                        <div class="card risk">Which endpoints?</div>
-                        <div class="card risk">Which limit and window?</div>
-                        <div class="card risk">Distributed?</div>
-                        <div class="card risk">Retry-After?</div>
-                        <div class="card risk">How is it observed?</div>
+                        <div class="card agent"><strong>Change throughput</strong><br /><span class="statement">↑</span></div>
+                        <div class="card local"><strong>Review capacity</strong><br /><span class="statement">↔</span></div>
+                        <div class="card context"><strong>System context</strong><br />Fragmented</div>
                     </div>
-                    <p class="lead">Implementation is not the problem. <span class="risk">Ambiguity is.</span></p>
+                    <div class="decision-banner" style="margin-top: .8em;">
+                        Agentic development can produce changes faster than an organization can discover their full
+                        impact and make accountable decisions about them.
+                    </div>
                 </section>
 
                 <section>
-                    <h2>Specify before generating</h2>
-                    <div class="flow compact">
-                        <div class="card risk"><strong>Intent</strong></div>
-                        <div class="arrow">→</div>
-                        <div class="card context"><strong>Constraints</strong></div>
-                        <div class="arrow">→</div>
-                        <div class="card agent"><strong>Implementation</strong></div>
-                    </div>
-                    <p class="lead"><span class="evidence">Evidence</span> closes the loop.</p>
-                </section>
-
-                <section>
-                    <h2>Functional and technical specification</h2>
-                    <div class="grid-2 compact">
-                        <div class="card context">
-                            <h3>Functional — Why / What</h3>
-                            <p>Business rules<br />Acceptance criteria<br />Constraints<br />Quality attributes</p>
-                        </div>
-                        <div class="card agent">
-                            <h3>Technical — How</h3>
-                            <p>Components<br />Interfaces<br />Migration<br />Validation</p>
-                        </div>
-                    </div>
-                    <p>
-                        <small>
-                            <a href="https://openspec.dev/" target="_blank">
-                                OpenSpec makes technical decisions explicit.
-                            </a>
-                        </small>
-                    </p>
-                </section>
-
-                <section>
-                    <h2>Engineer the workflow around the agent</h2>
-                    <div class="flow compact">
-                        <div class="card risk">Intent</div>
-                        <div class="arrow">→</div>
-                        <div class="card context">Decisions + context</div>
-                        <div class="arrow">→</div>
-                        <div class="card agent">Agent</div>
-                    </div>
-                    <p class="arrow">↓</p>
-                    <div class="card evidence" style="width: 45%; margin: auto;">Evidence</div>
-                    <p>Constrain the problem before accelerating the solution.</p>
-                </section>
-
-                <section>
-                    <p class="statement"><span class="context">Specifications</span> solve task ambiguity.<br />They do
-                        <span class="risk">not</span> solve system blindness.</p>
-                    <hr />
+                    <h2>The pull request is where autonomy meets authority</h2>
                     <div class="grid-2">
-                        <div class="card context">What should <strong>this change</strong> do?</div>
-                        <div class="card risk">What else will <strong>this change</strong> affect?</div>
+                        <div class="card agent">
+                            <h3>Agent autonomy</h3>
+                            <p>Discover · generate · test · propose</p>
+                        </div>
+                        <div class="card context">
+                            <h3>Human authority</h3>
+                            <p>Challenge · decide · escalate · stop</p>
+                        </div>
                     </div>
-                </section>
-            </section>
-
-            <section>
-                <section class="section-divider">
-                    <p class="act-number">ACT III</p>
-                    <h1>System awareness</h1>
-                    <p>The blast radius extends beyond the repository.</p>
-                </section>
-
-                <section>
-                    <h2>One innocent Java change</h2>
-                    <blockquote><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></blockquote>
-                    <pre><code class="language-java" data-trim data-noescape>
-record Order(String clientId, BigDecimal total) {}
-					</code></pre>
-                    <p class="lead"><span class="evidence">Locally correct.</span> What else depends on this contract?
-                    </p>
+                    <p class="statement evidence">The bridge is reviewable evidence.</p>
                 </section>
 
                 <section class="dependency-slide">
-                    <h2>The blast radius is larger than the repository</h2>
+                    <h2>One innocent Java change; many consequences</h2>
+                    <p><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></p>
                     <div class="dependency-map compact">
                         <div class="card context north">Mobile API<br />REST schema</div>
-                        <div class="card risk center"><strong>ORDER
-                                SERVICE</strong><br /><code>customerId → clientId</code></div>
+                        <div class="card risk center"><strong>ORDER SERVICE</strong><br /><code>customerId → clientId</code></div>
                         <div class="card local west">Database<br />migration</div>
                         <div class="card agent east">Kafka event</div>
                         <div class="card context south-west">Fraud + notifications</div>
                         <div class="card local south">Data lake + ETL</div>
                         <div class="card evidence south-east">BI + documentation</div>
                     </div>
-                    <p>The repository cannot always be the unit of correctness.</p>
-                </section>
-
-                <section class="boundary-slide">
-                    <h2>Correctness has expanding boundaries</h2>
-                    <div class="boundary system">
-                        <strong>ORGANIZATION</strong>
-                        <div class="boundary system">
-                            SYSTEM
-                            <div class="boundary repository">
-                                REPOSITORY
-                                <div class="boundary code">CODE</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p><span class="agent">AI moves inward very well.</span> Enterprise engineering
-                        requires awareness outward.</p>
+                    <p>The repository is not always the unit of correctness.</p>
                 </section>
 
                 <section>
-                    <h2>The agent's horizon</h2>
-                    <div class="boundary system">
-                        <span class="context">ORGANIZATION -> <small>ownership · decisions · business constraints</small></span>
-                        <div class="boundary system">
-                            <span class="context">SYSTEM -> <small>consumers · contracts · other repositories</small></span>
-                            <div class="boundary repository">
-                                <span class="local">REPOSITORY -> <small>code · tests</small></span>
-                                <div class="boundary task"><span class="agent">TASK</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Most coding agents start at task and repository.<br /><span class="risk">Many
-                            dependency failures live outside them.</span></p>
-                </section>
-
-                <section>
-                    <h2>What must a system-aware agent discover?</h2>
-                    <div class="grid-3 compact">
-                        <div class="card context"><strong>WHERE?</strong><br />Domain and system</div>
-                        <div class="card context"><strong>WHO?</strong><br />Ownership</div>
-                        <div class="card context"><strong>WHAT DEPENDS?</strong><br />Contracts and consumers</div>
-                        <div class="card agent"><strong>HOW?</strong><br />Practices and skills</div>
-                        <div class="card local"><strong>WHY?</strong><br />ADRs and history</div>
-                        <div class="card risk"><strong>WHAT CAN GO WRONG?</strong><br />Failure and compliance risk</div>
-                        <div class="card evidence"><strong>WHO DECIDES?</strong><br />Decision authority</div>
-                    </div>
-                </section>
-
-                <section>
-                    <h2>Engineering Context Graph</h2>
+                    <h2>Agentic development changes the equation</h2>
                     <div class="grid-4 compact">
-                        <div class="card context">
-                            <h3>Business</h3>
-                            <p>Domain → Subdomain<br />→ Bounded Context</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Organization</h3>
-                            <p>Team → Owner<br />→ Criticality</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Systems</h3>
-                            <p>Service → API<br />→ Event → Database</p>
-                        </div>
-                        <div class="card evidence">
-                            <h3>Governance</h3>
-                            <p>Risk → Control<br />→ Human owner</p>
-                        </div>
+                        <div class="card agent"><strong>Speed</strong><br />More changes per unit of time</div>
+                        <div class="card agent"><strong>Scale</strong><br />More repositories and artifacts</div>
+                        <div class="card risk"><strong>Plausibility</strong><br />Confident, polished proposals</div>
+                        <div class="card risk"><strong>Autonomy</strong><br />Tools can create side effects</div>
                     </div>
-                    <p class="lead">DDD organizes one dimension. Technical relationships expose the blast radius.</p>
+                    <p class="lead">A context gap becomes a risk multiplier.</p>
                 </section>
 
                 <section>
-                    <h2>Context and skills answer different questions</h2>
-                    <div class="grid-2">
-                        <div class="card context">
-                            <h3>Context</h3>
-                            <p>What is true here?</p>
-                            <small>State of the organization</small>
-                        </div>
-                        <div class="card agent">
-                            <h3>Skills</h3>
-                            <p>How should work be performed here?</p>
-                            <small>Engineering policy and practice</small>
-                        </div>
-                    </div>
-                </section>
-
-                <section>
-                    <h2>Make context discoverable</h2>
-                    <div class="flow compact">
-                        <div class="card context">Context graph</div>
-                        <div class="arrow">→</div>
-                        <div class="card local"><strong>MCP</strong><br />query interface</div>
-                        <div class="arrow">→</div>
-                        <div class="card agent">AI agent</div>
-                    </div>
-                    <p class="lead">Do not put all knowledge in the prompt.<br />Make relevant context queryable.</p>
-                    <small><a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context
-                            Protocol</a></small>
-                </section>
-
-                <section>
-                    <h2>System awareness changes implementation strategy</h2>
+                    <h2>The issue with conventional PR review</h2>
                     <div class="grid-2 compact">
-                        <div class="card local">
-                            <h3>Repository-only view</h3>
-                            <p>Rename <code>customerId</code><br />to <code>clientId</code></p>
+                        <div class="card evidence">
+                            <h3>Usually visible</h3>
+                            <p>Diff<br />Repository tests<br />CI status<br />Agent summary</p>
                         </div>
-                        <div class="card context">
-                            <h3>System-aware view</h3>
-                            <ol>
-                                <li>Introduce <code>clientId</code></li>
-                                <li>Keep <code>customerId</code> compatible</li>
-                                <li>Migrate and observe consumers</li>
-                                <li>Remove <code>customerId</code></li>
-                            </ol>
+                        <div class="card risk">
+                            <h3>Often missing</h3>
+                            <p>External consumers<br />Uncertainty<br />Applicable controls<br />Decision authority</p>
                         </div>
                     </div>
-                    <p>Same requirement. Different context. Different plan.</p>
-                    <small><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change:
-                            expand → migrate → contract</a></small>
+                    <p class="statement">A merge approval can become <span class="risk">cosmetic oversight</span>.</p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT IV</p>
-                    <h1>Human-in-the-Loop</h1>
+                    <p class="act-number">ACT II</p>
+                    <h1>Human-in-the-Loop at the PR</h1>
                     <p>Do not confuse autonomy with authority.</p>
                 </section>
 
                 <section>
-                    <h2>HITL is not “a human clicks Approve”</h2>
-                    <p class="statement risk">That is human-as-a-button.</p>
-                    <div class="grid-5 compact">
-                        <div class="card context"><strong>Context</strong><br /><small>Understand consequences</small></div>
-                        <div class="card evidence"><strong>Authority</strong><br /><small>Own the decision</small></div>
-                        <div class="card local"><strong>Time</strong><br /><small>Challenge the proposal</small></div>
-                        <div class="card agent"><strong>Evidence</strong><br /><small>Inspect the reasoning</small></div>
-                        <div class="card risk"><strong>Stop</strong><br /><small>Override or escalate</small></div>
+                    <h2>Autonomy may propose; authority must decide</h2>
+                    <div class="flow compact">
+                        <div class="card context"><strong>Issue + specification</strong></div>
+                        <div class="arrow">→</div>
+                        <div class="card agent"><strong>Agent-created PR</strong></div>
+                        <div class="arrow">→</div>
+                        <div class="card evidence"><strong>Human decision</strong></div>
                     </div>
-                    <p class="lead">Approval without context and authority is cosmetic oversight.</p>
+                    <p class="lead">The PR is a decision boundary—not merely a diff viewer.</p>
+                </section>
+
+                <section>
+                    <h2>Why green PRs can still fool humans</h2>
+                    <div class="grid-4 compact">
+                        <div class="card risk"><strong>Automation bias</strong><br />Green and polished feels safe</div>
+                        <div class="card risk"><strong>Correlated evidence</strong><br />The agent writes code and tests</div>
+                        <div class="card context"><strong>Context gap</strong><br />Consequences live elsewhere</div>
+                        <div class="card local"><strong>Queue pressure</strong><br />Generation outpaces review</div>
+                    </div>
+                    <p class="lead">A human presence does not guarantee a human judgment.</p>
+                </section>
+
+                <section>
+                    <h2>Six requirements for meaningful HITL</h2>
+                    <div class="grid-3 compact">
+                        <div class="card context"><strong>Context</strong><br />Understand consequences</div>
+                        <div class="card evidence"><strong>Competence</strong><br />Know the domain and system</div>
+                        <div class="card agent"><strong>Authority</strong><br />Own the decision</div>
+                        <div class="card local"><strong>Time</strong><br />Challenge the proposal</div>
+                        <div class="card evidence"><strong>Evidence</strong><br />Inspect claims and proof</div>
+                        <div class="card risk"><strong>Intervention</strong><br />Modify, escalate, or stop</div>
+                    </div>
+                    <p>Without them, approval is <strong class="risk">human-as-a-button</strong>.</p>
                 </section>
 
                 <section class="risk-slide">
-                    <h2>Human involvement is a risk function</h2>
-                    <p class="lead">Increase control with impact × uncertainty × autonomy<br />× irreversibility × regulatory exposure.</p>
-                    <div class="grid-4 compact">
-                        <div class="card evidence"><strong>LOW</strong><br />Execute<br />Observe</div>
-                        <div class="card context"><strong>MEDIUM</strong><br />Evidence<br />Human review</div>
-                        <div class="card agent"><strong>HIGH</strong><br />Human approval<br />Controlled execution</div>
-                        <div class="card risk"><strong>IRREVERSIBLE<br />OR REGULATED</strong><br />Stop<br />Human decision</div>
-                    </div>
-                    <p>The goal is not approval everywhere. It is control where consequences matter.</p>
+                    <h2>Risk-adaptive HITL</h2>
+                    <p>Start with impact and uncertainty. Autonomy, reversibility, data, rights, safety, sector, and applicable law can raise the level.</p>
+                    <smalll>
+                        <div class="grid-4 compact">
+                            <div class="card evidence"><strong>REVIEW LEVEL 1</strong><br />Local and reversible<br /><small>Docs · formatting · contained tests<br />Policy-defined review</small></div>
+                            <div class="card context"><strong>REVIEW LEVEL 2</strong><br />Application behavior<br /><small>Code owner + test evidence</small></div>
+                            <div class="card agent"><strong>REVIEW LEVEL 3</strong><br />Cross-system or sensitive<br /><small>Contracts · schema · personal data · security<br />GDPR · CRA · NIS2 signals<br />Specialist reviewers</small></div>
+                            <div class="card risk"><strong>REVIEW LEVEL 4</strong><br />Rights, safety, or regulated operations<br /><small>AI Act high-risk · DORA · NIS2 signals<br />Accountable owner + controlled release</small></div>
+                        </div>
+                    </smalll>
+                    <p>The goal is effective control where consequences matter, not approval everywhere.</p>
                 </section>
 
                 <section>
-                    <h2>The important artifact is not the approval</h2>
-                    <p class="statement evidence">The important artifact is evidence.</p>
+                    <h2>The PR is an evidence package</h2>
                     <div class="grid-3 compact">
-                        <div class="card context"><strong>Before</strong><br />Context used<br />Assumptions<br />Alternatives</div>
-                        <div class="card agent"><strong>Decision</strong><br />Recommendation<br />Risk<br />Human owner</div>
-                        <div class="card evidence"><strong>After</strong><br />Tests<br />Observed outcome<br />Audit trail</div>
+                        <div class="card context">
+                            <strong>Before</strong><br />Issue and specification<br />Context and dependencies<br />Risk classification
+                        </div>
+                        <div class="card agent">
+                            <strong>Decision</strong><br />Proposed change<br />Assumptions and alternatives<br />Required owners
+                        </div>
+                        <div class="card evidence">
+                            <strong>After</strong><br />Trusted checks<br />Rollout and rollback<br />Monitoring and audit
+                        </div>
                     </div>
-                    <p class="lead">Evidence connects AI decisions, human decisions, and real-world outcomes.</p>
+                    <p>Evidence connects agent actions, human decisions, and real-world outcomes.</p>
                 </section>
 
                 <section>
-                    <h2>Meaningful oversight challenges the agent</h2>
-                    <blockquote>“Migration validated successfully.”</blockquote>
+                    <h2>Meaningful oversight challenges the evidence</h2>
+                    <blockquote>“The <code>customerId</code> migration was validated successfully.”</blockquote>
                     <div class="grid-2 compact">
                         <div class="card risk">
                             <strong>Cosmetic review</strong>
-                            <p>Looks reasonable.<br /><strong>APPROVE</strong></p>
+                            <p>Checks are green.<br />The diff looks reasonable.<br /><strong>APPROVE</strong></p>
                         </div>
                         <div class="card evidence">
                             <strong>Effective review</strong>
-                            <p>Which consumers were checked?<br />What was not verified?<br />What is the rollback strategy?</p>
+                            <p>Which consumers were checked?<br />What remains unverified?<br />How is compatibility preserved?<br />What triggers rollback?</p>
                         </div>
                     </div>
+                </section>
+
+                <section>
+                    <h2>Route the PR to the right humans</h2>
+                    <div class="grid-4 compact">
+                        <div class="card context"><strong>API · event · schema</strong><br />Domain + system owners</div>
+                        <div class="card agent"><strong>Auth · secrets · dependencies</strong><br />Security + platform</div>
+                        <div class="card evidence"><strong>Personal data · retention · logs</strong><br />Privacy + data owners</div>
+                        <div class="card risk"><strong>Money · rights · safety · regulation</strong><br />Business + compliance + safety</div>
+                    </div>
+                    <p>The right reviewer depends on the risk, not on who is available.</p>
+                </section>
+
+                <section>
+                    <h2>The PR Human Control Plane</h2>
+                    <div class="grid-3 compact">
+                        <div class="card context"><strong>WHO</strong><br />can authorize?</div>
+                        <div class="card agent"><strong>WHAT</strong><br />may the agent change?</div>
+                        <div class="card local"><strong>WHEN</strong><br />does risk require escalation?</div>
+                        <div class="card evidence"><strong>EVIDENCE</strong><br />what proves the claim?</div>
+                        <div class="card risk"><strong>INTERVENTION</strong><br />who can stop or reverse?</div>
+                        <div class="card context"><strong>TRACE</strong><br />what decision and outcome remain?</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>A human decision has four valid outcomes</h2>
+                    <div class="grid-4 compact">
+                        <div class="card evidence"><strong>APPROVE</strong><br />Evidence is sufficient</div>
+                        <div class="card context"><strong>MODIFY</strong><br />Request changes or more proof</div>
+                        <div class="card agent"><strong>ESCALATE</strong><br />Another owner must decide</div>
+                        <div class="card risk"><strong>STOP</strong><br />Risk or uncertainty is unacceptable</div>
+                    </div>
+                    <p class="lead">A reviewer needs real alternatives to “Approve.”</p>
+                </section>
+
+                <section>
+                    <h2>Merge is not the end of the loop</h2>
+                    <div class="flow compact">
+                        <div class="card agent">Agent-created PR</div>
+                        <div class="arrow">→</div>
+                        <div class="card context">Controlled release</div>
+                        <div class="arrow">→</div>
+                        <div class="card evidence">Observe outcome</div>
+                    </div>
+                    <p class="statement">Prediction ↔ outcome ↔ corrective action</p>
+                    <p>Monitor, roll back, preserve evidence, and improve the control that failed.</p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT V</p>
-                    <h1>Governed execution at scale</h1>
-                    <p>Discoverable context and human control become engineering infrastructure.</p>
+                    <p class="act-number">ACT III</p>
+                    <h1>Governance that reaches the PR</h1>
+                    <p>Laws, standards, and frameworks become useful when they change engineering decisions.</p>
                 </section>
 
                 <section>
-                    <h2>The Human Control Plane</h2>
-                    <p class="statement">A control plane for AI autonomy</p>
-                    <div class="grid-5 compact">
-                        <div class="card context"><strong>WHO</strong><br /><small>can authorize</small></div>
-                        <div class="card agent"><strong>WHAT</strong><br /><small>actions</small></div>
-                        <div class="card local"><strong>WHEN</strong><br /><small>under which conditions</small></div>
-                        <div class="card evidence"><strong>WHY</strong><br /><small>with what evidence</small></div>
-                        <div class="card risk"><strong>TRACE</strong><br /><small>with what audit trail</small></div>
-                    </div>
-                    <p class="lead">The right human depends on the risk—not on who happens to be available.</p>
+                    <h2>Governance is a control stack</h2>
+                    <small>
+                        <div class="governance-stack compact">
+                            <div class="grid-3">
+                                <div class="card risk"><strong>Laws &amp; obligations</strong></div>
+                                <div class="card evidence"><strong>Standards</strong></div>
+                                <div class="card agent"><strong>Frameworks</strong></div>
+                            </div>
+                            <div class="stack-arrow">↓</div>
+                            <div class="card context"><strong>Organizational governance</strong> · policy · risk appetite · decision rights · owners</div>
+                            <div class="stack-arrow">↓</div>
+                            <div class="card agent"><strong>Engineering controls</strong> · permissions · PR gates · tests · reviewer routing · rollout</div>
+                            <div class="stack-arrow">↓</div>
+                            <div class="card evidence"><strong>Evidence and outcomes</strong> · decision · deployment · monitoring · audit · corrective action</div>
+                        </div>
+                    </small>
+                    <p class="tiny">HITL is the decision mechanism connecting policy to execution.</p>
                 </section>
 
                 <section>
-                    <h2>A governance-aware execution path</h2>
-                    <div class="grid-4 compact">
-                        <div class="card context control-step"><strong>1 — Discover</strong>Systems, owners, dependencies</div>
-                        <div class="card risk control-step"><strong>2 — Classify</strong>Impact and authority</div>
-                        <div class="card agent control-step"><strong>3 — Propose</strong>Change and alternatives</div>
-                        <div class="card evidence control-step"><strong>4 — Prove</strong>Tests and impact evidence</div>
-                        <div class="card context control-step"><strong>5 — Decide</strong>Approve, modify, escalate</div>
-                        <div class="card agent control-step"><strong>6 — Execute</strong>Within authorized boundaries</div>
-                        <div class="card evidence control-step"><strong>7 — Observe</strong>Compare outcome to prediction</div>
-                        <div class="card local control-step"><strong>8 — Audit</strong>Preserve decision and result</div>
+                    <h2>Different sources answer different questions</h2>
+                    <div class="grid-3 compact">
+                        <div class="card risk">
+                            <h3>Laws and regulations</h3>
+                            <p>What obligations and protected interests may apply?</p>
+                        </div>
+                        <div class="card evidence">
+                            <h3>Standards</h3>
+                            <p>What managed controls and evidence should exist?</p>
+                        </div>
+                        <div class="card agent">
+                            <h3>Frameworks</h3>
+                            <p>How do we organize risk, decisions, and assurance?</p>
+                        </div>
                     </div>
+                    <p class="lead">Internal policy translates all three into enforceable PR controls.</p>
                 </section>
 
                 <section class="regulation-slide">
-                    <h2>EU AI Act: oversight is an engineering concern</h2>
-                    <p><strong>Article 14</strong> requires effective human oversight for <strong>high-risk AI systems</strong>.</p>
+                    <h2>Classification comes before compliance claims</h2>
                     <div class="grid-2 compact">
-                        <div class="card context">
-                            <strong>The human must be enabled to</strong>
-                            <p>Understand limitations<br />Recognize anomalies<br />Avoid automation bias</p>
+                        <div class="card risk">
+                            <strong>EU AI Act</strong>
+                            <p>Article 14 requires effective human oversight for applicable <strong>high-risk AI systems</strong>.</p>
                         </div>
                         <div class="card evidence">
-                            <strong>The system must support</strong>
-                            <p>Interpretation<br />Override or reversal<br />Safe interruption</p>
+                            <strong>Agentic development</strong>
+                            <p>Human review, intervention, auditability, and rollback remain strong engineering controls even when Article 14 is not the direct legal basis.</p>
                         </div>
                     </div>
-                    <p class="lead">These are architectural capabilities, not an approval-screen feature.</p>
+                    <p class="lead">Use Article 14 precisely: classify first; do not claim that every agent-created PR is legally high-risk.</p>
                     <small><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
-                            target="_blank">Regulation (EU) 2024/1689, Article 14</a></small>
+                            target="_blank">Regulation (EU) 2024/1689</a></small>
                 </section>
 
                 <section>
-                    <h2>Context becomes infrastructure</h2>
-                    <p class="statement">As AI engineering assets multiply, organizations need a governed way to <span
-                            class="context">discover</span> and <span class="evidence">trust</span> them.</p>
-                    <div class="grid-3 compact">
-                        <div class="card context">Discovery<br /><small>What exists? Who owns it?</small></div>
-                        <div class="card evidence">Governance<br /><small>Approved? Trusted? Versioned?</small></div>
-                        <div class="card agent">Control<br /><small>Who can use it? Is it auditable?</small></div>
+                    <h2>Cross-cutting legal triggers</h2>
+                    <div class="grid-4 compact">
+                        <div class="card risk"><strong>EU AI Act · 801</strong><br />AI classification, transparency, oversight</div>
+                        <div class="card context"><strong>GDPR · 803</strong><br />Personal data, minimization, rights, retention</div>
+                        <div class="card agent"><strong>CRA · 805</strong><br />Secure by design, SBOM, vulnerabilities, updates</div>
+                        <div class="card evidence"><strong>Product Liability · 812</strong><br />Safety, instructions, agent actions, corrective updates</div>
                     </div>
-                    <p><small>An <strong>Plinth Registry</strong> is one possible implementation—not a universal
-                            requirement.</small></p>
+                    <p class="tiny">Engineering routing guidance, not a final legal applicability determination.</p>
                 </section>
 
                 <section>
-                    <h2>Building blocks</h2>
-                    <div class="grid-2 compact">
-                        <div class="card evidence">
-                            <p>Plinth workflow<br />Generated Java skills</p>
+                    <h2>Sector and service context activates additional controls</h2>
+                    <div class="grid-3 compact">
+                        <div class="card context">
+                            <strong>Resilience and cybersecurity</strong><br />DORA · 802 — financial entities<br />NIS2 · 804 — essential and important entities, critical sectors
                         </div>
                         <div class="card agent">
-                            <p>Skill discovery</p>
-                        </div>
-                        <div class="card context">
-                            <p>Engineering Context Graph<br />Organizational governance</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section>
-                    <h2>Start where your organization is</h2>
-                    <div class="grid-3 compact">
-                        <div class="card evidence">
-                            <h3>Greenfield</h3>
-                            <p>Create context</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Brownfield</h3>
-                            <p>Discover + document context</p>
+                            <strong>Data and online platforms</strong><br />Data Act · 806<br />DSA · 807 · DMA · 808
                         </div>
                         <div class="card risk">
-                            <h3>Legacy</h3>
-                            <p>Recover + validate context</p>
+                            <strong>Financial markets</strong><br />MiFID II · 810<br />MAR · 811
                         </div>
                     </div>
-                    <p class="statement">Do not ask the agent to invent context the organization has never recorded.</p>
+                    <p class="tiny">Classify the entity, sector, service, and Member State before selecting controls and reviewers.</p>
+                    <p class="tiny">NIS2 applicability, national transposition, incident-reporting duties, and regulatory interpretation require qualified owner review.</p>
                 </section>
 
                 <section>
-                    <h2>People · Process · Technology</h2>
-                    <div class="grid-3">
-                        <div class="card context">
-                            <h3>People</h3>
-                            <p>Owners coordinate the change</p>
-                        </div>
+                    <h2>Standards turn governance into managed evidence</h2>
+                    <div class="grid-2 compact">
                         <div class="card evidence">
-                            <h3>Process</h3>
-                            <p>Specifications and validation constrain it</p>
+                            <h3>ISO/IEC 42001 · 813</h3>
+                            <p>AI inventory · ownership · generated-code review · provider and data boundaries · risk treatment · monitoring · corrective action</p>
                         </div>
-                        <div class="card agent">
-                            <h3>Technology</h3>
-                            <p>Agents and MCP accelerate it</p>
+                        <div class="card context">
+                            <h3>ISO/IEC 25010:2023 · 814</h3>
+                            <p>Functional suitability · performance · compatibility · interaction · reliability · security · maintainability · flexibility · safety</p>
                         </div>
                     </div>
-                    <p class="lead">System correctness is a socio-technical outcome.</p>
+                    <p class="tiny" style="color:red">PENDING: Supporting standards in the wider ecosystem include ISO/IEC 23894, ISO/IEC 27001, and ISO 31000; they are not dedicated Plinth 8xx skills today.</p>
+                </section>
+
+                <section>
+                    <h2>One PR; multiple governance lenses</h2>
+                    <div class="grid-3 compact">
+                        <div class="card context"><strong>Requirement + scope</strong><br />ISO 42001 · ISO 25010</div>
+                        <div class="card evidence"><strong>Data map + retention</strong><br />GDPR · Data Act</div>
+                        <div class="card agent"><strong>Cybersecurity + supply chain</strong><br />NIS2 · CRA</div>
+                        <div class="card local"><strong>Incident + continuity</strong><br />NIS2 · DORA</div>
+                        <div class="card risk"><strong>Approval + intervention</strong><br />AI Act · ISO 42001</div>
+                        <div class="card evidence"><strong>Audit + monitoring</strong><br />ISO 42001 · sector rules</div>
+                    </div>
+                    <p>Governance becomes real when it changes the evidence, reviewer, or release decision.</p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">CLOSE · 3 MIN</p>
+                    <p class="act-number">CLOSE</p>
                     <h1>Takeaways</h1>
-                    <p>Direction, awareness, control, and evidence.</p>
+                    <p>Classify, challenge, and trace.</p>
                 </section>
 
                 <section>
-                    <h2>Responsible AI engineering</h2>
-                    <div class="grid-4 compact">
-                        <div class="card agent"><strong>GenAI</strong><br />Speed</div>
-                        <div class="card context"><strong>System awareness</strong><br />Context</div>
-                        <div class="card risk"><strong>HITL</strong><br />Control</div>
-                        <div class="card evidence"><strong>Governance</strong><br />Accountability</div>
-                    </div>
-                    <p class="statement">Speed is useful only when intent constrains it,<br />context informs it, and humans can stop it.</p>
-                </section>
-
-                <section>
-                    <h2>Four moves</h2>
-                    <div class="grid-4 compact">
-                        <div class="card risk">
-                            <h2>1 — Specify</h2>
-                            <p>Do not accelerate ambiguity.</p>
-                        </div>
-                        <div class="card context">
-                            <h2>2 — Discover</h2>
-                            <p>The repository is not always the system boundary.</p>
-                        </div>
-                        <div class="card agent">
-                            <h2>3 — Control</h2>
-                            <p>Match human authority to consequence.</p>
-                        </div>
-                        <div class="card evidence">
-                            <h2>4 — Validate</h2>
-                            <p>Prove the impact, not only the implementation.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!--
-                <section>
-                    <h2>Speed needs direction</h2>
-                    <div class="grid-3 compact">
-                        <div class="card agent"><strong>Agent</strong><br />Speed</div>
-                        <div class="card context"><strong>Engineer</strong><br />Direction</div>
-                        <div class="card local"><strong>Workflow</strong><br />Discipline</div>
-                        <div class="card context"><strong>Context</strong><br />Awareness</div>
-                        <div class="card evidence"><strong>Evidence</strong><br />Confidence</div>
-                    </div>
-                    <p>
-                        AI increases implementation speed.<br />
-                        Engineering supplies direction and system awareness.<br />
-                        <span class="risk">Speed makes a wrong direction more expensive.</span>
-                    </p>
-                </section>
-                -->
-                <section>
-                    <h2>Takeaways</h2>
-                    <ol class="compact">
-                        <li>GenAI accelerates implementation, not organizational understanding.</li>
-                        <li>Specify intent and engineer the workflow before generating.</li>
-                        <li>Discover dependencies, owners, and risks beyond the repository.</li>
-                        <li>Scale human control with impact, autonomy, uncertainty, and irreversibility.</li>
-                        <li>Connect agent actions, human decisions, evidence, and outcomes in one audit trail.</li>
+                    <h2>What can a team do next Monday?</h2>
+                    <ol>
+                        <li>Label agent-created PRs and record generated artifacts.</li>
+                        <li>Add risk triggers to the PR template.</li>
+                        <li>Route high-impact changes to accountable specialist owners.</li>
+                        <li>Require explicit limits, rollback, and monitoring evidence.</li>
+                        <li>Review incidents and near misses as control failures—not only code failures.</li>
                     </ol>
                 </section>
             </section>
 
             <section>
-                <h2>References</h2>
-                <ul>
-                    <li><a href="https://github.com/jabrena/plinth" target="_blank">Plinth on GitHub</a></li>
-                    <li><a href="https://www.skills.sh/jabrena/plinth" target="_blank">Plinth skills on Skills.sh</a>
-                    </li>
-                    <li><a href="https://openspec.dev/" target="_blank">OpenSpec</a></li>
-                    <li><a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context
-                            Protocol</a></li>
-                    <li><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change</a>
-                    </li>
+                <h2>Sources and further reading</h2>
+                <ul class="compact">
+                    <li><a href="https://github.com/jabrena/plinth" target="_blank">Plinth on GitHub</a> and
+                        <a href="https://www.skills.sh/jabrena/plinth" target="_blank">Plinth skills on Skills.sh</a></li>
                     <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
-                            target="_blank">EU AI Act — Article 14, Human oversight</a></li>
-                    <li><a href="https://airc.nist.gov/docs/AI_RMF_Playbook.pdf" target="_blank">NIST AI Risk
-                            Management Framework Playbook</a></li>
+                            target="_blank">EU AI Act — Regulation (EU) 2024/1689</a></li>
+                    <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554"
+                            target="_blank">DORA — Regulation (EU) 2022/2554</a></li>
+                    <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022L2555"
+                            target="_blank">NIS2 — Directive (EU) 2022/2555</a></li>
+                    <li><a href="https://www.iso.org/standard/42001" target="_blank">ISO/IEC 42001 — AI management systems</a></li>
+                    <li><a href="https://www.iso.org/standard/78176.html" target="_blank">ISO/IEC 25010:2023 — Product quality model</a></li>
+                    <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank">NIST AI Risk Management Framework</a></li>
                 </ul>
             </section>
 
@@ -1013,9 +831,11 @@ record Order(String clientId, BigDecimal total) {}
             <section>
                 <section>
                     <h2>Slides</h2>
-                    <img src="images/qr-code.png" width="40%" />
-                    <p><a href="https://jabrena.github.io/plinth/jcconf-2026/"
-                            target="_blank">jabrena.github.io/plinth/jcconf-2026/</a></p>
+                    <img src="images/qr-code.png" width="30%" />
+                    <p>
+                        <a href="https://jabrena.github.io/plinth/dvbe26/"
+                            target="_blank">jabrena.github.io/plinth/dvbe26/</a>
+                    </p>
                 </section>
                 <section>
                     <h2>Slides</h2>
@@ -1025,8 +845,14 @@ jbang trust list
 jbang cache clear
 jbang catalog list jabrena
 jbang qr-code@jabrena \
-  --url https://jabrena.github.io/plinth/jcconf-2026/
+  --url https://jabrena.github.io/plinth/dvbe26/
 						</code></pre>
+                </section>
+                <section>
+                    <h2>Other Slides</h2>
+                    <ul>
+                        <li><a href="https://jabrena.github.io/plinth/jcconf-2026/index.html"></a></li>
+                    </ul>
                 </section>
             </section>
         </div>
