@@ -18,7 +18,7 @@
     "case_id": "case-3-current-openspec-problem2",
     "tool": "claude-code",
     "model": "claude-opus-5",
-    "plinth_config": "openspec-only",
+    "plinth_config": "full-plinth",
     "commit": "bd6e85085e1918af0e8f6d08958ee8f6fd56f05e",
     "retry_count": 0,
     "human_intervention_min": 0

@@ -18,7 +18,7 @@
     "case_id": "case-2-all-functional-requirements",
     "tool": "claude-code",
     "model": "claude-opus-5",
-    "plinth_config": "no-openspec",
+    "plinth_config": "full-plinth",
     "commit": "b4b24a2e9fb727a30519a4e469d642831d83ee00",
     "retry_count": 0,
     "human_intervention_min": 0
