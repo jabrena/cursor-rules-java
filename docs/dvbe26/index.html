@@ -118,6 +118,22 @@
             grid-template-columns: repeat(4, 1fr);
         }
 
+        .reveal .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: .45em;
+            align-items: stretch;
+        }
+
+        .reveal .control-step {
+            padding: .5em .35em;
+        }
+
+        .reveal .control-step strong {
+            display: block;
+            margin-bottom: .25em;
+        }
+
         .reveal .flow {
             grid-template-columns: repeat(5, 1fr);
             align-items: center;
@@ -144,9 +160,39 @@
         }
 
         .reveal .dependency-slide h2,
-        .reveal .boundary-slide h2 {
+        .reveal .boundary-slide h2,
+        .reveal .regulation-slide h2 {
             font-size: 1.2em;
             margin-bottom: .3em;
+        }
+
+        .reveal .regulation-slide p {
+            margin: .3em 0;
+        }
+
+        .reveal .regulation-slide .card {
+            padding: .4em;
+        }
+
+        .reveal .regulation-slide .lead {
+            font-size: .95em;
+        }
+
+        .reveal .risk-slide h2 {
+            font-size: 1.2em;
+            margin-bottom: .2em;
+        }
+
+        .reveal .risk-slide p {
+            margin: .3em 0;
+        }
+
+        .reveal .risk-slide .lead {
+            font-size: .9em;
+        }
+
+        .reveal .risk-slide .card {
+            padding: .35em;
         }
 
         .reveal .dependency-slide .dependency-map {
@@ -324,7 +370,7 @@
                 </h1>
                 <p>
                     <span style="display: inline-block; color: black; background: #fff;">
-                        From Local Correctness to System-Aware Java Engineering
+                        From Local Correctness to Governed, System-Aware Java Engineering
                     </span>
                 </p>
                 <p>
@@ -371,10 +417,11 @@
             <section>
                 <h2>Agenda (45 minutes)</h2>
                 <ul>
-                    <li>The problem (8 min)</li>
-                    <li>Local correctness (10 min)</li>
-                    <li>System awareness (12 min)</li>
-                    <li>Operating at scale (7 min)</li>
+                    <li>The problem (7 min)</li>
+                    <li>Local correctness (7 min)</li>
+                    <li>System awareness (10 min)</li>
+                    <li>Human-in-the-Loop (8 min)</li>
+                    <li>Governed execution at scale (8 min)</li>
                     <li>Takeaways (3 min)</li>
                 </ul>
             </section>
@@ -612,12 +659,14 @@ record Order(String clientId, BigDecimal total) {}
                         <div class="card context"><strong>WHAT DEPENDS?</strong><br />Contracts and consumers</div>
                         <div class="card agent"><strong>HOW?</strong><br />Practices and skills</div>
                         <div class="card local"><strong>WHY?</strong><br />ADRs and history</div>
+                        <div class="card risk"><strong>WHAT CAN GO WRONG?</strong><br />Failure and compliance risk</div>
+                        <div class="card evidence"><strong>WHO DECIDES?</strong><br />Decision authority</div>
                     </div>
                 </section>
 
                 <section>
                     <h2>Engineering Context Graph</h2>
-                    <div class="grid-3 compact">
+                    <div class="grid-4 compact">
                         <div class="card context">
                             <h3>Business</h3>
                             <p>Domain → Subdomain<br />→ Bounded Context</p>
@@ -629,6 +678,10 @@ record Order(String clientId, BigDecimal total) {}
                         <div class="card context">
                             <h3>Systems</h3>
                             <p>Service → API<br />→ Event → Database</p>
+                        </div>
+                        <div class="card evidence">
+                            <h3>Governance</h3>
+                            <p>Risk → Control<br />→ Human owner</p>
                         </div>
                     </div>
                     <p class="lead">DDD organizes one dimension. Technical relationships expose the blast radius.</p>
@@ -690,8 +743,112 @@ record Order(String clientId, BigDecimal total) {}
             <section>
                 <section class="section-divider">
                     <p class="act-number">ACT IV</p>
-                    <h1>Operating at scale</h1>
-                    <p>Discoverable context becomes engineering infrastructure.</p>
+                    <h1>Human-in-the-Loop</h1>
+                    <p>Do not confuse autonomy with authority.</p>
+                </section>
+
+                <section>
+                    <h2>HITL is not “a human clicks Approve”</h2>
+                    <p class="statement risk">That is human-as-a-button.</p>
+                    <div class="grid-5 compact">
+                        <div class="card context"><strong>Context</strong><br /><small>Understand consequences</small></div>
+                        <div class="card evidence"><strong>Authority</strong><br /><small>Own the decision</small></div>
+                        <div class="card local"><strong>Time</strong><br /><small>Challenge the proposal</small></div>
+                        <div class="card agent"><strong>Evidence</strong><br /><small>Inspect the reasoning</small></div>
+                        <div class="card risk"><strong>Stop</strong><br /><small>Override or escalate</small></div>
+                    </div>
+                    <p class="lead">Approval without context and authority is cosmetic oversight.</p>
+                </section>
+
+                <section class="risk-slide">
+                    <h2>Human involvement is a risk function</h2>
+                    <p class="lead">Increase control with impact × uncertainty × autonomy<br />× irreversibility × regulatory exposure.</p>
+                    <div class="grid-4 compact">
+                        <div class="card evidence"><strong>LOW</strong><br />Execute<br />Observe</div>
+                        <div class="card context"><strong>MEDIUM</strong><br />Evidence<br />Human review</div>
+                        <div class="card agent"><strong>HIGH</strong><br />Human approval<br />Controlled execution</div>
+                        <div class="card risk"><strong>IRREVERSIBLE<br />OR REGULATED</strong><br />Stop<br />Human decision</div>
+                    </div>
+                    <p>The goal is not approval everywhere. It is control where consequences matter.</p>
+                </section>
+
+                <section>
+                    <h2>The important artifact is not the approval</h2>
+                    <p class="statement evidence">The important artifact is evidence.</p>
+                    <div class="grid-3 compact">
+                        <div class="card context"><strong>Before</strong><br />Context used<br />Assumptions<br />Alternatives</div>
+                        <div class="card agent"><strong>Decision</strong><br />Recommendation<br />Risk<br />Human owner</div>
+                        <div class="card evidence"><strong>After</strong><br />Tests<br />Observed outcome<br />Audit trail</div>
+                    </div>
+                    <p class="lead">Evidence connects AI decisions, human decisions, and real-world outcomes.</p>
+                </section>
+
+                <section>
+                    <h2>Meaningful oversight challenges the agent</h2>
+                    <blockquote>“Migration validated successfully.”</blockquote>
+                    <div class="grid-2 compact">
+                        <div class="card risk">
+                            <strong>Cosmetic review</strong>
+                            <p>Looks reasonable.<br /><strong>APPROVE</strong></p>
+                        </div>
+                        <div class="card evidence">
+                            <strong>Effective review</strong>
+                            <p>Which consumers were checked?<br />What was not verified?<br />What is the rollback strategy?</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section>
+                <section class="section-divider">
+                    <p class="act-number">ACT V</p>
+                    <h1>Governed execution at scale</h1>
+                    <p>Discoverable context and human control become engineering infrastructure.</p>
+                </section>
+
+                <section>
+                    <h2>The Human Control Plane</h2>
+                    <p class="statement">A control plane for AI autonomy</p>
+                    <div class="grid-5 compact">
+                        <div class="card context"><strong>WHO</strong><br /><small>can authorize</small></div>
+                        <div class="card agent"><strong>WHAT</strong><br /><small>actions</small></div>
+                        <div class="card local"><strong>WHEN</strong><br /><small>under which conditions</small></div>
+                        <div class="card evidence"><strong>WHY</strong><br /><small>with what evidence</small></div>
+                        <div class="card risk"><strong>TRACE</strong><br /><small>with what audit trail</small></div>
+                    </div>
+                    <p class="lead">The right human depends on the risk—not on who happens to be available.</p>
+                </section>
+
+                <section>
+                    <h2>A governance-aware execution path</h2>
+                    <div class="grid-4 compact">
+                        <div class="card context control-step"><strong>1 — Discover</strong>Systems, owners, dependencies</div>
+                        <div class="card risk control-step"><strong>2 — Classify</strong>Impact and authority</div>
+                        <div class="card agent control-step"><strong>3 — Propose</strong>Change and alternatives</div>
+                        <div class="card evidence control-step"><strong>4 — Prove</strong>Tests and impact evidence</div>
+                        <div class="card context control-step"><strong>5 — Decide</strong>Approve, modify, escalate</div>
+                        <div class="card agent control-step"><strong>6 — Execute</strong>Within authorized boundaries</div>
+                        <div class="card evidence control-step"><strong>7 — Observe</strong>Compare outcome to prediction</div>
+                        <div class="card local control-step"><strong>8 — Audit</strong>Preserve decision and result</div>
+                    </div>
+                </section>
+
+                <section class="regulation-slide">
+                    <h2>EU AI Act: oversight is an engineering concern</h2>
+                    <p><strong>Article 14</strong> requires effective human oversight for <strong>high-risk AI systems</strong>.</p>
+                    <div class="grid-2 compact">
+                        <div class="card context">
+                            <strong>The human must be enabled to</strong>
+                            <p>Understand limitations<br />Recognize anomalies<br />Avoid automation bias</p>
+                        </div>
+                        <div class="card evidence">
+                            <strong>The system must support</strong>
+                            <p>Interpretation<br />Override or reversal<br />Safe interruption</p>
+                        </div>
+                    </div>
+                    <p class="lead">These are architectural capabilities, not an approval-screen feature.</p>
+                    <small><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
+                            target="_blank">Regulation (EU) 2024/1689, Article 14</a></small>
                 </section>
 
                 <section>
@@ -714,7 +871,7 @@ record Order(String clientId, BigDecimal total) {}
                             <p>Plinth workflow<br />Generated Java skills</p>
                         </div>
                         <div class="card agent">
-                            <p>Skill discovery
+                            <p>Skill discovery</p>
                         </div>
                         <div class="card context">
                             <p>Engineering Context Graph<br />Organizational governance</p>
@@ -759,56 +916,29 @@ record Order(String clientId, BigDecimal total) {}
                     </div>
                     <p class="lead">System correctness is a socio-technical outcome.</p>
                 </section>
-
-                <section>
-                    <h2>One implementation: Plinth <span class="tag today">TODAY</span></h2>
-                    <div class="grid-2 compact">
-                        <div class="card context">
-                            <h3>Make intent explicit</h3>
-                            <p>Issue → Problem framing<br />→ OpenSpec → Decisions</p>
-                        </div>
-                        <div class="card agent">
-                            <h3>Guide execution</h3>
-                            <p>Commands → Agents<br />→ Skills → Tools</p>
-                        </div>
-                    </div>
-                    <div class="card evidence" style="margin-top: .7em;">Implementation → Validation → Evidence</div>
-                    <p><small><a href="https://github.com/jabrena/plinth"
-                                target="_blank">github.com/jabrena/plinth</a></small></p>
-                </section>
-
-                <section class="evidence-slide">
-                    <h2>Does additional context actually help?</h2>
-                    <p><small>Six commit/tool-matched pairs with equivalent OpenSpec input</small></p>
-                    <div class="metric-row compact">
-                        <strong>Metric</strong><strong>Delegated workflow</strong><strong>Direct execution</strong>
-                        <div class="card local">Pass rate</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card local">Average rework</div>
-                        <div class="card evidence"><strong>0.50 turns</strong></div>
-                        <div class="card">1.67 turns</div>
-                        <div class="card local">Average skills used</div>
-                        <div class="card evidence"><strong>12.33 per run</strong></div>
-                        <div class="card">3.67 per run</div>
-                    </div>
-                    <p class="compact"><strong>The delegated workflow used about 3.4× more skills per run.</strong></p>
-                    <p class="tiny">Small-sample descriptive evidence. The current oracle validates the documented happy
-                        path, not every OpenSpec scenario. <a href="https://github.com/jabrena/plinth/issues/1110"
-                            target="_blank">Issue #1110</a></p>
-                </section>
             </section>
 
             <section>
                 <section class="section-divider">
                     <p class="act-number">CLOSE · 3 MIN</p>
                     <h1>Takeaways</h1>
-                    <p>Direction, awareness, and evidence.</p>
+                    <p>Direction, awareness, control, and evidence.</p>
                 </section>
 
                 <section>
-                    <h2>Three moves</h2>
-                    <div class="grid-3">
+                    <h2>Responsible AI engineering</h2>
+                    <div class="grid-4 compact">
+                        <div class="card agent"><strong>GenAI</strong><br />Speed</div>
+                        <div class="card context"><strong>System awareness</strong><br />Context</div>
+                        <div class="card risk"><strong>HITL</strong><br />Control</div>
+                        <div class="card evidence"><strong>Governance</strong><br />Accountability</div>
+                    </div>
+                    <p class="statement">Speed is useful only when intent constrains it,<br />context informs it, and humans can stop it.</p>
+                </section>
+
+                <section>
+                    <h2>Four moves</h2>
+                    <div class="grid-4 compact">
                         <div class="card risk">
                             <h2>1 — Specify</h2>
                             <p>Do not accelerate ambiguity.</p>
@@ -817,8 +947,12 @@ record Order(String clientId, BigDecimal total) {}
                             <h2>2 — Discover</h2>
                             <p>The repository is not always the system boundary.</p>
                         </div>
+                        <div class="card agent">
+                            <h2>3 — Control</h2>
+                            <p>Match human authority to consequence.</p>
+                        </div>
                         <div class="card evidence">
-                            <h2>3 — Validate</h2>
+                            <h2>4 — Validate</h2>
                             <p>Prove the impact, not only the implementation.</p>
                         </div>
                     </div>
@@ -843,14 +977,12 @@ record Order(String clientId, BigDecimal total) {}
                 -->
                 <section>
                     <h2>Takeaways</h2>
-                    <ol>
-                        <li>Formalize cross-team communication to avoid "Frankenstein" systems.</li>
-                        <li>Architects must strengthen consistency across domains, subdomains, and teams.</li>
-                        <li>An AI-agent harness is not a silver bullet.</li>
-                        <li>Specify before generating.</li>
-                        <li>Engineer the workflow, not just the prompt.</li>
-                        <li>Optimize for system awareness and system correctness.</li>
-                        <li>Every large organization requires an AI Registry.</li>
+                    <ol class="compact">
+                        <li>GenAI accelerates implementation, not organizational understanding.</li>
+                        <li>Specify intent and engineer the workflow before generating.</li>
+                        <li>Discover dependencies, owners, and risks beyond the repository.</li>
+                        <li>Scale human control with impact, autonomy, uncertainty, and irreversibility.</li>
+                        <li>Connect agent actions, human decisions, evidence, and outcomes in one audit trail.</li>
                     </ol>
                 </section>
             </section>
@@ -866,6 +998,10 @@ record Order(String clientId, BigDecimal total) {}
                             Protocol</a></li>
                     <li><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change</a>
                     </li>
+                    <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
+                            target="_blank">EU AI Act — Article 14, Human oversight</a></li>
+                    <li><a href="https://airc.nist.gov/docs/AI_RMF_Playbook.pdf" target="_blank">NIST AI Risk
+                            Management Framework Playbook</a></li>
                 </ul>
             </section>
 

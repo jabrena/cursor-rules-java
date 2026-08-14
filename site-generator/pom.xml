@@ -142,16 +142,16 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>copy-jcconf-2026-to-docs</id>
+                                <id>copy-dvbe26-to-docs</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>${project.basedir}/../docs/jcconf-2026</outputDirectory>
+                                    <outputDirectory>${project.basedir}/../docs/dvbe26</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${project.basedir}/../documentation/conferences/jcconf-2026</directory>
+                                            <directory>${project.basedir}/../documentation/conferences/dvbe26</directory>
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>
