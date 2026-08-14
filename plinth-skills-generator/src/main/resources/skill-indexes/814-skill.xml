@@ -23,8 +23,6 @@ The main question is:
 
 > What should a Java team review, document, and escalate so a Java enterprise system demonstrably meets each ISO/IEC 25010:2023 quality characteristic, with reviewable evidence rather than assumed quality?
 
-Use `032-architecture-adr-non-functional-requirements` instead of this Skill when the goal is an interactive, conversational discovery session that produces a new Architectural Decision Record for non-functional requirements. Use this Skill when the goal is a structured, repeatable quality-attribute review of an existing or in-progress Java enterprise system that produces a fixed engineering review report as reviewable evidence, independent of any live ADR conversation. The two skills are complementary: findings from this Skill can surface quality-attribute decisions worth capturing as an ADR, which `032` then facilitates conversationally. Neither skill supersedes or duplicates the other.
-
 Source provenance: the ISO/IEC 25010:2023 public standard summary was reviewed while authoring the bundled references. Official source references include:
 
 - ISO/IEC 25010:2023 standard page: https://www.iso.org/standard/78176.html
@@ -64,12 +62,12 @@ Engineering teams should still create evidence that makes those decisions review
 ]]></goal>
 
   <constraints>
-    <constraints-description>Translate ISO/IEC 25010:2023 quality characteristics into structured, repeatable Java engineering review evidence and action items. Do not provide certification, compliance, conformity, or audit conclusions, and do not replace `032-architecture-adr-non-functional-requirements`'s interactive ADR-discovery workflow.</constraints-description>
+    <constraints-description>Translate ISO/IEC 25010:2023 quality characteristics into structured, repeatable Java engineering review evidence and action items. Do not provide certification, compliance, conformity, or audit conclusions, and do not turn the review into an interactive ADR-discovery workflow.</constraints-description>
     <constraint-list>
       <constraint>**NOT CERTIFICATION, COMPLIANCE, OR CONFORMITY ADVICE**: Frame findings as engineering review evidence and action items; never claim ISO/IEC 25010:2023 certification readiness, compliance approval, audit pass/fail status, or final conformity</constraint>
       <constraint>**BUNDLED REFERENCES FIRST**: Read the bundled ISO/IEC 25010:2023 chapters-summary and engineering-examples references, the questionnaire, and the report template before implementation review; do not fetch external standard, certification, or audit pages at runtime</constraint>
       <constraint>**NINE-CHARACTERISTIC COVERAGE**: Address all nine ISO/IEC 25010:2023 quality characteristics — Functional Suitability, Performance Efficiency, Compatibility, Interaction Capability, Reliability, Security, Maintainability, Flexibility, and Safety — for every review, even when a characteristic's finding is "no identified concern"</constraint>
-      <constraint>**STRUCTURED REVIEW, NOT INTERACTIVE ADR DISCOVERY**: Use this Skill for a structured, repeatable, questionnaire-driven quality-attribute review that produces a fixed engineering review report; use `032-architecture-adr-non-functional-requirements` instead when the goal is interactive, conversational discovery that produces a new Architectural Decision Record. Do not modify `032` or duplicate its conversational workflow</constraint>
+      <constraint>**STRUCTURED REVIEW, NOT INTERACTIVE ADR DISCOVERY**: Use this Skill for a structured, repeatable, questionnaire-driven quality-attribute review that produces a fixed engineering review report rather than an interactive, conversational Architectural Decision Record discovery session</constraint>
       <constraint>**EVIDENCE FIRST**: Prefer reviewable Java engineering evidence over claims that a quality characteristic is satisfied</constraint>
       <constraint>**JAVA ENGINEERING FOCUS**: Translate each quality characteristic into concrete Java Enterprise review guidance: code-level, architecture-level, and operational signals a reviewer can check</constraint>
       <constraint>**OWNER HANDOFFS**: Include architecture, product, security, platform, operations, and accountable business owners when a finding requires a decision, prioritization, or risk acceptance beyond engineering review</constraint>

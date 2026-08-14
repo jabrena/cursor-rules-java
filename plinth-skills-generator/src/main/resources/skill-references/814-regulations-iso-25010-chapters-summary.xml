@@ -122,14 +122,5 @@ Engineering review impact:
 - Check fail-safe defaults for failure and degraded-mode scenarios.
 - Verify hazard warnings surface before irreversible or high-impact actions.
 
-## Cross-skill routing
-
-- Use `814-regulations-iso-25010` for a structured, repeatable ISO/IEC 25010:2023 product-quality review of a Java enterprise system that produces engineering review evidence and action items.
-- Use `032-architecture-adr-non-functional-requirements` for interactive, conversational ADR discovery that synthesizes a single Architectural Decision Record for non-functional requirements.
-- Use `813-regulations-iso-42001` when the primary concern is AI management system practices for GenAI development with Java.
-- Use `801-regulations-eu-ai-act` when the primary concern is EU AI Act classification or governance.
-- Use `803-regulations-gdpr` when the primary concern is personal-data processing.
-- Use `805-regulations-eu-cyber-resilience-act` when the primary concern is product cybersecurity, vulnerability handling, or secure development conformity evidence.
-- Use multiple regulation and quality-model skills together when the same Java system crosses quality, AI management, privacy, cybersecurity, product, or operational boundaries.
 ]]></goal>
 </prompt>

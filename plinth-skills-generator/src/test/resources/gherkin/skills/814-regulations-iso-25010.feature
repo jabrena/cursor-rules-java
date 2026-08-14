@@ -44,5 +44,5 @@ Scenario: Skill follows the generator registration and local-output workflow
   And the generated local skill output includes ".agents/skills/814-regulations-iso-25010/assets/reports/814-iso-25010-engineering-review-report-template.md"
   And generated references contain no unresolved include markers or broken local reference paths
   And generated release output under "skills/" is not edited directly
-  And the skill's guidance disambiguates it from "032-architecture-adr-non-functional-requirements" as a structured, repeatable review rather than interactive, conversational ADR discovery, without modifying "032-architecture-adr-non-functional-requirements" itself
+  And the skill's guidance defines a structured, repeatable review rather than interactive, conversational ADR discovery
   And applicable XML and skill generation validations can be executed before promotion
