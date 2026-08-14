@@ -35,8 +35,6 @@ class SkillReferenceExampleInventoryTest {
         "013-agile-feature",
         "014-agile-user-story",
         "030-architecture-adr-general",
-        "031-architecture-adr-functional-requirements",
-        "032-architecture-adr-non-functional-requirements",
         "033-architecture-diagrams",
         "041-planning-plan-mode",
         "042-planning-openspec",

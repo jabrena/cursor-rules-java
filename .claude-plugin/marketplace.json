@@ -43,18 +43,6 @@
             "version": "0.14.0-SNAPSHOT"
         },
         {
-            "name": "031-architecture-adr-functional-requirements",
-            "source": "./skills/031-architecture-adr-functional-requirements",
-            "description": "Facilitates conversational discovery to create Architectural Decision Records (ADRs) for functional requirements covering CLI, REST/HTTP APIs, or both. Use when the user wants to document command-line or HTTP service architecture, capture functional requirements, create ADRs for CLI or API projects, or design interfaces with documented decisions.",
-            "version": "0.14.0-SNAPSHOT"
-        },
-        {
-            "name": "032-architecture-adr-non-functional-requirements",
-            "source": "./skills/032-architecture-adr-non-functional-requirements",
-            "description": "Facilitates conversational discovery to create Architectural Decision Records (ADRs) for non-functional requirements using the ISO/IEC 25010:2023 quality model. Use when the user wants to document quality attributes, NFR decisions, security/performance/scalability architecture, or design systems with measurable quality criteria.",
-            "version": "0.14.0-SNAPSHOT"
-        },
-        {
             "name": "033-architecture-diagrams",
             "source": "./skills/033-architecture-diagrams",
             "description": "Use when you need to generate Java project diagrams — including UML sequence diagrams, UML class diagrams, C4 model diagrams, UML state machine diagrams, and ER (Entity Relationship) diagrams — through a modular, step-based interactive process that adapts to your specific visualization needs.",

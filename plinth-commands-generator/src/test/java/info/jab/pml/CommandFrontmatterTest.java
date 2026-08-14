@@ -142,7 +142,7 @@ class CommandFrontmatterTest {
         hashes.put("benchmark.md", "2b87f52d7647bf4a71b4532058471c27aa7cfa8b77224211e5067c4eb19abcdd");
         hashes.put("close-spec.md", "6c1ee4cf686ba3d9b6e729bf26840863416184be83a15620e5141d7c9edc82cb");
         hashes.put("create-acceptance-criteria.md", "12e068cbc9910416da8acb767d41e27dbeee91083274ccc1469c855f3e08c708");
-        hashes.put("create-adr.md", "6e83c791ab01fe24d69c2333c766dbad250c63a08f2338a289f608086689e59d");
+        hashes.put("create-adr.md", "965fc80935a03b017f94ddac4dc297b8d0d09b1e9d9df85686ba693f839851bb");
         hashes.put("create-diagram.md", "5153ad922dc4312b02ea9eb25c5ff577ef7fb449b6fc20cf9cab7b6d852311c4");
         hashes.put("create-feature-branch.md", "54303fafa8f4cf6a382d4261eba12d01fc00674ed7cc4817061c23c687d0a748");
         hashes.put("create-spec.md", "0f9de66b1a5c8ed7a556e2255dec53adff1518e26b8323f4f95f53854fdce5ff");
@@ -163,7 +163,7 @@ class CommandFrontmatterTest {
             "[target]", "Read", "Write", "Edit", "Bash"));
         metadata.put("close-spec", expected("plinth-architect", "Archive a completed OpenSpec change by name.", "[openspec-change]", "Read", "Bash"));
         metadata.put("create-acceptance-criteria", expected("plinth-business-analyst", "Derive and post confirmed Gherkin acceptance criteria for an issue.", "[issue-url]", "Read", "Bash"));
-        metadata.put("create-adr", expected("plinth-architect", "Create a repository ADR for an approved architectural decision.", "[decision-source] [adr-type]", "Read", "Write", "Edit"));
+        metadata.put("create-adr", expected("plinth-architect", "Create a repository ADR for an approved architectural decision.", "[decision-source]", "Read", "Write", "Edit"));
         metadata.put("create-diagram", expected("plinth-architect", "Create an architecture or design diagram from selected source artifacts.", "[source-artifact] [diagram-type]", "Read", "Write", "Edit"));
         metadata.put("create-feature-branch", expected("plinth-tech-lead", "Create and switch to a conventionally named feature branch.", "[issue-or-change|type description] [base-reference]", "Read", "Bash"));
         metadata.put("create-spec", expected("plinth-architect", "Create or update OpenSpec artifacts from approved source material.", "[issue-url]", "Read", "Write", "Edit", "Bash"));
