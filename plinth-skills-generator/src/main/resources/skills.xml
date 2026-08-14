@@ -831,4 +831,16 @@
                 target="assets/reports/813-iso-42001-engineering-review-report-template.md" />
         </resource-list>
     </skill>
+    <skill id="814" skillId="814-regulations-iso-25010">
+        <reference-list>
+            <reference>814-regulations-iso-25010-chapters-summary</reference>
+            <reference>814-regulations-iso-25010-engineering-examples</reference>
+        </reference-list>
+        <resource-list>
+            <resource source="skill-references/assets/questions/814-iso-25010-engineering-review-questionnaire.md"
+                target="assets/questions/814-iso-25010-engineering-review-questionnaire.md" />
+            <resource source="skill-references/assets/reports/814-iso-25010-engineering-review-report-template.md"
+                target="assets/reports/814-iso-25010-engineering-review-report-template.md" />
+        </resource-list>
+    </skill>
 </skill-inventory>
