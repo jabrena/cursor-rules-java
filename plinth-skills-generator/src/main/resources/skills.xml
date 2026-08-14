@@ -132,16 +132,6 @@
             <reference>030-architecture-adr-general</reference>
         </reference-list>
     </skill>
-    <skill id="031">
-        <reference-list>
-            <reference>031-architecture-adr-functional-requirements</reference>
-        </reference-list>
-    </skill>
-    <skill id="032">
-        <reference-list>
-            <reference>032-architecture-adr-non-functional-requirements</reference>
-        </reference-list>
-    </skill>
     <skill id="033" skillId="033-architecture-diagrams">
         <reference-list>
             <reference>033-architecture-diagrams-uml-sequence</reference>

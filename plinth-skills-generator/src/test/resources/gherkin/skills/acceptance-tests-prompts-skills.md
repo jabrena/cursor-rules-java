@@ -113,20 +113,6 @@ execute @plinth-skills-generator/src/test/resources/gherkin/skills/030-architect
 and verify that acceptance-tests passes.
 ```
 
-## 031-architecture-adr-functional-requirements
-
-```bash
-execute @plinth-skills-generator/src/test/resources/gherkin/skills/031-architecture-adr-functional-requirements.feature
-and verify that acceptance-tests passes.
-```
-
-## 032-architecture-adr-non-functional-requirements
-
-```bash
-execute @plinth-skills-generator/src/test/resources/gherkin/skills/032-architecture-adr-non-functional-requirements.feature
-and verify that acceptance-tests passes.
-```
-
 ## 033-architecture-diagrams
 
 ```bash
