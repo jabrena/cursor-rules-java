@@ -1,0 +1,41 @@
+{
+  "efficiency": {
+    "wall_clock_s": 195,
+    "active_agent_s": 180,
+    "tokens_in": 85000,
+    "tokens_out": 9000,
+    "tokens_total": 94000,
+    "cost_usd": 0.85
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1,
+    "rework_turns": 0,
+    "artifact_completeness": 1
+  },
+  "protocol_labels": {
+    "scenario": "scenario1",
+    "case_id": "case-1-readme-only",
+    "tool": "claude-code",
+    "model": "claude-fable-5",
+    "plinth_config": "bare-agent",
+    "commit": "149c6e464cd1dc32b082a337afa0301fb257e1af",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 0,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario1/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMS9zY2VuYXJpbzEvZGVtby8K4pSc4pSA4pSAIC5naXRrZWVwCuKUnOKUgOKUgCBSRUFETUUubWQK4pSU4pSA4pSAIHNyYwogICAg4pSU4pSA4pSAIEdvZEFuYWx5c2lzQXBpLmphdmEKCjEgZGlyZWN0b3J5LCAzIGZpbGVzCg==",
+    "file_count": 2
+  }
+}
