@@ -32,7 +32,7 @@
     "agents": []
   },
   "solution_snapshot": {
-    "demo_root": "benchmarks/scenario1/demo/",
+    "demo_root": "benchmarks/problem2/scenario4/demo/",
     "tree_format": "unix-tree",
     "tree_encoding": "base64",
     "tree_b64": "",

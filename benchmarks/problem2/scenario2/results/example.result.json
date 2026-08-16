@@ -14,8 +14,8 @@
     "artifact_completeness": 0
   },
   "protocol_labels": {
-    "scenario": "scenario1",
-    "case_id": "case-1-readme-only",
+    "scenario": "scenario2",
+    "case_id": "case-2-all-functional-requirements",
     "tool": "cursor",
     "model": "replace-me",
     "plinth_config": "bare-agent",
@@ -32,7 +32,7 @@
     "agents": []
   },
   "solution_snapshot": {
-    "demo_root": "benchmarks/scenario1/demo/",
+    "demo_root": "benchmarks/problem2/scenario2/demo/",
     "tree_format": "unix-tree",
     "tree_encoding": "base64",
     "tree_b64": "",
