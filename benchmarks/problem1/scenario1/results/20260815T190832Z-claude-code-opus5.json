@@ -1,0 +1,41 @@
+{
+  "efficiency": {
+    "wall_clock_s": 348,
+    "active_agent_s": 340,
+    "tokens_in": 480000,
+    "tokens_out": 13000,
+    "tokens_total": 493000,
+    "cost_usd": 5.0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1,
+    "rework_turns": 0,
+    "artifact_completeness": 1
+  },
+  "protocol_labels": {
+    "scenario": "scenario1",
+    "case_id": "case-1-readme-only",
+    "tool": "claude-code",
+    "model": "claude-opus-5",
+    "plinth_config": "no-openspec",
+    "commit": "24cc01d888ac3a8e7a9cf449c9ab97ae8cb1e1b4",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 2,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": ["110-java-maven-best-practices", "133-java-testing-acceptance-tests"],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario1/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMS9zY2VuYXJpbzEvZGVtby8K4pSc4pSA4pSAIC5naXRrZWVwCuKUnOKUgOKUgCBwb20ueG1sCuKUnOKUgOKUgCBSRUFETUUubWQK4pSU4pSA4pSAIHNyYwogICAg4pSc4pSA4pSAIG1haW4KICAgIOKUgsKgwqAg4pSU4pSA4pSAIGphdmEKICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCBpbmZvCiAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIGphYgogICAg4pSCwqDCoCAgICAgICAgICAgICDilJTilIDilIAgZ29kcwogICAg4pSCwqDCoCAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdvZEFuYWx5c2lzQXBpLmphdmEKICAgIOKUgsKgwqAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgCBHb2RBbmFseXNpc0FwcGxpY2F0aW9uLmphdmEKICAgIOKUgsKgwqAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgCBHb2ROYW1lRGVjaW1hbENvbnZlcnRlci5qYXZhCiAgICDilILCoMKgICAgICAgICAgICAgICAgICDilJzilIDilIAgR29kU291cmNlLmphdmEKICAgIOKUgsKgwqAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgCBHb2RTb3VyY2VDbGllbnQuamF2YQogICAg4pSCwqDCoCAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdvZFN0YXRzQ29udHJvbGxlci5qYXZhCiAgICDilILCoMKgICAgICAgICAgICAgICAgICDilJzilIDilIAgR29kU3RhdHNTZXJ2aWNlLmphdmEKICAgIOKUgsKgwqAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgCBQYW50aGVvbi5qYXZhCiAgICDilILCoMKgICAgICAgICAgICAgICAgICDilJTilIDilIAgU291cmNlQ29uZmlndXJhdGlvbi5qYXZhCiAgICDilJTilIDilIAgdGVzdAogICAgICAgIOKUlOKUgOKUgCBqYXZhCiAgICAgICAgICAgIOKUlOKUgOKUgCBpbmZvCiAgICAgICAgICAgICAgICDilJTilIDilIAgamFiCiAgICAgICAgICAgICAgICAgICAg4pSU4pSA4pSAIGdvZHMKICAgICAgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdvZEFuYWx5c2lzQVQuamF2YQogICAgICAgICAgICAgICAgICAgICAgICDilJzilIDilIAgR29kTmFtZURlY2ltYWxDb252ZXJ0ZXJUZXN0LmphdmEKICAgICAgICAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEdvZFNvdXJjZUNsaWVudFRlc3QuamF2YQogICAgICAgICAgICAgICAgICAgICAgICDilJTilIDilIAgR29kU3RhdHNTZXJ2aWNlVGVzdC5qYXZhCgoxMiBkaXJlY3RvcmllcywgMTYgZmlsZXMK",
+    "file_count": 15
+  }
+}

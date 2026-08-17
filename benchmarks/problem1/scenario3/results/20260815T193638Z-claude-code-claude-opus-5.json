@@ -1,0 +1,43 @@
+{
+  "efficiency": {
+    "wall_clock_s": 414,
+    "active_agent_s": 396,
+    "tokens_in": 94200,
+    "tokens_out": 14800,
+    "tokens_total": 109000,
+    "cost_usd": 1.62
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1,
+    "rework_turns": 2,
+    "artifact_completeness": 1
+  },
+  "protocol_labels": {
+    "scenario": "scenario3",
+    "case_id": "case-3-current-openspec-problem1",
+    "tool": "claude-code",
+    "model": "claude-opus-5",
+    "plinth_config": "full-plinth",
+    "commit": "24bae48d",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 1,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [
+      "openspec-propose"
+    ],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario3/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "ZGVtby8K4pSc4pSA4pSAIC5naXRrZWVwCuKUnOKUgOKUgCAubXZuCuKUgsKgwqAg4pSc4pSA4pSAIGp2bS5jb25maWcK4pSCwqDCoCDilJTilIDilIAgd3JhcHBlcgrilILCoMKgICAgICDilJzilIDilIAgbWF2ZW4td3JhcHBlci5qYXIK4pSCwqDCoCAgICAg4pSU4pSA4pSAIG1hdmVuLXdyYXBwZXIucHJvcGVydGllcwrilJzilIDilIAgbXZudwrilJzilIDilIAgbXZudy5jbWQK4pSc4pSA4pSAIHBvbS54bWwK4pSU4pSA4pSAIHNyYwogICAg4pSc4pSA4pSAIG1haW4KICAgIOKUgsKgwqAg4pSc4pSA4pSAIGphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCDilJTilIDilIAgaW5mbwogICAg4pSCwqDCoCDilILCoMKgICAgICDilJTilIDilIAgamFiCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICDilJTilIDilIAgbXMKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgY29uZmlnCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJzilIDilIAgR29kU291cmNlc1Byb3BlcnRpZXMuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSU4pSA4pSAIFJlc3RDbGllbnRDb25maWcuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUnOKUgOKUgCBkb21haW4KICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUnOKUgOKUgCBHb2RBbmFseXNpc1NlcnZpY2UuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSc4pSA4pSAIEdvZE5hbWVDYWxjdWxhdG9yLmphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUnOKUgOKUgCBHb2RTb3VyY2UuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSU4pSA4pSAIEludmFsaWRSZXF1ZXN0RXhjZXB0aW9uLmphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgaW5mcmFzdHJ1Y3R1cmUKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUlOKUgOKUgCBHb2RTb3VyY2VDbGllbnQuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUnOKUgOKUgCBNYWluQXBwbGljYXRpb24uamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUlOKUgOKUgCB3ZWIKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICAgICAg4pSc4pSA4pSAIEFwaUV4Y2VwdGlvbkhhbmRsZXIuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgICAgICDilJzilIDilIAgR29kU3RhdHNDb250cm9sbGVyLmphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICAgICAg4pSU4pSA4pSAIFN1bVJlc3BvbnNlLmphdmEKICAgIOKUgsKgwqAg4pSU4pSA4pSAIHJlc291cmNlcwogICAg4pSCwqDCoCAgICAg4pSc4pSA4pSAIGFwcGxpY2F0aW9uLnByb3BlcnRpZXMKICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCBzdGF0aWMKICAgIOKUgsKgwqAgICAgICAgICDilJTilIDilIAgb3BlbmFwaS55YW1sCiAgICDilJTilIDilIAgdGVzdAogICAgICAgIOKUnOKUgOKUgCBqYXZhCiAgICAgICAg4pSCwqDCoCDilJTilIDilIAgaW5mbwogICAgICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCBqYWIKICAgICAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIG1zCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgYWNjZXB0YW5jZQogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgR29kQW5hbHlzaXNBcGlBY2NlcHRhbmNlVGVzdC5qYXZhCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgZG9tYWluCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUnOKUgOKUgCBHb2RBbmFseXNpc1NlcnZpY2VUZXN0LmphdmEKICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSc4pSA4pSAIEdvZE5hbWVDYWxjdWxhdG9yVGVzdC5qYXZhCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUlOKUgOKUgCBHb2RTb3VyY2VUZXN0LmphdmEKICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUlOKUgOKUgCB3ZWIKICAgICAgICDilILCoMKgICAgICAgICAgICAgICAgICDilJTilIDilIAgR29kU3RhdHNDb250cm9sbGVyVmFsaWRhdGlvblRlc3QuamF2YQogICAgICAgIOKUlOKUgOKUgCByZXNvdXJjZXMKCjI0IGRpcmVjdG9yaWVzLCAyNSBmaWxlcwo=",
+    "file_count": 24
+  }
+}
