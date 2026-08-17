@@ -1,0 +1,56 @@
+{
+  "efficiency": {
+    "wall_clock_s": 456.0,
+    "active_agent_s": 419.52000000000004,
+    "tokens_in": 185000,
+    "tokens_out": 72000,
+    "tokens_total": 257000,
+    "cost_usd": 0.0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 0,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario5",
+    "case_id": "case-5-direct-openspec-problem1",
+    "tool": "cursor",
+    "model": "grok-4.5",
+    "plinth_config": "full-plinth",
+    "commit": "531bcdf5a3c6d43205d7fe19ec062403bdc80fdf",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 12,
+    "commands_count": 0,
+    "agents_count": 1,
+    "skills": [
+      "042-planning-openspec",
+      "051-design-two-steps-methods",
+      "300-frameworks-spring-boot-create-project",
+      "301-frameworks-spring-boot-core",
+      "302-frameworks-spring-boot-rest",
+      "303-frameworks-spring-boot-validation",
+      "321-frameworks-spring-boot-testing-unit-tests",
+      "322-frameworks-spring-boot-testing-integration-tests",
+      "323-frameworks-spring-boot-testing-acceptance-tests",
+      "701-technologies-openapi",
+      "702-technologies-wiremock",
+      "707-technologies-hexagonal-architecture"
+    ],
+    "commands": [],
+    "agents": [
+      "plinth-java-spring-boot-coder"
+    ]
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/problem1/scenario5/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "L3RtcC9wbGludGgtYmVuY2htYXJrLXNjZW5hcmlvNS0yMDI2MDgxN1QxOTI2NDNaLTkxNjAyL2JlbmNobWFya3MvcHJvYmxlbTEvc2NlbmFyaW81L2RlbW8K4pSc4pSA4pSAIC5naXRhdHRyaWJ1dGVzCuKUnOKUgOKUgCAuZ2l0aWdub3JlCuKUnOKUgOKUgCAubXZuCuKUgsKgwqAg4pSU4pSA4pSAIHdyYXBwZXIK4pSCwqDCoCAgICAg4pSU4pSA4pSAIG1hdmVuLXdyYXBwZXIucHJvcGVydGllcwrilJzilIDilIAgSEVMUC5tZArilJzilIDilIAgbXZudwrilJzilIDilIAgbXZudy5jbWQK4pSc4pSA4pSAIHBvbS54bWwK4pSU4pSA4pSAIHNyYwogICAg4pSc4pSA4pSAIG1haW4KICAgIOKUgsKgwqAg4pSc4pSA4pSAIGphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCDilJTilIDilIAgaW5mbwogICAg4pSCwqDCoCDilILCoMKgICAgICDilJTilIDilIAgamFiCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICDilJTilIDilIAgbXMKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgR29kQW5hbHlzaXNBcHBsaWNhdGlvbi5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSc4pSA4pSAIGFkYXB0ZXIKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUnOKUgOKUgCBpbgogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSCwqDCoCDilJTilIDilIAgcmVzdAogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSCwqDCoCAgICAg4pSc4pSA4pSAIEdsb2JhbEV4Y2VwdGlvbkhhbmRsZXIuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSCwqDCoCAgICAg4pSU4pSA4pSAIEdvZFN0YXRzQ29udHJvbGxlci5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgb3V0CiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCAgICAg4pSU4pSA4pSAIGh0dHAKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgICAgICAgICAg4pSc4pSA4pSAIEdvZEFuYWx5c2lzUHJvcGVydGllcy5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCAgICAgICAgIOKUnOKUgOKUgCBSZXN0Q2xpZW50Q29uZmlnLmphdmEKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIFJlc3RHb2RTb3VyY2VDbGllbnQuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUnOKUgOKUgCBhcHBsaWNhdGlvbgogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSc4pSA4pSAIEdvZFN0YXRzVXNlQ2FzZS5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgcG9ydAogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAgICAgIOKUnOKUgOKUgCBpbgogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAgICAgIOKUgsKgwqAg4pSU4pSA4pSAIFF1ZXJ5R29kU3RhdHMuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCBvdXQKICAgIOKUgsKgwqAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIEdvZFNvdXJjZUNsaWVudC5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAg4pSU4pSA4pSAIGRvbWFpbgogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgICAgICDilJzilIDilIAgR29kTmFtZUZpbHRlci5qYXZhCiAgICDilILCoMKgIOKUgsKgwqAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgCBHb2RTdGF0c0FnZ3JlZ2F0b3IuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgICAgICDilJzilIDilIAgUGFudGhlb25Tb3VyY2UuamF2YQogICAg4pSCwqDCoCDilILCoMKgICAgICAgICAgICAgICAgICDilJTilIDilIAgVW5pY29kZU5hbWVDb252ZXJ0ZXIuamF2YQogICAg4pSCwqDCoCDilJTilIDilIAgcmVzb3VyY2VzCiAgICDilILCoMKgICAgICDilJzilIDilIAgYXBwbGljYXRpb24ueW1sCiAgICDilILCoMKgICAgICDilJzilIDilIAgc3RhdGljCiAgICDilILCoMKgICAgICDilJTilIDilIAgdGVtcGxhdGVzCiAgICDilJTilIDilIAgdGVzdAogICAgICAgIOKUnOKUgOKUgCBqYXZhCiAgICAgICAg4pSCwqDCoCDilJTilIDilIAgaW5mbwogICAgICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCBqYWIKICAgICAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIG1zCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgYWNjZXB0YW5jZQogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgR29kU3RhdHNBY2NlcHRhbmNlVGVzdC5qYXZhCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilJzilIDilIAgYWRhcHRlcgogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgaW4KICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAgICAgIOKUlOKUgOKUgCByZXN0CiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgICAgICAgICAg4pSU4pSA4pSAIEdvZFN0YXRzQ29udHJvbGxlclZhbGlkYXRpb25UZXN0LmphdmEKICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUnOKUgOKUgCBhcmNoaXRlY3R1cmUKICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUgsKgwqAg4pSU4pSA4pSAIEhleGFnb25hbEFyY2hpdGVjdHVyZVRlc3QuamF2YQogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSc4pSA4pSAIGRvbWFpbgogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJTilIDilIAgRG9tYWluVW5pdFRlc3RzLmphdmEKICAgICAgICDilILCoMKgICAgICAgICAgICAgIOKUnOKUgOKUgCBpbnRlZ3JhdGlvbgogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSCwqDCoCDilJzilIDilIAgR29kU3RhdHNBbGxTb3VyY2VzVGltZW91dEludGVncmF0aW9uVGVzdC5qYXZhCiAgICAgICAg4pSCwqDCoCAgICAgICAgICAgICDilILCoMKgIOKUlOKUgOKUgCBHb2RTdGF0c1RpbWVvdXRJbnRlZ3JhdGlvblRlc3QuamF2YQogICAgICAgIOKUgsKgwqAgICAgICAgICAgICAg4pSU4pSA4pSAIHN1cHBvcnQKICAgICAgICDilILCoMKgICAgICAgICAgICAgICAgICDilJTilIDilIAgV2lyZU1vY2tHb2RTb3VyY2VTdXBwb3J0LmphdmEKICAgICAgICDilJTilIDilIAgcmVzb3VyY2VzCiAgICAgICAgICAgIOKUlOKUgOKUgCBfX2ZpbGVzCiAgICAgICAgICAgICAgICDilJzilIDilIAgZ3JlZWsuanNvbgogICAgICAgICAgICAgICAg4pSc4pSA4pSAIG5vcmRpYy5qc29uCiAgICAgICAgICAgICAgICDilJTilIDilIAgcm9tYW4uanNvbgoKMzcgZGlyZWN0b3JpZXMsIDMxIGZpbGVzCg==",
+    "file_count": 31
+  }
+}
