@@ -174,8 +174,9 @@
             letter-spacing: .12em;
         }
 
-        .reveal .section-divider h1 {
+        .reveal .section-divider h2 {
             color: var(--context);
+            font-size: 2.2em;
         }
 
         .reveal .card {
@@ -225,6 +226,11 @@
         .reveal .experimental {
             background: #fff1c7;
             color: #8a5500;
+        }
+
+        .reveal .focus {
+            background: #dbeafe;
+            color: #0d47a1;
         }
 
         .reveal .roadmap {
@@ -371,8 +377,9 @@
             <section>
                 <h2>Agenda (45 minutes)</h2>
                 <ul>
+                    <li>Introduction (7 min)</li>
                     <li>The problem (8 min)</li>
-                    <li>Local correctness (10 min)</li>
+                    <li>Local correctness (8 min)</li>
                     <li>System awareness (12 min)</li>
                     <li>Operating at scale (7 min)</li>
                     <li>Takeaways (3 min)</li>
@@ -382,12 +389,52 @@
             <section>
                 <section class="section-divider">
                     <p class="act-number">ACT I</p>
-                    <h1>The problem</h1>
+                    <h2>Introduction</h2>
+                </section>
+
+                <section>
+                    <h2>Introduction</h2>
+                    <p>
+                        The usage of IA in software engineering
+                        is changing <strong>the way of work</strong> but with the change
+                        appear new challeges to address.
+                    </p>
+                    <img src="./images/SDLC.jpg" width="40%" />
+                </section>
+
+                <section>
+                    <h2>Three project realities</h2>
+                    <div class="grid-3 compact">
+                        <div class="card evidence">
+                            <h3>Greenfield</h3>
+                            <p><strong>Design the context</strong></p>
+                            <p>Define boundaries<br />contracts<br />and owners</p>
+                        </div>
+                        <div class="card context">
+                            <h3>Brownfield <span class="tag focus">FOCUS OF THIS TALK</span></h3>
+                            <p><strong>Discover and connect context</strong></p>
+                            <p>Trace dependencies<br />document decisions<br />and close gaps</p>
+                        </div>
+                        <div class="card risk">
+                            <h3>Legacy</h3>
+                            <p><strong>Recover and validate context</strong></p>
+                            <p>Read behavior<br />data and incidents<br />then test assumptions</p>
+                        </div>
+                    </div>
+                    <p>Focus: brownfield enterprise systems—working software, fragmented knowledge, and
+                        live dependencies.</p>
+                </section>
+            </section>
+
+            <section>
+                <section class="section-divider">
+                    <p class="act-number">ACT II</p>
+                    <h2>The problem</h2>
                     <p>Implementation accelerates. Context does not.</p>
                 </section>
 
                 <section>
-                    <h2>Everything is green</h2>
+                    <h2>Everything can be green—and production can still break</h2>
                     <div class="grid-4 compact">
                         <div class="card evidence">✓ Compiles</div>
                         <div class="card evidence">✓ Unit tests</div>
@@ -405,7 +452,7 @@
                 </section>
 
                 <section>
-                    <h2>Conway's Law</h2>
+                    <h2>Communication boundaries become system boundaries</h2>
                     <blockquote>
                         Organizations design systems that mirror their communication structures.
                     </blockquote>
@@ -425,22 +472,7 @@
                 </section>
 
                 <section>
-                    <h2>AI accelerates code, not context</h2>
-                    <div class="grid-2">
-                        <div class="card agent">
-                            <h3>Implementation throughput</h3>
-                            <p class="statement">High</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Context discovery throughput</h3>
-                            <p class="statement">Low</p>
-                        </div>
-                    </div>
-                    <p class="statement risk">Context—not coding—becomes the bottleneck.</p>
-                </section>
-
-                <section>
-                    <h2>People · Process · Technology</h2>
+                    <h2>AI accelerates technology—not the whole system</h2>
                     <div class="grid-3">
                         <div class="card context">
                             <h3>People</h3>
@@ -457,20 +489,21 @@
                     </div>
                     <p>
                         AI accelerates <span class="agent">technology</span>.<br />
-                        System correctness still depends on all three.</p>
+                        System correctness still depends on all three.
+                    </p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT II</p>
-                    <h1>Local correctness</h1>
+                    <p class="act-number">ACT III</p>
+                    <h2>Local correctness</h2>
                     <p>Specification constrains the work inside the visible boundary.</p>
                 </section>
 
                 <section>
                     <h2>Prompting is not specification</h2>
-                    <blockquote><strong>Add rate limiting to the API.</strong></blockquote>
+                    <blockquote><strong>Add rate limiting to the Java API.</strong></blockquote>
                     <div class="grid-3 compact">
                         <div class="card risk">Per user, API key, or IP?</div>
                         <div class="card risk">Which endpoints?</div>
@@ -495,7 +528,7 @@
                 </section>
 
                 <section>
-                    <h2>Functional and technical specification</h2>
+                    <h2>Correct generation needs behavior and implementation constraints</h2>
                     <div class="grid-2 compact">
                         <div class="card context">
                             <h3>Functional — Why / What</h3>
@@ -516,20 +549,6 @@
                 </section>
 
                 <section>
-                    <h2>Engineer the workflow around the agent</h2>
-                    <div class="flow compact">
-                        <div class="card risk">Intent</div>
-                        <div class="arrow">→</div>
-                        <div class="card context">Decisions + context</div>
-                        <div class="arrow">→</div>
-                        <div class="card agent">Agent</div>
-                    </div>
-                    <p class="arrow">↓</p>
-                    <div class="card evidence" style="width: 45%; margin: auto;">Evidence</div>
-                    <p>Constrain the problem before accelerating the solution.</p>
-                </section>
-
-                <section>
                     <p class="statement"><span class="context">Specifications</span> solve task ambiguity.<br />They do
                         <span class="risk">not</span> solve system blindness.</p>
                     <hr />
@@ -542,13 +561,13 @@
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT III</p>
-                    <h1>System awareness</h1>
+                    <p class="act-number">ACT IV</p>
+                    <h2>System awareness</h2>
                     <p>The blast radius extends beyond the repository.</p>
                 </section>
 
                 <section>
-                    <h2>One innocent Java change</h2>
+                    <h2>A locally correct Java rename can break the system</h2>
                     <blockquote><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></blockquote>
                     <pre><code class="language-java" data-trim data-noescape>
 record Order(String clientId, BigDecimal total) {}
@@ -560,11 +579,11 @@ record Order(String clientId, BigDecimal total) {}
                 <section class="dependency-slide">
                     <h2>The blast radius is larger than the repository</h2>
                     <div class="dependency-map compact">
-                        <div class="card context north">Mobile API<br />REST schema</div>
+                        <div class="card context north">Mobile API<br />OpenAPI + Jackson</div>
                         <div class="card risk center"><strong>ORDER
                                 SERVICE</strong><br /><code>customerId → clientId</code></div>
-                        <div class="card local west">Database<br />migration</div>
-                        <div class="card agent east">Kafka event</div>
+                        <div class="card local west">Database<br />Flyway migration</div>
+                        <div class="card agent east">Kafka event<br />schema</div>
                         <div class="card context south-west">Fraud + notifications</div>
                         <div class="card local south">Data lake + ETL</div>
                         <div class="card evidence south-east">BI + documentation</div>
@@ -572,24 +591,30 @@ record Order(String clientId, BigDecimal total) {}
                     <p>The repository cannot always be the unit of correctness.</p>
                 </section>
 
-                <section class="boundary-slide">
-                    <h2>Correctness has expanding boundaries</h2>
-                    <div class="boundary system">
-                        <strong>ORGANIZATION</strong>
-                        <div class="boundary system">
-                            SYSTEM
-                            <div class="boundary repository">
-                                REPOSITORY
-                                <div class="boundary code">CODE</div>
-                            </div>
+                <section>
+                    <h2>System awareness changes the implementation strategy</h2>
+                    <div class="grid-2 compact">
+                        <div class="card local">
+                            <h3>Repository-only view</h3>
+                            <p>Rename <code>customerId</code><br />to <code>clientId</code></p>
+                        </div>
+                        <div class="card context">
+                            <h3>System-aware view</h3>
+                            <ol>
+                                <li>Introduce <code>clientId</code> compatibly</li>
+                                <li>Read and write both names</li>
+                                <li>Migrate and observe consumers</li>
+                                <li>Remove <code>customerId</code> after adoption</li>
+                            </ol>
                         </div>
                     </div>
-                    <p><span class="agent">AI moves inward very well.</span> Enterprise engineering
-                        requires awareness outward.</p>
+                    <p>Same requirement. Different context. Different plan.</p>
+                    <small><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change:
+                            expand → migrate → contract</a></small>
                 </section>
 
                 <section>
-                    <h2>The agent's horizon</h2>
+                    <h2>Agents see tasks first; dependency failures live beyond them</h2>
                     <div class="boundary system">
                         <span class="context">ORGANIZATION -> <small>ownership · decisions · business constraints</small></span>
                         <div class="boundary system">
@@ -605,33 +630,22 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>What must a system-aware agent discover?</h2>
-                    <div class="grid-3 compact">
-                        <div class="card context"><strong>WHERE?</strong><br />Domain and system</div>
-                        <div class="card context"><strong>WHO?</strong><br />Ownership</div>
-                        <div class="card context"><strong>WHAT DEPENDS?</strong><br />Contracts and consumers</div>
-                        <div class="card agent"><strong>HOW?</strong><br />Practices and skills</div>
-                        <div class="card local"><strong>WHY?</strong><br />ADRs and history</div>
-                    </div>
-                </section>
-
-                <section>
-                    <h2>Engineering Context Graph</h2>
+                    <h2>A context graph connects ownership to technical dependencies</h2>
                     <div class="grid-3 compact">
                         <div class="card context">
-                            <h3>Business</h3>
+                            <h3>WHERE? · Business</h3>
                             <p>Domain → Subdomain<br />→ Bounded Context</p>
                         </div>
                         <div class="card context">
-                            <h3>Organization</h3>
-                            <p>Team → Owner<br />→ Criticality</p>
+                            <h3>WHO / WHY? · Organization</h3>
+                            <p>Team → Owner<br />→ Criticality → Decisions</p>
                         </div>
                         <div class="card context">
-                            <h3>Systems</h3>
+                            <h3>WHAT DEPENDS? · Systems</h3>
                             <p>Service → API<br />→ Event → Database</p>
                         </div>
                     </div>
-                    <p class="lead">DDD organizes one dimension. Technical relationships expose the blast radius.</p>
+                    <p>DDD locates the change; technical relationships reveal its blast radius.</p>
                 </section>
 
                 <section>
@@ -651,7 +665,7 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>Make context discoverable</h2>
+                    <h2>Queryable context gives agents a wider horizon</h2>
                     <div class="flow compact">
                         <div class="card context">Context graph</div>
                         <div class="arrow">→</div>
@@ -664,85 +678,80 @@ record Order(String clientId, BigDecimal total) {}
                             Protocol</a></small>
                 </section>
 
+                <!--
                 <section>
-                    <h2>System awareness changes implementation strategy</h2>
+                    <h2>Different starting points, same engineering loop</h2>
+                    <div class="flow compact">
+                        <div class="card context"><strong>Define · Discover · Recover</strong><br /><small>Build the
+                                working model</small></div>
+                        <div class="arrow">→</div>
+                        <div class="card evidence"><strong>Validate</strong><br /><small>Owners · behavior · operational
+                                evidence</small></div>
+                        <div class="arrow">→</div>
+                        <div class="card agent"><strong>Publish + evolve</strong><br /><small>Make context discoverable
+                                for the next change</small></div>
+                    </div>
+                    <p>
+                        Context is not a one-time document.<br />Every change must keep it current.
+                    </p>
+                </section>
+                -->
+
+                <section>
+                    <h2>From project knowledge to organizational capability</h2>
                     <div class="grid-2 compact">
                         <div class="card local">
-                            <h3>Repository-only view</h3>
-                            <p>Rename <code>customerId</code><br />to <code>clientId</code></p>
+                            <h3>Inside one project</h3>
+                            <p>Boundaries · dependencies · decisions<br />owners · operational evidence</p>
                         </div>
                         <div class="card context">
-                            <h3>System-aware view</h3>
-                            <ol>
-                                <li>Introduce <code>clientId</code></li>
-                                <li>Keep <code>customerId</code> compatible</li>
-                                <li>Migrate and observe consumers</li>
-                                <li>Remove <code>customerId</code></li>
-                            </ol>
+                            <h3>Across many projects</h3>
+                            <p>Shared vocabulary · connected context<br />consistent governance · trusted access</p>
                         </div>
                     </div>
-                    <p>Same requirement. Different context. Different plan.</p>
-                    <small><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change:
-                            expand → migrate → contract</a></small>
+                    <p>
+                        When every project follows the same loop,
+                        context becomes engineering infrastructure.
+                    </p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT IV</p>
-                    <h1>Operating at scale</h1>
+                    <p class="act-number">ACT V</p>
+                    <h2>Operating at scale</h2>
                     <p>Discoverable context becomes engineering infrastructure.</p>
                 </section>
 
                 <section>
-                    <h2>Context becomes infrastructure</h2>
-                    <p class="statement">As AI engineering assets multiply, organizations need a governed way to <span
-                            class="context">discover</span> and <span class="evidence">trust</span> them.</p>
+                    <h2>Scaling context requires discovery, governance, and control</h2>
+                    <p>
+                        As AI engineering assets multiply, organizations need a governed way to <span
+                            class="context">discover</span> and <span class="evidence">trust</span> them.
+                    </p>
                     <div class="grid-3 compact">
                         <div class="card context">Discovery<br /><small>What exists? Who owns it?</small></div>
                         <div class="card evidence">Governance<br /><small>Approved? Trusted? Versioned?</small></div>
                         <div class="card agent">Control<br /><small>Who can use it? Is it auditable?</small></div>
                     </div>
-                    <p><small>An <strong>Plinth Registry</strong> is one possible implementation—not a universal
-                            requirement.</small></p>
+                    <p>A registry is one possible implementation; these operating capabilities are the
+                            requirement.</p>
                 </section>
 
                 <section>
-                    <h2>Building blocks</h2>
-                    <div class="grid-2 compact">
-                        <div class="card evidence">
-                            <p>Plinth workflow<br />Generated Java skills</p>
-                        </div>
-                        <div class="card agent">
-                            <p>Skill discovery
-                        </div>
-                        <div class="card context">
-                            <p>Engineering Context Graph<br />Organizational governance</p>
-                        </div>
+                    <h2>Trusted context needs an operating lifecycle</h2>
+                    <div class="flow compact">
+                        <div class="card context"><strong>Own</strong><br /><small>Teams · stewards</small></div>
+                        <div class="arrow">→</div>
+                        <div class="card evidence"><strong>Publish + validate</strong><br /><small>Freshness · versions</small></div>
+                        <div class="arrow">→</div>
+                        <div class="card agent"><strong>Discover + control</strong><br /><small>Access · audit</small></div>
                     </div>
+                    <p class="lead">Every change must refresh the context used by the next change.</p>
                 </section>
 
                 <section>
-                    <h2>Start where your organization is</h2>
-                    <div class="grid-3 compact">
-                        <div class="card evidence">
-                            <h3>Greenfield</h3>
-                            <p>Create context</p>
-                        </div>
-                        <div class="card context">
-                            <h3>Brownfield</h3>
-                            <p>Discover + document context</p>
-                        </div>
-                        <div class="card risk">
-                            <h3>Legacy</h3>
-                            <p>Recover + validate context</p>
-                        </div>
-                    </div>
-                    <p class="statement">Do not ask the agent to invent context the organization has never recorded.</p>
-                </section>
-
-                <section>
-                    <h2>People · Process · Technology</h2>
+                    <h2>At scale, people and process govern the technology</h2>
                     <div class="grid-3">
                         <div class="card context">
                             <h3>People</h3>
@@ -757,11 +766,13 @@ record Order(String clientId, BigDecimal total) {}
                             <p>Agents and MCP accelerate it</p>
                         </div>
                     </div>
-                    <p class="lead">System correctness is a socio-technical outcome.</p>
+                    <p>
+                        System correctness is a socio-technical outcome.
+                    </p>
                 </section>
 
                 <section>
-                    <h2>One implementation: Plinth <span class="tag today">TODAY</span></h2>
+                    <h2>Plinth connects intent, execution, and evidence <span class="tag today">TODAY</span></h2>
                     <div class="grid-2 compact">
                         <div class="card context">
                             <h3>Make intent explicit</h3>
@@ -776,82 +787,31 @@ record Order(String clientId, BigDecimal total) {}
                     <p><small><a href="https://github.com/jabrena/plinth"
                                 target="_blank">github.com/jabrena/plinth</a></small></p>
                 </section>
-
-                <section class="evidence-slide">
-                    <h2>Does additional context actually help?</h2>
-                    <p><small>Six commit/tool-matched pairs with equivalent OpenSpec input</small></p>
-                    <div class="metric-row compact">
-                        <strong>Metric</strong><strong>Delegated workflow</strong><strong>Direct execution</strong>
-                        <div class="card local">Pass rate</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card local">Average rework</div>
-                        <div class="card evidence"><strong>0.50 turns</strong></div>
-                        <div class="card">1.67 turns</div>
-                        <div class="card local">Average skills used</div>
-                        <div class="card evidence"><strong>12.33 per run</strong></div>
-                        <div class="card">3.67 per run</div>
-                    </div>
-                    <p class="compact"><strong>The delegated workflow used about 3.4× more skills per run.</strong></p>
-                    <p class="tiny">Small-sample descriptive evidence. The current oracle validates the documented happy
-                        path, not every OpenSpec scenario. <a href="https://github.com/jabrena/plinth/issues/1110"
-                            target="_blank">Issue #1110</a></p>
-                </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">CLOSE · 3 MIN</p>
-                    <h1>Takeaways</h1>
-                    <p>Direction, awareness, and evidence.</p>
+                    <p class="act-number">CLOSE</p>
+                    <h2>Takeaways</h2>
                 </section>
 
-                <section>
-                    <h2>Three moves</h2>
-                    <div class="grid-3">
-                        <div class="card risk">
-                            <h2>1 — Specify</h2>
-                            <p>Do not accelerate ambiguity.</p>
-                        </div>
-                        <div class="card context">
-                            <h2>2 — Discover</h2>
-                            <p>The repository is not always the system boundary.</p>
-                        </div>
-                        <div class="card evidence">
-                            <h2>3 — Validate</h2>
-                            <p>Prove the impact, not only the implementation.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!--
-                <section>
-                    <h2>Speed needs direction</h2>
-                    <div class="grid-3 compact">
-                        <div class="card agent"><strong>Agent</strong><br />Speed</div>
-                        <div class="card context"><strong>Engineer</strong><br />Direction</div>
-                        <div class="card local"><strong>Workflow</strong><br />Discipline</div>
-                        <div class="card context"><strong>Context</strong><br />Awareness</div>
-                        <div class="card evidence"><strong>Evidence</strong><br />Confidence</div>
-                    </div>
-                    <p>
-                        AI increases implementation speed.<br />
-                        Engineering supplies direction and system awareness.<br />
-                        <span class="risk">Speed makes a wrong direction more expensive.</span>
-                    </p>
-                </section>
-                -->
                 <section>
                     <h2>Takeaways</h2>
-                    <ol>
+                    <ul>
                         <li>Formalize cross-team communication to avoid "Frankenstein" systems.</li>
                         <li>Architects must strengthen consistency across domains, subdomains, and teams.</li>
+                        <li>Use monorepos to facilitate the AI-agent harness.</li>
+                        <li>Every large organization requires an Skill & Knowledge base Registry.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Takeaways</h2>
+                    <ul>
                         <li>An AI-agent harness is not a silver bullet.</li>
                         <li>Specify before generating.</li>
                         <li>Engineer the workflow, not just the prompt.</li>
                         <li>Optimize for system awareness and system correctness.</li>
-                        <li>Every large organization requires an AI Registry.</li>
-                    </ol>
+                    </ul>
                 </section>
             </section>
 
@@ -869,8 +829,8 @@ record Order(String clientId, BigDecimal total) {}
                 </ul>
             </section>
 
-            <section>
-                <h1>Q&amp;A?</h1>
+            <section class="section-divider">
+                <h2>Q&amp;A?</h2>
                 <p>🙏 Thank you 🙏</p>
             </section>
 
