@@ -678,6 +678,7 @@ record Order(String clientId, BigDecimal total) {}
                             Protocol</a></small>
                 </section>
 
+                <!--
                 <section>
                     <h2>Different starting points, same engineering loop</h2>
                     <div class="flow compact">
@@ -690,8 +691,11 @@ record Order(String clientId, BigDecimal total) {}
                         <div class="card agent"><strong>Publish + evolve</strong><br /><small>Make context discoverable
                                 for the next change</small></div>
                     </div>
-                    <p class="statement">Context is not a one-time document.<br />Every change must keep it current.</p>
+                    <p>
+                        Context is not a one-time document.<br />Every change must keep it current.
+                    </p>
                 </section>
+                -->
 
                 <section>
                     <h2>From project knowledge to organizational capability</h2>
@@ -721,15 +725,17 @@ record Order(String clientId, BigDecimal total) {}
 
                 <section>
                     <h2>Scaling context requires discovery, governance, and control</h2>
-                    <p class="statement">As AI engineering assets multiply, organizations need a governed way to <span
-                            class="context">discover</span> and <span class="evidence">trust</span> them.</p>
+                    <p>
+                        As AI engineering assets multiply, organizations need a governed way to <span
+                            class="context">discover</span> and <span class="evidence">trust</span> them.
+                    </p>
                     <div class="grid-3 compact">
                         <div class="card context">Discovery<br /><small>What exists? Who owns it?</small></div>
                         <div class="card evidence">Governance<br /><small>Approved? Trusted? Versioned?</small></div>
                         <div class="card agent">Control<br /><small>Who can use it? Is it auditable?</small></div>
                     </div>
-                    <p><small>A registry is one possible implementation; these operating capabilities are the
-                            requirement.</small></p>
+                    <p>A registry is one possible implementation; these operating capabilities are the
+                            requirement.</p>
                 </section>
 
                 <section>
@@ -760,7 +766,9 @@ record Order(String clientId, BigDecimal total) {}
                             <p>Agents and MCP accelerate it</p>
                         </div>
                     </div>
-                    <p class="lead">System correctness is a socio-technical outcome.</p>
+                    <p>
+                        System correctness is a socio-technical outcome.
+                    </p>
                 </section>
 
                 <section>
@@ -779,32 +787,12 @@ record Order(String clientId, BigDecimal total) {}
                     <p><small><a href="https://github.com/jabrena/plinth"
                                 target="_blank">github.com/jabrena/plinth</a></small></p>
                 </section>
-
-                <section class="evidence-slide">
-                    <h2>More context cut rework while preserving the pass rate</h2>
-                    <p><small>Six commit/tool-matched pairs with equivalent OpenSpec input</small></p>
-                    <div class="metric-row compact">
-                        <strong>Metric</strong><strong>Delegated workflow</strong><strong>Direct execution</strong>
-                        <div class="card local">Pass rate</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card evidence">6 / 6</div>
-                        <div class="card local">Average rework</div>
-                        <div class="card evidence"><strong>0.50 turns</strong></div>
-                        <div class="card">1.67 turns</div>
-                    </div>
-                    <p class="compact"><strong>Average rework fell from 1.67 to 0.50 turns; both workflows passed
-                            6 / 6.</strong></p>
-                    <p class="tiny">Small-sample descriptive evidence. The current oracle validates the documented happy
-                        path, not every OpenSpec scenario. <a href="https://github.com/jabrena/plinth/issues/1110"
-                            target="_blank">Issue #1110</a></p>
-                </section>
             </section>
 
             <section>
                 <section class="section-divider">
                     <p class="act-number">CLOSE</p>
                     <h2>Takeaways</h2>
-                    <p>Direction, awareness, and evidence.</p>
                 </section>
 
                 <section>
@@ -813,7 +801,7 @@ record Order(String clientId, BigDecimal total) {}
                         <li>Formalize cross-team communication to avoid "Frankenstein" systems.</li>
                         <li>Architects must strengthen consistency across domains, subdomains, and teams.</li>
                         <li>Use monorepos to facilitate the AI-agent harness.</li>
-                        <li>Every large organization requires an AI Registry.</li>
+                        <li>Every large organization requires an Skill & Knowledge base Registry.</li>
                     </ul>
                 </section>
                 <section>
