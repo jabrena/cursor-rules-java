@@ -1,0 +1,71 @@
+{
+  "efficiency": {
+    "wall_clock_s": 1456,
+    "active_agent_s": 1456,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "tokens_total": 0,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 1,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario4",
+    "case_id": "case-4-current-openspec-problem1",
+    "tool": "codex",
+    "model": "gpt-5",
+    "plinth_config": "full-plinth",
+    "commit": "b2067d967341b51eb8443fd64030c7c0aa0f3ae8",
+    "retry_count": 1,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 24,
+    "commands_count": 1,
+    "agents_count": 2,
+    "skills": [
+      "042-planning-openspec",
+      "051-design-two-steps-methods",
+      "052-design-hamburger-method",
+      "111-java-maven-dependencies",
+      "112-java-maven-plugins",
+      "121-java-object-oriented-design",
+      "122-java-type-design",
+      "124-java-secure-coding",
+      "125-java-concurrency",
+      "126-java-exception-handling",
+      "130-java-testing-strategies",
+      "142-java-functional-programming",
+      "143-java-functional-exception-handling",
+      "181-java-observability-logging",
+      "300-frameworks-spring-boot-create-project",
+      "301-frameworks-spring-boot-core",
+      "302-frameworks-spring-boot-rest",
+      "303-frameworks-spring-boot-validation",
+      "321-frameworks-spring-boot-testing-unit-tests",
+      "322-frameworks-spring-boot-testing-integration-tests",
+      "323-frameworks-spring-boot-testing-acceptance-tests",
+      "701-technologies-openapi",
+      "702-technologies-wiremock",
+      "707-technologies-hexagonal-architecture"
+    ],
+    "commands": [
+      "implement-spec"
+    ],
+    "agents": [
+      "plinth-tech-lead",
+      "plinth-java-spring-boot-coder"
+    ]
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario4/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMS9zY2VuYXJpbzQvZGVtby8KfC0tIHBvbS54bWwKYC0tIHNyYwogICAgfC0tIG1haW4KICAgIHwgICB8LS0gamF2YQogICAgfCAgIHwgICBgLS0gaW5mbwogICAgfCAgIHwgICAgICAgYC0tIGphYgogICAgfCAgIHwgICAgICAgICAgIGAtLSBtcwogICAgfCAgIHwgICAgICAgICAgICAgICB8LS0gR29kQW5hbHlzaXNBcHBsaWNhdGlvbi5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwtLSBhZGFwdGVyCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8LS0gaW4KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwgICBgLS0gcmVzdAogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgfCAgICAgICB8LS0gR2xvYmFsRXhjZXB0aW9uSGFuZGxlci5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8ICAgICAgIHwtLSBHb2RTdGF0c0NvbnRyb2xsZXIuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgfCAgICAgICBgLS0gR29kU3RhdHNSZXNwb25zZS5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gb3V0CiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgYC0tIGh0dHAKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgfC0tIEdvZEFuYWx5c2lzUHJvcGVydGllcy5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIHwtLSBSZXN0Q2xpZW50Q29uZmlnLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgYC0tIFJlc3RHb2RTb3VyY2VDbGllbnQuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8LS0gYXBwbGljYXRpb24KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwtLSBHb2RTdGF0c1VzZUNhc2UuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIHBvcnQKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICB8LS0gaW4KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICB8ICAgYC0tIFF1ZXJ5R29kU3RhdHMuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgICAgIGAtLSBvdXQKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgYC0tIEdvZFNvdXJjZUNsaWVudC5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIGAtLSBkb21haW4KICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHb2ROYW1lRmlsdGVyLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHb2RTdGF0c0FnZ3JlZ2F0b3IuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICAgICAgfC0tIFBhbnRoZW9uU291cmNlLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIGAtLSBVbmljb2RlTmFtZUNvbnZlcnRlci5qYXZhCiAgICB8ICAgYC0tIHJlc291cmNlcwogICAgfCAgICAgICB8LS0gYXBwbGljYXRpb24ueW1sCiAgICB8ICAgICAgIGAtLSBzdGF0aWMKICAgIHwgICAgICAgICAgIGAtLSBvcGVuYXBpLnlhbWwKICAgIGAtLSB0ZXN0CiAgICAgICAgfC0tIGphdmEKICAgICAgICB8ICAgYC0tIGluZm8KICAgICAgICB8ICAgICAgIGAtLSBqYWIKICAgICAgICB8ICAgICAgICAgICBgLS0gbXMKICAgICAgICB8ICAgICAgICAgICAgICAgfC0tIGFkYXB0ZXIKICAgICAgICB8ICAgICAgICAgICAgICAgfCAgIGAtLSBpbgogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgICAgIGAtLSByZXN0CiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIGAtLSBHb2RTdGF0c0NvbnRyb2xsZXJWYWxpZGF0aW9uVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgIHwtLSBhcHBsaWNhdGlvbgogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIEdvZFN0YXRzVXNlQ2FzZVRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8LS0gYXJjaGl0ZWN0dXJlCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gSGV4YWdvbmFsQXJjaGl0ZWN0dXJlVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgIHwtLSBkb2N1bWVudGF0aW9uCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gT3BlbkFwaURvY3VtZW50YXRpb25UZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgfC0tIGRvbWFpbgogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgfC0tIEdvZE5hbWVGaWx0ZXJUZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgfCAgIHwtLSBHb2RTdGF0c0FnZ3JlZ2F0b3JUZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgfCAgIHwtLSBQYW50aGVvblNvdXJjZVRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIFVuaWNvZGVOYW1lQ29udmVydGVyVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgIGAtLSBpbnRlZ3JhdGlvbgogICAgICAgIHwgICAgICAgICAgICAgICAgICAgfC0tIEdvZFN0YXRzQWNjZXB0YW5jZVRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICAgICAgfC0tIEdvZFN0YXRzQWxsU291cmNlc1RpbWVvdXRJbnRlZ3JhdGlvblRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICAgICAgfC0tIEdvZFN0YXRzU2luZ2xlU291cmNlSW50ZWdyYXRpb25UZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHb2RTdGF0c1RpbWVvdXRJbnRlZ3JhdGlvblRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICAgICAgYC0tIFdpcmVNb2NrR29kU291cmNlU3VwcG9ydC5qYXZhCiAgICAgICAgYC0tIHJlc291cmNlcwogICAgICAgICAgICBgLS0gX19maWxlcwogICAgICAgICAgICAgICAgfC0tIGdyZWVrLmpzb24KICAgICAgICAgICAgICAgIHwtLSBub3JkaWMuanNvbgogICAgICAgICAgICAgICAgYC0tIHJvbWFuLmpzb24KCjM0IGRpcmVjdG9yaWVzLCAzMyBmaWxlcwo=",
+    "file_count": 33
+  }
+}
