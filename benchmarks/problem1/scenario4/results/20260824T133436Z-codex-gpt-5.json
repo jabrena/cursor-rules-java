@@ -1,0 +1,69 @@
+{
+  "efficiency": {
+    "wall_clock_s": 899,
+    "active_agent_s": 899,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "tokens_total": 0,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 0,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario4",
+    "case_id": "case-4-current-openspec-problem1",
+    "tool": "codex",
+    "model": "gpt-5",
+    "plinth_config": "full-plinth",
+    "commit": "417a45909cca1fa5aa5505a0daed47541af4d119",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 22,
+    "commands_count": 1,
+    "agents_count": 2,
+    "skills": [
+      "042-planning-openspec",
+      "051-design-two-steps-methods",
+      "300-frameworks-spring-boot-create-project",
+      "110-java-maven-best-practices",
+      "111-java-maven-dependencies",
+      "112-java-maven-plugins",
+      "301-frameworks-spring-boot-core",
+      "707-technologies-hexagonal-architecture",
+      "121-java-object-oriented-design",
+      "122-java-type-design",
+      "125-java-concurrency",
+      "302-frameworks-spring-boot-rest",
+      "303-frameworks-spring-boot-validation",
+      "124-java-secure-coding",
+      "126-java-exception-handling",
+      "181-java-observability-logging",
+      "701-technologies-openapi",
+      "702-technologies-wiremock",
+      "130-java-testing-strategies",
+      "321-frameworks-spring-boot-testing-unit-tests",
+      "322-frameworks-spring-boot-testing-integration-tests",
+      "323-frameworks-spring-boot-testing-acceptance-tests"
+    ],
+    "commands": [
+      "implement-spec"
+    ],
+    "agents": [
+      "plinth-tech-lead",
+      "plinth-java-spring-boot-coder"
+    ]
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/scenario4/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9zY2VuYXJpbzQvZGVtby8KfC0tIHBvbS54bWwKYC0tIHNyYwogICAgfC0tIG1haW4KICAgIHwgICB8LS0gamF2YQogICAgfCAgIHwgICBgLS0gaW5mbwogICAgfCAgIHwgICAgICAgYC0tIGphYgogICAgfCAgIHwgICAgICAgICAgIGAtLSBtcwogICAgfCAgIHwgICAgICAgICAgICAgICB8LS0gR29kQW5hbHlzaXNBcHBsaWNhdGlvbi5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwtLSBhZGFwdGVyCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8LS0gaW4KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwgICBgLS0gcmVzdAogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgfCAgICAgICB8LS0gR2xvYmFsRXhjZXB0aW9uSGFuZGxlci5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8ICAgICAgIGAtLSBHb2RTdGF0c0NvbnRyb2xsZXIuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIG91dAogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgICAgIGAtLSBodHRwCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIHwtLSBHb2RBbmFseXNpc1Byb3BlcnRpZXMuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgICAgICAgICB8LS0gUmVzdENsaWVudENvbmZpZy5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIGAtLSBSZXN0R29kU291cmNlQ2xpZW50LmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfC0tIGFwcGxpY2F0aW9uCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8LS0gR29kU3RhdHNVc2VDYXNlLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIGAtLSBwb3J0CiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgfC0tIGluCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgfCAgIGAtLSBRdWVyeUdvZFN0YXRzLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICBgLS0gb3V0CiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIGAtLSBHb2RTb3VyY2VDbGllbnQuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICBgLS0gZG9tYWluCiAgICB8ICAgfCAgICAgICAgICAgICAgICAgICB8LS0gR29kTmFtZUZpbHRlci5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgICAgICB8LS0gR29kU3RhdHNBZ2dyZWdhdG9yLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBQYW50aGVvblNvdXJjZS5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgICAgICBgLS0gVW5pY29kZU5hbWVDb252ZXJ0ZXIuamF2YQogICAgfCAgIGAtLSByZXNvdXJjZXMKICAgIHwgICAgICAgfC0tIGFwcGxpY2F0aW9uLnltbAogICAgfCAgICAgICBgLS0gc3RhdGljCiAgICB8ICAgICAgICAgICBgLS0gb3BlbmFwaS55YW1sCiAgICBgLS0gdGVzdAogICAgICAgIHwtLSBqYXZhCiAgICAgICAgfCAgIGAtLSBpbmZvCiAgICAgICAgfCAgICAgICBgLS0gamFiCiAgICAgICAgfCAgICAgICAgICAgYC0tIG1zCiAgICAgICAgfCAgICAgICAgICAgICAgIHwtLSBhZGFwdGVyCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gaW4KICAgICAgICB8ICAgICAgICAgICAgICAgfCAgICAgICBgLS0gcmVzdAogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgICAgICAgICBgLS0gR29kU3RhdHNDb250cm9sbGVyVmFsaWRhdGlvblRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8LS0gYXJjaGl0ZWN0dXJlCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gSGV4YWdvbmFsQXJjaGl0ZWN0dXJlVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgIHwtLSBkb21haW4KICAgICAgICB8ICAgICAgICAgICAgICAgfCAgIGAtLSBHb2REb21haW5UZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgYC0tIGh0dHAKICAgICAgICB8ICAgICAgICAgICAgICAgICAgIGAtLSBHb2RTdGF0c0h0dHBUZXN0LmphdmEKICAgICAgICBgLS0gcmVzb3VyY2VzCiAgICAgICAgICAgIGAtLSBfX2ZpbGVzCiAgICAgICAgICAgICAgICB8LS0gZ3JlZWstZ29kcy5qc29uCiAgICAgICAgICAgICAgICB8LS0gbm9yZGljLWdvZHMuanNvbgogICAgICAgICAgICAgICAgYC0tIHJvbWFuLWdvZHMuanNvbgo=",
+    "file_count": 23
+  }
+}
