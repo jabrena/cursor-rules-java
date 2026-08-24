@@ -92,15 +92,10 @@
             font-size: .72em;
         }
 
-        .reveal .tiny {
-            font-size: .5em;
-        }
-
         .reveal .grid-2,
         .reveal .grid-3,
         .reveal .grid-4,
-        .reveal .flow,
-        .reveal .metric-row {
+        .reveal .flow {
             display: grid;
             gap: .7em;
             align-items: stretch;
@@ -123,28 +118,7 @@
             align-items: center;
         }
 
-        .reveal .metric-row {
-            grid-template-columns: 1.2fr 1fr 1fr;
-        }
-
-        .reveal .evidence-slide h2 {
-            font-size: 1.3em;
-        }
-
-        .reveal .evidence-slide p {
-            margin: .35em 0;
-        }
-
-        .reveal .evidence-slide .metric-row {
-            gap: .35em .55em;
-        }
-
-        .reveal .evidence-slide .card {
-            padding: .42em;
-        }
-
-        .reveal .dependency-slide h2,
-        .reveal .boundary-slide h2 {
+        .reveal .dependency-slide h2 {
             font-size: 1.2em;
             margin-bottom: .3em;
         }
@@ -157,14 +131,9 @@
             padding: .4em;
         }
 
-        .reveal .dependency-slide .lead,
-        .reveal .boundary-slide .lead {
+        .reveal .dependency-slide .lead {
             font-size: .95em;
             margin: .3em 0;
-        }
-
-        .reveal .boundary-slide .boundary {
-            padding: .3em;
         }
 
         .reveal .section-divider .act-number {
@@ -223,19 +192,9 @@
             color: #1b5e20;
         }
 
-        .reveal .experimental {
-            background: #fff1c7;
-            color: #8a5500;
-        }
-
         .reveal .focus {
             background: #dbeafe;
             color: #0d47a1;
-        }
-
-        .reveal .roadmap {
-            background: #eadcf4;
-            color: #52106f;
         }
 
         .reveal .dependency-map {
@@ -288,6 +247,16 @@
             background: rgba(21, 101, 192, .04);
         }
 
+        .reveal .boundary > span {
+            display: inline-flex;
+            align-items: center;
+            gap: .25em;
+        }
+
+        .reveal .boundary > span small {
+            line-height: 1;
+        }
+
         .reveal .boundary.system {
             border-color: var(--context);
         }
@@ -296,16 +265,8 @@
             border-color: var(--local);
         }
 
-        .reveal .boundary.code {
-            border-color: var(--evidence);
-        }
-
         .reveal .boundary.task {
             border-color: var(--agent);
-        }
-
-        .reveal table th {
-            color: var(--context);
         }
 
         .reveal blockquote {
@@ -395,7 +356,7 @@
                 <section>
                     <h2>Introduction</h2>
                     <p>
-                        The usage of IA in software engineering
+                        The usage of AI in software engineering
                         is changing <strong>the way of work</strong> but with the change
                         appear new challeges to address.
                     </p>
@@ -456,8 +417,8 @@
                     <blockquote>
                         Organizations design systems that mirror their communication structures.
                     </blockquote>
-                    <img src="./images/melvin-conway.png" width="20%" />
-                    <p class="muted"><small>Paraphrased from Melvin Conway, 1968.</small></p>
+                    <img src="./images/melvin-conway.png" width="15%" />
+                    <p><small>Paraphrased from Melvin Conway, 1968.</small></p>
                 </section>
 
                 <section>
@@ -615,22 +576,49 @@ record Order(String clientId, BigDecimal total) {}
 
                 <section>
                     <h2>Agents see tasks first; dependency failures live beyond them</h2>
-                    <div class="boundary system">
-                        <span class="context">ORGANIZATION -> <small>ownership · decisions · business constraints</small></span>
+                    <small>
                         <div class="boundary system">
-                            <span class="context">SYSTEM -> <small>consumers · contracts · other repositories</small></span>
-                            <div class="boundary repository">
-                                <span class="local">REPOSITORY -> <small>code · tests</small></span>
-                                <div class="boundary task"><span class="agent">TASK</span></div>
+                            <span class="context">ORGANIZATION -> <small>ownership · decisions · business constraints</small></span>
+                            <div class="boundary system">
+                                <span class="context">SYSTEM -> <small>consumers · contracts · other repositories</small></span>
+                                <div class="boundary repository">
+                                    <span class="local">REPOSITORY -> <small>code · tests</small></span>
+                                    <div class="boundary task"><span class="agent">TASK</span></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </small>
                     <p>Most coding agents start at task and repository.<br /><span class="risk">Many
                             dependency failures live outside them.</span></p>
                 </section>
 
                 <section>
-                    <h2>A context graph connects ownership to technical dependencies</h2>
+                    <h2>Context and skills answer different questions</h2>
+                    <div class="grid-2">
+                        <div class="card context">
+                            <h3>Context</h3>
+                            <p>What is true here?</p>
+                            <small>State of the organization</small>
+                        </div>
+                        <div class="card agent">
+                            <h3>Skills</h3>
+                            <p>How should work be performed here?</p>
+                            <small>Engineering policy and practice</small>
+                        </div>
+                    </div>
+                    <p>How do we provide both consistently across an organization?</p>
+                </section>
+            </section>
+
+            <section>
+                <section class="section-divider">
+                    <p class="act-number">ACT V</p>
+                    <h2>Operating at scale</h2>
+                    <p>Structure the knowledge. Make it queryable. Govern its lifecycle.</p>
+                </section>
+
+                <section>
+                    <h2>A knowledge base connects ownership to technical dependencies</h2>
                     <div class="grid-3 compact">
                         <div class="card context">
                             <h3>WHERE? · Business</h3>
@@ -649,130 +637,50 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>Context and skills answer different questions</h2>
-                    <div class="grid-2">
-                        <div class="card context">
-                            <h3>Context</h3>
-                            <p>What is true here?</p>
-                            <small>State of the organization</small>
-                        </div>
-                        <div class="card agent">
-                            <h3>Skills</h3>
-                            <p>How should work be performed here?</p>
-                            <small>Engineering policy and practice</small>
-                        </div>
-                    </div>
-                </section>
-
-                <section>
                     <h2>Queryable context gives agents a wider horizon</h2>
                     <div class="flow compact">
-                        <div class="card context">Context graph</div>
+                        <div class="card context">Knowledge base</div>
                         <div class="arrow">→</div>
                         <div class="card local"><strong>MCP</strong><br />query interface</div>
                         <div class="arrow">→</div>
                         <div class="card agent">AI agent</div>
                     </div>
-                    <p class="lead">Do not put all knowledge in the prompt.<br />Make relevant context queryable.</p>
+                    <p>Do not put all knowledge in the prompt.<br />Make relevant context queryable.</p>
                     <small><a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context
                             Protocol</a></small>
                 </section>
 
-                <!--
-                <section>
-                    <h2>Different starting points, same engineering loop</h2>
-                    <div class="flow compact">
-                        <div class="card context"><strong>Define · Discover · Recover</strong><br /><small>Build the
-                                working model</small></div>
-                        <div class="arrow">→</div>
-                        <div class="card evidence"><strong>Validate</strong><br /><small>Owners · behavior · operational
-                                evidence</small></div>
-                        <div class="arrow">→</div>
-                        <div class="card agent"><strong>Publish + evolve</strong><br /><small>Make context discoverable
-                                for the next change</small></div>
-                    </div>
-                    <p>
-                        Context is not a one-time document.<br />Every change must keep it current.
-                    </p>
-                </section>
-                -->
 
                 <section>
-                    <h2>From project knowledge to organizational capability</h2>
-                    <div class="grid-2 compact">
-                        <div class="card local">
-                            <h3>Inside one project</h3>
-                            <p>Boundaries · dependencies · decisions<br />owners · operational evidence</p>
+                    <h2>Trusted context is a socio-technical system</h2>
+                    <small>
+                        <div class="grid-3">
+                            <div class="card context">
+                                <h3>People</h3>
+                                <p>Owners define context and coordinate change</p>
+                            </div>
+                            <div class="card evidence">
+                                <h3>Process</h3>
+                                <p>Publishing and validation keep it trustworthy</p>
+                            </div>
+                            <div class="card agent">
+                                <h3>Technology</h3>
+                                <p>Knowledge base, MCP, and Skill agents scale access</p>
+                            </div>
                         </div>
-                        <div class="card context">
-                            <h3>Across many projects</h3>
-                            <p>Shared vocabulary · connected context<br />consistent governance · trusted access</p>
-                        </div>
-                    </div>
-                    <p>
-                        When every project follows the same loop,
-                        context becomes engineering infrastructure.
-                    </p>
-                </section>
-            </section>
-
-            <section>
-                <section class="section-divider">
-                    <p class="act-number">ACT V</p>
-                    <h2>Operating at scale</h2>
-                    <p>Discoverable context becomes engineering infrastructure.</p>
+                    </small>
+                    <p>Technology scales access; ownership and process sustain trust.</p>
                 </section>
 
                 <section>
-                    <h2>Scaling context requires discovery, governance, and control</h2>
-                    <p>
-                        As AI engineering assets multiply, organizations need a governed way to <span
-                            class="context">discover</span> and <span class="evidence">trust</span> them.
-                    </p>
-                    <div class="grid-3 compact">
-                        <div class="card context">Discovery<br /><small>What exists? Who owns it?</small></div>
-                        <div class="card evidence">Governance<br /><small>Approved? Trusted? Versioned?</small></div>
-                        <div class="card agent">Control<br /><small>Who can use it? Is it auditable?</small></div>
-                    </div>
-                    <p>A registry is one possible implementation; these operating capabilities are the
-                            requirement.</p>
+                    <h2>
+                        Does exist a solution which combine all features?<br />
+                        🤔
+                    </h2>
                 </section>
 
                 <section>
-                    <h2>Trusted context needs an operating lifecycle</h2>
-                    <div class="flow compact">
-                        <div class="card context"><strong>Own</strong><br /><small>Teams · stewards</small></div>
-                        <div class="arrow">→</div>
-                        <div class="card evidence"><strong>Publish + validate</strong><br /><small>Freshness · versions</small></div>
-                        <div class="arrow">→</div>
-                        <div class="card agent"><strong>Discover + control</strong><br /><small>Access · audit</small></div>
-                    </div>
-                    <p class="lead">Every change must refresh the context used by the next change.</p>
-                </section>
-
-                <section>
-                    <h2>At scale, people and process govern the technology</h2>
-                    <div class="grid-3">
-                        <div class="card context">
-                            <h3>People</h3>
-                            <p>Owners coordinate the change</p>
-                        </div>
-                        <div class="card evidence">
-                            <h3>Process</h3>
-                            <p>Specifications and validation constrain it</p>
-                        </div>
-                        <div class="card agent">
-                            <h3>Technology</h3>
-                            <p>Agents and MCP accelerate it</p>
-                        </div>
-                    </div>
-                    <p>
-                        System correctness is a socio-technical outcome.
-                    </p>
-                </section>
-
-                <section>
-                    <h2>Plinth connects intent, execution, and evidence <span class="tag today">TODAY</span></h2>
+                    <h2>Plinth operationalizes the engineering workflow <span class="tag today">TODAY</span></h2>
                     <div class="grid-2 compact">
                         <div class="card context">
                             <h3>Make intent explicit</h3>
@@ -784,6 +692,30 @@ record Order(String clientId, BigDecimal total) {}
                         </div>
                     </div>
                     <div class="card evidence" style="margin-top: .7em;">Implementation → Validation → Evidence</div>
+                    <p><small><a href="https://github.com/jabrena/plinth"
+                                target="_blank">github.com/jabrena/plinth</a></small></p>
+                </section>
+
+                <section>
+                    <h2>Plinth operationalizes the engineering workflow <span class="tag today">TODAY</span></h2>
+                    <p>
+                        An opinionated AI-native workflow for evolving modern Java Enterprise SDLC practices
+                    </p>
+
+                    <small>
+                        <div class="card agent compact">
+                            <div><code>/onboarding</code></div>
+                            <div class="arrow">↓</div>
+                            <div><strong>Issue</strong></div>
+                            <div class="arrow">↓</div>
+                            <div><code>/update-issue</code> → <code>/explore-problem</code> →
+                                <code>/create-acceptance-criteria</code></div>
+                            <div class="arrow">↓</div>
+                            <div><code>/create-spec</code> → <code>/explore-design</code></div>
+                            <div class="arrow">↓</div>
+                            <div><code>/implement-spec</code> → <code>/close-spec</code></div>
+                        </div>
+                    </small>
                     <p><small><a href="https://github.com/jabrena/plinth"
                                 target="_blank">github.com/jabrena/plinth</a></small></p>
                 </section>
