@@ -78,7 +78,7 @@
         <maven-plugin-spotless.version>3.10.0</maven-plugin-spotless.version>
         <maven-plugin-dependency-check.version>13.0.0</maven-plugin-dependency-check.version>
         <maven-plugin-snyk.version>2.3.0</maven-plugin-snyk.version>
-        <maven-plugin-spotbugs.version>4.10.3.0</maven-plugin-spotbugs.version>
+        <maven-plugin-spotbugs.version>4.10.4.0</maven-plugin-spotbugs.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
         <maven-plugin-versions.version>2.21.0</maven-plugin-versions.version>
         <maven-plugin-jbake.version>2.7.0</maven-plugin-jbake.version>
