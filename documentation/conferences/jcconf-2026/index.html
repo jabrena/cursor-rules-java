@@ -593,20 +593,14 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>Context and skills answer different questions</h2>
-                    <div class="grid-2">
-                        <div class="card context">
-                            <h3>Context</h3>
-                            <p>What is true here?</p>
-                            <small>State of the organization</small>
-                        </div>
-                        <div class="card agent">
-                            <h3>Skills</h3>
-                            <p>How should work be performed here?</p>
-                            <small>Engineering policy and practice</small>
-                        </div>
-                    </div>
-                    <p>How do we provide both consistently across an organization?</p>
+                    <h2>What should an organizational product provide?</h2>
+                    <ul>
+                        <li class="fragment">Structure knowledge about domains, subdomains, ownership, and technical
+                            dependencies.</li>
+                        <li class="fragment">Register approved, versioned skills for engineering work.</li>
+                        <li class="fragment">Expose relevant knowledge and skills to agents through MCP.</li>
+                    </ul>
+                    <p class="fragment lead">🤔 One product. Three capabilities.</p>
                 </section>
             </section>
 
@@ -614,11 +608,33 @@ record Order(String clientId, BigDecimal total) {}
                 <section class="section-divider">
                     <p class="act-number">ACT V</p>
                     <h2>Operating at scale</h2>
-                    <p>Structure the knowledge. Make it queryable. Govern its lifecycle.</p>
+                    <p>Turn organizational knowledge and engineering skills into governed, queryable infrastructure.</p>
                 </section>
 
                 <section>
-                    <h2>A knowledge base connects ownership to technical dependencies</h2>
+                    <h2>Large organizations need a shared knowledge product</h2>
+                    <div class="grid-3 compact">
+                        <div class="card context">
+                            <h3>Knowledge base</h3>
+                            <p>What is true here?</p>
+                            <small>Domains, subdomains, systems, owners, decisions, and dependencies</small>
+                        </div>
+                        <div class="card local">
+                            <h3>MCP server</h3>
+                            <p>How do agents access it?</p>
+                            <small>Query knowledge and discover relevant skills on demand</small>
+                        </div>
+                        <div class="card agent">
+                            <h3>Skills registry</h3>
+                            <p>How should work be performed here?</p>
+                            <small>Approved, versioned engineering policies and practices</small>
+                        </div>
+                    </div>
+                    <p>One product structures knowledge, registers practices, and exposes both consistently.</p>
+                </section>
+
+                <section>
+                    <h2>The knowledge model connects ownership to technical dependencies</h2>
                     <div class="grid-3 compact">
                         <div class="card context">
                             <h3>WHERE? · Business</h3>
@@ -637,15 +653,15 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>Queryable context gives agents a wider horizon</h2>
+                    <h2>MCP gives agents a wider organizational horizon</h2>
                     <div class="flow compact">
-                        <div class="card context">Knowledge base</div>
+                        <div class="card context"><strong>Knowledge product</strong><br />Context + skills</div>
                         <div class="arrow">→</div>
-                        <div class="card local"><strong>MCP</strong><br />query interface</div>
+                        <div class="card local"><strong>MCP server</strong><br />Query + discovery</div>
                         <div class="arrow">→</div>
-                        <div class="card agent">AI agent</div>
+                        <div class="card agent">Engineers + AI agents</div>
                     </div>
-                    <p>Do not put all knowledge in the prompt.<br />Make relevant context queryable.</p>
+                    <p>Retrieve the relevant organizational context and approved practice for each change.</p>
                     <small><a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context
                             Protocol</a></small>
                 </section>
@@ -665,7 +681,7 @@ record Order(String clientId, BigDecimal total) {}
                             </div>
                             <div class="card agent">
                                 <h3>Technology</h3>
-                                <p>Knowledge base, MCP, and Skill agents scale access</p>
+                                <p>Knowledge base, skills registry, and MCP server scale access</p>
                             </div>
                         </div>
                     </small>
@@ -673,31 +689,27 @@ record Order(String clientId, BigDecimal total) {}
                 </section>
 
                 <section>
-                    <h2>
-                        Does exist a solution which combine all features?<br />
-                        🤔
-                    </h2>
-                </section>
-
-                <section>
-                    <h2>Plinth operationalizes the engineering workflow <span class="tag today">TODAY</span></h2>
-                    <div class="grid-2 compact">
-                        <div class="card context">
-                            <h3>Make intent explicit</h3>
-                            <p>Issue → Problem framing<br />→ OpenSpec → Decisions</p>
+                    <h2>Plinth operationalizes the engineering workflow</h2>
+                    <small>
+                        <div class="grid-2 compact">
+                            <div class="card context">
+                                <h3>The organization owns its context</h3>
+                                <p>Domains → Systems<br />→ Owners → Contracts → Decisions</p>
+                            </div>
+                            <div class="card agent">
+                                <h3>Plinth guides execution</h3>
+                                <p>Issues → OpenSpec<br />→ Commands → Agents → Skills</p>
+                            </div>
                         </div>
-                        <div class="card agent">
-                            <h3>Guide execution</h3>
-                            <p>Commands → Agents<br />→ Skills → Tools</p>
-                        </div>
-                    </div>
-                    <div class="card evidence" style="margin-top: .7em;">Implementation → Validation → Evidence</div>
+                        <div class="card evidence" style="margin-top: .7em;">Implementation → Validation → Evidence</div>
+                    </small>
+                    <p>The organization supplies its knowledge; Plinth turns intent into validated change.</p>
                     <p><small><a href="https://github.com/jabrena/plinth"
                                 target="_blank">github.com/jabrena/plinth</a></small></p>
                 </section>
 
                 <section>
-                    <h2>Plinth operationalizes the engineering workflow <span class="tag today">TODAY</span></h2>
+                    <h2>From organizational intent to validated change</h2>
                     <p>
                         An opinionated AI-native workflow for evolving modern Java Enterprise SDLC practices
                     </p>
@@ -733,7 +745,8 @@ record Order(String clientId, BigDecimal total) {}
                         <li>Formalize cross-team communication to avoid "Frankenstein" systems.</li>
                         <li>Architects must strengthen consistency across domains, subdomains, and teams.</li>
                         <li>Use monorepos to facilitate the AI-agent harness.</li>
-                        <li>Every large organization requires an Skill & Knowledge base Registry.</li>
+                        <li>Every large organization needs a governed knowledge product, a skills registry, and an
+                            MCP interface for agent access.</li>
                     </ul>
                 </section>
                 <section>
