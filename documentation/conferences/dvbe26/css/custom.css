@@ -82,6 +82,7 @@
 .reveal .grid-2,
 .reveal .grid-3,
 .reveal .grid-4,
+.reveal .grid-5,
 .reveal .flow {
     display: grid;
     gap: .7em;
@@ -98,6 +99,15 @@
 
 .reveal .grid-4 {
     grid-template-columns: repeat(4, 1fr);
+}
+
+.reveal .grid-5 {
+    grid-template-columns: repeat(5, 1fr);
+    gap: .45em;
+}
+
+.reveal .grid-5 .card {
+    padding: .5em .35em;
 }
 
 .reveal .governance-stack {
