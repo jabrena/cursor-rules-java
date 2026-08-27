@@ -11,377 +11,7 @@
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css">
     <link rel="stylesheet" href="plugin/highlight/monokai.css">
-    <style>
-        :root {
-            --risk: #c62828;
-            --context: #1565c0;
-            --evidence: #2e7d32;
-            --local: #5f6368;
-            --agent: #6a1b9a;
-            --surface: #f7f8fa;
-        }
-
-        .footer {
-            position: absolute;
-            left: 10px;
-            bottom: 0;
-            z-index: 999;
-            background: #fff;
-            margin-bottom: 10px;
-            padding-bottom: 0;
-        }
-
-        .reveal h1,
-        .reveal h2,
-        .reveal h3 {
-            text-transform: none;
-        }
-
-        .reveal h1 {
-            font-size: 2.2em;
-        }
-
-        .reveal h2 {
-            font-size: 1.55em;
-        }
-
-        .reveal h3 {
-            font-size: 1.05em;
-        }
-
-        .reveal .title-slide h1 {
-            font-size: 1.65em;
-            line-height: 1.15;
-        }
-
-        .reveal .risk {
-            color: var(--risk);
-        }
-
-        .reveal .context {
-            color: var(--context);
-        }
-
-        .reveal .evidence {
-            color: var(--evidence);
-        }
-
-        .reveal .local {
-            color: var(--local);
-        }
-
-        .reveal .agent {
-            color: var(--agent);
-        }
-
-        .reveal .lead {
-            font-size: 1.25em;
-            font-weight: 700;
-        }
-
-        .reveal .statement {
-            font-size: 1.5em;
-            font-weight: 700;
-            line-height: 1.25;
-        }
-
-        .reveal .statement.impact {
-            font-size: 2.2em;
-        }
-
-        .reveal .muted {
-            color: #60656c;
-        }
-
-        .reveal .compact {
-            font-size: .72em;
-        }
-
-        .reveal .tiny {
-            font-size: .5em;
-        }
-
-        .reveal .grid-2,
-        .reveal .grid-3,
-        .reveal .grid-4,
-        .reveal .flow,
-        .reveal .metric-row {
-            display: grid;
-            gap: .7em;
-            align-items: stretch;
-        }
-
-        .reveal .grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .reveal .grid-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .reveal .grid-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .reveal .grid-5 {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: .45em;
-            align-items: stretch;
-        }
-
-        .reveal .control-step {
-            padding: .5em .35em;
-        }
-
-        .reveal .control-step strong {
-            display: block;
-            margin-bottom: .25em;
-        }
-
-        .reveal .governance-stack {
-            display: grid;
-            gap: .28em;
-            width: 88%;
-            margin: 0 auto;
-        }
-
-        .reveal .governance-stack .card {
-            padding: .35em .55em;
-        }
-
-        .reveal .stack-arrow {
-            color: var(--agent);
-            font-size: 1.25em;
-            font-weight: 800;
-            line-height: .8;
-        }
-
-        .reveal .decision-banner {
-            border-left: 8px solid var(--risk);
-            background: #fff4f4;
-            padding: .55em .8em;
-            text-align: left;
-        }
-
-        .reveal .flow {
-            grid-template-columns: repeat(5, 1fr);
-            align-items: center;
-        }
-
-        .reveal .metric-row {
-            grid-template-columns: 1.2fr 1fr 1fr;
-        }
-
-        .reveal .evidence-slide h2 {
-            font-size: 1.3em;
-        }
-
-        .reveal .evidence-slide p {
-            margin: .35em 0;
-        }
-
-        .reveal .evidence-slide .metric-row {
-            gap: .35em .55em;
-        }
-
-        .reveal .evidence-slide .card {
-            padding: .42em;
-        }
-
-        .reveal .dependency-slide h2,
-        .reveal .boundary-slide h2,
-        .reveal .regulation-slide h2 {
-            font-size: 1.2em;
-            margin-bottom: .3em;
-        }
-
-        .reveal .regulation-slide p {
-            margin: .3em 0;
-        }
-
-        .reveal .regulation-slide .card {
-            padding: .4em;
-        }
-
-        .reveal .regulation-slide .lead {
-            font-size: .95em;
-        }
-
-        .reveal .risk-slide h2 {
-            font-size: 1.2em;
-            margin-bottom: .2em;
-        }
-
-        .reveal .risk-slide p {
-            margin: .3em 0;
-        }
-
-        .reveal .risk-slide .lead {
-            font-size: .9em;
-        }
-
-        .reveal .risk-slide .card {
-            padding: .35em;
-        }
-
-        .reveal .dependency-slide .dependency-map {
-            gap: .3em;
-        }
-
-        .reveal .dependency-slide .card {
-            padding: .4em;
-        }
-
-        .reveal .dependency-slide .lead,
-        .reveal .boundary-slide .lead {
-            font-size: .95em;
-            margin: .3em 0;
-        }
-
-        .reveal .boundary-slide .boundary {
-            padding: .3em;
-        }
-
-        .reveal .section-divider .act-number {
-            color: var(--agent);
-            font-size: .75em;
-            font-weight: 800;
-            letter-spacing: .12em;
-        }
-
-        .reveal .section-divider h1 {
-            color: var(--context);
-        }
-
-        .reveal .card {
-            border: 3px solid var(--local);
-            border-radius: 14px;
-            padding: .65em;
-            background: var(--surface);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
-        }
-
-        .reveal .card.risk {
-            border-color: var(--risk);
-        }
-
-        .reveal .card.context {
-            border-color: var(--context);
-        }
-
-        .reveal .card.evidence {
-            border-color: var(--evidence);
-        }
-
-        .reveal .card.agent {
-            border-color: var(--agent);
-        }
-
-        .reveal .arrow {
-            font-size: 1.7em;
-            align-self: center;
-        }
-
-        .reveal .tag {
-            display: inline-block;
-            border-radius: 999px;
-            padding: .18em .65em;
-            font-size: .45em;
-            font-weight: 800;
-            letter-spacing: .08em;
-            vertical-align: middle;
-        }
-
-        .reveal .today {
-            background: #dff3e2;
-            color: #1b5e20;
-        }
-
-        .reveal .experimental {
-            background: #fff1c7;
-            color: #8a5500;
-        }
-
-        .reveal .roadmap {
-            background: #eadcf4;
-            color: #52106f;
-        }
-
-        .reveal .dependency-map {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
-            gap: .45em;
-            align-items: center;
-        }
-
-        .reveal .dependency-map .center {
-            grid-column: 2;
-            grid-row: 2;
-        }
-
-        .reveal .dependency-map .north {
-            grid-column: 2;
-            grid-row: 1;
-        }
-
-        .reveal .dependency-map .west {
-            grid-column: 1;
-            grid-row: 2;
-        }
-
-        .reveal .dependency-map .east {
-            grid-column: 3;
-            grid-row: 2;
-        }
-
-        .reveal .dependency-map .south-west {
-            grid-column: 1;
-            grid-row: 3;
-        }
-
-        .reveal .dependency-map .south {
-            grid-column: 2;
-            grid-row: 3;
-        }
-
-        .reveal .dependency-map .south-east {
-            grid-column: 3;
-            grid-row: 3;
-        }
-
-        .reveal .boundary {
-            border: 5px solid var(--context);
-            border-radius: 24px;
-            padding: .45em;
-            background: rgba(21, 101, 192, .04);
-        }
-
-        .reveal .boundary.system {
-            border-color: var(--context);
-        }
-
-        .reveal .boundary.repository {
-            border-color: var(--local);
-        }
-
-        .reveal .boundary.code {
-            border-color: var(--evidence);
-        }
-
-        .reveal .boundary.task {
-            border-color: var(--agent);
-        }
-
-        .reveal table th {
-            color: var(--context);
-        }
-
-        .reveal blockquote {
-            width: 88%;
-        }
-    </style>
+    <link rel="stylesheet" href="css/custom.css">
 
     <link rel="icon" href="images/java-icon.png" type="image/png" />
 </head>
@@ -433,24 +63,65 @@
             </section>
 
             <section>
-                <h2>Agenda · 30 minutes</h2>
-                <ol>
-                    <li><strong>The problem</strong> · 8 min<br />A green PR can still be wrong.</li>
-                    <li><strong>HITL at the PR</strong> · 18 min<br />Risk, evidence, authority, intervention.</li>
-                    <li><strong>Governance</strong> · 12 min<br />Laws, standards, frameworks, controls.</li>
-                    <li><strong>Takeaways</strong> · 7 min</li>
-                </ol>
+                <h2>Agenda (30 minutes)</h2>
+                <ul>
+                    <li>Introduction · 3 minutes</li>
+                    <li>The problem · 9 minutes</li>
+                    <li>HITL at the PR · 9 minutes</li>
+                    <li>Governance · 7 minutes</li>
+                    <li>Takeaways · 2 minutes</li>
+                </ul>
             </section>
 
             <section>
                 <section class="section-divider">
                     <p class="act-number">ACT I</p>
-                    <h1>A green PR can still be wrong</h1>
+                    <h2>Introduction</h2>
+                </section>
+
+                <section>
+                    <h2>Introduction</h2>
+                    <p>
+                        The usage of AI in software engineering
+                        is changing <strong>the way of work</strong> but with the change
+                        appear new challeges to address.
+                    </p>
+                    <img src="./images/SDLC.jpg" width="40%" />
+                </section>
+
+                <section>
+                    <h2>Three project realities</h2>
+                    <div class="grid-3 compact">
+                        <div class="card evidence">
+                            <h3>Greenfield</h3>
+                            <p><strong>Design the context</strong></p>
+                            <p>Define boundaries<br />contracts<br />and owners</p>
+                        </div>
+                        <div class="card context">
+                            <h3>Brownfield <span class="tag focus">FOCUS OF THIS TALK</span></h3>
+                            <p><strong>Discover and connect context</strong></p>
+                            <p>Trace dependencies<br />document decisions<br />and close gaps</p>
+                        </div>
+                        <div class="card risk">
+                            <h3>Legacy</h3>
+                            <p><strong>Recover and validate context</strong></p>
+                            <p>Read behavior<br />data and incidents<br />then test assumptions</p>
+                        </div>
+                    </div>
+                    <p>Focus: brownfield enterprise systems—working software, fragmented knowledge, and
+                        live dependencies.</p>
+                </section>
+            </section>
+
+            <section>
+                <section class="section-divider">
+                    <p class="act-number">ACT II</p>
+                    <h1>The problem</h1>
                     <p>Implementation accelerates. Context and review capacity do not.</p>
                 </section>
 
                 <section>
-                    <h2>An agent opens a perfect-looking PR</h2>
+                    <h2>Everything can be green—and production can still break</h2>
                     <div class="grid-4 compact">
                         <div class="card evidence">✓ Compiles</div>
                         <div class="card evidence">✓ Unit + integration tests</div>
@@ -462,46 +133,97 @@
                 </section>
 
                 <section>
-                    <h2>The problem statement</h2>
-                    <div class="grid-3 compact">
-                        <div class="card agent"><strong>Change throughput</strong><br /><span class="statement">↑</span></div>
-                        <div class="card local"><strong>Review capacity</strong><br /><span class="statement">↔</span></div>
-                        <div class="card context"><strong>System context</strong><br />Fragmented</div>
-                    </div>
-                    <div class="decision-banner" style="margin-top: .8em;">
-                        Agentic development can produce changes faster than an organization can discover their full
-                        impact and make accountable decisions about them.
-                    </div>
+                    <h2>
+                        How can a change be completely <span class="evidence">correct</span> and
+                        still be <span class="risk">wrong</span>?
+                    </h2>
                 </section>
 
                 <section>
-                    <h2>The pull request is where autonomy meets authority</h2>
-                    <div class="grid-2">
-                        <div class="card agent">
-                            <h3>Agent autonomy</h3>
-                            <p>Discover · generate · test · propose</p>
-                        </div>
+                    <h2>AI accelerates technology—not the whole system</h2>
+                    <div class="grid-3">
                         <div class="card context">
-                            <h3>Human authority</h3>
-                            <p>Challenge · decide · escalate · stop</p>
+                            <h3>People</h3>
+                            <p>Ownership<br />Communication</p>
+                        </div>
+                        <div class="card evidence">
+                            <h3>Process</h3>
+                            <p>Specification<br />Validation</p>
+                        </div>
+                        <div class="card agent">
+                            <h3>Technology</h3>
+                            <p>Agents<br />Tools</p>
                         </div>
                     </div>
-                    <p class="statement evidence">The bridge is reviewable evidence.</p>
+                    <p>
+                        AI accelerates <span class="agent">technology</span>.<br />
+                        System correctness still depends on all three.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>A locally correct Java rename can break the system</h2>
+                    <blockquote><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></blockquote>
+                    <pre><code class="language-java" data-trim data-noescape>
+record Order(String clientId, BigDecimal total) {}
+					</code></pre>
+                    <p class="lead"><span class="evidence">Locally correct.</span> What else depends on this contract?
+                    </p>
                 </section>
 
                 <section class="dependency-slide">
-                    <h2>One innocent Java change; many consequences</h2>
-                    <p><strong>Rename <code>customerId</code> to <code>clientId</code>.</strong></p>
+                    <h2>The blast radius is larger than the repository</h2>
                     <div class="dependency-map compact">
-                        <div class="card context north">Mobile API<br />REST schema</div>
-                        <div class="card risk center"><strong>ORDER SERVICE</strong><br /><code>customerId → clientId</code></div>
-                        <div class="card local west">Database<br />migration</div>
-                        <div class="card agent east">Kafka event</div>
+                        <div class="card context north">Mobile API<br />OpenAPI + Jackson</div>
+                        <div class="card risk center"><strong>ORDER
+                                SERVICE</strong><br /><code>customerId → clientId</code></div>
+                        <div class="card local west">Database<br />Flyway migration</div>
+                        <div class="card agent east">Kafka event<br />schema</div>
                         <div class="card context south-west">Fraud + notifications</div>
                         <div class="card local south">Data lake + ETL</div>
                         <div class="card evidence south-east">BI + documentation</div>
                     </div>
-                    <p>The repository is not always the unit of correctness.</p>
+                    <p>The repository cannot always be the unit of correctness.</p>
+                </section>
+
+                <section>
+                    <h2>System awareness changes the implementation strategy</h2>
+                    <div class="grid-2 compact">
+                        <div class="card local">
+                            <h3>Repository-only view</h3>
+                            <p>Rename <code>customerId</code><br />to <code>clientId</code></p>
+                        </div>
+                        <div class="card context">
+                            <h3>System-aware view</h3>
+                            <ol>
+                                <li>Introduce <code>clientId</code> compatibly</li>
+                                <li>Read and write both names</li>
+                                <li>Migrate and observe consumers</li>
+                                <li>Remove <code>customerId</code> after adoption</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <p>Same requirement. Different context. Different plan.</p>
+                    <small><a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank">Parallel Change:
+                            expand → migrate → contract</a></small>
+                </section>
+
+                <section>
+                    <h2>Agents see tasks first; dependency failures live beyond them</h2>
+                    <small>
+                        <div class="boundary system">
+                            <span class="context">ORGANIZATION -> <small>ownership · decisions · business constraints</small></span>
+                            <div class="boundary system">
+                                <span class="context">SYSTEM -> <small>consumers · contracts · other repositories</small></span>
+                                <div class="boundary repository">
+                                    <span class="local">REPOSITORY -> <small>code · tests</small></span>
+                                    <div class="boundary task"><span class="agent">TASK</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </small>
+                    <p>Most coding agents start at task and repository.<br /><span class="risk">Many
+                            dependency failures live outside them.</span></p>
                 </section>
 
                 <section>
@@ -533,7 +255,7 @@
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT II</p>
+                    <p class="act-number">ACT III</p>
                     <h1>Human-in-the-Loop at the PR</h1>
                     <p>Do not confuse autonomy with authority.</p>
                 </section>
@@ -588,6 +310,7 @@
                     <p>The goal is effective control where consequences matter, not approval everywhere.</p>
                 </section>
 
+                <!-- 
                 <section>
                     <h2>The PR is an evidence package</h2>
                     <div class="grid-3 compact">
@@ -603,6 +326,7 @@
                     </div>
                     <p>Evidence connects agent actions, human decisions, and real-world outcomes.</p>
                 </section>
+                -->
 
                 <section>
                     <h2>Meaningful oversight challenges the evidence</h2>
@@ -620,7 +344,7 @@
                 </section>
 
                 <section>
-                    <h2>Route the PR to the right humans</h2>
+                    <h2>Route the PR to the right Engineers</h2>
                     <div class="grid-4 compact">
                         <div class="card context"><strong>API · event · schema</strong><br />Domain + system owners</div>
                         <div class="card agent"><strong>Auth · secrets · dependencies</strong><br />Security + platform</div>
@@ -630,6 +354,7 @@
                     <p>The right reviewer depends on the risk, not on who is available.</p>
                 </section>
 
+                <!-- 
                 <section>
                     <h2>The PR Human Control Plane</h2>
                     <div class="grid-3 compact">
@@ -641,6 +366,7 @@
                         <div class="card context"><strong>TRACE</strong><br />what decision and outcome remain?</div>
                     </div>
                 </section>
+                -->
 
                 <section>
                     <h2>A human decision has four valid outcomes</h2>
@@ -655,6 +381,9 @@
 
                 <section>
                     <h2>Merge is not the end of the loop</h2>
+                    <p>
+                        Monitor, roll back, preserve evidence, and improve the control that failed.
+                    </p>
                     <div class="flow compact">
                         <div class="card agent">Agent-created PR</div>
                         <div class="arrow">→</div>
@@ -663,19 +392,21 @@
                         <div class="card evidence">Observe outcome</div>
                     </div>
                     <p class="statement">Prediction ↔ outcome ↔ corrective action</p>
-                    <p>Monitor, roll back, preserve evidence, and improve the control that failed.</p>
                 </section>
             </section>
 
             <section>
                 <section class="section-divider">
-                    <p class="act-number">ACT III</p>
+                    <p class="act-number">ACT VI</p>
                     <h1>Governance that reaches the PR</h1>
                     <p>Laws, standards, and frameworks become useful when they change engineering decisions.</p>
                 </section>
 
                 <section>
                     <h2>Governance is a control stack</h2>
+                    <p>
+                        HITL is the decision mechanism connecting policy to execution.
+                    </p>
                     <small>
                         <div class="governance-stack compact">
                             <div class="grid-3">
@@ -691,7 +422,6 @@
                             <div class="card evidence"><strong>Evidence and outcomes</strong> · decision · deployment · monitoring · audit · corrective action</div>
                         </div>
                     </small>
-                    <p class="tiny">HITL is the decision mechanism connecting policy to execution.</p>
                 </section>
 
                 <section>
@@ -710,7 +440,7 @@
                             <p>How do we organize risk, decisions, and assurance?</p>
                         </div>
                     </div>
-                    <p class="lead">Internal policy translates all three into enforceable PR controls.</p>
+                    <p>Internal policy translates all three into enforceable PR controls.</p>
                 </section>
 
                 <section class="regulation-slide">
@@ -733,44 +463,42 @@
                 <section>
                     <h2>Cross-cutting legal triggers</h2>
                     <div class="grid-4 compact">
-                        <div class="card risk"><strong>EU AI Act · 801</strong><br />AI classification, transparency, oversight</div>
-                        <div class="card context"><strong>GDPR · 803</strong><br />Personal data, minimization, rights, retention</div>
-                        <div class="card agent"><strong>CRA · 805</strong><br />Secure by design, SBOM, vulnerabilities, updates</div>
-                        <div class="card evidence"><strong>Product Liability · 812</strong><br />Safety, instructions, agent actions, corrective updates</div>
+                        <div class="card risk"><strong>EU AI Act</strong><br />AI classification, transparency, oversight</div>
+                        <div class="card context"><strong>GDPR</strong><br />Personal data, minimization, rights, retention</div>
+                        <div class="card agent"><strong>CRA</strong><br />Secure by design, SBOM, vulnerabilities, updates</div>
+                        <div class="card evidence"><strong>Product Liability</strong><br />Safety, instructions, agent actions, corrective updates</div>
                     </div>
-                    <p class="tiny">Engineering routing guidance, not a final legal applicability determination.</p>
+                    <p>Engineering routing guidance, not a final legal applicability determination.</p>
                 </section>
 
                 <section>
                     <h2>Sector and service context activates additional controls</h2>
                     <div class="grid-3 compact">
                         <div class="card context">
-                            <strong>Resilience and cybersecurity</strong><br />DORA · 802 — financial entities<br />NIS2 · 804 — essential and important entities, critical sectors
+                            <strong>Resilience and cybersecurity</strong><br />DORA, NIS2
                         </div>
                         <div class="card agent">
-                            <strong>Data and online platforms</strong><br />Data Act · 806<br />DSA · 807 · DMA · 808
+                            <strong>Data and online platforms</strong><br />Data Act, DSA, DMA
                         </div>
                         <div class="card risk">
-                            <strong>Financial markets</strong><br />MiFID II · 810<br />MAR · 811
+                            <strong>Financial markets</strong><br />MiFID II, MAR   
                         </div>
                     </div>
-                    <p class="tiny">Classify the entity, sector, service, and Member State before selecting controls and reviewers.</p>
-                    <p class="tiny">NIS2 applicability, national transposition, incident-reporting duties, and regulatory interpretation require qualified owner review.</p>
+                    <p>Classify the entity, sector, service, and Member State before selecting controls and reviewers.</p>
                 </section>
 
                 <section>
                     <h2>Standards turn governance into managed evidence</h2>
                     <div class="grid-2 compact">
                         <div class="card evidence">
-                            <h3>ISO/IEC 42001 · 813</h3>
+                            <h3>ISO/IEC 42001</h3>
                             <p>AI inventory · ownership · generated-code review · provider and data boundaries · risk treatment · monitoring · corrective action</p>
                         </div>
                         <div class="card context">
-                            <h3>ISO/IEC 25010:2023 · 814</h3>
+                            <h3>ISO/IEC 25010:2023</h3>
                             <p>Functional suitability · performance · compatibility · interaction · reliability · security · maintainability · flexibility · safety</p>
                         </div>
                     </div>
-                    <p class="tiny" style="color:red">PENDING: Supporting standards in the wider ecosystem include ISO/IEC 23894, ISO/IEC 27001, and ISO 31000; they are not dedicated Plinth 8xx skills today.</p>
                 </section>
 
                 <section>
@@ -807,10 +535,9 @@
             </section>
 
             <section>
-                <h2>Sources and further reading</h2>
-                <ul class="compact">
-                    <li><a href="https://github.com/jabrena/plinth" target="_blank">Plinth on GitHub</a> and
-                        <a href="https://www.skills.sh/jabrena/plinth" target="_blank">Plinth skills on Skills.sh</a></li>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://github.com/jabrena/plinth" target="_blank">Plinth</a></li>
                     <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
                             target="_blank">EU AI Act — Regulation (EU) 2024/1689</a></li>
                     <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022R2554"
