@@ -75,7 +75,7 @@
         <!-- Feature-specific plugin versions -->
         <maven-plugin-enforcer.version>3.6.3</maven-plugin-enforcer.version>
         <extra-enforcer-rules.version>1.12.0</extra-enforcer-rules.version>
-        <maven-plugin-spotless.version>3.10.0</maven-plugin-spotless.version>
+        <maven-plugin-spotless.version>3.10.1</maven-plugin-spotless.version>
         <maven-plugin-dependency-check.version>13.0.0</maven-plugin-dependency-check.version>
         <maven-plugin-snyk.version>2.3.0</maven-plugin-snyk.version>
         <maven-plugin-spotbugs.version>4.10.4.0</maven-plugin-spotbugs.version>
