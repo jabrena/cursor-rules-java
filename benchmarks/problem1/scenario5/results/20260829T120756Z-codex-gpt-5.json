@@ -1,0 +1,49 @@
+{
+  "efficiency": {
+    "wall_clock_s": 528,
+    "active_agent_s": 528,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "tokens_total": 0,
+    "cost_usd": 0
+  },
+  "outcome_quality": {
+    "acceptance_pass": true,
+    "acceptance_coverage": 1.0,
+    "rework_turns": 3,
+    "artifact_completeness": 1.0
+  },
+  "protocol_labels": {
+    "scenario": "scenario5",
+    "case_id": "case-5-direct-openspec-problem1",
+    "tool": "codex",
+    "model": "gpt-5",
+    "plinth_config": "full-plinth",
+    "commit": "acbe8de45c7d608d911cd359aa49e72dbd1d0b69",
+    "retry_count": 0,
+    "human_intervention_min": 0
+  },
+  "plinth_usage": {
+    "skills_count": 7,
+    "commands_count": 0,
+    "agents_count": 0,
+    "skills": [
+      "111-java-maven-dependencies",
+      "125-java-concurrency",
+      "133-java-testing-acceptance-tests",
+      "300-frameworks-spring-boot-create-project",
+      "302-frameworks-spring-boot-rest",
+      "323-frameworks-spring-boot-testing-acceptance-tests",
+      "707-technologies-hexagonal-architecture"
+    ],
+    "commands": [],
+    "agents": []
+  },
+  "solution_snapshot": {
+    "demo_root": "benchmarks/problem1/scenario5/demo/",
+    "tree_format": "unix-tree",
+    "tree_encoding": "base64",
+    "tree_b64": "YmVuY2htYXJrcy9wcm9ibGVtMS9zY2VuYXJpbzUvZGVtbwp8LS0gcG9tLnhtbApgLS0gc3JjCiAgICB8LS0gbWFpbgogICAgfCAgIHwtLSBqYXZhCiAgICB8ICAgfCAgIGAtLSBpbmZvCiAgICB8ICAgfCAgICAgICBgLS0gamFiCiAgICB8ICAgfCAgICAgICAgICAgYC0tIG1zCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwtLSBHb2RBbmFseXNpc0FwcGxpY2F0aW9uLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfC0tIGFkYXB0ZXIKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwtLSBpbgogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgfCAgIGAtLSByZXN0CiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICB8ICAgICAgIHwtLSBHbG9iYWxFeGNlcHRpb25IYW5kbGVyLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwgICAgICAgYC0tIEdvZFN0YXRzQ29udHJvbGxlci5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gb3V0CiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgYC0tIGh0dHAKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgfC0tIEdvZEFuYWx5c2lzUHJvcGVydGllcy5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIHwgICAgICAgICAgIHwtLSBSZXN0Q2xpZW50Q29uZmlnLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgYC0tIFJlc3RHb2RTb3VyY2VDbGllbnQuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8LS0gYXBwbGljYXRpb24KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgIHwtLSBHb2RTdGF0c1VzZUNhc2UuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIHBvcnQKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICB8LS0gaW4KICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICB8ICAgYC0tIFF1ZXJ5R29kU3RhdHMuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICB8ICAgICAgIGAtLSBvdXQKICAgIHwgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgYC0tIEdvZFNvdXJjZUNsaWVudC5qYXZhCiAgICB8ICAgfCAgICAgICAgICAgICAgIGAtLSBkb21haW4KICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHb2ROYW1lRmlsdGVyLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIHwtLSBHb2RTdGF0c0FnZ3JlZ2F0b3IuamF2YQogICAgfCAgIHwgICAgICAgICAgICAgICAgICAgfC0tIFBhbnRoZW9uU291cmNlLmphdmEKICAgIHwgICB8ICAgICAgICAgICAgICAgICAgIGAtLSBVbmljb2RlTmFtZUNvbnZlcnRlci5qYXZhCiAgICB8ICAgYC0tIHJlc291cmNlcwogICAgfCAgICAgICB8LS0gYXBwbGljYXRpb24ueW1sCiAgICB8ICAgICAgIGAtLSBvcGVuYXBpLnlhbWwKICAgIGAtLSB0ZXN0CiAgICAgICAgfC0tIGphdmEKICAgICAgICB8ICAgYC0tIGluZm8KICAgICAgICB8ICAgICAgIGAtLSBqYWIKICAgICAgICB8ICAgICAgICAgICBgLS0gbXMKICAgICAgICB8ICAgICAgICAgICAgICAgfC0tIEdvZFN0YXRzQVQuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8LS0gR29kU3RhdHNUaW1lb3V0SVQuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8LS0gYWRhcHRlcgogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIGluCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICAgICAgYC0tIHJlc3QKICAgICAgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICAgYC0tIEdvZFN0YXRzQ29udHJvbGxlclZhbGlkYXRpb25UZXN0LmphdmEKICAgICAgICB8ICAgICAgICAgICAgICAgfC0tIGFyY2hpdGVjdHVyZQogICAgICAgIHwgICAgICAgICAgICAgICB8ICAgYC0tIEhleGFnb25hbEFyY2hpdGVjdHVyZVRlc3QuamF2YQogICAgICAgIHwgICAgICAgICAgICAgICB8LS0gZG9tYWluCiAgICAgICAgfCAgICAgICAgICAgICAgIHwgICBgLS0gR29kRG9tYWluVGVzdC5qYXZhCiAgICAgICAgfCAgICAgICAgICAgICAgIGAtLSBzdXBwb3J0CiAgICAgICAgfCAgICAgICAgICAgICAgICAgICBgLS0gV2lyZU1vY2tHb2RTb3VyY2VTdXBwb3J0LmphdmEKICAgICAgICBgLS0gcmVzb3VyY2VzCiAgICAgICAgICAgIGAtLSBfX2ZpbGVzCiAgICAgICAgICAgICAgICB8LS0gZ3JlZWsuanNvbgogICAgICAgICAgICAgICAgfC0tIG5vcmRpYy5qc29uCiAgICAgICAgICAgICAgICBgLS0gcm9tYW4uanNvbgoKMzEgZGlyZWN0b3JpZXMsIDI1IGZpbGVzCg==",
+    "file_count": 25
+  }
+}
