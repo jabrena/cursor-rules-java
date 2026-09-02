@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Validating hypotheses about Plinth workflow with a Benchmark Part 2 - Plinth</title>
+  <meta name="author" content="" />
+  <meta name="description" content="">
+  <link rel="alternate" type="application/atom+xml" href="../../../feed.xml" title="Plinth"/>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../css/bootstrap-social.css" />
+  <link rel="stylesheet" href="../../../css/main.css" />
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+
+  <link rel="stylesheet" href="../../../css/asciidoctor.css">
+  <link rel="stylesheet" href="../../../css/prettify.css">
+  <link rel="icon" type="image/png" href="../../../images/java-icon.png">
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class="container-fluid">
+
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+  <span class="sr-only">Toggle navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="../../../index.html">Plinth</a>
+</div>
+
+<div class="collapse navbar-collapse" id="main-navbar">
+<ul class="nav navbar-nav navbar-right">
+  <li><a href="https://forms.gle/TpNXENjmu45wuXoi6" target="_blank">Share feedback</a></li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Conferences</a>
+    <div class="navlinks-children">
+      <a href="https://jabrena.github.io/plinth/dvbe26/index.html" target="_blank">Devoxx BE 2026</a>
+      <a href="https://jabrena.github.io/plinth/jcconf-2026/index.html" target="_blank">JCConf 2026</a>
+      <a href="https://jabrena.github.io/plinth/codemotion-madrid-2026/index.html" target="_blank">Codemotion Madrid 2026</a>
+      <a href="https://jabrena.github.io/plinth/dvbe25/index.html" target="_blank">Devoxx BE 2025</a>
+      <a href="https://jabrena.github.io/101-cursor/" target="_blank">WJAX-2025</a>
+    </div>
+  </li>
+  <li class="navlinks-container">
+    <a class="navlinks-parent" href="javascript:void(0)">Courses</a>
+    <div class="navlinks-children">
+      <a href="../../../courses/system-prompts-java/index.html">System prompts for Java</a>
+      <a href="../../../courses/java-generics/index.html">Java Generics</a>
+      <a href="../../../courses/profile-memory-leak/index.html">Memory Leak Profiling</a>
+    </div>
+  </li>
+  <li><a href="../../../archive.html">Archive</a></li>
+  <li><a href="https://jabrena-github-io.translate.goog/cursor-rules-java/?_x_tr_sl=en&_x_tr_tl=cn&_x_tr_hl=en-US&_x_tr_pto=wapp">Translate</a></li>
+</ul>
+</div>
+
+
+
+</div>
+</nav>
+
+
+
+<header class="header-section">
+
+
+<div class="intro-header no-img">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class="post-heading">
+<h1>Validating hypotheses about Plinth workflow with a Benchmark Part 2</h1>
+<span class="post-meta">
+  <i class="fa fa-calendar-o"></i>
+  2026-09-05
+    &nbsp;
+    <i class="fa fa-pencil"></i>
+    MyRobot
+</span>
+<span class="blog-tags">
+  &nbsp;
+  <i class="fa fa-tags"></i>
+    <a href="../../../tags/blog.html">blog</a>
+    <a href="../../../tags/agents.html">agents</a>
+    <a href="../../../tags/skills.html">skills</a>
+    <a href="../../../tags/openspec.html">openspec</a>
+    <a href="../../../tags/performance.html">performance</a>
+    <a href="../../../tags/java.html">java</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role="main" class="blog-post">
+<p>This is the second article in a series that tries to put a number on the value of Plinth's AI-native development workflow for Java. <a href="https://jabrena.github.io/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Part 1</a> built a <a href="https://github.com/jabrena/plinth/tree/main/benchmarks">benchmark</a> that hands the same problem to several agent tools under briefs of increasing structure, logs every run as a validated JSON record, and uses those records to test three hypotheses about whether richer workflows actually pay off. The benchmark tried to validate the followed Hyphoteses:</p>
+<ul>
+<li><strong>Hypothesis 1:</strong> Richer workflows reduce implementation rework.</li>
+<li><strong>Hypothesis 2:</strong> Delegation workflows encourage autonomous use of reusable skills.</li>
+<li><strong>Hypothesis 3:</strong> Written architectural decisions improve consistency.</li>
+</ul>
+<p>Part 1 ended with one scenario clearly ahead — but it could not say <em>why</em>, because that scenario changed two things at once: the OpenSpec plan and the orchestration command that executes it. Part 2 sets out to separate them. The goals here are concrete:</p>
+<ul>
+<li><strong>Isolate the command from the plan.</strong> A new <code>scenario5</code> runs the exact same OpenSpec technical plan as <code>scenario4</code>, implemented directly, with <code>/implement-spec</code> and its agents forbidden. <code>scenario4</code> vs <code>scenario5</code> is then a clean A/B: identical plan, orchestration the only variable.</li>
+<li><strong>Check whether the answer is problem-dependent.</strong> A second problem — a persistence-and-scheduling &quot;Greek Gods API&quot; — joins the original fan-out-and-sum one, so every finding can be read per problem.</li>
+<li><strong>Re-test all three hypotheses on a much larger dataset.</strong> The corpus has grown from 54 runs to 217 non-template records across two problems, five scenarios, four tools, and a spread of models, with outlier trimming applied consistently.</li>
+</ul>
+<h2>What is new in Part 2</h2>
+<p>Two additions to the harness:</p>
+<table>
+<thead>
+<tr><th>Addition</th><th>What it is</th></tr>
+</thead>
+<tbody>
+<tr><td><code>scenario5</code></td><td>The <strong>same</strong> OpenSpec technical plan as <code>scenario4</code> — same <code>specs/technical-requirements/openspec/</code> tree — implemented <strong>directly</strong>. <code>/implement-spec</code> is forbidden; there is no mandated agent or skill. Agents and skills are still <em>allowed</em> if the tool reaches for them on its own.</td></tr>
+<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem2">Problem 2</a></td><td>The <strong>Greek Gods API</strong> (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem5/README.md">latency-problems Problem 5</a>): a REST API that periodically syncs a Greek-gods catalogue from a third-party service into a relational database via Flyway. It is a persistence-and-scheduling problem, not a pure fan-out-and-sum one.</td></tr>
+</tbody>
+</table>
+<p>So <code>scenario4</code> (<strong>S4</strong>, orchestrated) versus <code>scenario5</code> (<strong>S5</strong>, direct) is a clean A/B: identical plan, and the only difference is whether <code>/implement-spec</code> and its agents run. Doing this across two different problems shows whether the answer is problem-dependent.</p>
+<p>The dataset has also grown a lot — from the 54 runs in Part 1 to <strong>217 non-template result records</strong> across both problems, five scenarios, and tools including <code>cursor</code>, <code>codex</code>, <code>claude-code</code>, and <code>github-copilot</code> on a spread of models (Grok 4.5, GPT-5.x, Claude Sonnet 5 / Opus 5 / Fable 5, Composer).</p>
+<h3>How long the two problems actually take</h3>
+<p>Those fences come from the full per-problem wall-clock distribution — every scenario, tool, and model pooled together. It is worth looking at that distribution on its own, because it answers the question people ask before they ask anything about workflows: <em>how long is one of these runs?</em></p>
+<table>
+<thead>
+<tr><th>Problem</th><th>Positive timings</th><th>Q1</th><th>Median</th><th>Q3</th><th>IQR</th><th>Tukey upper fence</th><th>High outliers</th><th>Non-outlier range</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Problem 1</strong> (God Analysis)</td><td>117</td><td>307 s (5:07 min)</td><td>560 s (9:20 min)</td><td>1,003 s (16:43 min)</td><td>696 s</td><td>2,047 s (34:07 min)</td><td>7</td><td><strong>51–1,908 s</strong> (0:51–31:48 min)</td></tr>
+<tr><td><strong>Problem 2</strong> (Greek Gods)</td><td>98</td><td>366 s (6:06 min)</td><td>665 s (11:05 min)</td><td>1,400 s (23:20 min)</td><td>1,034 s</td><td>2,951 s (49:11 min)</td><td>2</td><td><strong>136–2,446 s</strong> (2:16–40:46 min)</td></tr>
+</tbody>
+</table>
+<p>Problem 2 is the harder job by every measure: its median run is about two minutes longer, its middle 50% of runs span <strong>6 to 23 minutes</strong> against Problem 1's 5 to 17, and its spread (IQR) is half as wide again. The persistence-plus-scheduling problem simply takes more building than the fan-out-and-sum one — a useful planning bound in its own right, independent of which workflow produced it. It also explains why the two Tukey fences land so far apart (<strong>2,047 s for Problem 1</strong>, <strong>2,951 s for Problem 2</strong>), and why a run that would be a clear outlier on Problem 1 can be an ordinary long run on Problem 2.</p>
+<p>After trimming, the current-workflow cohort (S4 = only <code>plinth-*</code> agents recorded; S5 = no legacy <code>robot-*</code> agent) is:</p>
+<table>
+<thead>
+<tr><th></th><th>Raw records</th><th>Wall-time outliers</th><th>Retained</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>S4</strong> (orchestrated)</td><td>56</td><td>6</td><td><strong>50</strong></td></tr>
+<tr><td><strong>S5</strong> (direct)</td><td>71</td><td>3</td><td><strong>68</strong></td></tr>
+</tbody>
+</table>
+<h2>Hypothesis 1 revisited: does the command reduce rework once you already have the plan?</h2>
+<p>Here is the pooled, trimmed picture:</p>
+<table>
+<thead>
+<tr><th>Cohort</th><th>Runs</th><th>Pass rate</th><th>Avg rework turns</th><th>Zero-rework runs</th><th>Median wall time</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>S4</strong> — <code>/implement-spec</code> + agents</td><td>50</td><td>49/50 (98%)</td><td><strong>0.76</strong></td><td>44%</td><td>15:52 min (952 s)</td></tr>
+<tr><td><strong>S5</strong> — direct implementation</td><td>68</td><td>65/68 (96%)</td><td>1.21</td><td>35%</td><td><strong>10:12 min</strong> (612 s)</td></tr>
+</tbody>
+</table>
+<p>On the pooled numbers S4 comes out ahead on every reliability column — higher pass rate, lower average rework, more zero-rework runs — while S5 is about <strong>36% faster by median wall time</strong>. That is a real trade-off, not a free win: the command costs you roughly a third of your wall-clock budget to buy a lower correction rate.</p>
+<p>But &quot;pooled&quot; hides an interaction, and the per-problem split is where it shows up:</p>
+<table>
+<thead>
+<tr><th>Problem</th><th>Cohort</th><th>Pass rate</th><th>Avg rework</th><th>Zero-rework</th><th>Median wall</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="2">Problem 1 (God Analysis)</td><td>S4</td><td>17/18</td><td><strong>0.78</strong></td><td>39%</td><td>14:32 min (872 s)</td></tr>
+<tr><td>S5</td><td>28/30</td><td>1.00</td><td><strong>50%</strong></td><td><strong>9:15 min</strong> (555 s)</td></tr>
+<tr><td rowspan="2">Problem 2 (Greek Gods)</td><td>S4</td><td><strong>32/32</strong></td><td><strong>0.75</strong></td><td><strong>47%</strong></td><td>18:11 min (1,091 s)</td></tr>
+<tr><td>S5</td><td>37/38</td><td>1.37</td><td>24%</td><td><strong>11:05 min</strong> (665 s)</td></tr>
+</tbody>
+</table>
+<p>On <strong>Problem 2</strong> — the database problem — S4 is cleanly better on reliability: a perfect 32/32 pass rate, roughly half the average rework, and double the zero-rework share. It also pays for it with a bigger latency premium here (median 1,091 s vs 665 s, about 64% slower).</p>
+<p>On <strong>Problem 1</strong>, the orchestration advantage mostly evaporates. Pass rates are within a run of each other, S5 has <em>more</em> zero-rework runs, and S5 is materially faster. S4 keeps a slight edge on average rework and nothing else.</p>
+<h3>It is also model-dependent</h3>
+<p>Breaking the trimmed cohort down by model family shows the rework advantage is not universal:</p>
+<table>
+<thead>
+<tr><th>Model family</th><th>Retained runs (S4 / S5)</th><th>What the data shows</th></tr>
+</thead>
+<tbody>
+<tr><td>Cursor Grok 4.5</td><td>19 / 20</td><td>Every run passes. S5 has <em>lower</em> rework (0.35 vs 0.68), more zero-rework runs (70% vs 32%), and is faster. A clean counterexample to a model-independent S4 benefit.</td></tr>
+<tr><td>Codex GPT-5.x</td><td>13 / 23</td><td>S4 13/13 pass at 1.15 rework; S5 22/23 at 2.04. S5 about 41% faster. Favours S4 on reliability, S5 on speed.</td></tr>
+<tr><td>Claude Sonnet 5</td><td>13 / 18</td><td>S4 12/13 pass, 0.62 rework, 62% zero-rework; S5 16/18, 1.11 rework, 28% zero-rework. S4-leaning on reliability; S5 only ~11% faster.</td></tr>
+</tbody>
+</table>
+<p><strong>Hypothesis 1 holds only as a conditional trade-off.</strong> Orchestration lowers the correction rate on Problem 2 and for Codex / Sonnet 5 / Fable — always at a latency cost. On Problem 1 and for the large Grok cohort, direct implementation matches or beats it.</p>
+<h2>Hypothesis 2 revisited: what actually makes an agent use your skills?</h2>
+<p>Part 1 showed <code>scenario4</code> runs pulling in far more of the skill/command/agent library than the sparser scenarios — but it could not tell whether that was the OpenSpec documents or the delegation wiring doing it. <code>scenario5</code> answers it directly, because it hands the tool the exact same OpenSpec plan with the delegation wiring removed.</p>
+<table>
+<thead>
+<tr><th>Cohort</th><th>Runs</th><th>Avg skills used</th><th>Avg agents used</th><th>Runs with zero agents</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>S4</strong> (<code>/implement-spec</code>)</td><td>50</td><td><strong>14.2</strong></td><td><strong>2.00</strong></td><td>0 / 50</td></tr>
+<tr><td><strong>S5</strong> (direct, same plan)</td><td>68</td><td>6.0</td><td>0.26</td><td>51 / 68</td></tr>
+</tbody>
+</table>
+<p>Same plan, an order of magnitude less delegation. Every S4 run records exactly two agents (the tech-lead plus a framework coder); three quarters of S5 runs record <strong>no agent at all</strong>, and the skill count roughly halves. The documents do not trigger the machinery — the command does.</p>
+<p>Those pooled averages hide a wide spread by tool and model. Under S4 the delegation command forces the issue — every retained run logs exactly two agents whatever the tool — so the only thing left to vary is how many <em>skills</em> each run pulls in behind the command. Under S5, with nothing mandated, both numbers are the tool's own choice:</p>
+<table>
+<thead>
+<tr><th>Tool · model</th><th>S4 avg skills (runs)</th><th>S5 avg skills (runs)</th><th>S5 avg agents</th><th>S5 runs with ≥1 agent</th></tr>
+</thead>
+<tbody>
+<tr><td><code>codex</code> · GPT-5.x</td><td><strong>16.8</strong> (13)</td><td>7.4 (23)</td><td>0.00</td><td>0 / 23</td></tr>
+<tr><td><code>cursor</code> · Grok 4.5</td><td>13.2 (19)</td><td><strong>7.7</strong> (20)</td><td><strong>0.55</strong></td><td>11 / 20</td></tr>
+<tr><td><code>claude-code</code> · Sonnet 5</td><td>14.0 (13)</td><td>3.3 (18)</td><td>0.17</td><td>2 / 18</td></tr>
+</tbody>
+</table>
+<p>Two things stand out. First, <strong>self-directed skill use splits by tool, not by model family</strong>: left alone, <code>cursor</code> (Grok 4.5) and <code>codex</code> (GPT-5.x) reach for 7–8 skills a run, while every <code>claude-code</code> model settles around 3 — more than double on the Cursor/Codex side. Second, <strong>skills and agents are separate reflexes</strong>: <code>codex</code> pulls plenty of skills but never once spawns a sub-agent unprompted (0 / 23), whereas <code>cursor</code> with Grok delegates in about half its runs and <code>claude-code</code> with Fable every time on a tiny sample. The one- and two-run rows (Composer, Opus 5, Fable 5) are too thin to lean on; the Grok 4.5, GPT-5.x and Sonnet 5 rows carry the weight. All six S5 &quot;≥1 agent&quot; counts add up to the 17 self-directed-agent runs noted below.</p>
+<p>There is a caveat that keeps S5 from being a pure &quot;no-agent control&quot;: <strong>17 of 68</strong> retained S5 runs still reached for at least one agent on their own initiative (11 on Problem 1, 6 on Problem 2). So the contrast is really <em>mandated</em> full orchestration versus <em>optional</em> self-directed tool use, not orchestration versus nothing.</p>
+<p><strong>Hypothesis 2 is supported.</strong> Autonomous skill and agent use tracks the delegation command, not the richness of the specification the agent is handed.</p>
+<h2>Hypothesis 3 revisited: does the architecture survive without the command?</h2>
+<p>Part 1's finding was that the hexagonal scaffold in <code>scenario4</code> came from the written <code>design.md</code>, not from any tool's taste. If that is true, S5 should produce the same structure from the same plan — even with no orchestration.</p>
+<p>It does. Of the trimmed snapshots, <strong>an ArchUnit boundary test (<code>HexagonalArchitectureTest</code>) is present in 50/50 S4 runs and 67/68 S5 runs.</strong> The one exception is a single Codex S5 run that never wrote the test file.</p>
+<p>Holding the tool and commit constant (<code>cursor</code> / Grok 4.5, same Problem 2 commit), the S4 and S5 trees are near-identical — same ports-and-adapters split, same class names:</p>
+<p><strong>S4 — orchestrated (<code>/implement-spec</code>):</strong></p>
+<pre><code class="language-text">info/jab/ms/
+├── GreekGodsApplication.java
+├── adapter/
+│   ├── in/
+│   │   ├── rest/
+│   │   │   ├── GreekGodResource.java
+│   │   │   ├── ProblemDetails.java
+│   │   │   └── ProblemDetailsExceptionMapper.java
+│   │   └── scheduler/
+│   │       └── GodUpdater.java
+│   └── out/
+│       ├── http/
+│       │   ├── GodSourceRestClient.java
+│       │   └── RestGodSourceClient.java
+│       └── persistence/
+│           └── JdbcGreekGodRepository.java
+├── application/
+│   ├── GetGreekGodsUseCase.java
+│   ├── SynchronizeGreekGodsUseCase.java
+│   └── port/
+│       ├── in/  {QueryGreekGods, SynchronizeGreekGods}
+│       └── out/ {GodSourceClient, GreekGodRepository}
+└── domain/
+    └── GreekGod.java
+
+test/.../architecture/HexagonalArchitectureTest.java
+</code></pre>
+<p><strong>S5 — direct, same plan:</strong></p>
+<pre><code class="language-text">info/jab/ms/
+├── GreekGodsApplication.java
+├── adapter/
+│   ├── in/
+│   │   ├── rest/
+│   │   │   ├── GreekGodResource.java
+│   │   │   └── ProblemDetailsExceptionMapper.java
+│   │   └── scheduler/
+│   │       └── GodUpdater.java
+│   └── out/
+│       ├── http/
+│       │   ├── MyJsonServerApi.java
+│       │   └── RestGodSourceClient.java
+│       └── persistence/
+│           └── JdbcGreekGodRepository.java
+├── application/
+│   ├── GetGreekGodsUseCase.java
+│   ├── SynchronizeGreekGodsUseCase.java
+│   └── port/
+│       ├── in/  {QueryGreekGods, SynchronizeGreekGods}
+│       └── out/ {GodSourceClient, GreekGodRepository}
+└── domain/
+    └── GreekGod.java
+
+test/.../architecture/HexagonalArchitectureTest.java
+</code></pre>
+<p>The differences are cosmetic (a differently named HTTP client, a spare <code>ProblemDetails</code> record, where the acceptance tests are parked). The <code>adapter/in</code>, <code>adapter/out</code>, <code>application/port/{in,out}</code>, <code>domain</code> skeleton and the boundary test are identical — because they are spelled out in the OpenSpec input both scenarios receive.</p>
+<h3>A side check: how many test classes each run leaves behind</h3>
+<p>The boundary test is prescribed; the rest of the test suite is not. Every retained run's snapshot carries the full <code>src/</code> tree, so the test files each run wrote can be counted — and because the trees arrive in several <code>tree</code>/flat formats, this counts <strong>distinct <code>*Test</code> / <code>*IT</code> / <code>*AT</code> Java class names</strong> rather than reconstructing the directory layout. Setting aside the <code>HexagonalArchitectureTest</code>-style boundary test above (present in nearly every run of both cohorts), the test classes the implementer chose to add break down as:</p>
+<table>
+<thead>
+<tr><th>Problem</th><th>S4 — median (mean), runs</th><th>S5 — median (mean), runs</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Problem 1</strong> (God Analysis)</td><td>6 (6.4), n=18</td><td>5 (6.0), n=30</td></tr>
+<tr><td><strong>Problem 2</strong> (Greek Gods)</td><td><strong>5.5 (5.1)</strong>, n=32</td><td>4 (3.8), n=38</td></tr>
+<tr><td>Pooled</td><td>6 (5.6), n=50</td><td>4 (4.8), n=68</td></tr>
+</tbody>
+</table>
+<p>On <strong>Problem 1</strong> the two workflows land within half a test class of each other. On <strong>Problem 2</strong> the orchestrated runs carry about <strong>one extra test class apiece</strong> (median 5.5 vs 4, mean 5.1 vs 3.8) — the same problem where S4 also cut rework in half and hit a perfect pass rate. Counting the boundary test back in keeps the shape: 6.5 vs 5 median on Problem 2, 7 vs 6 on Problem 1. So orchestration's structural fingerprint is not in the <em>architecture</em> — that is contractual — but in a slightly thicker test layer on the harder problem.</p>
+<p>The usual caveat applies: this is <strong>file presence</strong>. A <code>*Test.java</code> in the tree is not proof it compiles, runs, or asserts anything — the single acceptance flag is still the only execution signal in the dataset.</p>
+<h3>Where orchestration does leave a fingerprint: the Maven build</h3>
+<p>Architecture is contractual, but the <code>pom.xml</code> is not fully specified, and that is where the two workflows differ — a little. Decoding and parsing every retained Problem 2 POM (all 70 are strict-Base64, well-formed XML, Java 25, and import the Quarkus BOM):</p>
+<table>
+<thead>
+<tr><th>POM property</th><th>S4 (32 POMs)</th><th>S5 (38 POMs)</th></tr>
+</thead>
+<tbody>
+<tr><td>Core REST / REST-client / PostgreSQL / Flyway / scheduler stack</td><td>32/32</td><td>38/38</td></tr>
+<tr><td>Complete, version-pinned four-plugin lifecycle</td><td><strong>28/32</strong></td><td>26/38</td></tr>
+<tr><td><code>quarkus</code> application packaging (rest are <code>jar</code>)</td><td>18/32</td><td>21/38</td></tr>
+<tr><td>SmallRye OpenAPI dependency</td><td>31/32</td><td>30/38</td></tr>
+<tr><td>ArchUnit dependency</td><td>32/32</td><td>37/38</td></tr>
+<tr><td>Native-build profile</td><td>15/32</td><td>18/38</td></tr>
+<tr><td>Custom repositories / multi-module</td><td>0/32</td><td>0/38</td></tr>
+<tr><td>Production / test / error-named Java files (means)</td><td>16.3 / 6.5 / 3.7</td><td>15.5 / 5.7 / 3.2</td></tr>
+</tbody>
+</table>
+<p>S4 pins the full Compiler / Surefire / Failsafe / Quarkus plugin set a bit more often (28/32 vs 26/38) and writes marginally more production and test files — a <strong>5–15% edge</strong>, not the large &quot;assurance surface&quot; gap an earlier read of the data suggested, and file presence still says nothing about whether those tests execute. On everything else the two are within a rounding error of each other. Packaging is a coin flip in <em>both</em> workflows: only about half of each cohort ships a <code>quarkus</code> application POM, the rest fall back to plain <code>jar</code>.</p>
+<p>The bigger story in the POMs is drift that neither workflow controls. Retained Quarkus platform versions span <strong>3.27.0 to 3.39.1</strong>, and same-commit S4/S5 pairs sometimes pick different platform versions. A recurring set of POMs declares both <code>quarkus-rest</code> and <code>quarkus-rest-jackson</code>, or adds <code>quarkus-agroal</code> next to a JDBC driver that already pulls it in; several mix <code>quarkus-junit</code> with the older <code>quarkus-junit5-*</code> coordinate family. None of that is caused by the workflow — it is the agents choosing dependencies run to run — but it is exactly the kind of variance a benchmark has to normalize before it can compare anything downstream.</p>
+<p><strong>Hypothesis 3 is supported, with a sharper conclusion than Part 1.</strong> Project shape — framework, layering, boundary test — is not an orchestration effect at all; it is a written-decision effect, reproduced just as reliably by direct implementation because the OpenSpec input prescribes it. Whatever value <code>/implement-spec</code> adds shows up in execution discipline and correction cycles, not in project structure.</p>
+<h2>Takeaways</h2>
+<p>Across two problems, five scenarios and 118 retained current-workflow runs, the S4-vs-S5 A/B is clean enough to say what <code>/implement-spec</code> does and does not buy once the OpenSpec plan already exists.</p>
+<p><strong>Hypothesis 1 — orchestration reduces rework beyond the written plan: conditionally supported.</strong><br />
+The command lowers the correction rate, but only where the work is hard. On Problem 2 — persistence, scheduling, a migration — S4 is unambiguously ahead: 32/32 pass, half the average rework (0.75 vs 1.37), double the zero-rework share (47% vs 24%), and about one extra test class per run. On Problem 1, the fan-out-and-sum task, the gap closes: pass rates tie, S5 posts <em>more</em> zero-rework runs (50% vs 39%), and S5 is faster. The price is charged whether or not the benefit shows up — S5 is ~36% faster by median wall time, and S4 produced wall-time outliers at more than twice the rate (6 of 56 vs 3 of 71). It is model-shaped too: clear help for Codex, Sonnet 5 and Fable, break-even or worse for the large Cursor/Grok cohort. Reach for <code>/implement-spec</code> on integration-heavy work, not by default.</p>
+<p><strong>Hypothesis 2 — the delegation command, not the specification, drives skill and agent use: supported.</strong><br />
+Given the identical <code>scenario4</code> plan with the orchestration stripped out, S5 runs use half the skills (6.0 vs 14.2) and almost no agents (0.26 vs 2.00 per run; 51 of 68 use none at all). Richer documents do not pull the library in — the command does. What the tools do unprompted splits by <em>tool</em>, not model family: <code>cursor</code>/Grok and <code>codex</code>/GPT-5.x self-invoke 7–8 skills a run while every <code>claude-code</code> model sits near 3, and <code>codex</code> never once spawns a sub-agent on its own. &quot;Will my skill get used&quot; today depends more on which tool is driving than on how the task is written.</p>
+<p><strong>Hypothesis 3 — written architecture holds regardless of who executes: supported, and narrower than Part 1 implied.</strong><br />
+The hexagonal scaffold and the ArchUnit boundary test appear in 67 of 68 direct runs, class-for-class identical to the orchestrated ones, because the OpenSpec input spells them out. Orchestration's only structural fingerprint is a slightly fuller Maven lifecycle (28/32 vs 26/38 pinning all four plugins) and ~5–15% more source and test files — not architecture. What <em>neither</em> workflow controls is the dependency graph: Quarkus platform versions from 3.27.0 to 3.39.1, an H2 test driver in roughly half the POMs either way, redundant <code>quarkus-rest*</code> / <code>quarkus-agroal</code> declarations, mixed JUnit coordinates, and a <code>jar</code>-vs-<code>quarkus</code> packaging coin flip in both cohorts.</p>
+<p><strong>The load-bearing caveat.</strong> Every number here rests on file presence plus a single pass/fail flag. A <code>*Test.java</code> in the tree is not a test that compiles, runs, or asserts anything, and <code>mvn verify</code> output is never captured. Until that closes, &quot;less rework&quot; means &quot;the acceptance check went green in fewer turns&quot;, not &quot;the code is more correct&quot;.</p>
+<h2>Next steps</h2>
+<p>The data points at a handful of concrete changes to <code>/implement-spec</code>, each tied to a finding above:</p>
+<ol>
+<li><strong>Cut the latency — scale orchestration to the task.</strong> The full tech-lead + framework-coder fan-out runs on every task, but the rework payoff only lands on the integration-heavy problem; on Problem 1 it buys nothing and still costs ~36% more wall time and more than twice the wall-time-outlier rate. Grade the task up front — integration count, persistence, migrations, concurrency, external services — and run the full fan-out only above a threshold. Below it, a single implementation pass plus one verification checkpoint should match it for far less time.</li>
+<li><strong>Find and keep only the active ingredient.</strong> An S4 run pulls ~14 skills and 2 agents; the correction-rate benefit may come from a single verification pass. Log which sub-step fired and what each one caught, then drop — or background — the steps that never move rework.</li>
+</ol>
+<h2>Share your insights</h2>
+<p>Share findings or raise questions about the harness itself on <a href="https://github.com/jabrena/plinth/discussions">GitHub Discussions</a>.</p>
+
+</article>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="container beautiful-jekyll-footer">
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+    <li>
+    <a href="https://twitter.com/juanantoniobm" title="Twitter">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/jabrena/plinth" title="GitHub">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a href="../../../feed.xml" title="RSS">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+</ul>
+<p class="copyright text-muted">
+&copy; Juan Antonio Breña Moral, 2026 |
+Baked with <a href="http://jbake.org">JBake v2.7.0</a>
+</p>
+<p class="theme-by text-muted">
+  Theme by <a href="https://github.com/Yamane/beautiful-jbake/" target="_blank">beautiful-jbake</a>
+  adapted from <a href="http://deanattali.com/beautiful-jekyll/" target="_blank">beautiful-jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="../../../js/jquery-1.11.2.min.js"></script>
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/prettify.js"></script>
+<script src="../../../js/run_prettify.js"></script>
+<script src="../../../js/main.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-13CV90H4J4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-13CV90H4J4');
+</script>
+
+</body>
+</html>
