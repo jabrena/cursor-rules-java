@@ -66,7 +66,7 @@
         <archunit.version>1.5.0</archunit.version>
 
         <!-- Core build plugin versions -->
-        <maven-plugin-compiler.version>3.15.0</maven-plugin-compiler.version>
+        <maven-plugin-compiler.version>3.16.0</maven-plugin-compiler.version>
         <maven-plugin-surefire.version>3.5.6</maven-plugin-surefire.version>
         <maven-plugin-resources.version>3.5.0</maven-plugin-resources.version>
         <maven-plugin-clean.version>3.5.0</maven-plugin-clean.version>
