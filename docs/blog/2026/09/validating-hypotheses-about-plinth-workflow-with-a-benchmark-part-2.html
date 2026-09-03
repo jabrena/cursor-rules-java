@@ -108,30 +108,53 @@
 <div class="row">
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 <article role="main" class="blog-post">
-<p>This is the second article in a series that tries to put a number on the value of Plinth's AI-native development workflow for Java. <a href="https://jabrena.github.io/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Part 1</a> built a <a href="https://github.com/jabrena/plinth/tree/main/benchmarks">benchmark</a> that hands the same problem to several agent tools under briefs of increasing structure, logs every run as a validated JSON record, and uses those records to test three hypotheses about whether richer workflows actually pay off. The benchmark tried to validate the followed Hyphoteses:</p>
+<p>This is the second article in a series that tries to put a number on the value of Plinth's AI-native development workflow for Java. In <a href="https://jabrena.github.io/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html">Part 1</a> article, it showed the <a href="https://github.com/jabrena/plinth/tree/main/benchmarks">benchmark</a> results around 4 scenarios:</p>
+<table>
+<thead>
+<tr><th>Scenario</th><th>What the agent gets</th></tr>
+</thead>
+<tbody>
+<tr><td><code>scenario1</code></td><td>A minimal README only — baseline, sparsest possible brief</td></tr>
+<tr><td><code>scenario2</code></td><td>A full functional-requirements package: user story, Gherkin, OpenAPI, ADRs</td></tr>
+<tr><td><code>scenario3</code></td><td>An OpenSpec change created by the official <a href="https://www.skills.sh/fission-ai/openspec/openspec-propose"><code>openspec-propose</code></a> skill using as input the same functional requirements from scenario 2.</td></tr>
+<tr><td><code>scenario4</code></td><td>An OpenSpec change created by the Plinth skill <code>/create-spec</code> and enriched with <code>/explore-design</code> and finally implemented via <code>/implement-spec</code>.</td></tr>
+</tbody>
+</table>
+<p>The benchmark tried to validate the followed Hyphoteses:</p>
 <ul>
 <li><strong>Hypothesis 1:</strong> Richer workflows reduce implementation rework.</li>
 <li><strong>Hypothesis 2:</strong> Delegation workflows encourage autonomous use of reusable skills.</li>
 <li><strong>Hypothesis 3:</strong> Written architectural decisions improve consistency.</li>
 </ul>
-<p>Part 1 ended with one scenario clearly ahead — but it could not say <em>why</em>, because that scenario changed two things at once: the OpenSpec plan and the orchestration command that executes it. Part 2 sets out to separate them. The goals here are concrete:</p>
+<p>Part 1 ended with a clear result — implementing a problem from a written specification pays off — and one scenario clearly ahead of the rest. But it could not say <em>why</em> that scenario won, because it changed two things at once: the OpenSpec plan and the orchestration command that executes it. Part 2 sets out to separate them. The goals here are concrete:</p>
 <ul>
 <li><strong>Isolate the command from the plan.</strong> A new <code>scenario5</code> runs the exact same OpenSpec technical plan as <code>scenario4</code>, implemented directly, with <code>/implement-spec</code> and its agents forbidden. <code>scenario4</code> vs <code>scenario5</code> is then a clean A/B: identical plan, orchestration the only variable.</li>
 <li><strong>Check whether the answer is problem-dependent.</strong> A second problem — a persistence-and-scheduling &quot;Greek Gods API&quot; — joins the original fan-out-and-sum one, so every finding can be read per problem.</li>
 <li><strong>Re-test all three hypotheses on a much larger dataset.</strong> The corpus has grown from 54 runs to 217 non-template records across two problems, five scenarios, four tools, and a spread of models, with outlier trimming applied consistently.</li>
 </ul>
 <h2>What is new in Part 2</h2>
-<p>Two additions to the harness:</p>
+<p>Two additions to the harness: a new scenario, and a second problem.</p>
+<p><strong>The two scenarios under comparison:</strong></p>
 <table>
 <thead>
-<tr><th>Addition</th><th>What it is</th></tr>
+<tr><th>Scenario</th><th>How the plan is implemented</th></tr>
 </thead>
 <tbody>
-<tr><td><code>scenario5</code></td><td>The <strong>same</strong> OpenSpec technical plan as <code>scenario4</code> — same <code>specs/technical-requirements/openspec/</code> tree — implemented <strong>directly</strong>. <code>/implement-spec</code> is forbidden; there is no mandated agent or skill. Agents and skills are still <em>allowed</em> if the tool reaches for them on its own.</td></tr>
-<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem2">Problem 2</a></td><td>The <strong>Greek Gods API</strong> (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem5/README.md">latency-problems Problem 5</a>): a REST API that periodically syncs a Greek-gods catalogue from a third-party service into a relational database via Flyway. It is a persistence-and-scheduling problem, not a pure fan-out-and-sum one.</td></tr>
+<tr><td><code>scenario4</code> (<strong>S4</strong>, orchestrated)</td><td>The OpenSpec technical plan from <code>/create-spec</code> + <code>/explore-design</code>, implemented through <code>/implement-spec</code> — which delegates to <code>@plinth-tech-lead</code> and a framework-specific coder agent. Full orchestration is <strong>mandated</strong>.</td></tr>
+<tr><td><code>scenario5</code> (<strong>S5</strong>, direct)</td><td>The <strong>same</strong> OpenSpec technical plan as <code>scenario4</code> — same <code>specs/technical-requirements/openspec/</code> tree — implemented <strong>directly</strong>. <code>/implement-spec</code> is forbidden; there is no mandated agent or skill. Agents and skills are still <em>allowed</em> if the tool reaches for them on its own.</td></tr>
 </tbody>
 </table>
-<p>So <code>scenario4</code> (<strong>S4</strong>, orchestrated) versus <code>scenario5</code> (<strong>S5</strong>, direct) is a clean A/B: identical plan, and the only difference is whether <code>/implement-spec</code> and its agents run. Doing this across two different problems shows whether the answer is problem-dependent.</p>
+<p><strong>The two problems the A/B runs on:</strong></p>
+<table>
+<thead>
+<tr><th>Problem</th><th>What it is</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem1">Problem 1</a> — God Analysis API</td><td>The original benchmark problem (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem1/README.md">latency-problems Problem 1</a>): a REST API that fans out to a third-party service and aggregates the results. A pure <strong>fan-out-and-sum</strong> problem, carried over from Part 1.</td></tr>
+<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem2">Problem 2</a> — Greek Gods API</td><td>New in Part 2 (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem5/README.md">latency-problems Problem 5</a>): a REST API that periodically syncs a Greek-gods catalogue from a third-party service into a relational database via Flyway. A <strong>persistence-and-scheduling</strong> problem, not a pure fan-out-and-sum one.</td></tr>
+</tbody>
+</table>
+<p>So <code>scenario4</code> (<strong>S4</strong>, orchestrated) versus <code>scenario5</code> (<strong>S5</strong>, direct) is a clean A/B: identical plan, and the only difference is whether <code>/implement-spec</code> and its agents run. Running that A/B across both problems shows whether the answer is problem-dependent.</p>
 <p>The dataset has also grown a lot — from the 54 runs in Part 1 to <strong>217 non-template result records</strong> across both problems, five scenarios, and tools including <code>cursor</code>, <code>codex</code>, <code>claude-code</code>, and <code>github-copilot</code> on a spread of models (Grok 4.5, GPT-5.x, Claude Sonnet 5 / Opus 5 / Fable 5, Composer).</p>
 <h3>How long the two problems actually take</h3>
 <p>Those fences come from the full per-problem wall-clock distribution — every scenario, tool, and model pooled together. It is worth looking at that distribution on its own, because it answers the question people ask before they ask anything about workflows: <em>how long is one of these runs?</em></p>
@@ -145,16 +168,6 @@
 </tbody>
 </table>
 <p>Problem 2 is the harder job by every measure: its median run is about two minutes longer, its middle 50% of runs span <strong>6 to 23 minutes</strong> against Problem 1's 5 to 17, and its spread (IQR) is half as wide again. The persistence-plus-scheduling problem simply takes more building than the fan-out-and-sum one — a useful planning bound in its own right, independent of which workflow produced it. It also explains why the two Tukey fences land so far apart (<strong>2,047 s for Problem 1</strong>, <strong>2,951 s for Problem 2</strong>), and why a run that would be a clear outlier on Problem 1 can be an ordinary long run on Problem 2.</p>
-<p>After trimming, the current-workflow cohort (S4 = only <code>plinth-*</code> agents recorded; S5 = no legacy <code>robot-*</code> agent) is:</p>
-<table>
-<thead>
-<tr><th></th><th>Raw records</th><th>Wall-time outliers</th><th>Retained</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>S4</strong> (orchestrated)</td><td>56</td><td>6</td><td><strong>50</strong></td></tr>
-<tr><td><strong>S5</strong> (direct)</td><td>71</td><td>3</td><td><strong>68</strong></td></tr>
-</tbody>
-</table>
 <h2>Hypothesis 1 revisited: does the command reduce rework once you already have the plan?</h2>
 <p>Here is the pooled, trimmed picture:</p>
 <table>
@@ -219,6 +232,79 @@
 </table>
 <p>Two things stand out. First, <strong>self-directed skill use splits by tool, not by model family</strong>: left alone, <code>cursor</code> (Grok 4.5) and <code>codex</code> (GPT-5.x) reach for 7–8 skills a run, while every <code>claude-code</code> model settles around 3 — more than double on the Cursor/Codex side. Second, <strong>skills and agents are separate reflexes</strong>: <code>codex</code> pulls plenty of skills but never once spawns a sub-agent unprompted (0 / 23), whereas <code>cursor</code> with Grok delegates in about half its runs and <code>claude-code</code> with Fable every time on a tiny sample. The one- and two-run rows (Composer, Opus 5, Fable 5) are too thin to lean on; the Grok 4.5, GPT-5.x and Sonnet 5 rows carry the weight. All six S5 &quot;≥1 agent&quot; counts add up to the 17 self-directed-agent runs noted below.</p>
 <p>There is a caveat that keeps S5 from being a pure &quot;no-agent control&quot;: <strong>17 of 68</strong> retained S5 runs still reached for at least one agent on their own initiative (11 on Problem 1, 6 on Problem 2). So the contrast is really <em>mandated</em> full orchestration versus <em>optional</em> self-directed tool use, not orchestration versus nothing.</p>
+<h3>Which skills get pulled in, per problem</h3>
+<p>The pooled &quot;6.0 vs 14.2&quot; gap has a specific shape once it is split by problem and the skills are lined up by how often they appear. Each table counts <strong>retained runs that pulled the skill in at least once</strong> — the JSON records skills as a per-run set, so this is run frequency, not invocation count — sorted by the combined S4 + S5 total. The cohorts are the same trimmed ones used everywhere else in this section.</p>
+<p><strong>Problem 1 — God Analysis API (Spring Boot).</strong> S4 <code>n = 18</code>, S5 <code>n = 30</code>.</p>
+<table>
+<thead>
+<tr><th>Skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/300-frameworks-spring-boot-create-project"><code>300-frameworks-spring-boot-create-project</code></a></td><td>17</td><td>23</td><td>40</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/302-frameworks-spring-boot-rest"><code>302-frameworks-spring-boot-rest</code></a></td><td>17</td><td>20</td><td>37</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/707-technologies-hexagonal-architecture"><code>707-technologies-hexagonal-architecture</code></a></td><td>13</td><td>24</td><td>37</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323-frameworks-spring-boot-testing-acceptance-tests</code></a></td><td>16</td><td>19</td><td>35</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322-frameworks-spring-boot-testing-integration-tests</code></a></td><td>15</td><td>17</td><td>32</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>16</td><td>15</td><td>31</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/301-frameworks-spring-boot-core"><code>301-frameworks-spring-boot-core</code></a></td><td>16</td><td>13</td><td>29</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321-frameworks-spring-boot-testing-unit-tests</code></a></td><td>15</td><td>12</td><td>27</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/042-planning-openspec"><code>042-planning-openspec</code></a></td><td><strong>18</strong></td><td>6</td><td>24</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/125-java-concurrency"><code>125-java-concurrency</code></a></td><td>9</td><td>10</td><td>19</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/701-technologies-openapi"><code>701-technologies-openapi</code></a></td><td><strong>16</strong></td><td>3</td><td>19</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/303-frameworks-spring-boot-validation"><code>303-frameworks-spring-boot-validation</code></a></td><td>12</td><td>6</td><td>18</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/124-java-secure-coding"><code>124-java-secure-coding</code></a></td><td><strong>14</strong></td><td>1</td><td>15</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/126-java-exception-handling"><code>126-java-exception-handling</code></a></td><td>10</td><td>1</td><td>11</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/111-java-maven-dependencies"><code>111-java-maven-dependencies</code></a></td><td>3</td><td><strong>7</strong></td><td>10</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/122-java-type-design"><code>122-java-type-design</code></a></td><td>8</td><td>1</td><td>9</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/051-design-two-steps-methods"><code>051-design-two-steps-methods</code></a></td><td>4</td><td>3</td><td>7</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/110-java-maven-best-practices"><code>110-java-maven-best-practices</code></a></td><td>4</td><td>3</td><td>7</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/181-java-observability-logging"><code>181-java-observability-logging</code></a></td><td>7</td><td>0</td><td>7</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>4</td><td>2</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design"><code>121-java-object-oriented-design</code></a></td><td>6</td><td>0</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>5</td><td>1</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133-java-testing-acceptance-tests</code></a></td><td>0</td><td>6</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/112-java-maven-plugins"><code>112-java-maven-plugins</code></a></td><td>2</td><td>1</td><td>3</td></tr>
+<tr><td colspan="4"><em>tail (total ≤ 2): <a href="https://www.skills.sh/jabrena/plinth/143-java-functional-exception-handling"><code>143-java-functional-exception-handling</code></a> (2/0), <a href="https://www.skills.sh/jabrena/plinth/142-java-functional-programming"><code>142-java-functional-programming</code></a> (1/0), <a href="https://www.skills.sh/jabrena/plinth/052-design-hamburger-method"><code>052-design-hamburger-method</code></a> (1/0), <a href="https://www.skills.sh/jabrena/plinth/131-java-testing-unit-testing"><code>131-java-testing-unit-testing</code></a> (0/1), <a href="https://www.skills.sh/jabrena/plinth/132-java-testing-integration-testing"><code>132-java-testing-integration-testing</code></a> (0/1)</em></td></tr>
+</tbody>
+</table>
+<p>The framework scaffold sits at the top and is used heavily by <em>both</em> cohorts — <code>create-project</code> (17/18 vs 23/30), <code>-rest</code>, the three <code>-testing-</code> skills, <code>wiremock</code> — because the OpenSpec plan names those technologies directly, so a direct implementer walks into them anyway. <code>707-…-hexagonal-architecture</code> is actually <em>more</em> common under S5 (24/30) than S4 (13/18): it is written into <code>design.md</code>, and the S4 tech-lead does not always re-log it.</p>
+<p>The divergence is entirely in the cross-cutting discipline skills. <code>042-planning-openspec</code> goes 18/18 → 6/30; <code>701-…-openapi</code> 16 → 3, <code>124-java-secure-coding</code> 14 → 1, <code>126-java-exception-handling</code> 10 → 1, <code>122-java-type-design</code> 8 → 1, <code>181-java-observability-logging</code> 7 → 0, <code>121-java-object-oriented-design</code> 6 → 0. The only skill S5 reaches for <em>more</em> than S4 is <code>111-java-maven-dependencies</code> (3 → 7) — implementing directly, the tool edits the POM itself instead of delegating it — and S5 grabs the generic <code>133-java-testing-acceptance-tests</code> (0 → 6) where S4 uses the Spring-specific <code>323-…</code>.</p>
+<p><strong>Problem 2 — Greek Gods API (Quarkus, persistence + scheduling).</strong> S4 <code>n = 32</code>, S5 <code>n = 38</code>.</p>
+<table>
+<thead>
+<tr><th>Skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/707-technologies-hexagonal-architecture"><code>707-technologies-hexagonal-architecture</code></a></td><td>32</td><td>36</td><td>68</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/400-frameworks-quarkus-create-project"><code>400-frameworks-quarkus-create-project</code></a></td><td>30</td><td>29</td><td>59</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/423-frameworks-quarkus-testing-acceptance-tests"><code>423-frameworks-quarkus-testing-acceptance-tests</code></a></td><td>31</td><td>23</td><td>54</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/413-frameworks-quarkus-db-migrations-flyway"><code>413-frameworks-quarkus-db-migrations-flyway</code></a></td><td><strong>32</strong></td><td>21</td><td>53</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/411-frameworks-quarkus-jdbc"><code>411-frameworks-quarkus-jdbc</code></a></td><td>31</td><td>21</td><td>52</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/402-frameworks-quarkus-rest"><code>402-frameworks-quarkus-rest</code></a></td><td>31</td><td>19</td><td>50</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/401-frameworks-quarkus-core"><code>401-frameworks-quarkus-core</code></a></td><td>31</td><td>15</td><td>46</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421-frameworks-quarkus-testing-unit-tests</code></a></td><td>31</td><td>10</td><td>41</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/042-planning-openspec"><code>042-planning-openspec</code></a></td><td><strong>32</strong></td><td>2</td><td>34</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/701-technologies-openapi"><code>701-technologies-openapi</code></a></td><td><strong>30</strong></td><td>3</td><td>33</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/704-technologies-sql"><code>704-technologies-sql</code></a></td><td><strong>26</strong></td><td>1</td><td>27</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/422-frameworks-quarkus-testing-integration-tests"><code>422-frameworks-quarkus-testing-integration-tests</code></a></td><td>19</td><td>7</td><td>26</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/126-java-exception-handling"><code>126-java-exception-handling</code></a></td><td><strong>20</strong></td><td>1</td><td>21</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/124-java-secure-coding"><code>124-java-secure-coding</code></a></td><td><strong>19</strong></td><td>0</td><td>19</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/111-java-maven-dependencies"><code>111-java-maven-dependencies</code></a></td><td>4</td><td><strong>13</strong></td><td>17</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>13</td><td>0</td><td>13</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133-java-testing-acceptance-tests</code></a></td><td>3</td><td>10</td><td>13</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/122-java-type-design"><code>122-java-type-design</code></a></td><td>11</td><td>0</td><td>11</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/121-java-object-oriented-design"><code>121-java-object-oriented-design</code></a></td><td>8</td><td>0</td><td>8</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>8</td><td>0</td><td>8</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/123-java-design-patterns"><code>123-java-design-patterns</code></a></td><td>5</td><td>0</td><td>5</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/143-java-functional-exception-handling"><code>143-java-functional-exception-handling</code></a></td><td>4</td><td>0</td><td>4</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/110-java-maven-best-practices"><code>110-java-maven-best-practices</code></a></td><td>3</td><td>0</td><td>3</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/181-java-observability-logging"><code>181-java-observability-logging</code></a></td><td>3</td><td>0</td><td>3</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>3</td><td>0</td><td>3</td></tr>
+<tr><td colspan="4"><em>tail (total ≤ 2): <a href="https://www.skills.sh/jabrena/plinth/052-design-hamburger-method"><code>052-design-hamburger-method</code></a> (1/0), <a href="https://www.skills.sh/jabrena/plinth/112-java-maven-plugins"><code>112-java-maven-plugins</code></a> (0/1)</em></td></tr>
+</tbody>
+</table>
+<p>Same pattern, sharper. <code>707-…-hexagonal-architecture</code> is near-universal in both (32/32, 36/38) — contractual. The Quarkus scaffold and the persistence skills are used by both cohorts, but the gap is wider than on Problem 1: <code>413-…-flyway</code> 32/32 → 21/38, <code>423-…-acceptance-tests</code> 31 → 23, <code>421-…-unit-tests</code> 31 → 10. The pure-knowledge skills collapse outright: <code>704-technologies-sql</code> 26 → 1, <code>124-java-secure-coding</code> 19 → 0, <code>126-java-exception-handling</code> 20 → 1, <code>054-design-tdd</code> 13 → 0, <code>122-java-type-design</code> 11 → 0, and the <code>121</code>/<code>130</code>/<code>123</code> design skills 5–8 → 0. As on Problem 1, <code>111-java-maven-dependencies</code> is the lone skill S5 leans on harder (4 → 13). Self-directed agent use is rarer here too — 32 of 38 S5 runs used no agent at all, against 19 of 30 on Problem 1 — so on the harder problem the tools fall back to plain implementation even more.</p>
+<p><strong>Across both problems the split is the same.</strong> Skills that name a <em>technology the plan already specifies</em> — framework create / rest / test, hexagonal architecture, Flyway, JDBC, WireMock — get used with or without the command. Skills that encode <em>cross-cutting practice</em> — <code>openspec</code> planning, <code>openapi</code>, secure-coding, exception-handling, type-design, TDD, OO / design-pattern, observability — are pulled in almost only when <code>/implement-spec</code> drives. That difference is what the &quot;14.2 vs 6.0&quot; is made of.</p>
 <p><strong>Hypothesis 2 is supported.</strong> Autonomous skill and agent use tracks the delegation command, not the richness of the specification the agent is handed.</p>
 <h2>Hypothesis 3 revisited: does the architecture survive without the command?</h2>
 <p>Part 1's finding was that the hexagonal scaffold in <code>scenario4</code> came from the written <code>design.md</code>, not from any tool's taste. If that is true, S5 should produce the same structure from the same plan — even with no orchestration.</p>
@@ -327,7 +413,6 @@ The hexagonal scaffold and the ArchUnit boundary test appear in 67 of 68 direct 
 <p>The data points at a handful of concrete changes to <code>/implement-spec</code>, each tied to a finding above:</p>
 <ol>
 <li><strong>Cut the latency — scale orchestration to the task.</strong> The full tech-lead + framework-coder fan-out runs on every task, but the rework payoff only lands on the integration-heavy problem; on Problem 1 it buys nothing and still costs ~36% more wall time and more than twice the wall-time-outlier rate. Grade the task up front — integration count, persistence, migrations, concurrency, external services — and run the full fan-out only above a threshold. Below it, a single implementation pass plus one verification checkpoint should match it for far less time.</li>
-<li><strong>Find and keep only the active ingredient.</strong> An S4 run pulls ~14 skills and 2 agents; the correction-rate benefit may come from a single verification pass. Log which sub-step fired and what each one caught, then drop — or background — the steps that never move rework.</li>
 </ol>
 <h2>Share your insights</h2>
 <p>Share findings or raise questions about the harness itself on <a href="https://github.com/jabrena/plinth/discussions">GitHub Discussions</a>.</p>
