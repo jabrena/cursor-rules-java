@@ -6,7 +6,7 @@ author=MyRobot
 status=published
 ~~~~~~
 
-This is the second article in a series that tries to put a number on the value of Plinth's AI-native development workflow for Java. In [Part 1](https://jabrena.github.io/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html) article, it showed the [benchmark](https://github.com/jabrena/plinth/tree/main/benchmarks) results around 4 scenarios:
+This is the second article in a series that tries to put a number on the value of Plinth's AI-native development workflow for Java. The [Part 1](https://jabrena.github.io/plinth/blog/2026/07/validating-hypotheses-about-plinth-workflow-with-a-benchmark-part-1.html) article showed the [benchmark](https://github.com/jabrena/plinth/tree/main/benchmarks) results across 4 scenarios:
 
 <table>
 <thead>
@@ -20,7 +20,7 @@ This is the second article in a series that tries to put a number on the value o
 </tbody>
 </table>
 
-The benchmark tried to validate the followed Hyphoteses:
+The benchmark tried to validate the following hypotheses:
 
 - **Hypothesis 1:** Richer workflows reduce implementation rework.
 - **Hypothesis 2:** Delegation workflows encourage autonomous use of reusable skills.
@@ -55,18 +55,18 @@ Two additions to the harness: a new scenario, and a second problem.
 <tr><th>Problem</th><th>What it is</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem1">Problem 1</a> — God Analysis API</td><td>The original benchmark problem (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem1/README.md">latency-problems Problem 1</a>): a REST API that fans out to a third-party service and aggregates the results. A pure <strong>fan-out-and-sum</strong> problem, carried over from Part 1.</td></tr>
-<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem2">Problem 2</a> — Greek Gods API</td><td>New in Part 2 (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem5/README.md">latency-problems Problem 5</a>): a REST API that periodically syncs a Greek-gods catalogue from a third-party service into a relational database via Flyway. A <strong>persistence-and-scheduling</strong> problem, not a pure fan-out-and-sum one.</td></tr>
+<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem1">Problem 1</a> — God Analysis API</td><td>The original benchmark problem (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem1/README.md">latency-problems Problem 1</a>): a <strong>Spring Boot</strong> REST API that fans out to a third-party service and aggregates the results. A pure <strong>fan-out-and-sum</strong> problem, carried over from Part 1.</td></tr>
+<tr><td><a href="https://github.com/jabrena/plinth/tree/main/benchmarks/problem2">Problem 2</a> — Greek Gods API</td><td>New in Part 2 (<a href="https://github.com/jabrena/latency-problems/blob/master/docs/problem5/README.md">latency-problems Problem 5</a>): a <strong>Quarkus</strong> REST API that periodically syncs a Greek-gods catalogue from a third-party service into a relational database via Flyway. A <strong>persistence-and-scheduling</strong> problem, not a pure fan-out-and-sum one.</td></tr>
 </tbody>
 </table>
 
 So `scenario4` (**S4**, orchestrated) versus `scenario5` (**S5**, direct) is a clean A/B: identical plan, and the only difference is whether `/implement-spec` and its agents run. Running that A/B across both problems shows whether the answer is problem-dependent.
 
-The dataset has also grown a lot — from the 54 runs in Part 1 to **217 non-template result records** across both problems, five scenarios, and tools including `cursor`, `codex`, `claude-code`, and `github-copilot` on a spread of models (Grok 4.5, GPT-5.x, Claude Sonnet 5 / Opus 5 / Fable 5, Composer).
+Part 2 runs the benchmark on **Plinth v0.18.0**; Part 1 used **Plinth v0.17.0**.
 
 ### How long the two problems actually take
 
-Those fences come from the full per-problem wall-clock distribution — every scenario, tool, and model pooled together. It is worth looking at that distribution on its own, because it answers the question people ask before they ask anything about workflows: *how long is one of these runs?*
+The Tukey fences below come from the full per-problem wall-clock distribution — every scenario, tool, and model pooled together. It is worth looking at that distribution on its own, because it answers the question people ask before they ask anything about workflows: *how long is one of these runs?*
 
 <table>
 <thead>
@@ -339,9 +339,122 @@ On **Problem 1** the two workflows land within half a test class of each other. 
 
 The usual caveat applies: this is **file presence**. A `*Test.java` in the tree is not proof it compiles, runs, or asserts anything — the single acceptance flag is still the only execution signal in the dataset.
 
+**Which testing skills each harness reaches for.** The per-problem skill tables earlier in this section pool all three tools. Splitting the **same trimmed S4/S5 cohorts** by harness — and keeping only the skills whose name marks them as test work (`*-testing-*`, `054-design-tdd`, `702-technologies-wiremock`) — shows each tool has its own testing-skill reflex once `/implement-spec` is out of the picture. The `claude-code` rows are restricted to **Sonnet 5** samples (the Opus 5 / Fable 5 runs are 1–5 apiece, too thin to read); `codex` is all GPT-5.x and `cursor` is Grok 4.5 plus a little Composer. Every cell counts **retained runs that pulled the skill in at least once**, sorted by the combined S4 + S5 total.
+
+#### `claude-code` (Sonnet 5)
+
+**Problem 1 — God Analysis API (Spring Boot).** S4 `n = 3`, S5 `n = 8`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323-frameworks-spring-boot-testing-acceptance-tests</code></a></td><td>3</td><td>4</td><td>7</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>3</td><td>4</td><td>7</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321-frameworks-spring-boot-testing-unit-tests</code></a></td><td>3</td><td>3</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322-frameworks-spring-boot-testing-integration-tests</code></a></td><td>3</td><td>3</td><td>6</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>1</td><td>0</td><td>1</td></tr>
+</tbody>
+</table>
+
+**Problem 2 — Greek Gods API (Quarkus).** S4 `n = 10`, S5 `n = 10`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/423-frameworks-quarkus-testing-acceptance-tests"><code>423-frameworks-quarkus-testing-acceptance-tests</code></a></td><td>10</td><td>2</td><td>12</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421-frameworks-quarkus-testing-unit-tests</code></a></td><td>10</td><td>0</td><td>10</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>2</td><td>0</td><td>2</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/422-frameworks-quarkus-testing-integration-tests"><code>422-frameworks-quarkus-testing-integration-tests</code></a></td><td>1</td><td>0</td><td>1</td></tr>
+</tbody>
+</table>
+
+Under orchestration Sonnet 5 logs the framework testing trio (unit / integration / acceptance) in every run; strip the command and almost all of it disappears. On Problem 2 the only testing skill any direct Sonnet 5 run records is `423-…-acceptance-tests`, in 2 of 10 — the sparse self-directed profile seen everywhere else for this tool.
+
+#### `codex` (GPT-5.x)
+
+**Problem 1 — God Analysis API (Spring Boot).** S4 `n = 3`, S5 `n = 9`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322-frameworks-spring-boot-testing-integration-tests</code></a></td><td>3</td><td>5</td><td>8</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323-frameworks-spring-boot-testing-acceptance-tests</code></a></td><td>3</td><td>5</td><td>8</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133-java-testing-acceptance-tests</code></a></td><td>0</td><td>5</td><td>5</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321-frameworks-spring-boot-testing-unit-tests</code></a></td><td>3</td><td>1</td><td>4</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>3</td><td>0</td><td>3</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>2</td><td>0</td><td>2</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>0</td><td>1</td><td>1</td></tr>
+</tbody>
+</table>
+
+**Problem 2 — Greek Gods API (Quarkus).** S4 `n = 10`, S5 `n = 14`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/423-frameworks-quarkus-testing-acceptance-tests"><code>423-frameworks-quarkus-testing-acceptance-tests</code></a></td><td>9</td><td>11</td><td>20</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/422-frameworks-quarkus-testing-integration-tests"><code>422-frameworks-quarkus-testing-integration-tests</code></a></td><td>9</td><td>6</td><td>15</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421-frameworks-quarkus-testing-unit-tests</code></a></td><td>9</td><td>5</td><td>14</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133-java-testing-acceptance-tests</code></a></td><td>3</td><td>10</td><td>13</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>4</td><td>0</td><td>4</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>3</td><td>0</td><td>3</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>2</td><td>0</td><td>2</td></tr>
+</tbody>
+</table>
+
+`codex` keeps reaching for testing skills without the command — but it drifts from the framework-specific `323`/`423` toward the generic `133-java-testing-acceptance-tests` (0 → 5 on Problem 1, 3 → 10 on Problem 2). Unit- and integration-testing skills survive into S5 at a reduced rate, while the practice skills (`130`, `054-design-tdd`, `702-technologies-wiremock`) fall to zero.
+
+#### `cursor` (Grok 4.5 / Composer)
+
+**Problem 1 — God Analysis API (Spring Boot).** S4 `n = 9`, S5 `n = 11`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>8</td><td>10</td><td>18</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/323-frameworks-spring-boot-testing-acceptance-tests"><code>323-frameworks-spring-boot-testing-acceptance-tests</code></a></td><td>8</td><td>9</td><td>17</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/322-frameworks-spring-boot-testing-integration-tests"><code>322-frameworks-spring-boot-testing-integration-tests</code></a></td><td>7</td><td>9</td><td>16</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/321-frameworks-spring-boot-testing-unit-tests"><code>321-frameworks-spring-boot-testing-unit-tests</code></a></td><td>7</td><td>8</td><td>15</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>4</td><td>1</td><td>5</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>1</td><td>1</td><td>2</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/131-java-testing-unit-testing"><code>131-java-testing-unit-testing</code></a></td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/132-java-testing-integration-testing"><code>132-java-testing-integration-testing</code></a></td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/133-java-testing-acceptance-tests"><code>133-java-testing-acceptance-tests</code></a></td><td>0</td><td>1</td><td>1</td></tr>
+</tbody>
+</table>
+
+**Problem 2 — Greek Gods API (Quarkus).** S4 `n = 11`, S5 `n = 11`.
+
+<table>
+<thead>
+<tr><th>Testing skill</th><th>S4 runs</th><th>S5 runs</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/423-frameworks-quarkus-testing-acceptance-tests"><code>423-frameworks-quarkus-testing-acceptance-tests</code></a></td><td>11</td><td>9</td><td>20</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/421-frameworks-quarkus-testing-unit-tests"><code>421-frameworks-quarkus-testing-unit-tests</code></a></td><td>11</td><td>5</td><td>16</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/422-frameworks-quarkus-testing-integration-tests"><code>422-frameworks-quarkus-testing-integration-tests</code></a></td><td>8</td><td>1</td><td>9</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/054-design-tdd"><code>054-design-tdd</code></a></td><td>8</td><td>0</td><td>8</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/130-java-testing-strategies"><code>130-java-testing-strategies</code></a></td><td>2</td><td>0</td><td>2</td></tr>
+<tr><td><a href="https://www.skills.sh/jabrena/plinth/702-technologies-wiremock"><code>702-technologies-wiremock</code></a></td><td>1</td><td>0</td><td>1</td></tr>
+</tbody>
+</table>
+
+`cursor` is the steadiest of the three. On Problem 1 the Spring testing trio plus `702-technologies-wiremock` appear at near-identical rates with and without the command. On Problem 2 direct runs still hold onto acceptance and unit testing, but `054-design-tdd` (8 → 0) and integration testing (8 → 1) are the ones that only survive under orchestration.
+
 ### Where orchestration does leave a fingerprint: the Maven build
 
-Architecture is contractual, but the `pom.xml` is not fully specified, and that is where the two workflows differ — a little. Decoding and parsing every retained Problem 2 POM (all 70 are strict-Base64, well-formed XML, Java 25, and import the Quarkus BOM):
+Architecture is contractual, but the `pom.xml` is not fully specified, and that is where the two workflows differ — a little. Decoding and parsing every retained Problem 2 POM (all 70 are strict-Base64, well-formed XML, Java 25, and import the Quarkus BOM) gives:
 
 <table>
 <thead>
@@ -353,13 +466,14 @@ Architecture is contractual, but the `pom.xml` is not fully specified, and that 
 <tr><td><code>quarkus</code> application packaging (rest are <code>jar</code>)</td><td>18/32</td><td>21/38</td></tr>
 <tr><td>SmallRye OpenAPI dependency</td><td>31/32</td><td>30/38</td></tr>
 <tr><td>ArchUnit dependency</td><td>32/32</td><td>37/38</td></tr>
-<tr><td>Native-build profile</td><td>15/32</td><td>18/38</td></tr>
 <tr><td>Custom repositories / multi-module</td><td>0/32</td><td>0/38</td></tr>
-<tr><td>Production / test / error-named Java files (means)</td><td>16.3 / 6.5 / 3.7</td><td>15.5 / 5.7 / 3.2</td></tr>
+<tr><td>Production Java files (mean per run)</td><td>16.3</td><td>15.5</td></tr>
+<tr><td>Test Java files (mean per run)</td><td>6.5</td><td>5.7</td></tr>
+<tr><td>Error-handling classes — name contains <code>Error</code>/<code>Exception</code> (mean per run)</td><td>3.7</td><td>3.2</td></tr>
 </tbody>
 </table>
 
-S4 pins the full Compiler / Surefire / Failsafe / Quarkus plugin set a bit more often (28/32 vs 26/38) and writes marginally more production and test files — a **5–15% edge**, not the large "assurance surface" gap an earlier read of the data suggested, and file presence still says nothing about whether those tests execute. On everything else the two are within a rounding error of each other. Packaging is a coin flip in *both* workflows: only about half of each cohort ships a `quarkus` application POM, the rest fall back to plain `jar`.
+S4 pins the full Compiler / Surefire / Failsafe / Quarkus plugin set a bit more often (28/32 vs 26/38) and writes marginally more production and test files — a **5–15% edge**, not the large "assurance surface" gap an earlier read of the data suggested, and file presence still says nothing about whether those tests execute. On everything else the two are within a rounding error of each other. Packaging is a coin flip in *both* workflows: only about half of each cohort ships a `quarkus` application POM; the rest fall back to plain `jar`.
 
 The bigger story in the POMs is drift that neither workflow controls. Retained Quarkus platform versions span **3.27.0 to 3.39.1**, and same-commit S4/S5 pairs sometimes pick different platform versions. A recurring set of POMs declares both `quarkus-rest` and `quarkus-rest-jackson`, or adds `quarkus-agroal` next to a JDBC driver that already pulls it in; several mix `quarkus-junit` with the older `quarkus-junit5-*` coordinate family. None of that is caused by the workflow — it is the agents choosing dependencies run to run — but it is exactly the kind of variance a benchmark has to normalize before it can compare anything downstream.
 
@@ -384,7 +498,7 @@ The hexagonal scaffold and the ArchUnit boundary test appear in 67 of 68 direct 
 
 The data points at a handful of concrete changes to `/implement-spec`, each tied to a finding above:
 
-1. **Cut the latency — scale orchestration to the task.** The full tech-lead + framework-coder fan-out runs on every task, but the rework payoff only lands on the integration-heavy problem; on Problem 1 it buys nothing and still costs ~36% more wall time and more than twice the wall-time-outlier rate. Grade the task up front — integration count, persistence, migrations, concurrency, external services — and run the full fan-out only above a threshold. Below it, a single implementation pass plus one verification checkpoint should match it for far less time.
+1. **Cut the latency.** Running the full agent fan-out on every job makes S4 about 36% slower than plain implementation (roughly 16 vs 10 minutes), and that extra time only earns its keep on hard, integration-heavy work. For simple problems, skip the fan-out and do one implementation pass plus one review — same result, much faster.
 
 ## Share your insights
 
