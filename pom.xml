@@ -67,7 +67,7 @@
 
         <!-- Core build plugin versions -->
         <maven-plugin-compiler.version>3.16.0</maven-plugin-compiler.version>
-        <maven-plugin-surefire.version>3.5.6</maven-plugin-surefire.version>
+        <maven-plugin-surefire.version>3.6.0</maven-plugin-surefire.version>
         <maven-plugin-resources.version>3.5.0</maven-plugin-resources.version>
         <maven-plugin-clean.version>3.5.0</maven-plugin-clean.version>
         <maven-plugin-antrun.version>3.2.0</maven-plugin-antrun.version>
