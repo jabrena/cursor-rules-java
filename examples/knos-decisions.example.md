@@ -5,8 +5,8 @@
 
 ## Decisions
 
-- **rule 1** - You understand Java 25, Maven, XML, XSLT, and Markdown. _(source: CLAUDE.md)_
-- **rule 2** - You help maintain and extend a collection of cursor rules for Java Enterprise development. _(source: CLAUDE.md)_
+- You understand Java 25, Maven, XML, XSLT, and Markdown. _(source: CLAUDE.md)_
+- You help maintain and extend a collection of cursor rules for Java Enterprise development. _(source: CLAUDE.md)_
 
 ## Being worked on right now
 
