@@ -435,6 +435,13 @@ execute @plinth-skills-generator/src/test/resources/gherkin/skills/200-agents-md
 and verify that acceptance-tests passes.
 ```
 
+## 202-knowledge-base
+
+```bash
+execute @plinth-skills-generator/src/test/resources/gherkin/skills/202-knowledge-base.feature
+and verify that acceptance-tests passes.
+```
+
 ## 300-frameworks-spring-boot-create-project
 
 ```bash

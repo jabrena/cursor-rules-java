@@ -1,0 +1,17 @@
+# {{REPOSITORY_NAME}} (git repository)
+
+- Origin: {{CANONICAL_URL_OR_LOCAL_PATH}}
+- Commit: {{FULL_COMMIT_SHA}}
+- Ref at ingest: {{BRANCH_OR_TAG_OR_NONE}}
+- Ingested: {{YYYY-MM-DD}}
+- Scope inspected: {{PATHS_OR_MODULES_ACTUALLY_READ}}
+- Excluded: {{PATHS_NOT_REVIEWED}}
+- License: {{LICENSE_AND_REDISTRIBUTION_NOTES}}
+
+## Summary
+
+{{NEUTRAL_SUMMARY_OF_WHAT_WAS_INSPECTED}}
+
+## Questions raised
+
+- {{QUESTION_OR_GAP}}

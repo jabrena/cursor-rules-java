@@ -1,0 +1,23 @@
+---
+type: source
+tags: [{{TAGS}}]
+updated: {{YYYY-MM-DD}}
+sources: []
+---
+# {{SOURCE_TITLE}}
+
+- Author or organization: {{AUTHOR_OR_ORGANIZATION}}
+- Published: {{PUBLISHED_DATE_OR_UNKNOWN}}
+- Location: {{RAW_SOURCE_PATH_OR_URL}}
+
+## Summary
+
+{{NEUTRAL_SUMMARY_OF_THE_SOURCE_S_CLAIMS}}
+
+## Claims integrated
+
+- {{CLAIM}} → [[{{AFFECTED_WIKI_PAGE}}]]
+
+## Questions answered or raised
+
+- {{QUESTION_OR_OPEN_GAP}}

@@ -16,3 +16,5 @@ dependency-reduced-pom.xml
 docs-local/
 docs/**/*-draft.html
 .quarkus/
+
+build-llm-wiki

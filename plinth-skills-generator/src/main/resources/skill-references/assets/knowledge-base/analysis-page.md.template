@@ -1,0 +1,27 @@
+---
+type: analysis
+tags: [{{TAGS}}]
+updated: {{YYYY-MM-DD}}
+sources: [{{SOURCE_SLUGS_THIS_DRAWS_ON}}]
+---
+# {{QUESTION_OR_ANALYSIS_TITLE}}
+
+## Question
+
+{{THE_QUESTION_THAT_PROMPTED_THIS_PAGE}}
+
+## Answer
+
+{{SYNTHESIZED_ANSWER_CITING_THE_WIKI_PAGES_IT_RESTS_ON}}
+
+## Evidence
+
+- {{SUPPORTING_POINT}} — [[{{WIKI_PAGE}}]]
+
+## Open questions
+
+- {{GAP_THE_WIKI_DOES_NOT_YET_ANSWER}}
+
+## Related
+
+- [[{{RELATED_PAGE}}]] — {{RELATIONSHIP}}

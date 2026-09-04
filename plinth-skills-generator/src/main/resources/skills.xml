@@ -419,6 +419,21 @@
             <reference>200-agents-md</reference>
         </reference-list>
     </skill>
+    <skill id="202">
+        <reference-list>
+            <reference>202-knowledge-base</reference>
+        </reference-list>
+        <resource-list>
+            <resource source="skill-references/assets/knowledge-base/source-summary.md.template"
+                target="assets/source-summary.md.template" />
+            <resource source="skill-references/assets/knowledge-base/knowledge-page.md.template"
+                target="assets/knowledge-page.md.template" />
+            <resource source="skill-references/assets/knowledge-base/analysis-page.md.template"
+                target="assets/analysis-page.md.template" />
+            <resource source="skill-references/assets/knowledge-base/git-repository-reference.md.template"
+                target="assets/git-repository-reference.md.template" />
+        </resource-list>
+    </skill>
     <skill id="300">
         <reference-list>
             <reference>300-frameworks-spring-boot-create-project</reference>

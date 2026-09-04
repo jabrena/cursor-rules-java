@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../skills.xsd"
+      id="202-knowledge-base"
+      interactive="true">
+  <metadata>
+    <author>Juan Antonio Breña Moral</author>
+    <version>0.19.0-SNAPSHOT</version>
+    <license>Apache-2.0</license>
+    <description>Use when you want to build and maintain an LLM-maintained wiki — a persistent, compounding markdown knowledge base — from a curated collection of raw sources, using a three-layer architecture (raw sources, wiki pages, schema) and repeatable ingest, query, and lint operations, rather than re-deriving connections with retrieval on every question. Sources can include git repositories, ingested as commit-pinned reference records rather than copies. This should trigger for requests such as Set up an LLM wiki; Build a knowledge base from these sources; Ingest this article into the wiki; Ingest this git repository into the wiki; Query my knowledge base; Lint the wiki for contradictions and stale claims.</description>
+  </metadata>
+
+  <title>LLM Wiki Knowledge Base</title>
+  <goal><![CDATA[
+Stand up and maintain an LLM-maintained wiki: a persistent, version-controlled collection of markdown pages that an LLM continuously synthesizes and cross-references from a curated set of raw sources, so knowledge compounds over time instead of being re-derived by retrieval on every query. **This is an interactive SKILL**.
+
+**What is covered in this Skill?**
+
+- The three-layer architecture: immutable raw sources, the LLM-written wiki, and the schema that defines structure and conventions
+- Wiki layout: entity pages, concept pages, source-summary pages, plus `index.md` (content catalogue) and `log.md` (append-only activity log)
+- Page conventions: YAML frontmatter, wikilinks for cross-references, and consistent section structure
+- Bundled page templates under `assets/`: `source-summary.md.template`, `knowledge-page.md.template` (entity/concept), `analysis-page.md.template` (filed-back query answers), and `git-repository-reference.md.template`
+- The ingest operation: read a new source, discuss findings, write a summary page, update affected entity and concept pages, refresh the index, append a log entry
+- Git-repository ingestion: fetch a repository at a pinned commit into a temporary location, record a lightweight reference document (origin URL + commit SHA) under the raw layer instead of a copy, then run the ordinary ingest operation against it
+- The query operation: answer questions from the wiki with citations, and file valuable answers back as new pages so exploration compounds
+- The lint operation: find contradictions, stale claims, orphan pages, missing cross-references, and data gaps as the wiki scales
+- How this differs from RAG: knowledge is compiled once and maintained incrementally, not reassembled per query
+- Optional scaling: keeping `index.md` sufficient at small scale, adding a search tool only when the wiki outgrows it
+]]></goal>
+
+  <constraints>
+    <constraints-description>The wiki is a git repository of markdown files. The LLM writes only the wiki and its schema; raw sources are curated by the user and never modified. Confirm structure and cadence with the user before large ingests.</constraints-description>
+    <constraint-list>
+      <constraint>**READ THE REFERENCE FIRST**: Read `references/202-knowledge-base.md` before creating or modifying any wiki page</constraint>
+      <constraint>**RAW SOURCES ARE IMMUTABLE**: Read raw sources, never edit or delete them; the user curates that layer</constraint>
+      <constraint>**GIT SOURCES ARE REFERENCE RECORDS, NOT COPIES**: Record a commit-pinned reference document (origin URL + full commit SHA) for an ingested git repository; fetch content only into a temporary location to read it, and never copy repository files or `.git/` into the raw layer</constraint>
+      <constraint>**LLM WRITES THE WIKI**: Generate and maintain wiki pages, cross-references, `index.md`, and `log.md`; the user reads and directs</constraint>
+      <constraint>**SCHEMA DRIVES STRUCTURE**: Follow the wiki's schema document for layout, naming, frontmatter, and workflow; propose schema changes explicitly rather than drifting from it</constraint>
+      <constraint>**COMPOUND, DON'T RE-DERIVE**: Integrate new information into existing pages and materialize cross-references; do not treat each query as a fresh retrieval problem</constraint>
+      <constraint>**LOG EVERY OPERATION**: Append an entry to `log.md` for each ingest, query filed back, and lint pass, using the schema's entry format</constraint>
+      <constraint>**NO INVENTED CLAIMS**: Every wiki claim must trace to a raw source; flag gaps and contradictions instead of filling them in</constraint>
+      <constraint>**CONFIRM BEFORE BULK CHANGES**: Ask before batch-ingesting many sources or restructuring existing pages</constraint>
+    </constraint-list>
+  </constraints>
+
+  <triggers>
+    <trigger-list>
+      <trigger>Set up an LLM wiki / knowledge base for these sources</trigger>
+      <trigger>Ingest this article or paper into the wiki</trigger>
+      <trigger>Ingest this git repository into the wiki, pinned to a commit</trigger>
+      <trigger>Query my knowledge base and cite the pages</trigger>
+      <trigger>File this answer back into the wiki as a page</trigger>
+      <trigger>Lint the wiki for contradictions, stale claims, and orphan pages</trigger>
+      <trigger>Draft the schema that defines this wiki's structure and conventions</trigger>
+    </trigger-list>
+  </triggers>
+
+  <steps>
+    <step number="1">
+      <step-title>Read the reference and the wiki schema</step-title>
+      <step-content>Read `references/202-knowledge-base.md` and the bundled page templates under `assets/`. If a wiki already exists, read its schema document, `index.md`, and recent `log.md` entries to learn its conventions before touching anything.</step-content>
+    </step>
+    <step number="2">
+      <step-title>Establish or confirm the three layers</step-title>
+      <step-content>Confirm where raw sources live, where the wiki pages live, and where the schema document lives. For a new wiki, ask the user for the domain, expected scale, and desired output formats, then scaffold the directory layout, an empty `index.md`, an empty `log.md`, and a first draft of the schema.</step-content>
+    </step>
+    <step number="3">
+      <step-title>Run the requested operation</step-title>
+      <step-content>For ingest: read the source, discuss key findings, write a source-summary page from `assets/source-summary.md.template`, update affected entity and concept pages (from `assets/knowledge-page.md.template` when new) with materialized wikilinks, and refresh `index.md`. For a git-repository source: fetch it at a pinned commit into a temporary location (never the raw layer), record a commit-pinned reference document from `assets/git-repository-reference.md.template` under the raw layer instead of copying its content, discard the temporary checkout, then run the same ingest steps against that reference. For query: locate relevant pages via `index.md`, synthesize an answer with citations, and offer to file it back as a new page from `assets/analysis-page.md.template`. For lint: scan for contradictions, stale claims, orphan pages, missing cross-references, and data gaps, and report a prioritized list.</step-content>
+    </step>
+    <step number="4">
+      <step-title>Update the index and append the log</step-title>
+      <step-content>Ensure every new or renamed page has an `index.md` entry with a one-line summary, then append a `log.md` entry in the schema's format recording the operation, date, and pages touched.</step-content>
+    </step>
+    <step number="5">
+      <step-title>Report and propose follow-ups</step-title>
+      <step-content>Summarize what changed, list any gaps or contradictions found, and propose next sources to acquire or investigations to run. Suggest schema refinements when the domain has outgrown the current conventions.</step-content>
+    </step>
+  </steps>
+</prompt>
