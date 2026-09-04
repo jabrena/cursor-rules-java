@@ -1,1 +1,48 @@
-.cursor/mcp.json
+{
+  "mcpServers": {
+    "javadocs": {
+      "type": "http",
+      "url": "https://www.javadocs.dev/mcp"
+    },
+    "serena": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        ".:/workspaces/projects/repo",
+        "ghcr.io/oraios/serena:latest",
+        "serena",
+        "start-mcp-server",
+        "--project",
+        "/workspaces/projects/repo"
+      ]
+    },
+    "jbang-jdbc": {
+      "command": "jbang",
+      "args": [
+        "jdbc@quarkiverse/quarkus-mcp-servers",
+        "jdbc:postgresql://localhost:5432/sakila"
+      ]
+    },
+    "mongodb": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mongodb-mcp-server@latest",
+        "--readOnly"
+      ],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/myDatabase"
+      }
+    },
+    "knos": {
+      "command": "python",
+      "args": [
+        "-m",
+        "knos.mcp"
+      ]
+    }
+  }
+}
