@@ -80,7 +80,7 @@ jobs:
           fi
       - name: Upload SkillSpector reports
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: skillspector-reports
           path: skillspector-report.md
@@ -169,7 +169,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload Snyk Agent Scan report
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: snyk-agent-scan-report
           path: snyk-agent-scan-*-report.txt
@@ -264,7 +264,7 @@ jobs:
 
       - name: Upload VirusTotal reports
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: virustotal-skills-report
           path: |
