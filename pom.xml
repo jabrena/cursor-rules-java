@@ -80,7 +80,7 @@
         <maven-plugin-snyk.version>2.3.0</maven-plugin-snyk.version>
         <maven-plugin-spotbugs.version>4.10.5.0</maven-plugin-spotbugs.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
-        <maven-plugin-versions.version>2.22.0</maven-plugin-versions.version>
+        <maven-plugin-versions.version>2.23.0</maven-plugin-versions.version>
         <maven-plugin-jbake.version>2.7.0</maven-plugin-jbake.version>
         <maven-plugin-exec.version>3.6.4</maven-plugin-exec.version>
     </properties>
